@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/window_background_color">
+
+    <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+        <LinearLayout
+                android:id="@+id/create_account_primary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                >
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <org.wikipedia.views.PlainPasteEditText
+                        android:id="@+id/create_account_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/create_account_username_hint"
+                        android:singleLine="true"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textVisiblePassword|textNoSuggestions"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <org.wikipedia.views.PasswordTextInput
+                android:id="@+id/create_account_password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+                <org.wikipedia.views.PlainPasteEditText
+                        android:id="@+id/create_account_password_repeat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/create_account_password_repeat_hint"
+                        android:singleLine="true"
+                        android:imeOptions="flagNoExtractUi"
+                        android:inputType="textPassword"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+                <org.wikipedia.views.PlainPasteEditText
+                        android:id="@+id/create_account_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/create_account_email_hint"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone|flagNoExtractUi"
+                        android:inputType="textEmailAddress"
+                        />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                    android:id="@+id/create_account_submit_button"
+                    android:text="@string/create_account_next"
+                    style="@style/ButtonProgressive"
+                    android:enabled="false"
+                    />
+
+            <TextView
+                android:id="@+id/create_account_login_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:padding="8dp"
+                android:text="@string/create_account_login_link"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?attr/link_color"
+                />
+
+            <TextView
+                android:id="@+id/privacy_policy_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:padding="8dp"
+                android:text="@string/privacy_policy_description"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?attr/link_color"
+                android:clickable="true"
+                android:onClick="showPrivacyPolicy"
+                />
+
+        </LinearLayout>
+
+        <include layout="@layout/group_captcha" />
+    </FrameLayout>
+</ScrollView>

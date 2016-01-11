@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+dependencies {
+    compile files('lib/commons-compress-1.5.jar')
+    compile 'junit:junit:4.12'
+}

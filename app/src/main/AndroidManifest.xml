@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.wikipedia"
+    android:installLocation="auto">
+    <!--
+    If the build is intended to be Google Play-updateable, the package name
+    should be the same as for Google Play (name depends on Beta or Stable).
+    Otherwise, if the build is not intended to be Google Play-updateable (e.g.,
+    updateable via an alternative appstore update mechanism), the package name
+    should be specific to the update mechanism channel.
+    -->
+    <uses-sdk android:targetSdkVersion="22" android:minSdkVersion="8"
+              tools:overrideLibrary="com.mapbox.mapboxsdk"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- For Nearby feature -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+
+    <!--
+        Don't let Google Play filter out devices that just have fake touch
+        (e.g. mouse and keyboard instead of a real touchscreen).
+    -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.hardware.faketouch" android:required="true" />
+
+    <!--XOWA:versionName-->
+    <application
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
+        android:supportsRtl="true"
+        android:icon="@mipmap/launcher"
+        android:label="@string/app_name_prod"
+        android:name=".WikipediaApp"
+        android:theme="@style/AppTheme"
+        android:versionCode="0"
+        android:versionName="0.1.2.0"
+        >
+        <!--
+        The following is used for determining the distribution channel.
+        Set "value" to "Google Play" for Google Play Store.
+        -->
+        <meta-data android:name="@string/preference_key_app_channel" android:value="@string/channel" />
+        <!-- Don't delete the meta-data field above -->
+
+        <activity android:name=".page.PageActivity"
+                  android:theme="@style/PageTheme"
+                  android:windowSoftInputMode="stateHidden"
+                  android:configChanges="orientation|screenSize"
+                  android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="*.wikipedia.org" android:pathPrefix="/wiki/" android:scheme="http" />
+                <data android:host="*.wikipedia.org" android:pathPrefix="/wiki/" android:scheme="https" />
+            </intent-filter>
+            <intent-filter android:label="@string/intent_share_search_label">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter android:label="@string/intent_share_search_label">
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".crash.CrashReportActivity"
+                  android:label="@string/crash_report_activity_title"
+                  android:noHistory="true"
+                  android:excludeFromRecents="true"
+                />
+        <activity android:name=".settings.SettingsActivity"
+                  android:label="@string/settings_activity_title"
+                  android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                  android:exported="false"
+                />
+        <activity android:name=".settings.DeveloperSettingsActivity"
+            android:label="@string/developer_settings_activity_title"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+            android:exported="false"
+            />
+        <activity android:name=".settings.AboutActivity"
+                  android:label="@string/about_activity_title"
+                  android:exported="false">
+            <intent-filter>
+                <action android:name=".settings.AboutActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".interlanguage.LangLinksActivity"
+                  android:label="@string/langlinks_activity_title"
+                  android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                  android:exported="false"
+                />
+        <activity android:name=".editing.EditSectionActivity"
+                  android:windowSoftInputMode="adjustResize|stateVisible"
+                  android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                  android:exported="false"
+                />
+        <activity android:name=".login.LoginActivity"
+                  android:label="@string/login_activity_title"
+                  android:windowSoftInputMode="stateVisible|adjustResize"
+                  android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                  android:exported="false"
+                />
+        <activity android:name=".createaccount.CreateAccountActivity"
+                  android:label="@string/create_account_activity_title"
+                  android:windowSoftInputMode="stateVisible|adjustResize"
+                  android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                  android:exported="false"
+                />
+        <activity android:name=".page.gallery.GalleryActivity"
+                  android:theme="@style/FullScreen"
+                  android:exported="false"
+                />
+        <activity android:name=".settings.LicenseActivity"
+                  android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:pathPrefix="/android_asset/licenses/" android:scheme="file" />
+            </intent-filter>
+        </activity>
+
+        <provider
+                android:authorities="${applicationId}.history"
+                android:name=".history.HistoryEntryContentProvider"
+                android:exported="false"
+                />
+
+        <provider
+                android:authorities="${applicationId}.editsummaries"
+                android:name=".editing.summaries.EditSummaryContentProvider"
+                android:exported="false"
+                />
+
+        <provider
+                android:authorities="${applicationId}.pageimages"
+                android:name=".pageimages.PageImageContentProvider"
+                android:exported="false"
+                />
+
+        <provider
+                android:authorities="${applicationId}.recentsearches"
+                android:name=".search.RecentSearchContentProvider"
+                android:exported="false"
+                />
+
+        <provider
+                android:authorities="${applicationId}.savedpages"
+                android:name=".savedpages.SavedPageContentProvider"
+                android:exported="false"
+                />
+
+        <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
+        <receiver
+            android:icon="@mipmap/launcher"
+            android:label="@string/widget_name_search"
+            android:name="org.wikipedia.widgets.WidgetProviderSearch" >
+            <intent-filter >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_search" />
+        </receiver>
+
+        <receiver
+            android:icon="@mipmap/launcher"
+            android:label="@string/widget_name_featured_page"
+            android:name="org.wikipedia.widgets.WidgetProviderFeaturedPage" >
+            <intent-filter >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_featured_page" />
+        </receiver>
+
+        <!--
+        This is a receiver that receives an intent from the Play Store app upon first launch
+        after the app is installed, if the original link that led the user to the Play Store
+        for installing the app contained a "referrer" query parameter. This is why the receiver
+        needs to be exported.
+        Because the receiver is exported, it usually requires a permission associated with it,
+        to filter out the kinds of apps that can send us this intent. Otherwise, a Lint warning
+        shows up, notifying that a receiver is exported without a permission. However, since the
+        Play Store app is literally the only app that is expected to send this intent, we can
+        safely ignore this warning. Technically we could specify a permission such as
+        permission.INTERNET (which we assume the Play Store app has), but then we wouldn't be able
+        to test this intent using adb (am broadcast).
+        -->
+        <receiver
+            android:name="org.wikipedia.analytics.InstallReferrerReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

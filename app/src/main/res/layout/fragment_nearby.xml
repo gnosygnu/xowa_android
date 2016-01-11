@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/page_background_color">
+    <com.mapbox.mapboxsdk.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/user_location_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/FloatingActionButton"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_gps_fixed_white_24dp"
+        android:contentDescription="@string/menu_show_toc"
+        app:elevation="4dp"
+        app:borderWidth="0dp"
+        app:backgroundTint="@color/blue_progressive"
+        app:layout_anchorGravity="bottom|right|end" />
+</FrameLayout>

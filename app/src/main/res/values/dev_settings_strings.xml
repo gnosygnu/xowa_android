@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="developer_settings_activity_title">Developer settings</string>
+    <string name="preference_summary_no_value">Unset</string>
+    <string name="show_developer_settings_enabled">You are now a Wikipedia developer!</string>
+    <string name="show_developer_settings_already_enabled">You are already a Wikipedia developer!</string>
+    <string name="menu_developer_settings">@string/developer_settings_activity_title</string>
+    <string name="preferences_developer_misc_heading">Miscellaneous</string>
+    <string name="preferences_developer_onboarding_heading">Onboarding</string>
+    <string name="preferences_developer_feature_testing_heading">A/B feature testing</string>
+    <string name="preferences_developer_restbase_heading">RESTBase access</string>
+    <string name="preferences_developer_logging_heading">Logging</string>
+    <string name="preferences_developer_retrofit_log_level">Retrofit Log Level (restart required)</string>
+    <string name="preferences_developer_crash_key">crash</string>
+    <string name="preferences_developer_crash_title">Crash</string>
+    <string name="preferences_developer_crash_summary">Tap here to crash the app</string>
+    <string name="preferences_developer_session_timeout_title">Session timeout (minutes)</string>
+    <string name="preferences_developer_remote_log_title">Remote logging</string>
+    <string name="preferences_developer_remote_log_summary">Type a message to send.</string>
+</resources>

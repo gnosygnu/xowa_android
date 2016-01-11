@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gallery_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gallery_background">
+
+    <android.support.v4.view.FixedViewPager
+        android:id="@+id/gallery_item_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/gallery_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/gallery_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+        </android.support.v7.widget.Toolbar>
+        <ProgressBar
+            android:id="@+id/gallery_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="-7.5dp"
+            style="?android:attr/progressBarStyleHorizontal"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/gallery_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingBottom="32dp"
+        android:paddingTop="64dp">
+        <TextView
+            android:id="@+id/gallery_description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/RtlAwareTextView"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:maxHeight="128dp"
+            android:textIsSelectable="true"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            tools:text="Sample image description text"
+            android:textColor="@color/lead_text_color"
+            android:textColorLink="@color/lead_text_color"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/gallery_license_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="5dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                tools:src="@drawable/ic_license_cc"
+                android:contentDescription="@null"/>
+            <TextView
+                android:id="@+id/gallery_credit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RtlAwareTextView"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textIsSelectable="true"
+                tools:text="Credits"
+                android:textColor="@color/gallery_license_text"
+                android:textColorLink="@color/gallery_license_text"
+                android:ellipsize="end"
+                android:maxLines="2"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

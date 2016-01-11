@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name_prod">Vikipedi</string>
+  <string name="app_name_beta">Vikipedi Beta</string>
+  <string name="app_name_alpha">Vikipedi Alfa</string>
+  <string name="yes">Evet</string>
+  <string name="no">Hayır</string>
+  <string name="search_hint">Vikipedi\'de Ara</string>
+  <string name="nav_item_history">Geçmiş</string>
+  <string name="error_network_error">İnternete bağlanılamıyor.</string>
+  <string name="page_error_retry">Tekrar dene</string>
+  <string name="menu_clear_all_history">Geçmişi temizle</string>
+  <string name="menu_clear_all_saved_pages">Tüm kaydedilen sayfaları temizle</string>
+  <string name="page_does_not_exist_error">Bu sayfa mevcut değil.</string>
+  <string name="nav_item_today">Bugün</string>
+  <string name="dialog_title_clear_history" fuzzy="true">Göz atma geçmişini temizle?</string>
+  <string name="dialog_message_clear_history" fuzzy="true">Tüm geçmişi silmek istediğinizden emin misiniz?</string>
+  <string name="nav_item_saved_pages">Kaydedilen sayfalar</string>
+  <string name="menu_update_all_saved_pages">Kaydedilen sayfaları güncelle</string>
+  <string name="menu_update_selected_saved_pages">Kaydedilen sayfaları güncelle</string>
+  <string name="dialog_prompt_refresh_all_saved_pages">Kaydedilen tüm sayfalar güncellensin mi?</string>
+  <string name="share_via">Şununla paylaş:</string>
+  <string name="dialog_title_clear_saved_pages">Tüm kaydedilen sayfalar silinsin mi?</string>
+  <string name="snackbar_saving_page">Sayfa kaydediliyor…</string>
+  <string name="snackbar_saved_page_format">Çevrimdışı okuma için \"%s\" kaydedildi</string>
+  <string name="snackbar_saved_page_missing_images">Görsellerin tamamı kaydedilemedi</string>
+  <string name="snackbar_refresh_saved_page">Kaydedilmiş sayfa yenileniyor…</string>
+  <string name="delete_selected_saved_pages">Sil</string>
+  <string name="snackbar_saved_page_deleted">Kaydedilen sayfa(lar) silindi</string>
+  <string name="saved_pages_search_list_hint">Kaydedilen sayfaları ara</string>
+  <string name="saved_pages_search_empty_message">Sorgunuzla eşleşen hiçbir sayfa bulunamadı.</string>
+  <string name="menu_page_show_tabs">Sekmeleri göster</string>
+  <string name="menu_page_other_languages">Başka dilde oku</string>
+  <string name="menu_page_save">Sayfayı kaydet</string>
+  <string name="menu_page_share">Bağlantı paylaş</string>
+  <string name="menu_page_find_in_page">Sayfada bul</string>
+  <string name="menu_page_font_and_theme">Yazı tipi ve tema</string>
+  <string name="menu_long_press_open_page">Aç</string>
+  <string name="menu_long_press_open_in_new_tab">Yeni sekmede aç</string>
+  <string name="menu_long_press_copy_page">Bağlantı adresini kopyala</string>
+  <string name="menu_text_select_copy">Kopyala</string>
+  <string name="menu_text_select_share">Paylaş</string>
+  <string name="nav_item_nearby">Yakınındakiler</string>
+  <string name="nearby_distance_in_meters">%d m</string>
+  <string name="nearby_distance_in_kilometers">%.2f km</string>
+  <string name="nearby_zoom_to_location">Harita üzerinde bir yere yakınlaştır</string>
+  <string name="last_updated_text">Son güncelleme %s</string>
+  <string name="content_license_html">Aksi belirtilmediği sürece içerik &lt;a class=\"external\" rel=\"nofollow\" href=\"//creativecommons.org/licenses/by-sa/3.0/\"&gt;CC BY-SA 3.0&lt;/a&gt; lisansı altında kullanılabilir.</string>
+  <string name="edit_save_action_license_logged_in">Kaydederek, &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use\"&gt;Kullanım Şartları&lt;/a&gt;nı ve katkılarınızı geri dönülemez şekilde &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/\"&gt;CC-BY-SA 3.0&lt;/a&gt; lisansıyla yayınlamayı kabul etmiş olursunuz.</string>
+  <string name="edit_save_action_license_anon">Kaydederek, &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use\"&gt;Kullanım Şartları&lt;/a&gt;nı ve katkılarınızı geri dönülemez şekilde &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/\"&gt;CC-BY-SA 3.0&lt;/a&gt; lisansıyla yayınlamayı kabul etmiş olursunuz. Değişiklikleriniz cihazınızın IP adresiyle kaydedilecek. Eğer &lt;a href=\"https://#login\"&gt;giriş yaparsanız&lt;/a&gt; daha fazla gizliliğe sahip olursunuz.</string>
+  <string name="preference_title_language">Vikipedi dili</string>
+  <string name="preference_languages_filter_hint">Ara</string>
+  <string name="langlinks_filter_hint">Ara</string>
+  <string name="langlinks_empty">Bu sayfa diğer dillerde bulunmamaktadır</string>
+  <string name="langlinks_no_match">Sorgunuzla eşleşen bir dil bulunamadı.</string>
+  <string name="langlinks_activity_title">Diğer diller</string>
+  <string name="menu_save_changes">Değişiklikleri kaydet</string>
+  <string name="edit_section_error_retry">Tekrar dene</string>
+  <string name="dialog_saving_in_progress">Kaydediliyor…</string>
+  <string name="edit_saved_successfully">Değişiklik kaydedildi!</string>
+  <string name="dialog_message_edit_failed">Değişiklik başarısız!</string>
+  <string name="dialog_message_edit_failed_retry">Tekrar dene</string>
+  <string name="dialog_message_edit_failed_cancel">İptal</string>
+  <string name="dialog_message_leaving_edit">Yaptığınız değişiklikler henüz kaydedilmedi. Bu sayfadan ayrılmak istediğinizden emin misiniz?</string>
+  <string name="dialog_message_leaving_edit_leave">Ayrıl</string>
+  <string name="dialog_message_leaving_edit_stay">Kal</string>
+  <string name="menu_show_toc">İçindekiler</string>
+  <string name="search_no_results_found">Hiçbir sonuç bulunamadı</string>
+  <string name="edit_section_captcha_message">Otomatik spamlara karşı korunmaya yardımcı olmak için, aşağıda görünen kelimeleri yazınız.</string>
+  <string name="edit_section_captcha_hint">Yukarıdaki kelimeleri tekrarlayın</string>
+  <string name="title_captcha">Captcha\'yı gir</string>
+  <string name="edit_section_captcha_reload">CAPTCHA\'yı yenilemek için üzerine dokunun</string>
+  <string name="edit_saved_page_refresh">Kaydedilen bu sayfa güncel olmayabilir ve düzenleme yapılabilmesi için yenilenmesi gereklidir. Sayfayı yenilemek ister misiniz?</string>
+  <string name="nav_item_login">Vikipedi\'de oturum aç</string>
+  <string name="login_username_hint">Kullanıcı adı</string>
+  <string name="login_password_hint">Parola</string>
+  <string name="login_password_show_check">Parolayı görüntüle</string>
+  <string name="menu_login">Oturum aç</string>
+  <string name="login_activity_title">Vikipedi\'ye giriş yap</string>
+  <string name="login_in_progress_dialog_message">Oturum açılıyor…</string>
+  <string name="login_error_wrong_password">Yanlış parola</string>
+  <string name="login_error_wrong_username">Yanlış kullanıcı adı</string>
+  <string name="login_error_illegal">Geçersiz kullanıcı adı</string>
+  <string name="login_success_toast">Başarıyla oturum açıldı!</string>
+  <string name="login_error_blocked">Bu kullanıcı engellendi</string>
+  <string name="login_error_throttled">Çok fazla deneme yaptınız. Birkaç dakika bekleyip tekrar deneyin.</string>
+  <string name="login_error_unknown">Oturum açma başarısız :(</string>
+  <string name="preference_title_logout">Oturumu kapat</string>
+  <string name="toast_logout_complete">Oturum kapandı</string>
+  <string name="saved_pages_empty_title">Kaydedilmiş bir sayfa yok!</string>
+  <string name="saved_pages_empty_message">Kaydedilmiş sayfalar çok güzeldir. Bunu çevrim dışıyken bile okuyabileceğiniz yer imleri olarak düşünün.</string>
+  <string name="history_empty_title">Hiç ziyaret edilmiş sayfa yok.</string>
+  <string name="history_empty_message">Muhtemelen hepsini sildiniz. Bir daha herhangi bir sayfaya gittiğinizde, buradan ona tekrar ulaşabilirsiniz.</string>
+  <string name="delete_selected_history">Sil</string>
+  <string name="wp_stylized">&lt;big&gt;V&lt;/big&gt;İKİPED&lt;big&gt;İ&lt;/big&gt;</string>
+  <string name="create_account_username_hint">Kullanıcı adı</string>
+  <string name="login_create_account_link">Hesabınız yok mu? Vikipedi\'ye katılın</string>
+  <string name="create_account_login_link">Zaten bir hesabınız var mı? Oturum açın</string>
+  <string name="create_account_activity_title">Bir hesap oluştur</string>
+  <string name="dialog_create_account_checking_progress">Doğrulanıyor</string>
+  <string name="create_account_email_hint">E-posta (İsteğe bağlı)</string>
+  <string name="create_account_password_repeat_hint">Parolayı tekrarla</string>
+  <string name="create_account_passwords_mismatch_error">Parolalar eşleşmiyor</string>
+  <string name="create_account_email_error">Geçersiz e-posta adresi</string>
+  <string name="create_account_username_exists_error">Kullanıcı adı zaten kullanımda</string>
+  <string name="create_account_ip_throttle_error">Bu IP adresinden çok fazla hesap oluşturuldu. Daha sonra tekrar deneyin.</string>
+  <string name="create_account_open_proxy_error">Bu IP adresinin hesap açması engellenmiş.</string>
+  <string name="create_account_noname_error">Girdiğiniz kullanıcı adı geçersiz. Lütfen başka bir kullanıcı adı girin.</string>
+  <string name="create_account_invalid_email_error">Girdiğiniz e-posta adresi geçersiz.</string>
+  <string name="create_account_password_too_short_error">Girdiğiniz parola çok kısa.</string>
+  <string name="create_account_blocked_anon_error">IP\'niz engellenmiş olduğundan yeni hesap oluşturamazsınız.</string>
+  <string name="create_account_blocked_error">Hesabınız engellenmiş olduğundan yeni hesap oluşturamazsınız.</string>
+  <string name="create_account_password_name_match_error">Kullanıcı adınız ve parolanız farklı olmalıdır.</string>
+  <string name="create_account_generic_error">Hesap oluşturulamadı</string>
+  <string name="create_account_next">İleri</string>
+  <string name="create_account_button">Hesap oluştur</string>
+  <string name="preferences_general_heading">Genel</string>
+  <string name="wikipedia_app_faq">Vikipedi Uygulaması SSS</string>
+  <string name="zero_charged_verbiage">Wikipedia Zero kapalı</string>
+  <string name="zero_charged_verbiage_extended">Diğer makaleleri yüklemek veri iletişim ücretleri doğurabilir.</string>
+  <string name="zero_search_hint">Wikipedia Zero\'da Ara</string>
+  <string name="zero_warn_when_leaving">Wikipedia Zero\'dan çıkılırsa uyar</string>
+  <string name="zero_warn_when_leaving_summary">Eğer mobil operatörünüz Wikipedia Zero ortaklığıyla, Vikipedi uygulaması için ücretsiz veri erişimi sağlıyorsa, bu seçeneği işaretlemek, ne zaman Vikipedi uygulamasından çıktığınızı ve ücret ödemeniz gerekebileceğini anlamanıza yardımcı olur.</string>
+  <string name="zero_webpage_title">Wikipedia Zero SSS</string>
+  <string name="zero_wikipedia_zero_heading">Wikipedia Zero</string>
+  <string name="zero_interstitial_title">Wikipedia Zero\'dan çıkılıyor</string>
+  <string name="zero_interstitial_leave_app">Veri ücretleri uygulanabilir. Dış bağlantıya gidilsin mi?</string>
+  <string name="zero_interstitial_continue">Devam et</string>
+  <string name="zero_interstitial_cancel">İptal</string>
+  <string name="zero_learn_more">Bu Vikipedi uygulaması için veri iletişim ücretleri alınmamaktadır.</string>
+  <string name="zero_learn_more_learn_more">Daha fazla bilgi</string>
+  <string name="zero_learn_more_dismiss">Kapat</string>
+  <string name="edit_preview_fetching_dialog_message">Ön izleme getiriliyor…</string>
+  <string name="send_feedback">Uygulama geri bildirimi gönder</string>
+  <string name="nav_item_random">Rastgele</string>
+  <string name="create_account_account_created_toast">Hesap yaratıldı!</string>
+  <string name="preferences_privacy_settings_heading">Gizlilik</string>
+  <string name="preference_title_eventlogging_opt_in">Kullanım raporlarını gönder</string>
+  <string name="preference_summary_eventlogging_opt_in">Wikimedia\'nın, uygulamayı geliştirmek için, kullanım alışkanlıklarınız hakkında bilgi toplamasına izin verin</string>
+  <string name="preference_title_auto_upload_crash_reports">Hata bildirimi gönder</string>
+  <string name="preference_summary_auto_upload_crash_reports">Uygulamanın, HockeyApp\'a (otomatik olarak çökmeleri incelememizi, hataları daha hızlı ve kolayca düzeltmemizi sağlayan, bir üçüncü parti servis sağlayıcısı) hata raporlarını göndermesine izin ver.</string>
+  <string name="editing_error_spamblacklist">Engellenmiş alan adlarına (%s) bağlantılar tespit edildi. Lütfen bunların kaldırıp tekrar deneyin.</string>
+  <string name="history_search_list_hint">Arama geçmişi</string>
+  <string name="history_search_empty_message">Sorgunuzla eşleşen hiçbir sayfa bulunamadı.</string>
+  <string name="error_can_not_process_link">Bu bağlantı görüntülenemedi</string>
+  <string name="page_protected_autoconfirmed">Bu sayfa yarı korumalıdır.</string>
+  <string name="page_protected_sysop">Bu sayfa tam korumalıdır.</string>
+  <string name="page_protected_other">Bu sayfa aşağıdaki seviyelerde korunmaktadır: %s</string>
+  <string name="page_protected_can_not_edit">Bu sayfayı düzenleme yetkiniz yok</string>
+  <string name="page_protected_can_not_edit_title">Bu sayfa korumalı</string>
+  <string name="settings_item_preferences">Ayarlar</string>
+  <string name="settings_activity_title">Ayarlar</string>
+  <string name="about_description">Wikipedia uygulaması hakkında</string>
+  <string name="privacy_policy_description">Gizlilik politikası</string>
+  <string name="terms_of_use_description">Kullanım koşulları</string>
+  <string name="privacy_policy_url">https://wikimediafoundation.org/wiki/Privacy_Policy</string>
+  <string name="terms_of_use_url">https://wikimediafoundation.org/wiki/Terms_of_Use</string>
+  <string name="about_libraries_heading">kullanılan kütüphaneler</string>
+  <string name="about_contributors_heading">katkıda bulunanlar</string>
+  <string name="about_translators_heading">çevirmenler</string>
+  <string name="about_translators_translatewiki">Bu uygulama &lt;a href=\"https://translatewiki.net\"&gt;translatewiki.net&lt;/a&gt;\'teki gönüllü çevirmenler tarafından tercüme edilmiştir.</string>
+  <string name="about_wmf">&lt;a href=\"http://wikimediafoundation.org/wiki/Home\"&gt;Wikimedia Vakfı&lt;/a&gt; ürünüdür</string>
+  <string name="about_activity_title">Hakkında</string>
+  <string name="edit_abandon_confirm">Sayfada değişiklikler yapıldı. Kaydetmeden çıkmak istediğinizden emin misiniz?</string>
+  <string name="user_blocked_from_editing_title">Engellendi</string>
+  <string name="user_logged_in_blocked_from_editing">Kullanıcı hesabınızın, bu viki üzerinde değişiklik yapması engellendi.</string>
+  <string name="user_anon_blocked_from_editing">IP adresinizin değişiklik yapması engellendi.</string>
+  <string name="edit_how_page_improved">Sayfayı hangi yönden geliştirdiniz?</string>
+  <string name="edit_next">İleri</string>
+  <string name="edit_done">Kaydet</string>
+  <string name="edit_preview">Ön izleme</string>
+  <string name="edit_summary_tag_typo">Yazım hatası düzeltildi</string>
+  <string name="edit_summary_tag_grammar">Gramer düzeltildi</string>
+  <string name="edit_summary_tag_links">Bağlantı eklendi</string>
+  <string name="edit_summary_tag_other">Diğer</string>
+  <string name="edit_summary_tag_other_hint">Sayfayı geliştirdiğiniz diğer yönler</string>
+  <string name="find_next">Sonrakini bul</string>
+  <string name="find_previous">Öncekini bul</string>
+  <string name="error_network_error_try_again">Ağa erişilemiyor; lütfen tekrar deneyin.</string>
+  <string name="saved_pages_update_all_error_retry">Tekrar dene</string>
+  <string name="saved_pages_update_all_error_message">Kaydedilen sayfalar güncelleştirilirken hata oluştu</string>
+  <string name="saved_pages_progress_title">Kaydedilen sayfalar yenileniyor…</string>
+  <string name="menu_page_saved">Sayfa kaydedildi</string>
+  <string name="menu_refresh_saved_page">Sayfayı yenile</string>
+  <string name="abusefilter_title_warn">Bu yapıcı olmayan bir düzenleme olabilir. Kaydetmek istediğinize emin misiniz?</string>
+  <string name="abusefilter_title_disallow">Bu düzenlemeyi kaydedemezsiniz. Lütfen geri dönüp değiştirin.</string>
+  <string name="abusefilter_text_warn">Bir otomatik süzgeç, bu değişikliği potansiyel zarar verici olarak tanımlamıştır. Değişiklik şunlardan birini veya daha fazlasını içeriyor olabilir:&lt;br /&gt;&lt;br /&gt;· Tamamı büyük harfle yazım&lt;br /&gt;· Sayfaların içeriğini boşaltma veya spam&lt;br /&gt;· İlgisiz dış bağlantılar veya resimler&lt;br /&gt;· Yinelenen karakterler</string>
+  <string name="abusefilter_text_disallow">Bir otomatik süzgeç, bu değişikliği potansiyel yapıcı olmayan veya muhtemel vandalizm olarak tanımlamıştır.&lt;br /&gt;&lt;br /&gt; Vikipedi bir ansiklopedidir ve sadece kayda değer, tarafsız içerikler burada yer alabilir.</string>
+  <string name="dialog_page_issues">Sayfa sorunları</string>
+  <string name="button_page_issues">Sayfa sorunları</string>
+  <string name="text_size_select">Yazı tipi boyutu</string>
+  <string name="color_theme_select">Tema</string>
+  <string name="color_theme_light">Açık</string>
+  <string name="color_theme_dark">Koyu</string>
+  <string name="page_similar_titles">Benzer sayfalar</string>
+  <string name="search_did_you_mean">Bunu mu demek istediniz: \"%s\"?</string>
+  <string name="search_recent_header">Son aramalar:</string>
+  <string name="button_clear_all_recent_searches">Son aramaları temizle</string>
+  <string name="clear_recent_searches_confirm">Arama geçmişini temizlemek istediğinizden emin misiniz?</string>
+  <string name="error_browser_not_found">Web sayfası açılamadı (tarayıcı uygulaması bulunamadı).</string>
+  <string name="table_infobox">Pratik bilgiler</string>
+  <string name="table_other">Daha fazla bilgi</string>
+  <string name="table_close">Kapat</string>
+  <string name="widget_name_featured_page">Vikipedi seçkin sayfalar</string>
+  <string name="widget_title_featured_page">Haftanın seçkin maddesi:</string>
+  <string name="widget_name_search">Vikipedi arama</string>
+  <string name="app_store_description">Android için resmi Wikipedia Uygulaması. Vikipedi 280 dilde toplam 32 milyondan fazla maddesi olan, insanoğlunun yazdığı en kapsamlı ve en çok kullanılan kaynak çalışmasıdır.
+Özellikler:
+- Başlık resimleri: Maddelerin en üstündeki, konuyla alakalı, öne çıkan bir resim ve tanımla, Vikipedi\'yi daha önce hiç görmediğiniz şekilde tecrübe edin.
+- Resim galerisi: Bir resme dokunarak yüksek çözünürlükte tam ekran olarak görüntüleyebilir, sağa/sola kaydırarak diğer resimleri görme seçeneğini kullanabilirsiniz.
+- Madde önerileri: Sayfaların en altına doğru kaydırıp, okumanız için önerilen maddeleri görebilirsiniz.
+- Kaydedilen sayfalar: Çevrim dışı iken okumak için sayfaları kaydedebilir, veri erişiminiz olmasa da bu sayfaları ziyaret edebilirsiniz.
+- Yakındakiler: Mevcut konumunuza yakın şeyler hakkındaki maddelerin bağlantılarını görün ve böylece etrafınızda neler olduğu hakkında daha fazla bilgi edinin.
+- Dil desteği: Uygulama sizi Vikipedi\'nin herhangi bir dil sürümüne sorunsuzca ulaştırır.
+- İçindekiler: Herhangi bir maddede içindekileri görmek için sola kaydırın; böylece istediğiniz alt başlığa kolayca geçebilirsiniz.
+- Wikipedia Zero: Anlaşmalı mobil operatörlerde veri iletişim ücretleri alınmaz.
+
+Uygulama hakkındaki görüşlerinizi bize gönderin! Menüde \"Daha fazla\"ya tıklayın; sonrasında \"Wikipedia uygulaması hakkında\"ya ve ardından \"Uygulama geri bildirimi gönder\"e basın.
+
+Uygulama kodları %100 açık kaynaklıdır. Eğer Java ve Android SDK tecrübeniz varsa, katkılarınızı bekliyoruz! https://github.com/wikimedia/apps-android-wikipedia
+
+Gizlilik ilkesi: http://wikimediafoundation.org/wiki/Privacy_policy
+
+Kullanım koşulları: http://wikimediafoundation.org/wiki/Terms_of_Use</string>
+  <string name="alpha_update_notification_title">Yeni alfa güncellemesi var</string>
+  <string name="alpha_update_notification_text">İndirmek için dokunun</string>
+  <string name="dialog_close_description">Kapat</string>
+  <string name="preference_title_show_images">Resimleri göster</string>
+  <string name="preference_summary_show_images">Sayfalardaki resimlerin yüklenmesini etkinleştirin veya devre dışı bırakın. İnternet bağlantınız yavaş ya da veri paketiniz sınırlı ise bu seçeneği işaretlemeyin.</string>
+  <string name="read_more_section">Devamı</string>
+  <string name="menu_gallery_visit_page">Dosya sayfasına git</string>
+  <string name="gallery_error_draw_failed">Resim gösterilemedi.</string>
+  <string name="license_title">%s kütüphanesi için lisans metni</string>
+  <string name="gallery_menu_share">Paylaş</string>
+  <string name="gallery_share_error">Resim paylaşılamadı: %s</string>
+  <string name="gallery_menu_save">Cihaza kaydet</string>
+  <string name="gallery_save_success">Resim başarıyla kaydedildi.</string>
+  <string name="gallery_image_saved_notification_title">Görüntü kaydedildi.</string>
+  <string name="gallery_image_saved_notification_text">Görüntülemek için dokunun.</string>
+  <string name="gallery_error_video_failed">Video oynatılamadı.</string>
+  <string name="gallery_save_image_write_permission_rationale">Görselleri kaydetmek için, cihaz hafızasına kaydetme izni gerekmektedir. Lütfen tekrar deneyin ve istenen izni verin.</string>
+  <string name="err_cannot_save_file">Dosya kaydedilemiyor</string>
+  <string name="snippet_share_intro">\"%1$s\" @Wikipedia üzerinde: %2$s</string>
+  <string name="expand_refs">Genişletmek için tıklayın</string>
+  <string name="share_snippet_button">Resim olarak paylaş</string>
+  <string name="share_normal_button">Metin olarak paylaş</string>
+  <string name="snippet_share_preview_image_desc">Resmi önizle</string>
+  <string name="cc_logo">Creative Commons lisansı</string>
+  <string name="captcha_image">Captcha resmi</string>
+  <string name="gallery_fair_use_license">Adil kullanım</string>
+  <string name="gallery_uploader_unknown">Yükleyen bilinmiyor</string>
+  <string name="menu_new_tab">Yeni sekme</string>
+  <string name="button_close_tab">Sekmeyi kapat</string>
+  <string name="tool_tip_select_text">Vurgulamak, kopyalamak ve paylaşmak için metnin herhangi bir yerine dokunun ve basılı tutun.</string>
+  <string name="tool_tip_share">İlginç bir bilgiyi vurguladıktan sonra, en sevdiğiniz ağlarda paylaşmayı deneyin!</string>
+  <string name="page_view_in_browser">Sayfayı tarayıcıda görüntüle</string>
+  <string name="tool_tip_toc_button">İçindekiler tablosunu, bu düğmeye dokunarak veya ekranın sağ kenarından kaydırarak istediğiniz an görebilirsiniz.</string>
+  <string name="error_server_response">Sunucu isteği tamamlayamadı.</string>
+  <string name="error_response_malformed">Sunucudan gelen yanıt doğru biçimlendirilmişti.</string>
+  <string name="error_unknown">Bilinmeyen bir hata oluştu.</string>
+  <string name="format_error_server_message">Mesaj: \"%s\"</string>
+  <string name="format_error_server_code">Kod: \"%s\"</string>
+  <string name="address_copied">Adres panoya kopyalandı.</string>
+  <string name="text_copied">Metin panoya kopyalandı.</string>
+  <string name="button_continue_to_article" fuzzy="true">Maddeye devam et</string>
+  <string name="preference_title_show_link_previews">Bağlantı ön izlemelerini görüntüle</string>
+  <string name="preference_summary_show_link_previews">Bağlantılara dokununca kısa bir ön izleme görüntülenir.</string>
+  <string name="nav_item_donate">Vikipediye Destek Ol</string>
+  <string name="crash_report_dialog_title">Üzgünüm, son seferda uygulama çöktü</string>
+  <string name="crash_report_dialog_text">HockeyApp\'a (çökmeyi incelememizi ve sebep olan hatayı düzeltmemizi sağlayan, bir üçüncü parti servis sağlayıcısı) bir hata raporu göndermek ister misiniz?</string>
+  <string name="crash_report_dialog_dont_send_button">Atla</string>
+  <string name="crash_report_dialog_always_send_button">Her zaman gönder</string>
+  <string name="crash_report_dialog_send_button">Gönder</string>
+  <string name="crash_report_activity_title">Uygulama hatası</string>
+  <string name="crash_report_relaunch_or_quit">Üzgünüz, Vikipedi uygulaması bir sorunla karşılaştı ve kapatıldı.</string>
+  <string name="crash_report_relaunch">Baştan başla</string>
+  <string name="crash_report_quit">Çıkış</string>
+</resources>

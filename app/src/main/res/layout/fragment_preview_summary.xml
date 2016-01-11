@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/edit_summary_container"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="8dp"
+              android:visibility="gone"
+              tools:visibility="visible"
+              android:background="?attr/window_background_color"
+              >
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+                android:id="@+id/edit_summary_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:maxLength="255"
+                android:textColor="?attr/edit_text_color"
+                android:hint="@string/edit_summary_tag_other_hint"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

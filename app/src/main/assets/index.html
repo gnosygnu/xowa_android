@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="https://wikipedia.org" /> <!-- Force links to resolve with https as protocol, rather than file:// -->
+    <meta name="viewport" content="width=device-width, user-scalable=yes" />
+    <script src="file:///android_asset/bundle.js"></script>
+    <style type="text/css">
+      .content .sistersitebox,
+      .content .tmbox,
+      .content .ambox,
+      .content #coordinates,
+      .content .navbox,
+      .content .vertical-navbox,
+      .content .topicon,
+      .content .metadata {
+      display: block !important;
+      }
+      /* add gray border to right-hand side, else rainbow-border; PAGE:en.w:Earth#Surface */
+      .transborder ~ div > a > img[src*="Circle_frame.svg"] {border-right:2px solid #F9F9F9;}
+    </style>
+</head>
+<body class="stable">
+<div id="content" class="content">
+</div>
+<div id="loading_sections"></div>
+</body>
+</html>

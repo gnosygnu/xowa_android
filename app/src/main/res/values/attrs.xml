@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="window_background_color" format="reference"/>
+    <attr name="page_background_color" format="reference"/>
+    <attr name="search_background_color" format="reference"/>
+    <attr name="toc_background_color" format="reference"/>
+    <attr name="toc_section_text_color" format="reference"/>
+    <attr name="toc_subsection_text_color" format="reference"/>
+    <attr name="edit_text_color" format="reference"/>
+    <attr name="link_color" format="reference"/>
+    <attr name="abusefilter_background_color" format="reference"/>
+    <attr name="lead_image_drawable" format="reference"/>
+    <!-- TODO: rename? -->
+    <attr name="lead_disabled_text_color" format="reference"/>
+    <attr name="list_separator_color" format="reference"/>
+    <attr name="syntax_highlight_template_color" format="reference"/>
+    <attr name="subtle_gray_color" format="reference"/>
+    <attr name="nearby_marker_drawable" format="reference"/>
+    <attr name="tab_item_selector" format="reference"/>
+    <attr name="tab_shadow_drawable" format="reference"/>
+    <attr name="tab_shadow_color" format="reference"/>
+    <attr name="toc_button_color" format="reference"/>
+    <attr name="tool_tip_default_color" format="reference"/>
+    <attr name="link_preview_toolbar_color" format="reference"/>
+    <attr name="link_preview_background_color" format="reference"/>
+    <attr name="link_preview_text_color" format="reference"/>
+    <attr name="nav_background_color" format="reference"/>
+    <attr name="nav_item_color" format="reference"/>
+    <attr name="list_item_text_primary_color" format="reference"/>
+    <attr name="list_item_text_secondary_color" format="reference"/>
+
+    <declare-styleable name="CabSearchView">
+        <attr name="cabEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EditTextAutoSummarizePreference">
+        <attr name="editTextAutoSummarizePreferenceStyle" format="reference" />
+        <attr name="autoSummarize" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="LongPreference">
+        <attr name="longPreferenceStyle" format="reference" />
+        <attr name="radix" format="integer" />
+        <attr name="summaryFormat" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="IntPreference">
+        <attr name="intPreferenceStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="LinkPreviewButtonBackground">
+        <attr name="link_preview_button_background" format="reference" />
+    </declare-styleable>
+
+</resources>

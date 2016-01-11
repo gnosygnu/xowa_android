@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page_list_item_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/list_item_vertical_padding"
+    android:paddingRight="@dimen/list_item_horizontal_padding"
+    android:paddingBottom="@dimen/list_item_vertical_padding"
+    android:paddingLeft="@dimen/list_item_horizontal_padding"
+    android:gravity="top">
+
+    <!-- TODO: this probably shouldn't be part of an item cell since it has to do with a collection
+               of cells and nothing to do with an individual. This manifests visually when the cell
+               is interacted with and the additional spacing is exposed. -->
+    <TextView
+        android:id="@+id/page_list_header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Header text"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/page_list_item_image"
+            android:layout_width="@dimen/defaultListItemSize"
+            android:layout_height="@dimen/defaultListItemSize"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pageimage_placeholder"
+            android:background="@color/window_background_light"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/list_item_text_horizontal_padding"
+            android:layout_marginStart="@dimen/list_item_text_horizontal_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/page_list_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RtlAwareTextView"
+                android:textSize="@dimen/textSize"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="?attr/list_item_text_primary_color"
+                tools:text="Sample title" />
+
+            <org.wikipedia.views.GoneIfEmptyTextView
+                android:id="@+id/page_list_item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RtlAwareTextView"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="?attr/list_item_text_secondary_color"
+                android:visibility="gone"
+                tools:text="Sample description"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <TextView
+        style="@style/ToolTipTextView"
+        android:id="@+id/view_tool_tip_share_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:text="@string/tool_tip_share" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_tool_tip_share_tip"
+        android:layout_alignLeft="@id/view_tool_tip_share_tip"
+        android:layout_alignRight="@id/view_tool_tip_share_tip"
+        android:layout_alignStart="@id/view_tool_tip_share_tip"
+        android:layout_alignEnd="@id/view_tool_tip_share_tip"
+        android:layout_margin="@dimen/margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/twitter"
+            android:scaleType="centerInside"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/facebook"
+            android:scaleType="centerInside"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/messaging"
+            android:scaleType="centerInside"
+            android:contentDescription="@null" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name_prod">Википедия</string>
+  <string name="app_name_beta">Википедия (бета)</string>
+  <string name="app_name_alpha">Википедия (альфа)</string>
+  <string name="yes">Да</string>
+  <string name="no">Нет</string>
+  <string name="search_hint">Поиск по Википедии</string>
+  <string name="nav_item_history">История</string>
+  <string name="error_network_error">Не удаётся подключиться к Интернету.</string>
+  <string name="page_error_retry">Повторить</string>
+  <string name="menu_clear_all_history">Очистить историю</string>
+  <string name="menu_clear_all_saved_pages">Очистить сохранённые страницы</string>
+  <string name="page_does_not_exist_error">Такой страницы не существует.</string>
+  <string name="nav_item_today">Сегодня</string>
+  <string name="dialog_title_clear_history">Очистить историю</string>
+  <string name="dialog_message_clear_history">Будет удалена вся история посещения страниц и закрыты все открытые вкладки. Продолжить?</string>
+  <string name="nav_item_saved_pages">Сохранённые страницы</string>
+  <string name="menu_update_all_saved_pages">Обновить сохранённые страницы</string>
+  <string name="menu_update_selected_saved_pages">Обновить сохранённые страницы</string>
+  <string name="dialog_prompt_refresh_all_saved_pages">Обновить все сохранённые страницы?</string>
+  <string name="share_via">Поделиться через</string>
+  <string name="dialog_title_clear_saved_pages">Очистить все сохранённые страницы?</string>
+  <string name="snackbar_saving_page">Сохранение страницы…</string>
+  <string name="snackbar_saved_page_format">\"%s\" сохранена для чтения оффлайн</string>
+  <string name="snackbar_saved_page_missing_images">Не удалось сохранить все изображения</string>
+  <string name="snackbar_refresh_saved_page">Обновление сохранённой страницы…</string>
+  <string name="delete_selected_saved_pages">Удалить</string>
+  <string name="snackbar_saved_page_deleted">Сохранённые страницы удалены</string>
+  <string name="saved_pages_search_list_hint">Поиск по сохранённым страницам</string>
+  <string name="saved_pages_search_empty_message">Страницы, соответствующие вашему запросу, не найдены.</string>
+  <string name="menu_page_show_tabs">Показать вкладки</string>
+  <string name="menu_page_other_languages">Читать на других языках</string>
+  <string name="menu_page_save">Сохранить страницу</string>
+  <string name="menu_page_share">Поделиться ссылкой</string>
+  <string name="menu_page_find_in_page">Найти на странице</string>
+  <string name="menu_page_font_and_theme">Изменение шрифта и оформления</string>
+  <string name="menu_long_press_open_page">Открыть</string>
+  <string name="menu_long_press_open_in_new_tab">Открыть в новой вкладке</string>
+  <string name="menu_long_press_copy_page">Скопировать адрес ссылки</string>
+  <string name="menu_text_select_copy">Копировать</string>
+  <string name="menu_text_select_share">Поделиться</string>
+  <string name="nav_item_nearby">Поблизости</string>
+  <string name="nearby_distance_in_meters">%d м</string>
+  <string name="nearby_distance_in_kilometers">%.2f км</string>
+  <string name="nearby_zoom_to_location">Указать местоположение на карте</string>
+  <string name="last_updated_text">Последнее обновление: %1$s</string>
+  <string name="content_license_html">Содержимое доступно в соответствии &lt;a href=\"//creativecommons.org/licenses/by-sa/3.0/deed.ru\"&gt;CC BY-SA 3.0&lt;/a&gt; (если не указано иное)</string>
+  <string name="edit_save_action_license_logged_in">Сохраняя изменения, вы соглашаетесь с &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use/ru условиями использования\" &gt;&lt;/a&gt;, а также соглашаетесь на неотзывную публикацию по лицензии &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.ru\"&gt;CC-BY-SA 3.0&lt;/a&gt;.</string>
+  <string name="edit_save_action_license_anon">Сохраняя изменения, вы соглашаетесь с &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use/ru условиями использования\"&gt; &lt;/a&gt;, а также соглашаетесь на неотзывную публикацию по лицензии &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/deed.ru\"&gt;CC-BY-SA 3.0&lt;/a&gt;. Правки будут привязаны в IP-адресу вашего устройства. Если вы &lt;a href=\"https://#login\"&gt;авторизуетесь&lt;/a&gt;, то сможете иметь более высокий уровень конфиденциальности.</string>
+  <string name="preference_title_language">Язык Википедии</string>
+  <string name="preference_languages_filter_hint">Найти</string>
+  <string name="langlinks_filter_hint">Поиск</string>
+  <string name="langlinks_empty">Эта страница недоступна на других языках</string>
+  <string name="langlinks_no_match">Языки, соответствующие вашему запросу, не найдены.</string>
+  <string name="langlinks_activity_title">Другие языки</string>
+  <string name="menu_save_changes">Сохранить изменения</string>
+  <string name="edit_section_error_retry">Повторить</string>
+  <string name="dialog_saving_in_progress">Сохраняется…</string>
+  <string name="edit_saved_successfully">Правка сохранена!</string>
+  <string name="dialog_message_edit_failed">Ошибка редактирования!</string>
+  <string name="dialog_message_edit_failed_retry">Повторить</string>
+  <string name="dialog_message_edit_failed_cancel">Отмена</string>
+  <string name="dialog_message_leaving_edit">Внесённые изменения не были сохранены. Вы уверены, что хотите покинуть эту страницу?</string>
+  <string name="dialog_message_leaving_edit_leave">Уйти</string>
+  <string name="dialog_message_leaving_edit_stay">Остаться</string>
+  <string name="menu_show_toc">Содержание</string>
+  <string name="search_no_results_found">Ничего не найдено</string>
+  <string name="edit_section_captcha_message">Для того, что бы помочь нам защититься от автоматизированного спама, пожалуйста, введите слова, которые показаны ниже</string>
+  <string name="edit_section_captcha_hint">Повторите слова, показанные выше</string>
+  <string name="title_captcha">Введите капчу</string>
+  <string name="edit_section_captcha_reload">Коснитесь капчи для её обновления</string>
+  <string name="edit_saved_page_refresh">Эта сохранённая страница может быть устаревшей, поэтому должна быть обновлена для возможности редактирования. Вы хотите обновить страницу?</string>
+  <string name="nav_item_login">Войти в Википедию</string>
+  <string name="login_username_hint">Имя пользователя</string>
+  <string name="login_password_hint">Пароль</string>
+  <string name="login_password_show_check">Отобразить пароль</string>
+  <string name="menu_login">Войти</string>
+  <string name="login_activity_title">Войти в Википедию</string>
+  <string name="login_in_progress_dialog_message">Вход в систему…</string>
+  <string name="login_error_wrong_password">Неверный пароль</string>
+  <string name="login_error_wrong_username">Неверное имя пользователя</string>
+  <string name="login_error_illegal">Неправильное имя участника</string>
+  <string name="login_success_toast"/>
+  <string name="login_error_blocked">Этот участник был заблокирован</string>
+  <string name="login_error_throttled">Слишком много попыток входа. Подождите несколько минут и попробуйте ещё раз.</string>
+  <string name="login_error_unknown">Не удалось войти :(</string>
+  <string name="preference_title_logout">Завершение сеанса</string>
+  <string name="toast_logout_complete">Сеанс был завершён</string>
+  <string name="saved_pages_empty_title">Здесь нет сохранённых страниц!</string>
+  <string name="saved_pages_empty_message">Сохранённые страницы — это довольно здорово. Подумайте о них, как о закладках, которые вы сможете читать даже тогда, когда вы находитесь в оффлайне.</string>
+  <string name="history_empty_title">Недавно просмотренных страниц нет.</string>
+  <string name="history_empty_message">Вы, вероятно, удалили их все. В следующий раз, когда зайдёте на страницу, вы сможете вернуться к ней отсюда.</string>
+  <string name="delete_selected_history">Удалить</string>
+  <string name="wp_stylized">&lt;big&gt;В&lt;/big&gt;ИКИПЕДИ&lt;big&gt;Я&lt;/big&gt;</string>
+  <string name="create_account_username_hint">Имя участника</string>
+  <string name="login_create_account_link">У вас нет учётной записи? Присоединитесь к Википедии</string>
+  <string name="create_account_login_link">Вы уже зарегистрированы? Войдите</string>
+  <string name="create_account_activity_title">Создать учётную запись</string>
+  <string name="dialog_create_account_checking_progress">Проверка</string>
+  <string name="create_account_email_hint">Адрес электронной почты (необязательно)</string>
+  <string name="create_account_password_repeat_hint">Повторите пароль</string>
+  <string name="create_account_passwords_mismatch_error">Пароли не совпадают</string>
+  <string name="create_account_email_error">Недопустимый адрес электронной почты</string>
+  <string name="create_account_username_exists_error">Такое имя участника уже занято</string>
+  <string name="create_account_ip_throttle_error">С этого IP-адреса создано слишком много учётных записей. Повторите попытку позже.</string>
+  <string name="create_account_open_proxy_error">Этот IP-адрес был заблокирован от создания учётных записей.</string>
+  <string name="create_account_noname_error">Вы указали недопустимое имя пользователя. Пожалуйста, попробуйте другое.</string>
+  <string name="create_account_invalid_email_error">Вы указали недопустимый адрес электронной почты.</string>
+  <string name="create_account_password_too_short_error">Указанный вами пароль — слишком короткий.</string>
+  <string name="create_account_blocked_anon_error">Вы не можете создать учётную запись, потому что Ваш IP-адрес заблокирован.</string>
+  <string name="create_account_blocked_error">Вы не можете создать учётную запись, потому что ваша учётная запись заблокирована.</string>
+  <string name="create_account_password_name_match_error">Ваше имя пользователя и пароль не должны совпадать.</string>
+  <string name="create_account_generic_error">Невозможно создать учётную запись</string>
+  <string name="create_account_next">Далее</string>
+  <string name="create_account_button">Создать учётную запись</string>
+  <string name="preferences_general_heading">Общие</string>
+  <string name="wikipedia_app_faq">Частые вопросы по приложению Википедии</string>
+  <string name="zero_charged_verbiage">Wikipedia Zero выключена</string>
+  <string name="zero_charged_verbiage_extended">При загрузке других статьей может взиматься плата за передачу данных.</string>
+  <string name="zero_search_hint">Поиск по Wikipedia Zero</string>
+  <string name="zero_warn_when_leaving">Предупреждать, если покидаете Wikipedia Zero</string>
+  <string name="zero_warn_when_leaving_summary">Если ваш мобильный оператор не берёт плату за доступ к данным из приложения Википедии через партнерство Wikipedia Zero, включение этого параметра поможет вам знать, когда вы покидаете приложение Википедии, и может начать взиматься плата за трафик.</string>
+  <string name="zero_webpage_title">ЧаВо по Wikipedia Zero</string>
+  <string name="zero_wikipedia_zero_heading">Wikipedia Zero</string>
+  <string name="zero_interstitial_title">Покидаем Wikipedia Zero</string>
+  <string name="zero_interstitial_leave_app">Может взиматься стандартная плата за передачу данных. Продолжить переход на внешний сайт?</string>
+  <string name="zero_interstitial_continue">Уйти</string>
+  <string name="zero_interstitial_cancel">Остаться</string>
+  <string name="zero_learn_more">Плата за данные не взимается при использовании приложения Википедии.</string>
+  <string name="zero_learn_more_learn_more">Узнать больше</string>
+  <string name="zero_learn_more_dismiss">Закрыть</string>
+  <string name="edit_preview_fetching_dialog_message">Получение предварительного просмотра…</string>
+  <string name="send_feedback">Отправить отзыв о приложении</string>
+  <string name="nav_item_random">Случайная</string>
+  <string name="create_account_account_created_toast">Учётная запись создана!</string>
+  <string name="preferences_privacy_settings_heading">Конфиденциальность</string>
+  <string name="preference_title_eventlogging_opt_in">Отправлять отчёты об использовании</string>
+  <string name="preference_summary_eventlogging_opt_in">Разрешить Викимедиа собирать информацию о том, как вы используете приложение. Это позволит сделать его лучше.</string>
+  <string name="preference_title_auto_upload_crash_reports">Отправлять отчёты о сбоях</string>
+  <string name="preference_summary_auto_upload_crash_reports">Разрешить отправлять автоматически отчёты об ошибках в HockeyApp / сторонний сервис-провайдер, чтобы мы могли просмотреть информацию об аварии? Это позволит быстрее и проще исправить ошибку.</string>
+  <string name="editing_error_spamblacklist">Обнаружены ссылки на заблокированные домены (%s). Пожалуйста, удалите их и попробуйте ещё раз.</string>
+  <string name="history_search_list_hint">История поиска</string>
+  <string name="history_search_empty_message">Страницы, соответствующие вашему запросу, не найдены.</string>
+  <string name="error_can_not_process_link">Не удалось отобразить эту ссылку</string>
+  <string name="page_protected_autoconfirmed">Эта страница была частично защищена.</string>
+  <string name="page_protected_sysop">Эта страница была полностью защищена.</string>
+  <string name="page_protected_other">Эта страница была защищена на следующих уровнях: %s</string>
+  <string name="page_protected_can_not_edit">У вас нет прав на редактирование этой страницы</string>
+  <string name="page_protected_can_not_edit_title">Эта страница защищена</string>
+  <string name="settings_item_preferences">Настройки</string>
+  <string name="settings_activity_title">Настройки</string>
+  <string name="about_description">О приложении «Википедия»</string>
+  <string name="privacy_policy_description">Политика конфиденциальности</string>
+  <string name="terms_of_use_description">Условия использования</string>
+  <string name="privacy_policy_url">https://meta.wikimedia.org/wiki/Политика_конфиденциальности</string>
+  <string name="terms_of_use_url">https://wikimediafoundation.org/wiki/Условия_использования</string>
+  <string name="about_libraries_heading">использованые библиотеки</string>
+  <string name="about_contributors_heading">авторы</string>
+  <string name="about_translators_heading">переводчики</string>
+  <string name="about_translators_translatewiki">Это приложение было переведено добровольцами на &lt;a href=\"https://translatewiki.net\"&gt;translatewiki.net&lt;/a&gt;.</string>
+  <string name="about_wmf">Продукт &lt;a href=\"http://wikimediafoundation.org/wiki/Home\"&gt;Фонда Викимедиа&lt;/a&gt;</string>
+  <string name="about_activity_title">О приложении</string>
+  <string name="edit_abandon_confirm">Страница была изменена. Вы уверены, что хотите выйти без сохранения изменений?</string>
+  <string name="user_blocked_from_editing_title">Заблокирован</string>
+  <string name="user_logged_in_blocked_from_editing">Ваша учётная запись была заблокирована от редактирования в этом вики-проекте.</string>
+  <string name="user_anon_blocked_from_editing">Редактирование с вашего IP-адреса было заблокировано.</string>
+  <string name="edit_how_page_improved">Как именно вы улучшили страницу?</string>
+  <string name="edit_next">Далее</string>
+  <string name="edit_done">Сохранить</string>
+  <string name="edit_preview">Предпросмотр</string>
+  <string name="edit_summary_tag_typo">Исправлена опечатка</string>
+  <string name="edit_summary_tag_grammar">Исправлено правописание</string>
+  <string name="edit_summary_tag_links">Добавлены ссылки</string>
+  <string name="edit_summary_tag_other">Другое</string>
+  <string name="edit_summary_tag_other_hint">Другие способы, которыми вы улучшили страницу</string>
+  <string name="find_next">Найти далее</string>
+  <string name="find_previous">Найти ранее</string>
+  <string name="error_network_error_try_again">Сеть недоступна, пожалуйста, попробуйте ещё раз.</string>
+  <string name="saved_pages_update_all_error_retry">Повторить</string>
+  <string name="saved_pages_update_all_error_message">Ошибка обновления сохранённых страниц</string>
+  <string name="saved_pages_progress_title">Обновление сохранённых страниц</string>
+  <string name="menu_page_saved">Страница сохранена</string>
+  <string name="menu_refresh_saved_page">Обновить страницу</string>
+  <string name="abusefilter_title_warn">Эта правка может быть деструктивной. Вы уверены, что хотите сохранить её?</string>
+  <string name="abusefilter_title_disallow">Вы не можете сохранить эту правку. Пожалуйста, вернитесь назад и измените её.</string>
+  <string name="abusefilter_text_warn">Автоматизированный фильтр определил эту правку как потенциально неконструктивную. Она может содержать одно или несколько из следующих действий:&lt;br /&gt;&lt;br /&gt;· Печатать заглавными буквами&lt;br&gt;· Штамповка статей или спам&lt;br /&gt;· Неподходящие внешние ссылки или изображения&lt;br /&gt;· Повторяющиеся символы</string>
+  <string name="abusefilter_text_disallow">Автоматизированный фильтр определил эту правку как потенциально неконструктивную или как потенциальный вандализм.&lt;br /&gt;&lt;br /&gt;Википедия — это энциклопедия, и здесь приемлемо только нейтральное и значимое содержимое.</string>
+  <string name="dialog_page_issues">Вопросы по странице</string>
+  <string name="button_page_issues">Вопросы по странице</string>
+  <string name="text_size_select">Размер шрифта</string>
+  <string name="color_theme_select">Оформление</string>
+  <string name="color_theme_light">Светлое</string>
+  <string name="color_theme_dark">Тёмное</string>
+  <string name="page_similar_titles">Похожие страницы</string>
+  <string name="search_did_you_mean">Возможно, вы имели в виду «%s»?</string>
+  <string name="search_recent_header">Последние поиски:</string>
+  <string name="button_clear_all_recent_searches">Очистить список последних поисковых запросов</string>
+  <string name="clear_recent_searches_confirm">Вы уверены, что хотите стереть историю поисковых запросов?</string>
+  <string name="error_browser_not_found">Не удалось открыть веб-страницу (приложение браузера не найдено).</string>
+  <string name="table_infobox">Короткие факты</string>
+  <string name="table_other">Дополнительная информация</string>
+  <string name="table_close">Закрыть</string>
+  <string name="widget_name_featured_page">Избранная страница Википедии</string>
+  <string name="widget_title_featured_page">Избранная страница дня:</string>
+  <string name="widget_name_search">Поиск по Википедии</string>
+  <string name="app_store_description">Официальное приложение «Википедия» под Android. Википедия — свободная энциклопедия, содержащая более 32 миллионов статей на 280 языках. Она является наиболее полным и широко используемым справочником, который люди когда-либо создавали.
+
+Особенности:
+— Основное изображение: работайте с Википедией так, как никогда раньше, с выделяющимся, контекстно-релевантным изображением и описанием в верхней части статьи
+— Галерея изображений: по нажатию на изображение оно показывает на весь экран в высоком разрешении, с возможностью прокрутки влево/вправо для просмотра дополнительных изображений
+— Описания из Викиданных: во время поиска каждый результат содержит краткое описание, которое помогает увязывать результат с контекстом. Эти описания также показываются и в других местах приложения, таких как «Поблизости»
+— Предложения статей: пролистайте страницу к нижней части статьи, чтобы увидеть предложения относительно того, что вы бы могли почитать дальше
+— Сохранённые страницы: сохраняйте выбранные страницы для чтения в автономном режиме и просматривать их, даже когда у вас нет подключения к интернету
+— Поблизости: узнавайте больше о том, что находится рядом с вами, получая ссылки на статьи об объектах, находящихся недалеко от вашего текущего местоположения
+— Поддержка языков: безболезненно переключайтесь на чтение статей Википедии, написанных на любом языке
+— Содержание: проведите пальцем влево на любой статье, чтобы открыть содержание, которое позволяет легко перейти к любому разделу статьи
+— Википедия Zero: участвующие операторы мобильной связи не взимают плату за трафик
+
+Отправьте нам свой отзыв о приложении! В меню нажмите «Дополнительно», затем — «О приложении „Википедия“» и «Отправить отзыв о приложении».
+
+
+Исходный код является 100 % открытым. Если у вас есть опыт работы с Java и Android SDK, мы с нетерпением ждём вашей помощи! https://github.com/wikimedia/apps-android-wikipedia
+
+Политика конфиденциальности: https://m.wikimediafoundation.org/wiki/Политика_конфиденциальности
+
+Условия использования: https://m.wikimediafoundation.org/wiki/Условия_использования</string>
+  <string name="alpha_update_notification_title">Доступно новое обновление альфа-версии</string>
+  <string name="alpha_update_notification_text">Нажмите чтобы скачать</string>
+  <string name="dialog_close_description">Закрыть</string>
+  <string name="preference_title_show_images">Показывать изображения</string>
+  <string name="preference_summary_show_images">Включить или отключить загрузку изображений на страницах. Снимите этот флажок, если у вас медленное интернет-подключение или трафик на вашем тарифном плане ограничен.</string>
+  <string name="read_more_section">Читать подробнее</string>
+  <string name="menu_gallery_visit_page">Перейти к странице файла</string>
+  <string name="gallery_error_draw_failed">Не удалось вывести изображение.</string>
+  <string name="license_title">Текст лицензии для библиотеки %s</string>
+  <string name="gallery_menu_share">Поделиться</string>
+  <string name="gallery_share_error">Не удалось поделиться изображением: %s</string>
+  <string name="gallery_menu_save">Сохранить на устройство</string>
+  <string name="gallery_save_success">Изображение успешно сохранено.</string>
+  <string name="gallery_image_saved_notification_title">Изображение сохранено.</string>
+  <string name="gallery_image_saved_notification_text">Нажмите для просмотра.</string>
+  <string name="gallery_error_video_failed">Не удаётся воспроизвести видео.</string>
+  <string name="gallery_save_image_write_permission_rationale">Для сохранения изображений требуется разрешение на запись в хранилище вашего устройства. Пожалуйста, попробуйте ещё раз и дайте запрашиваемое разрешение.</string>
+  <string name="err_cannot_save_file">Не удаётся сохранить файл</string>
+  <string name="snippet_share_intro">«%1$s» на сайте @Wikipedia: %2$s</string>
+  <string name="expand_refs">Нажмите, чтобы развернуть</string>
+  <string name="share_snippet_button">Поделиться как изображением</string>
+  <string name="share_normal_button">Поделиться как текстом</string>
+  <string name="snippet_share_preview_image_desc">Предварительный просмотр изображения</string>
+  <string name="cc_logo">Лицензия Creative Commons</string>
+  <string name="captcha_image">Капча-изображение</string>
+  <string name="gallery_fair_use_license">Добросовестное использование</string>
+  <string name="gallery_uploader_unknown">Загрузивший неизвестен</string>
+  <string name="menu_new_tab">Новая вкладка</string>
+  <string name="button_close_tab">Закрыть вкладку</string>
+  <string name="tool_tip_select_text">Нажмите и удерживайте в любом месте тексте, чтобы выделить его для копирования и возможности поделиться.</string>
+  <string name="tool_tip_share">После выделения интересного факта, попробуйте поделиться им в ваших любимых соц.сетях!</string>
+  <string name="page_view_in_browser">Просмотр страницы в браузере</string>
+  <string name="tool_tip_toc_button">Смотрите оглавление в любое время, нажав на эту кнопку или проведя пальцем от правого края экрана.</string>
+  <string name="error_server_response">Сервер не смог выполнить запрос.</string>
+  <string name="error_response_malformed">Ответ сервера был не корректно отформатирован.</string>
+  <string name="error_unknown">Произошла неизвестная ошибка.</string>
+  <string name="format_error_server_message">Сообщение: «%s»</string>
+  <string name="format_error_server_code">Код: «%s»</string>
+  <string name="address_copied">Адрес скопирован в буфер обмена.</string>
+  <string name="text_copied">Текст скопирован в буфер обмена.</string>
+  <string name="button_continue_to_article">Читать статью</string>
+  <string name="button_get_directions">Проложить маршрут</string>
+  <string name="error_no_maps_app">Не удалось найти ни одного приложения, которое бы прокладывало маршрут.</string>
+  <string name="preference_title_show_link_previews">Показывать предпросмотр ссылок</string>
+  <string name="preference_summary_show_link_previews">Показывать быстрый предпросмотр статей при нажатии на ссылки.</string>
+  <string name="nav_item_donate">Поддержать Википедию</string>
+  <string name="crash_report_dialog_title">К сожалению, в прошлый раз приложение «упало»</string>
+  <string name="crash_report_dialog_text">Вы хотите отправить отчёт об ошибке в HockeyApp / сторонний сервис-провайдер, чтобы в Викимедиа могли просмотреть информацию об аварии и исправить ошибку, вызвавшую её?</string>
+  <string name="crash_report_dialog_dont_send_button">Пропустить</string>
+  <string name="crash_report_dialog_always_send_button">Всегда отправлять</string>
+  <string name="crash_report_dialog_send_button">Отправить</string>
+  <string name="crash_report_activity_title">Ошибка приложения</string>
+  <string name="crash_report_relaunch_or_quit">Мы к сожалению, в приложении Википедии произошла ошибка, в результате чего оно было закрыто.
+
+Вы хотите перезапустить его или выйти?</string>
+  <string name="crash_report_relaunch">Перезапустить</string>
+  <string name="crash_report_quit">Выйти</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/list_item_vertical_padding"
+    android:paddingRight="@dimen/list_item_horizontal_padding"
+    android:paddingBottom="@dimen/list_item_vertical_padding"
+    android:paddingLeft="@dimen/list_item_horizontal_padding">
+
+    <ImageView
+        android:id="@+id/issue_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_flag"
+        android:contentDescription="@null" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/issue_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/RtlAwareTextView"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            tools:text="Sample issue text"
+            />
+        <TextView
+            android:id="@+id/issue_subtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/RtlAwareTextView"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:textSize="12sp"
+            android:textColor="@color/issues_subtext"
+            android:textAllCaps="true"
+            tools:text="Sample issue subtext"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

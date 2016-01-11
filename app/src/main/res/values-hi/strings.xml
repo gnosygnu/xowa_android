@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name_prod">विकिपीडिया</string>
+  <string name="app_name_beta">विकिपीडिया बीटा</string>
+  <string name="app_name_alpha">विकिपीडिया ऐल्फ़ा</string>
+  <string name="yes">हाँ</string>
+  <string name="no">नहीं</string>
+  <string name="search_hint">विकिपीडिया खोज</string>
+  <string name="nav_item_history">इतिहास</string>
+  <string name="error_network_error" fuzzy="true">आप नेटवर्क से जुड़े हुये नहीं हैं :(</string>
+  <string name="page_error_retry">पुनः प्रयास करें</string>
+  <string name="menu_clear_all_history">इतिहास साफ़ करें</string>
+  <string name="menu_clear_all_saved_pages">संरक्षित पृष्ठों को हटायें</string>
+  <string name="page_does_not_exist_error">यह पृष्ठ अस्तित्व में नहीं है।</string>
+  <string name="nav_item_today">आज</string>
+  <string name="dialog_title_clear_history" fuzzy="true">ब्राउज़िंग का इतिहास साफ़ करें?</string>
+  <string name="nav_item_saved_pages">सहेजे गये पृष्ठ</string>
+  <string name="menu_update_all_saved_pages">सहेजे गए पृष्ठों को अद्यतन करें</string>
+  <string name="menu_update_selected_saved_pages">संरक्षित पृष्ठों को अद्यतन करें</string>
+  <string name="dialog_prompt_refresh_all_saved_pages">सभी सरंक्षित पृष्ठों को अद्यतन करें?</string>
+  <string name="share_via">के माध्यम से साझा करें</string>
+  <string name="dialog_title_clear_saved_pages">सभी सरंक्षित पृष्ठ साफ करें</string>
+  <string name="snackbar_saving_page">पृष्ठ सहेजा जा रहा है…</string>
+  <string name="snackbar_saved_page_format" fuzzy="true">पृष्ठ सफलतापूर्वक सहेजा गया</string>
+  <string name="snackbar_saved_page_missing_images">सभी चित्र सहेजे नहीं गये</string>
+  <string name="snackbar_refresh_saved_page">सहेजे गये पृष्ठ को पुनः ताज़ा कर रहे हैं…</string>
+  <string name="delete_selected_saved_pages">मिटाएँ</string>
+  <string name="snackbar_saved_page_deleted">सहेजे गया (गये) पृष्ठ हटाये</string>
+  <string name="saved_pages_search_list_hint" fuzzy="true">खोज</string>
+  <string name="saved_pages_search_empty_message">आपकी आवश्यकता से मिलता कोई पृष्ठ नहीं पाया गया।</string>
+  <string name="menu_page_other_languages">अन्य भाषा में पढ़ें</string>
+  <string name="menu_page_save">पृष्ठ सहेजें</string>
+  <string name="menu_page_share" fuzzy="true">साझा करें</string>
+  <string name="menu_page_find_in_page">पृष्ठ में ढूंढें</string>
+  <string name="nav_item_nearby">निकट</string>
+  <string name="nearby_distance_in_meters">%d मी॰</string>
+  <string name="nearby_distance_in_kilometers">%.2f किमी</string>
+  <string name="last_updated_text">%s अन्तिम अद्यतन हुआ।</string>
+  <string name="content_license_html">सामग्री &lt;a href=\"//creativecommons.org/licenses/by-sa/3.0/\"&gt;CC BY-SA 3.0&lt;/a&gt; पर उपलब्ध है अन्यथा लिखें</string>
+  <string name="edit_save_action_license_logged_in">इसे सहेजते हुये आप &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use\"&gt;उपयोग की शर्तों&lt;/a&gt; से सहमत हो और अपने योगदान को &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/\"&gt;CC BY-SA 3.0&lt;/a&gt; मुद्राधिकार के अन्तर्गत अपरिवर्तनीय रूप प्रकाशित कर रहे हो।</string>
+  <string name="edit_save_action_license_anon">इसको सहेजते हुये आप &lt;a href=\"https://wikimediafoundation.org/wiki/Terms_of_Use\"&gt;उपयोग की शर्तों&lt;/a&gt; से सहमत हो और अपने योगदानों को अपरिवर्तनीय रूप से मुद्राधिकार नियम &lt;a href=\"https://creativecommons.org/licenses/by-sa/3.0/\"&gt;CC BY-SA 3.0&lt;/a&gt; के अन्तर्गत पकाशित कर रहे हो। यह सम्पादन का श्रेय आपके यंत्र के आई॰पी॰ पते को दिया जायेगा। यदि आप &lt;a href=\"https://#login\"&gt; लॉग इन&lt;/a&gt; करते हो तो अधिक सुरक्षा प्रदान की जायेगी।</string>
+  <string name="preference_title_language">विकिपीडिया भाषा</string>
+  <string name="preference_languages_filter_hint">खोज</string>
+  <string name="langlinks_filter_hint">खोज</string>
+  <string name="langlinks_empty">पृष्ठ अन्य भाषा में उपलब्ध नहीं है</string>
+  <string name="langlinks_no_match">खोज परिणाम में कोई भाषा नहीं मिली।</string>
+  <string name="langlinks_activity_title">अन्य भाषाएँ</string>
+  <string name="menu_save_changes">परिवर्तन सहेजें</string>
+  <string name="edit_section_error_retry">पुन: प्रयास</string>
+  <string name="dialog_saving_in_progress">सहेजा जा रहा हैं…</string>
+  <string name="edit_saved_successfully">सम्पादन सहेजे गये!</string>
+  <string name="dialog_message_edit_failed">सम्पादन असफल रहे!</string>
+  <string name="dialog_message_edit_failed_retry">पुन: प्रयास</string>
+  <string name="dialog_message_edit_failed_cancel">रद्द करें</string>
+  <string name="dialog_message_leaving_edit">आपके बदलाव अभी सहेजे नहीं गए हैं। क्या आप पृष्ठ से जाना चाहते हैं?</string>
+  <string name="dialog_message_leaving_edit_leave">जाएँ</string>
+  <string name="dialog_message_leaving_edit_stay">रुकें</string>
+  <string name="menu_show_toc">सामग्री सूची</string>
+  <string name="search_no_results_found">कोई परिणाम नहीं मिला</string>
+  <string name="edit_section_captcha_message">स्वतचालित रद्दी से बचने के लिए कृपया नीचे दिखाये गए शब्दों को लिखें</string>
+  <string name="edit_section_captcha_hint">ऊपर के शब्दो को फिर से दोहराएँ।</string>
+  <string name="title_captcha">कॅप्चा डालें</string>
+  <string name="edit_section_captcha_reload">कॅप्चा को पुनः लाने के लिए यहाँ दबायें</string>
+  <string name="edit_saved_page_refresh">यह संरक्षित पृष्ठ बहुत पुराना हो सकता है और सम्पादन आरम्भ करने के लिए पुनः ताज़ा करना चाहिए। क्या आप पृष्ठ को ताज़ा करना चाहेंगे?</string>
+  <string name="nav_item_login" fuzzy="true">लॉग-इन</string>
+  <string name="login_username_hint">सदस्य नाम</string>
+  <string name="login_password_hint">कूटशब्द (पासवर्ड)</string>
+  <string name="login_password_show_check">पासवर्ड को प्रदर्शित करें।</string>
+  <string name="menu_login">लॉग-इन</string>
+  <string name="login_activity_title" fuzzy="true">विकिपीडिया मैन भर्ती होइए</string>
+  <string name="login_in_progress_dialog_message">आप्को प्रवेश कर रहे है</string>
+  <string name="login_error_wrong_password">कुटशब्द गलत है</string>
+  <string name="login_error_wrong_username">गलत उपयोगकर्ता नाम</string>
+  <string name="login_success_toast" fuzzy="true">भर्ती सफल्</string>
+  <string name="login_error_blocked">यह सदस्य अवरोधित किया गया है।</string>
+  <string name="login_error_throttled">बहुत अधिक लॉग-इन प्रयास। कुछ क्षण प्रतीक्षा के बाद पुनः प्रयास करें।</string>
+  <string name="login_error_unknown">लॉग-इन असफल रहा :(</string>
+  <string name="preference_title_logout">सत्रान्त</string>
+  <string name="toast_logout_complete">सत्र का अन्त हुआ।</string>
+  <string name="saved_pages_empty_title">यहाँ कोई पृष्ठ नहीं सहेजा गया।</string>
+  <string name="saved_pages_empty_message">सरंक्षित पृष्ठ बहुत आश्चर्यजनक हैं। उन्हें इस तरह के पुस्तक-चिह्न समझें कि आप उन्हें तब भी पढ़ सकते हो जब आप ऑफ़लाइन हो।</string>
+  <string name="history_empty_title">यहाँ का कोई ताज़ा पृष्ठ नहीं मिला।</string>
+  <string name="history_empty_message">सम्भवतया आप उन सभी को हटा चुके हो। अगली बार जब आप उस पृष्ठ पर जायें तब उसे पुनः प्राप्त किया जा सकता है।</string>
+  <string name="delete_selected_history">हटायें</string>
+  <string name="wp_stylized">&lt;big&gt;वि&lt;/big&gt;किपीडि&lt;big&gt;या&lt;/big&gt;</string>
+  <string name="create_account_username_hint">सदस्य नाम</string>
+  <string name="login_create_account_link">क्या अभी तक खाता नहीं है? विकिपीडिया में शामिल हों</string>
+  <string name="create_account_login_link">पहले से खाता रखते हो? लॉग-इन</string>
+  <string name="create_account_activity_title">खाता बनायें</string>
+  <string name="dialog_create_account_checking_progress">सत्यापन चल रहा है</string>
+  <string name="create_account_email_hint">ईमेल (वैकल्पिक)</string>
+  <string name="create_account_password_repeat_hint">कूटशब्द पुनःस्थापित करें</string>
+  <string name="create_account_passwords_mismatch_error">कुटशब्द समान नहीं हैं</string>
+  <string name="create_account_email_error">अवैध ईमेल पता</string>
+  <string name="create_account_username_exists_error">सदस्य नाम पहले से काम में लिया जा रहा है</string>
+  <string name="create_account_ip_throttle_error">इस आई॰पी॰ पत्ते से बहुत अधिक खातों का निर्माण किया गया है। कृपया बाद में प्रयास करें।</string>
+  <string name="create_account_open_proxy_error">इस आई॰पी॰ को खाता निर्माण से रोका गया है।</string>
+  <string name="create_account_noname_error">आपके द्वारा दिया गया सदस्य नाम अमान्य है। कृपया अन्य सदस्यनाम उपलब्ध करवायें।</string>
+  <string name="create_account_invalid_email_error">आपके द्वारा प्रदत ईमेल पता अवैध है।</string>
+  <string name="create_account_password_too_short_error">आपके द्वारा दिया गया कुटशब्द बहुत छोटा है।</string>
+  <string name="create_account_blocked_anon_error">आप खाता निर्मित नहीं कर सकते क्योंकि आपका आई॰पी॰ पता प्रतिबन्धित है।</string>
+  <string name="create_account_blocked_error">आप खाता नहीं बना सकते क्योंकि आपका खाता प्रतिबन्धित किया गया है।</string>
+  <string name="create_account_password_name_match_error">आपका सदस्य नाम और कुटशब्द भिन्न होने चाहिए।</string>
+  <string name="create_account_generic_error">खाता नहीं बन सका।</string>
+  <string name="create_account_next">अगला</string>
+  <string name="create_account_button">खाता बनायें</string>
+  <string name="preferences_general_heading">सामान्य</string>
+  <string name="zero_charged_verbiage">विकिपीडिया शून्य बन्द है</string>
+  <string name="zero_charged_verbiage_extended">अन्य पृष्ठों को लोड कर रहा है जिसके कारण अतिरिक्त डाटा शुल्क लग सकता है।</string>
+  <string name="zero_search_hint">विकिपीडिया शून्य खोजें</string>
+  <string name="zero_warn_when_leaving">विकिपीडिया शून्य छोड़ने पर चेतावनी दिजिये</string>
+  <string name="zero_wikipedia_zero_heading">विकिपीडिया शून्य</string>
+  <string name="zero_interstitial_continue">जाएँ</string>
+  <string name="zero_interstitial_cancel">यहीं रुकें</string>
+  <string name="zero_learn_more">इस विकिपीडिया अनुप्रयोग के लिए डाटा शुल्क अधित्यजन किया जाता है।</string>
+  <string name="zero_learn_more_learn_more">और पढ़ें</string>
+  <string name="zero_learn_more_dismiss">हटायें</string>
+  <string name="nav_item_random">यादृच्छिक</string>
+  <string name="create_account_account_created_toast">खाता निर्मित!</string>
+  <string name="history_search_list_hint" fuzzy="true">खोजें</string>
+  <string name="history_search_empty_message">खोज परिणाम में कोई पृष्ठ नहीं मिले।</string>
+  <string name="error_can_not_process_link">यह लिंक दिखाया नहीं जा सका</string>
+  <string name="page_protected_autoconfirmed">यह पृष्ठ अर्ध-सुरक्षित है।</string>
+  <string name="page_protected_sysop">यह पृष्ठ पूर्ण सुरक्षित है।</string>
+  <string name="page_protected_can_not_edit_title">यह पृष्ठ संरक्षित है</string>
+  <string name="settings_activity_title" fuzzy="true">जड़ाई</string>
+  <string name="privacy_policy_description">गोपनीयता नीति</string>
+  <string name="terms_of_use_description">उपयोग की शर्तें</string>
+  <string name="about_contributors_heading">योगदानकर्ताएँ</string>
+  <string name="about_translators_heading">अनुवादक</string>
+  <string name="edit_abandon_confirm">पृष्ठ को संशोधित किया गया है। क्या आप अपने परिवर्तन को सहेजने के बिना निकास करना चाहते है?</string>
+  <string name="user_blocked_from_editing_title">अवरुद्ध</string>
+  <string name="user_logged_in_blocked_from_editing">आपके उपयोगकर्ता खाते को इस विकि पर संपादन करने से अवरुद्ध कर दिया गया है</string>
+  <string name="user_anon_blocked_from_editing">आपके आईपी पते द्वारा संपादन करना अवरुद्ध कर दिया गया है</string>
+  <string name="edit_how_page_improved">आपने पृष्ठ में सुधार कैसे किया?</string>
+  <string name="edit_next">अगला</string>
+  <string name="edit_done">सहेजें</string>
+  <string name="edit_preview">पूर्वावलोकन</string>
+  <string name="edit_summary_tag_links">कड़ियाँ लगाई</string>
+  <string name="edit_summary_tag_other">अन्य</string>
+  <string name="edit_summary_tag_other_hint">अन्य तरीकों से आपके द्वारा पृष्ठ में सुधार</string>
+  <string name="find_next">अगला ढूँढें</string>
+  <string name="find_previous">पिछला ढूँढें</string>
+  <string name="saved_pages_update_all_error_retry">पुनः प्रयास करें</string>
+  <string name="menu_page_saved">पृष्ठ सहेजा गया</string>
+  <string name="abusefilter_title_disallow">आप इस संपादन को सहेजा नही कर सकतें। कृपया पीछे जा कर इसे बदलें।</string>
+  <string name="dialog_page_issues">पृष्ठ समस्या</string>
+  <string name="text_size_select">फ़ॉन्ट का आकार</string>
+  <string name="page_similar_titles">समरूप पृष्ठ</string>
+  <string name="button_clear_all_recent_searches">हालिया खोजों को मिटाएँ</string>
+  <string name="table_close">बंध करें</string>
+  <string name="alpha_update_notification_title">नवीन आरम्भिक अपडेट उपलब्ध</string>
+  <string name="alpha_update_notification_text">डाउनलोड करने के लिए दबाये रखें</string>
+  <string name="dialog_close_description">बंध करें</string>
+  <string name="read_more_section">और पढ़ें</string>
+  <string name="gallery_menu_share">साझा करें</string>
+  <string name="snippet_share_intro">\@Wikipedia पर \"%1$s\": %2$s</string>
+</resources>

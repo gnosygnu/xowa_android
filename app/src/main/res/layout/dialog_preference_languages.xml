@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/window_background_color">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp">
+        <org.wikipedia.views.PlainPasteEditText
+                android:id="@+id/preference_languages_filter"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/preference_languages_filter_hint"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:singleLine="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                />
+    </android.support.design.widget.TextInputLayout>
+    <ListView android:id="@+id/preference_languages_list"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:choiceMode="singleChoice" />
+</LinearLayout>

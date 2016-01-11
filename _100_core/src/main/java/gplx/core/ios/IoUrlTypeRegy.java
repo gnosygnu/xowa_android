@@ -1,0 +1,59 @@
+package gplx.core.ios; import gplx.*; import gplx.core.*;
+import gplx.core.strings.*; import gplx.langs.gfs.*;
+public class IoUrlTypeRegy implements GfoInvkAble {
+	public String[] FetchAryOr(String key, String... or) {
+		IoUrlTypeGrp itm = (IoUrlTypeGrp)hash.Get_by(key);
+		return itm == null ? or : itm.AsAry();
+	}
+	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
+		if		(ctx.Match(k, Invk_Get)) {
+			String key = m.ReadStr(k);
+			if (ctx.Deny()) return this;
+			IoUrlTypeGrp itm = (IoUrlTypeGrp)hash.Get_by(key);
+			if (itm == null) {
+				itm = new IoUrlTypeGrp(key);
+				hash.Add(key, itm);
+			}
+			return itm;
+		}
+		else return GfoInvkAble_.Rv_unhandled;
+//			return this;
+	}	public static final String Invk_Get = "Get";
+	Ordered_hash hash = Ordered_hash_.New();
+        public static final IoUrlTypeRegy Instance = new IoUrlTypeRegy(); IoUrlTypeRegy() {}
+}
+class IoUrlTypeGrp implements GfoInvkAble {
+	public String[] AsAry() {
+		String[] rv = new String[list.Count()];
+		for (int i = 0; i < list.Count(); i++)
+			rv[i] = (String)list.Get_at(i);
+		return rv;
+	}
+	Ordered_hash list = Ordered_hash_.New();
+	public IoUrlTypeGrp(String key) {this.key = key;} private String key;
+	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
+		if		(ctx.Match(k, Invk_AddMany)) {
+			if (ctx.Deny()) return this;
+			for (int i = 0; i < m.Args_count(); i++) {
+				String s = m.ReadStr("v");
+				if (list.Has(s)) {
+					ctx.Write_warn(UsrMsg.new_("itm already has filter").Add("key", key).Add("filter", s).To_str());
+					list.Del(s);
+				}
+				list.Add(s, s);
+			}
+		}
+		else if	(ctx.Match(k, Invk_Print)) {
+			if (ctx.Deny()) return this;
+			String_bldr sb = String_bldr_.new_();
+			sb.Add(key).Add("{");
+			for (int i = 0; i < list.Count(); i++)
+				sb.Add_spr_unless_first((String)list.Get_at(i), " ", i);
+			sb.Add("}");
+			return sb.To_str();
+		}
+		else if	(ctx.Match(k, Invk_Clear)) {if (ctx.Deny()) return this; list.Clear();}
+		else return GfoInvkAble_.Rv_unhandled;
+		return this;
+	}	public static final String Invk_AddMany = "Add_many", Invk_Clear = "Clear", Invk_Print = "Print";
+}

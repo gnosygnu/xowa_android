@@ -1,0 +1,4 @@
+keystore=/path/to/your.keystore
+store.pass=KeystorePassword
+key.alias=KeyName
+key.pass=KeyPassword

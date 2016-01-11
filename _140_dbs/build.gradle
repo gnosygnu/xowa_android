@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':_100_core')
+    compile project(':_110_gfml')
+    compile files('lib/mysql-connector-java-5.1.12-bin.jar')
+    compile files('lib/postgresql-8.4-701.jdbc4.jar')
+    compile files('lib/sqlite-jdbc-3.7.15-M1.jar')
+}

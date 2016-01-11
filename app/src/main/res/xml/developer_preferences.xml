@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/preferences_developer_feature_testing_heading">
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_feature_select_text_and_share_tutorials_enabled"
+            android:title="@string/preference_key_feature_select_text_and_share_tutorials_enabled" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/preferences_developer_restbase_heading">
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_use_restbase_manual"
+            android:title="@string/preference_key_use_restbase_manual" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_use_restbase"
+            android:title="@string/preference_key_use_restbase" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.IntPreference
+            style="@style/IntPreference"
+            android:key="@string/preference_key_restbase_ticket"
+            android:title="@string/preference_key_restbase_ticket" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.IntPreference
+            style="@style/IntPreference"
+            android:key="@string/preference_key_request_successes"
+            android:title="@string/preference_key_request_successes" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.EditTextAutoSummarizePreference
+            style="@style/EditTextAutoSummarizePreference"
+            android:key="@string/preference_key_restbase_uri_format"
+            android:title="@string/preference_key_restbase_uri_format"
+            android:dialogMessage="Prod: %1$s://%2$s/api/rest_v1
+            \nDev: http://host:6927/%2$s/v1
+            \n%1$s &#10139; protocol (https if omitted)
+            \n%2$s &#10139; WP domain
+            \nNote: change requires restart."
+            android:inputType="textVisiblePassword" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/preferences_developer_onboarding_heading">
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_toc_tutorial_enabled"
+            android:title="@string/preference_key_toc_tutorial_enabled" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_select_text_tutorial_enabled"
+            android:title="@string/preference_key_select_text_tutorial_enabled" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_share_tutorial_enabled"
+            android:title="@string/preference_key_share_tutorial_enabled" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/preferences_developer_logging_heading">
+
+        <ListPreference
+            android:key="@string/preference_key_retrofit_log_level"
+            android:title="@string/preferences_developer_retrofit_log_level"
+            android:entries="@array/preference_values_retrofit_log"
+            android:entryValues="@array/preference_values_retrofit_log"
+            android:summary="%s" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.IntPreference
+            style="@style/IntPreference"
+            android:key="@string/preference_key_session_timeout"
+            android:title="@string/preferences_developer_session_timeout_title" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.EditTextAutoSummarizePreference
+            style="@style/EditTextAutoSummarizePreference"
+            android:key="@string/preference_key_remote_log"
+            android:title="@string/preferences_developer_remote_log_title"
+            android:dialogMessage="@string/preferences_developer_remote_log_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/preferences_developer_misc_heading">
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.EditTextAutoSummarizePreference
+            style="@style/EditTextAutoSummarizePreference"
+            android:key="@string/preference_key_reading_app_install_id"
+            android:title="@string/preference_key_reading_app_install_id"
+            android:inputType="textVisiblePassword" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.IntPreference
+            style="@style/IntPreference"
+            android:key="@string/preference_key_login_user_id"
+            android:title="@string/preference_key_login_user_id" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.EditTextAutoSummarizePreference
+            style="@style/EditTextAutoSummarizePreference"
+            android:key="@string/preference_key_language"
+            android:title="@string/preference_key_language"
+            android:inputType="textVisiblePassword" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.EditTextAutoSummarizePreference
+            style="@style/EditTextAutoSummarizePreference"
+            android:key="@string/preference_key_language_mru"
+            android:title="@string/preference_key_language_mru"
+            android:inputType="textVisiblePassword" />
+
+        <!-- TODO: expose in wildcard preference. -->
+        <!--suppress AndroidUnknownAttribute -->
+        <org.wikipedia.settings.LongPreference
+            style="@style/LongPreference"
+            android:key="dailyEventTask-lastrun"
+            android:title="dailyEventTask-lastrun" />
+
+        <org.wikipedia.settings.CheckBoxPreferenceMultiLine
+            android:key="@string/preference_key_show_developer_settings"
+            android:title="@string/preference_key_show_developer_settings" />
+
+        <Preference android:key="@string/preferences_developer_crash_key"
+            android:title="@string/preferences_developer_crash_title"
+            android:summary="@string/preferences_developer_crash_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

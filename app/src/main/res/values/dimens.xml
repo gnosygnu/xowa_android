@@ -1,0 +1,82 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="margin">8dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+
+    <dimen name="corner_radius_smaller">2dp</dimen>
+
+    <dimen name="list_item_vertical_padding">16dp</dimen>
+    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_text_horizontal_padding">16dp</dimen>
+
+    <!-- Default font size for WebView text based on system settings -->
+    <dimen name="textSize">16sp</dimen>
+
+    <!-- Default height of list items -->
+    <dimen name="defaultListItemSize">56dp</dimen>
+
+    <!-- Default height of tab item images, which governs the size of tabs themselves -->
+    <dimen name="tabImageSize">48dp</dimen>
+
+    <!-- Default width of the lead image to be downloaded -->
+    <dimen name="leadImageWidth">640dp</dimen>
+    <!-- Default font size of the page title -->
+    <dimen name="titleTextSize">28sp</dimen>
+    <!-- Default font size of the Wikidata description for the page -->
+    <dimen name="descriptionTextSize">14sp</dimen>
+
+    <!-- Default font size for Search text -->
+    <dimen name="searchTextSize">16sp</dimen>
+
+    <dimen name="content_margin">@dimen/activity_horizontal_margin</dimen>
+
+    <dimen name="drawer_drag_margin">16dp</dimen>
+
+    <!-- Tool tips -->
+    <dimen name="tool_tip_max_width">250dp</dimen>
+
+    <!-- Default width of swipeable bottom dialogs. -->
+    <dimen name="swipeableDialogMaxWidth">480dp</dimen>
+    <!-- Default size of images in Link Preview thumbnail gallery -->
+    <dimen name="linkPreviewImageSize">112dp</dimen>
+    <!-- Default height with which the Link Preview peeks out from the bottom -->
+    <dimen name="linkPreviewPeekHeight">320dp</dimen>
+
+    <item type="dimen" format="float" name="linkPreviewThumbPressScale">1.03</item>
+    <item type="dimen" format="float" name="linkPreviewThumbPressOverScale">1.05</item>
+
+    <!-- Share-a-fact image preview -->
+    <dimen name="share_image_width">320dp</dimen>
+    <dimen name="share_image_height">180dp</dimen>
+
+    <!-- Floating action button -->
+    <dimen name="floating_action_button_margin_left">0dp</dimen>
+    <dimen name="floating_action_button_margin_top">0dp</dimen>
+    <dimen name="floating_action_button_margin_right">8dp</dimen>
+    <dimen name="floating_action_button_margin_bottom">0dp</dimen>
+
+    <dimen name="face_detection_nose_y_offset">-24dp</dimen>
+
+    <dimen name="nav_drawer_header_height">150dp</dimen>
+
+    <dimen name="shadow_thickness">3dp</dimen>
+
+    <!-- Value for android:lineSpacingMultiplier in the article title TextView.
+         Note that the default value is undocumented but less than 1.0. -->
+    <item name="lead_title_leading_scalar" format="float" type="dimen">1.05</item>
+    <item name="lead_subtitle_leading_scalar" format="float" type="dimen">1.35</item>
+    <item name="lead_subtitle_paragraph_scalar" format="float" type="dimen">1.15</item>
+
+    <dimen name="audio_url_span_loading_spinner_border_thickness">2dp</dimen>
+    <dimen name="audio_url_span_loading_spinner_radius">8dp</dimen>
+    <dimen name="audio_url_span_click_size">48dp</dimen>
+
+    <!-- Maps -->
+    <integer name="map_default_zoom">12</integer>
+
+    <!-- Crash report -->
+    <item name="crash_report_icon_alpha" format="float" type="dimen">.5</item>
+</resources>
