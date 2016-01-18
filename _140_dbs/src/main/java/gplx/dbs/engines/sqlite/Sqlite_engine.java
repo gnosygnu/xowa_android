@@ -1,6 +1,6 @@
 package gplx.dbs.engines.sqlite; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
 import java.sql.*; //#<>System.Data~java.sql
-import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.engines.sqlite.*;
+import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.engines.sqlite.*; import gplx.dbs.metas.*;
 //#{import
 import gplx.dbs.qrys.*; 
 //#}
@@ -26,8 +26,10 @@ public class Sqlite_engine extends Db_engine_sql_base {
 	@Override public void	Txn_sav()				{txn_mgr.Txn_sav();}
 	@Override public boolean	Meta_tbl_exists(String tbl)				{return schema_mgr.Tbl_exists(tbl);}
 	@Override public boolean	Meta_fld_exists(String tbl, String fld) {return schema_mgr.Fld_exists(tbl, fld);}
+	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {return schema_mgr.Tbl_load_all();}
 	//#{lang
-	static boolean loaded = false; 
+	private static boolean loaded = false;
+	protected void Meta_tbl_gather_hook() {throw Err_.new_unimplemented();}
 	@gplx.Internal @Override protected Connection Conn_new() {
 		if (!loaded) {
 			try {

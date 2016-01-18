@@ -73,9 +73,9 @@ public class Drd_db_engine implements Db_engine {
     }
     public boolean	Meta_fld_exists(String tbl, String fld) {
         if (db == null) Conn_open();
-        Dbmeta_tbl_itm tbl_itm = schema_mgr.Tbl_mgr().Get_by(tbl); if (tbl_itm == null) return false;
-        return tbl_itm.Flds().Has(fld);
+        return schema_mgr.Fld_exists(tbl, fld);
     }
+    public Dbmeta_tbl_mgr Meta_tbl_load_all() {if (db == null) Conn_open(); return schema_mgr.Tbl_load_all();}
     public Object	Exec_as_obj(Db_qry cmd) {
         if (db == null) Conn_open();
         if (db == null) return 0;

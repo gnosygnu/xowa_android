@@ -99,7 +99,6 @@ public class Xoh_lnki_hzip implements Xoh_hzip_wkr, Gfo_poolable_itm {
 				int href_end = href_bry.length;
 				if (cls_tid == Xoh_anch_cls_.Tid__ctg_xnav)	{ // NOTE: for ctg_xnav, only encode title, not its query arguments; "?" x> "%3F" or "=" x> "%3D" or "sortkey=A B" -> "sortkey=A_B"; DATE:2015-12-28
 					href_end = Bry_find_.Find_fwd(href_bry, Byte_ascii.Question, 0, href_end);
-					// if (href_end == Bry_find_.Not_found) rdr.Err_wkr().Fail("encoded question not found in category xnav link", "href", href_bry);
 				}
 				// encoder.Encode(tmp_bfr, href_bry, 0, href_end);	// encode for href; EX: "/wiki/A's" -> "/wiki/A&27s"
 				// tmp_bfr.Add_mid(href_bry, 0, href_end);	// encode for href; EX: "/wiki/A's" -> "/wiki/A&27s"

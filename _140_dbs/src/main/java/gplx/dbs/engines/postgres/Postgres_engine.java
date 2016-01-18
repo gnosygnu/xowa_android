@@ -1,5 +1,5 @@
 package gplx.dbs.engines.postgres; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
-import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.sqls.*;
+import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.sqls.*; import gplx.dbs.metas.*;
 import java.sql.*; //#<>System.Data~java.sql
 //#{import
 //#}
@@ -12,6 +12,7 @@ public class Postgres_engine extends Db_engine_sql_base {
 		return rv;
 	}
 	@Override public DataRdr New_rdr(ResultSet rdr, String commandText) {return Db_data_rdr_.new_(rdr, commandText);}//#<>IDataReader~ResultSet
+	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {throw Err_.new_unimplemented();}
 	//#{lang
 	@gplx.Internal @Override protected Connection Conn_new() {
 		Postgres_conn_info conn_info_as_postgres = (Postgres_conn_info)conn_info; 

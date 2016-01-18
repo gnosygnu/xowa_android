@@ -126,7 +126,7 @@ public class Xob_cmd_mgr implements GfoInvkAble {
 	private Xowe_wiki Wiki_get_or_make(GfoMsg m) {
 		byte[] wiki_key = m.ReadBry("v");
 		Xoae_wiki_mgr wiki_mgr = bldr.App().Wiki_mgr();
-		Xowe_wiki rv = wiki_mgr.Get_by_key_or_make(wiki_key);
+		Xowe_wiki rv = wiki_mgr.Get_by_or_make(wiki_key);
 		rv.Lang().Init_by_load();
 		return rv;
 	}

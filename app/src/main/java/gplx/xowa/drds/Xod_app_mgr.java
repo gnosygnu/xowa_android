@@ -1,7 +1,6 @@
 package gplx.xowa.drds;
 
 import android.app.Activity;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.wikipedia.Site;
@@ -12,7 +11,6 @@ import org.wikipedia.page.PageProperties;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.page.Section;
 import org.wikipedia.server.PageLeadProperties;
-import org.wikipedia.util.log.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +19,6 @@ import gplx.Bry_;
 import gplx.Bry_find_;
 import gplx.Cancelable;
 import gplx.Err_;
-import gplx.core.drds.Drd_version;
-import gplx.core.net.Gfo_qarg_itm;
-import gplx.dbs.*;
 import gplx.Gfo_usr_dlg;
 import gplx.Gfo_usr_dlg_;
 import gplx.Gfo_usr_dlg__gui_;
@@ -33,21 +28,19 @@ import gplx.Io_url;
 import gplx.Io_url_;
 import gplx.List_adp;
 import gplx.String_;
+import gplx.core.drds.Drd_version;
 import gplx.core.envs.Env_;
+import gplx.dbs.Drd_db_mgr;
 import gplx.langs.htmls.encoders.Gfo_url_encoder_;
 import gplx.xowa.Xoa_ttl;
 import gplx.xowa.Xoa_url;
 import gplx.xowa.Xow_wiki;
 import gplx.xowa.apps.Xoa_app_mode;
 import gplx.xowa.apps.Xoav_app;
-import gplx.xowa.drds.OfflinePageLeadProperties;
-import gplx.xowa.drds.Xod_app;
-import gplx.xowa.drds.Xod_js_wkr;
 import gplx.xowa.drds.pages.Xod_page_itm;
 import gplx.xowa.htmls.hrefs.Xoh_href_;
 import gplx.xowa.htmls.sections.Xoh_section_itm;
 import gplx.xowa.specials.search.Xows_ui_async;
-import gplx.xowa.wikis.Xowv_wiki;
 
 public class Xod_app_mgr {
     private Activity activity; private CommunicationBridge bridge;
@@ -63,7 +56,7 @@ public class Xod_app_mgr {
     }
     public int Imported_wikis_count() {
         if (drd_app == null) Init_app();
-        return drd_app.Get_wiki_count();
+        return drd_app.Wikis__count();
     }
     public Xod_app_mgr Init(Activity activity, CommunicationBridge bridge) {
         this.activity = activity; this.bridge = bridge;
@@ -76,18 +69,24 @@ public class Xod_app_mgr {
             js_wkr.Init(activity, bridge);
         }
     }
-    public Xowv_wiki Load_wiki_by_url(Io_url core_url) {
-        Xowv_wiki rv = xo_app.Wiki_mgr().Import_by_fil(core_url);
-        xo_app.Wiki_mgr().Add(rv);
+    public Xow_wiki Load_wiki_by_url(Io_url core_url) {
+        Xow_wiki rv = xo_app.Wiki_mgr().Load_by_fil(core_url);
+        xo_app.Wiki_mgri().Add(rv);
         rv.Init_by_wiki();
         return rv;
+    }
+    public PageTitle Wiki__get_random(WikipediaApp app) {
+        Site site = Cur_site(app);
+        Xow_wiki wiki = drd_app.Wikis__get_by_domain(site.getDomain());
+        Xod_page_itm page_itm = drd_app.Wiki__get_random(wiki, wiki.Ns_mgr().Ns_main());
+        return new PageTitle(page_itm.Ttl_db(), site);
     }
     public Page Get_page_or_load(PageTitle title, boolean force_load) {
         cur_page = title;
         if (cached_page != null && cached_page.getTitle().getText() == title.getText() && !force_load) return cached_page;
         if (drd_app == null) Init_app();
-        Xow_wiki wiki = drd_app.Get_wiki(title.getSite().getDomain());
-        if (wiki == null) wiki = drd_app.Get_wiki("home");
+        Xow_wiki wiki = drd_app.Wikis__get_by_domain(title.getSite().getDomain());
+        if (wiki == null) wiki = drd_app.Wikis__get_by_domain("home");
         // get page title; lines needed to handle "A:B" where "A:" is not a ns, even though PageTitle treats "A:" as a namespace
         byte[] canonical_url = Bry_.new_u8(title.getCanonicalUri());
         int ttl_bgn = Bry_find_.Move_fwd(canonical_url, Xoh_href_.Bry__wiki, 0); if (ttl_bgn == Bry_find_.Not_found) throw Err_.new_("drd", "uknown url format: no '/wiki/'", "url", canonical_url);
@@ -96,7 +95,7 @@ public class Xod_app_mgr {
 
         Xoa_url page_url = wiki.Utl__url_parser().Parse(page_url_bry);
 
-        Xod_page_itm xpg = drd_app.Get_page(wiki, page_url);
+        Xod_page_itm xpg = drd_app.Wiki__get_by_url(wiki, page_url);
         img_loader.Set(wiki, xpg);
         List<Section> sections = Make_sections(xpg);
         PageLeadProperties lead_props = Make_lead_props(page_ttl.Ns().Id_is_special() ? "Import XOWA Wiki" : title.getDisplayText(), xpg.Modified_on(), sections);
@@ -104,12 +103,12 @@ public class Xod_app_mgr {
         return cached_page;
     }
     public String[] Search_titles(Cancelable cxl, Xows_ui_async ui_async, String domain, String search) {
-        return drd_app.Search_titles(cxl, drd_app.Get_wiki(domain), ui_async, search);
+        return drd_app.Wiki__search(cxl, drd_app.Wikis__get_by_domain(domain), ui_async, search);
     }
     private void Init_app() {
         // init app
         Env_.Init_drd();
-        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("/mnt/sdcard/external_sd/temp/"));
+        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("mem/mnt/sdcard/external_sd/temp/"));
         Gfo_usr_dlg usr_dlg = new Gfo_usr_dlg_base(log, Gfo_usr_dlg__gui_.Console);
         Io_url user_dir = Io_url_.new_dir_(activity.getFilesDir().getAbsolutePath() + "/");
         this.xo_app = new Xoav_app(usr_dlg, Xoa_app_mode.Itm_gui, "drd", user_dir, user_dir, user_dir.GenSubDir("temp"));
@@ -174,6 +173,6 @@ class Img_loader implements CommunicationBridge.JSEventListener {
     }
     @Override
     public void onMessage(String messageType, JSONObject messagePayload) {
-        drd_app.Load_files(wiki, xpg, js_wkr);
+        drd_app.Page__load_files(wiki, xpg, js_wkr);
     }
 }

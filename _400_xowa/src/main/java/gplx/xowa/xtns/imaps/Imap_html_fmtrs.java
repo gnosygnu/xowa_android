@@ -44,6 +44,5 @@ class Imap_html_fmtrs {
 	, "        </a>"
 	, "      </div>"
 	), "margin_left", "margin_top", "img_href", "msg_desc", "icon_url"
-	)
-	;
+	);
 }

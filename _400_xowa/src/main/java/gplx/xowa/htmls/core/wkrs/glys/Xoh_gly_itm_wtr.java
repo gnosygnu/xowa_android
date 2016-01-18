@@ -3,8 +3,8 @@ import gplx.core.brys.*; import gplx.core.brys.fmtrs.*;
 import gplx.langs.htmls.*; import gplx.xowa.htmls.core.wkrs.bfr_args.*; import gplx.xowa.htmls.core.wkrs.imgs.*;
 public class Xoh_gly_itm_wtr implements Bfr_arg {
 	private final Bfr_arg_clearable[] arg_ary;
-	private final Bfr_arg__hatr_id li_id = Bfr_arg__hatr_id.New("xogly_li_"), img_id = Bfr_arg__hatr_id.New(gplx.xowa.htmls.Xoh_img_mgr.Bry__html_uid)
-	, div_1_id = Bfr_arg__hatr_id.New("xogly_div1_"), div_2_id = Bfr_arg__hatr_id.New("xogly_div2_"), div_3_id = Bfr_arg__hatr_id.New("xogly_div3_");
+	private final Bfr_arg__hatr_id li_id = Bfr_arg__hatr_id.New_id("xogly_li_"), img_id = Bfr_arg__hatr_id.New_id(gplx.xowa.htmls.Xoh_img_mgr.Bry__html_uid)
+	, div_1_id = Bfr_arg__hatr_id.New_id("xogly_div1_"), div_2_id = Bfr_arg__hatr_id.New_id("xogly_div2_"), div_3_id = Bfr_arg__hatr_id.New_id("xogly_div3_");
 	private final Bfr_arg__itm_caption itm_caption_fmtr = new Bfr_arg__itm_caption();
 	private int li_w, div_1_w, div_2_margin;
 	public Xoh_gly_itm_wtr() {

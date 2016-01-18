@@ -31,6 +31,14 @@ public class Xoh_thm_data implements Gfh_style_wkr {
 		if (!capt_data.Parse1(hdoc_wkr, tag_rdr, src, tag_rdr.Tag__move_fwd_head())) return false;						// <div>
 		rng_valid = true;
 		tag_rdr.Tag__move_fwd_tail(Gfh_tag_.Id__div);
+		int tag_rdr_pos = tag_rdr.Pos();
+		if (!Bry_.Match(src, tag_rdr_pos, tag_rdr_pos + 7, Xoh_thm_caption_data.Bry__div_1_tail_bgn)) {	// TIDY:handle tidy relocating xowa-alt-div between div2 and div3; PAGE:en.w:Non-helical_models_of_DNA_structure; DATE:2016-01-11
+			tag_rdr.Pos_(tag_rdr_pos + 6);	// also move tag_rdr forward one
+			Gfh_tag nxt_div_tail = tag_rdr.Tag__peek_fwd_tail(Gfh_tag_.Id__div);
+			int capt_3_bgn = tag_rdr_pos;
+			int capt_3_end = nxt_div_tail.Src_bgn();
+			capt_data.Capt_3_(capt_3_bgn, capt_3_end);
+		}
 		tag_rdr.Tag__move_fwd_tail(Gfh_tag_.Id__div);
 		this.src_end = tag_rdr.Pos();
 		hdoc_wkr.On_thm(this);
@@ -41,6 +49,8 @@ public class Xoh_thm_data implements Gfh_style_wkr {
 			&&	val_bgn - key_end == 1) {	// handle invalid styles from en.w:Template:CSS_image_crop which have "width: 123px"; PAGE:en.w:Abraham_Lincoln; DATE:2016-01-02
 			this.div_1_width = Bry_.To_int_or__lax(src, val_bgn, val_end, -1);
 		}
+		else	// if there are any other attribs, invalidate; EX:style='width:123px;color:blue;'; PAGE:en.w:Wikipedia:New_CSS_framework; DATE:2016-01-11
+			this.div_1_width = -1;
 		return true;
 	} 
 	public static final byte[] 

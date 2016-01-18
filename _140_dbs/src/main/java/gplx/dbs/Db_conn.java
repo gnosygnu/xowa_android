@@ -1,11 +1,10 @@
 package gplx.dbs; import gplx.*;
-import gplx.dbs.engines.*; import gplx.dbs.qrys.*; import gplx.core.stores.*;
+import gplx.core.stores.*; import gplx.dbs.metas.*; import gplx.dbs.engines.*; import gplx.dbs.qrys.*;
 public class Db_conn {
 	private final List_adp rls_list = List_adp_.new_(); private final Db_engine engine;
 	public Db_conn(Db_engine engine) {this.engine = engine;}
 	public Db_conn_info		Conn_info()				{return engine.Conn_info();}
 	public boolean				Eq(Db_conn comp)		{return String_.Eq(engine.Conn_info().Xto_api(), comp.Conn_info().Xto_api());}
-//		public void				Txn_bgn()				{engine.Txn_bgn("");}
 	public void				Txn_bgn(String name)	{engine.Txn_bgn(name);}
 	public void				Txn_end()				{engine.Txn_end();}
 	public void				Txn_cxl()				{engine.Txn_cxl();}
@@ -34,6 +33,7 @@ public class Db_conn {
 	public void				Ddl_delete_tbl(String tbl)											{engine.Ddl_delete_tbl(tbl);}
 	public boolean				Meta_tbl_exists(String tbl)											{return engine.Meta_tbl_exists(tbl);}
 	public boolean				Meta_fld_exists(String tbl, String fld)								{return engine.Meta_fld_exists(tbl, fld);}
+	public Dbmeta_tbl_mgr	Meta_tbl_load_all()													{return engine.Meta_tbl_load_all();}
 	public void				Rls_reg(Rls_able rls) {rls_list.Add(rls);}
 	public void				Rls_conn() {
 		int len = rls_list.Count();

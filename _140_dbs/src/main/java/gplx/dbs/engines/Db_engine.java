@@ -1,5 +1,5 @@
 package gplx.dbs.engines; import gplx.*; import gplx.dbs.*;
-import gplx.core.stores.*;
+import gplx.core.stores.*; import gplx.dbs.metas.*;
 public interface Db_engine {
 	String			Tid();
 	Db_conn_info	Conn_info();
@@ -24,4 +24,5 @@ public interface Db_engine {
 	void			Env_db_detach(String alias);
 	boolean			Meta_tbl_exists(String tbl);
 	boolean			Meta_fld_exists(String tbl, String fld);
+	Dbmeta_tbl_mgr	Meta_tbl_load_all();
 }

@@ -35,6 +35,7 @@ public class Xof_file_wkr implements Gfo_thread_wkr {
 	}
 	private void Exec_by_fsdb(Xof_fsdb_itm fsdb) {
 		try {
+			if (fsdb.File_exists_in_cache()) return;
 			fsdb.Orig_exists_n_();
 			Xof_orig_itm orig = orig_mgr.Find_by_ttl_or_null(fsdb.Lnki_ttl()); if (orig == Xof_orig_itm.Null) return;
 			Eval_orig(orig, fsdb, url_bldr, repo_mgr, img_size);

@@ -1,5 +1,5 @@
  package gplx.dbs.engines.nulls; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
- import gplx.core.stores.*;
+import gplx.core.stores.*; import gplx.dbs.metas.*;
 public class Noop_engine implements Db_engine {
 	public String			Tid() {return Noop_conn_info.Tid_const;}
 	public Db_conn_info		Conn_info() {return Db_conn_info_.Null;}
@@ -18,11 +18,12 @@ public class Noop_engine implements Db_engine {
 	public Object			Exec_as_obj(Db_qry cmd) {return cmd.Exec_is_rdr() ? (Object)DataRdr_.Null : -1;}
 	public void				Ddl_create_tbl(Dbmeta_tbl_itm meta) {}
 	public void				Ddl_create_idx(Gfo_usr_dlg usr_dlg, Dbmeta_idx_itm... ary) {}
-	public void				Ddl_append_fld(String tbl, Dbmeta_fld_itm fld)		{}
+	public void				Ddl_append_fld(String tbl, Dbmeta_fld_itm fld)	{}
 	public void				Ddl_delete_tbl(String tbl)						{}
 	public void				Env_db_attach(String alias, Io_url db_url)		{}
 	public void				Env_db_detach(String alias)						{}
 	public boolean				Meta_tbl_exists(String tbl)						{return false;}
 	public boolean				Meta_fld_exists(String tbl, String fld)			{return false;}
+	public Dbmeta_tbl_mgr	Meta_tbl_load_all()								{return meta_tbl_mgr;} private final Dbmeta_tbl_mgr meta_tbl_mgr = new Dbmeta_tbl_mgr();
         public static final Noop_engine Instance = new Noop_engine(); Noop_engine() {}
 }

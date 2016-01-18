@@ -8,6 +8,9 @@ import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.WikipediaApp;
 
+import gplx.xowa.drds.Xod_app;
+import gplx.xowa.drds.Xod_app_mgr;
+
 public class RandomHandler {
     private WikipediaApp app;
     private RandomArticleIdTask curRandomArticleIdTask;
@@ -43,37 +46,38 @@ public class RandomHandler {
         Handler randomHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                RandomArticleIdTask randomTask = new RandomArticleIdTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite()) {
-
-                    @Override
-                    public void onBeforeExecute() {
-                        setProgressBarLoading(true);
-                        setNavMenuItemEnabled(false);
-                    }
-
-                    @Override
-                    public void onFinish(PageTitle title) {
-                        setProgressBarLoading(false);
-                        setNavMenuItemEnabled(true);
-                        Log.d("Wikipedia", "Random article title pulled: " + title);
-                        listener.onRandomPageReceived(title);
-                    }
-
-                    @Override
-                    public void onCatch(Throwable caught) {
-                        setProgressBarLoading(false);
-                        setNavMenuItemEnabled(true);
-                        Log.d("Wikipedia", "Random article ID retrieval failed");
-                        curRandomArticleIdTask = null;
-                        listener.onRandomPageFailed(caught);
-                    }
-                };
-                if (curRandomArticleIdTask != null) {
-                    // if this connection was hung, clean up a bit
-                    curRandomArticleIdTask.cancel();
-                }
-                curRandomArticleIdTask = randomTask;
-                curRandomArticleIdTask.execute();
+                listener.onRandomPageReceived(Xod_app_mgr.Instance.Wiki__get_random(app));  // XOWA
+//                RandomArticleIdTask randomTask = new RandomArticleIdTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite()) {
+//
+//                    @Override
+//                    public void onBeforeExecute() {
+//                        setProgressBarLoading(true);
+//                        setNavMenuItemEnabled(false);
+//                    }
+//
+//                    @Override
+//                    public void onFinish(PageTitle title) {
+//                        setProgressBarLoading(false);
+//                        setNavMenuItemEnabled(true);
+//                        Log.d("Wikipedia", "Random article title pulled: " + title);
+//                        listener.onRandomPageReceived(title);
+//                    }
+//
+//                    @Override
+//                    public void onCatch(Throwable caught) {
+//                        setProgressBarLoading(false);
+//                        setNavMenuItemEnabled(true);
+//                        Log.d("Wikipedia", "Random article ID retrieval failed");
+//                        curRandomArticleIdTask = null;
+//                        listener.onRandomPageFailed(caught);
+//                    }
+//                };
+//                if (curRandomArticleIdTask != null) {
+//                    // if this connection was hung, clean up a bit
+//                    curRandomArticleIdTask.cancel();
+//                }
+//                curRandomArticleIdTask = randomTask;
+//                curRandomArticleIdTask.execute();
                 return true;
             }
         });

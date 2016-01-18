@@ -1196,3 +1196,7 @@ div.gallerytext > p {
 }
 .xowa_filebrowser_tbl td + td { border-left:1px solid #AAAAAA; }
 .xowa_filebrowser_help    {background-color:#EEEEEE;}
+
+.tsingle        {max-width:100% !important;}            /* XOWA:en.w; uses tmulti / tsingle to keep images on one row; make max-width:100% to center; DATE:2016-01-13; */
+.portal > table {background:transparent !important;}    /* XOWA:en.w; change background to transparent else noticeable gray color; DATE:2016-01-13; */
+.sisterproject > table {background:transparent !important;}    /* XOWA:en.w; change background to transparent else noticeable gray color; DATE:2016-01-16; */

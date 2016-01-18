@@ -48,7 +48,7 @@ public class Xoav_app implements Xoa_app, GfoInvkAble {
 	public Xoa_meta_mgr				Dbmeta_mgr()					{return meta_mgr;} private final Xoa_meta_mgr meta_mgr;
 	public Gfo_inet_conn			Utl__inet_conn()			{return inet_conn;} private final Gfo_inet_conn inet_conn = Gfo_inet_conn_.new_();
 	public Xoa_site_cfg_mgr			Site_cfg_mgr()				{return site_cfg_mgr;} private final Xoa_site_cfg_mgr site_cfg_mgr;
-	public boolean						Xwiki_mgr__missing(byte[] domain)	{return wiki_mgr.Get_by_domain(domain) == null;}
+	public boolean						Xwiki_mgr__missing(byte[] domain)	{return wiki_mgr.Get_by_or_null(domain) == null;}
 	public Xoa_sitelink_mgr			Xwiki_mgr__sitelink_mgr()	{return xwiki_mgr__sitelink_mgr;} private final Xoa_sitelink_mgr xwiki_mgr__sitelink_mgr = new Xoa_sitelink_mgr();
 	public Xow_xwiki_itm_parser		Xwiki_mgr__itm_parser()		{return xwiki_mgr__itm_parser;}	private final Xow_xwiki_itm_parser xwiki_mgr__itm_parser = new Xow_xwiki_itm_parser();
 

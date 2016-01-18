@@ -90,7 +90,7 @@ public class Xowe_repo_mgr implements Xow_repo_mgr, GfoInvkAble {
 			byte[] trg_wiki_key = Bry_.Empty;
 			if (repo_idx != Xof_meta_itm.Repo_unknown) {
 				trg_wiki_key = wiki.File_mgr().Repo_mgr().Repos_get_at(repo_idx).Wiki_domain();
-				trg_wiki = wiki.Appe().Wiki_mgr().Get_by_key_or_make(trg_wiki_key);
+				trg_wiki = wiki.Appe().Wiki_mgr().Get_by_or_make(trg_wiki_key);
 			}
 			Xof_meta_itm redirect_meta = trg_wiki.File_mgr().Dbmeta_mgr().Get_itm_or_new(redirect, md5);
 			if (tmp_rslt.Redirect() == Xop_redirect_mgr.Redirect_null_bry) {

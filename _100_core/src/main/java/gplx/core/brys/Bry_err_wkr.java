@@ -7,6 +7,12 @@ public class Bry_err_wkr {
 	public void Fail_throws_err_(boolean v) {this.fail_throws_err = v;} private boolean fail_throws_err = true;
 	public void Init_by_page(String page, byte[] src)	{this.page = page; this.src = src;}
 	public void Init_by_sect(String sect, int sect_bgn) {this.sect = sect; this.sect_bgn = sect_bgn;}
+	public void Warn(String msg, Object... args) {
+		boolean old = fail_throws_err;
+		fail_throws_err = false;
+		this.Fail(msg, args);
+		fail_throws_err = old;
+	}
 	public int Fail(String msg, Object... args) {return Fail(msg, sect_bgn, sect_bgn + 255, args);}
 	private int Fail(String msg, int excerpt_bgn, int excerpt_end, Object[] args) {
 		String err_msg = Make_msg(msg, excerpt_bgn, excerpt_end, args);

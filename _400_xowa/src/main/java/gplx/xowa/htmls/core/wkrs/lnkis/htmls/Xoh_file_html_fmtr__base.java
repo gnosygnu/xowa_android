@@ -7,7 +7,7 @@ import gplx.xowa.parsers.lnkis.*;
 public class Xoh_file_html_fmtr__base implements Xoh_file_img_wkr {
 	protected final Xoh_arg_img_core arg_img_core;
 	private Bry_bfr scratch_bfr = Bry_bfr.reset_(128);
-	private final Bfr_arg__hatr_id thm_file_id = Bfr_arg__hatr_id.New("xowa_file_div_"), thm_play_id = Bfr_arg__hatr_id.New("xowa_file_play_");
+	private final Bfr_arg__hatr_id thm_file_id = Bfr_arg__hatr_id.New_id("xowa_file_div_"), thm_play_id = Bfr_arg__hatr_id.New_id("xowa_file_play_");
 	public Xoh_file_html_fmtr__base() {
 		arg_img_core = New_arg_img_core();
 	}

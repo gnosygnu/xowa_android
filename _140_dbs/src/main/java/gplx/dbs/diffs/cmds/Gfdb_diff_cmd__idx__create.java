@@ -1,5 +1,6 @@
 package gplx.dbs.diffs.cmds; import gplx.*; import gplx.dbs.*; import gplx.dbs.diffs.*;
 import gplx.core.srls.*; import gplx.dbs.metas.*;
+
 class Gfdb_diff_cmd__idx__create implements Gfo_srl_itm {
 	public Gfdb_diff_cmd__idx__create(Dbmeta_idx_itm cur) {this.cur = cur;}
 	public Dbmeta_idx_itm cur;
@@ -13,7 +14,7 @@ class Gfdb_diff_cmd__idx__create implements Gfo_srl_itm {
 		wtr.Set_str		("idx_tbl"		, cur.Tbl());
 		wtr.Set_str		("idx_name"		, cur.Name());
 		wtr.Set_bool	("idx_unique"	, cur.Unique());
-            Tfds.Write(flds.length);
+		wtr.Set_subs	(ctx, this, Gfdb_diff_cmd__idx__fld.Instance, flds, ctx.Rdr_subs("idx_fld").Add_int("idx_uid", idx_uid));
 		wtr.Itm_end();
 	}
 	public void Load(Gfo_srl_ctx ctx, Gfo_srl_itm owner, Gfo_srl_mgr_rdr rdr) {
@@ -53,3 +54,49 @@ class Gfdb_diff_cmd__idx__fld implements Gfo_srl_itm {
 
         public static final Gfdb_diff_cmd__idx__fld Instance = new Gfdb_diff_cmd__idx__fld();
 }
+//	class Gfdb_diff_cmd__tbl__fld : Gfo_srl_itm {
+//		public Gfdb_diff_cmd__tbl__fld(Dbmeta_fld_itm cur) {this.cur = cur;}
+//		private Dbmeta_fld_itm cur;
+//		public String Name;
+//		public int Type_tid;
+//		public int Len1;
+//		public int Len2;
+//		public int Nullable;
+//		public boolean Primary;
+//		public boolean Autonum;
+//
+//		public Gfo_srl_itm Make_new(Gfo_srl_ctx ctx) {return new Gfdb_diff_cmd__tbl__fld();} Gfdb_diff_cmd__tbl__fld() {} 
+//		// *_sdif_ddl_tbl_fld : tbl_uid,fld_idx,fld_name,fld_type,fld_len1, fld_len2, fld_nullable, fld_primary, fld_autonumber
+//		public void Save(Gfo_srl_ctx ctx, Gfo_srl_itm owner, Gfo_srl_mgr_wtr wtr) {
+//			wtr.Itm_bgn("tbl_fld");
+//			wtr.Set_str		("fld_name"		, cur.Name());
+//			wtr.Set_int		("fld_type"		, cur.Type().Tid_ansi());
+//			wtr.Set_int		("fld_len1"		, cur.Type().Len_1());
+//			wtr.Set_int		("fld_len2"		, cur.Type().Len_2());
+//			wtr.Set_int		("fld_nullable"	, cur.Nullable_tid());
+//			wtr.Set_bool	("fld_primary"	, cur.Primary());
+//			wtr.Set_bool	("fld_autonum"	, cur.Autonum());
+//			wtr.Set_str		("fld_dflt"		, Object_.Xto_str_or(cur.Default(), null));
+////			wtr.Set_int		("fld_asc"		, cur.Sort_tid);
+//			wtr.Itm_end();
+//		}
+//		public void Load(Gfo_srl_ctx ctx, Gfo_srl_itm owner, Gfo_srl_mgr_rdr rdr) {
+//			rdr.Itm_bgn("tbl_fld");
+//			String name = rdr.Get_str("name");
+//			int type_tid = rdr.Get_int("type_tid");
+//			int type_len_1 = rdr.Get_int("type_len_1");
+//			boolean primary = rdr.Get_bool("primary");
+//			int nullable_tid = rdr.Get_int("nullable");
+//			String dflt_str = rdr.Get_str("dflt");
+//			cur = new Dbmeta_fld_itm(name, Dbmeta_fld_tid.New(type_tid, type_len_1));
+//			cur.Nullable_tid_(nullable_tid);
+//			if (primary) cur.Primary_y_();
+//			if (dflt_str != null) cur.Default_(dflt_str);
+//			rdr.Itm_end();
+////			Gfdb_diff_cmd__idx__create idx = ((Gfdb_diff_cmd__idx__create)owner);			
+////			Dbmeta_tbl_itm tbl = ((Gfdb_diff_ctx)ctx).Tbls__get(idx.cur.Tbl());
+////			Dbmeta_fld_tid tid = tbl.Flds().Get_by(name).Type();
+//		}
+//
+//        public static final Gfdb_diff_cmd__tbl__fld Instance = new Gfdb_diff_cmd__tbl__fld();
+//	}

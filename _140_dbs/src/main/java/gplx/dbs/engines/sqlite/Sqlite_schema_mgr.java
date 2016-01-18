@@ -3,9 +3,9 @@ import gplx.dbs.qrys.*;
 import gplx.dbs.metas.*; import gplx.dbs.metas.parsers.*;
 public class Sqlite_schema_mgr {
 	private final Db_engine engine; private boolean init = true;
-	public Sqlite_schema_mgr(Db_engine engine) {this.engine = engine;}
-	public Dbmeta_tbl_mgr Tbl_mgr() {return tbl_mgr;} private final Dbmeta_tbl_mgr tbl_mgr = new Dbmeta_tbl_mgr();
 	private final Dbmeta_idx_mgr idx_mgr = new Dbmeta_idx_mgr();
+	private final Dbmeta_tbl_mgr tbl_mgr = new Dbmeta_tbl_mgr();
+	public Sqlite_schema_mgr(Db_engine engine) {this.engine = engine;}
 	public boolean Tbl_exists(String name) {
 		if (init) Init(engine);
 		return tbl_mgr.Has(name);
@@ -13,11 +13,16 @@ public class Sqlite_schema_mgr {
 	public boolean Fld_exists(String tbl, String fld) {
 		if (init) Init(engine);
 		Dbmeta_tbl_itm tbl_itm = tbl_mgr.Get_by(tbl);
-		return (tbl_itm == null) ? false : tbl_itm.Flds().Has(fld);
+		return tbl_itm == null ? false : tbl_itm.Flds().Has(fld);
+	}
+	public Dbmeta_tbl_mgr Tbl_load_all() {
+		Init(engine);
+		return tbl_mgr;
 	}
 	private void Init(Db_engine engine) {
 		init = false;
 		Gfo_usr_dlg_.Instance.Log_many("", "", "db.schema.load.bgn: conn=~{0}", engine.Conn_info().Xto_api());
+		tbl_mgr.Clear(); idx_mgr.Clear();
 		Dbmeta_parser__tbl tbl_parser = new Dbmeta_parser__tbl();
 		Dbmeta_parser__idx idx_parser = new Dbmeta_parser__idx();
 		Db_qry__select_in_tbl qry = Db_qry__select_in_tbl.new_("sqlite_master", String_.Ary_empty, String_.Ary("type", "name", "sql"), Db_qry__select_in_tbl.Order_by_null);

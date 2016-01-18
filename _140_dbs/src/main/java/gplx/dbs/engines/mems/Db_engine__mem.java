@@ -1,5 +1,5 @@
 package gplx.dbs.engines.mems; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
-import gplx.core.stores.*;
+import gplx.core.stores.*; import gplx.dbs.metas.*;
 public class Db_engine__mem implements Db_engine {
 	private final Hash_adp tbl_hash = Hash_adp_.new_();
 	Db_engine__mem(Db_conn_info conn_info) {this.conn_info = conn_info;}
@@ -24,6 +24,7 @@ public class Db_engine__mem implements Db_engine {
 	public void			Ddl_create_tbl(Dbmeta_tbl_itm meta) {
 		Mem_tbl mem_tbl = new Mem_tbl(meta);
 		tbl_hash.Add_if_dupe_use_nth(meta.Name(), mem_tbl);
+		meta_tbl_mgr.Add(meta);
 	}
 	public void			Ddl_create_idx(Gfo_usr_dlg usr_dlg, Dbmeta_idx_itm... ary) {}	// TODO: implement unique index
 	public void			Ddl_append_fld(String tbl, Dbmeta_fld_itm fld)	{}
@@ -35,6 +36,6 @@ public class Db_engine__mem implements Db_engine {
 		Mem_tbl mem_tbl = (Mem_tbl)tbl_hash.Get_by(tbl); if (mem_tbl == null) return false;
 		return mem_tbl.Meta().Flds().Has(fld);
 	}
-//		public boolean			Meta_fld_exists(String name)					{return tbl_hash.Has(name);}
+	public Dbmeta_tbl_mgr Meta_tbl_load_all()								{return meta_tbl_mgr;} private final Dbmeta_tbl_mgr meta_tbl_mgr = new Dbmeta_tbl_mgr();
         public static final Db_engine__mem Instance = new Db_engine__mem(); Db_engine__mem() {}
 }

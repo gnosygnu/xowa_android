@@ -41,3 +41,12 @@ a.external {
   background-color: #202020;
   border-radius: 0;
 }
+/*
+XOWA: manually hard-code infobox / wikitable background color to black for night-mode
+SEE: https://github.com/gnosygnu/xowa/issues/36 en.w:Earth en.w:Template:Infobox_planet
+*/
+  .infobox    *
+, .wikitable  *
+{
+  background-color: black !important;
+}

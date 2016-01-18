@@ -1,5 +1,5 @@
 package gplx.dbs.engines.mysql; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
-import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.sqls.*;
+import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.sqls.*; import gplx.dbs.metas.*;
 import java.sql.*; //#<>System.Data~java.sql
 //#{import
 //#}
@@ -12,6 +12,7 @@ public class Mysql_engine extends Db_engine_sql_base {//_20110501
 		return rv;
 	}
 	@Override public DataRdr New_rdr(ResultSet rdr, String commandText) {return Mysql_rdr.new_(rdr, commandText);}//#<>IDataReader~ResultSet
+	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {throw Err_.new_unimplemented();}
 	//#{lang
 	@gplx.Internal @Override protected Connection Conn_new() {
 		Mysql_conn_info conn_info_as_mysql = (Mysql_conn_info)conn_info; 

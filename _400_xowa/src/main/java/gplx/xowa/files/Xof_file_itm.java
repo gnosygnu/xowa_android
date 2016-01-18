@@ -21,6 +21,7 @@ public interface Xof_file_itm {
 	boolean				File_is_orig();
 	int					File_w();
 	boolean				File_exists();
+	boolean				File_exists_in_cache();
 	int					Html_uid();
 	byte				Html_elem_tid();
 	int					Html_w();

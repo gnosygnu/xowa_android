@@ -8,7 +8,8 @@ public class Xoh_gly_grp_data implements Gfh_class_parser_wkr, Gfh_style_wkr {
 	public int Src_bgn() {return src_bgn;} private int src_bgn;
 	public int Src_end() {return src_end;} private int src_end;
 	public int Gly_tid() {return gly_tid;} private int gly_tid;
-	public int Gly_w() {return gly_w;} private int gly_w;
+	public int Ul_style_max_w() {return ul_style_max_w;} private int ul_style_max_w;
+	public int Ul_style_w() {return ul_style_w;} private int ul_style_w;
 	public int Xtra_atr_bgn() {return xtra_atr_bgn;} private int xtra_atr_bgn;
 	public int Xtra_atr_end() {return xtra_atr_end;} private int xtra_atr_end;
 	public boolean Xtra_atr_exists() {return xtra_atr_end > xtra_atr_bgn;}
@@ -22,7 +23,7 @@ public class Xoh_gly_grp_data implements Gfh_class_parser_wkr, Gfh_style_wkr {
 	public Xoh_gly_itm_data Itms__get_at(int i) {return (Xoh_gly_itm_data)itms_list.Get_at(i);}
 	private void Clear() {
 		this.gly_tid = Byte_.Max_value_127;
-		this.gly_w = 0;
+		this.ul_style_max_w = ul_style_w = 0;
 		this.xtra_atr_bgn = xtra_atr_end = xtra_cls_bgn = xtra_cls_end = xtra_style_bgn = xtra_style_end = -1;
 		itms_list.Clear();
 	}
@@ -93,14 +94,21 @@ public class Xoh_gly_grp_data implements Gfh_class_parser_wkr, Gfh_style_wkr {
 		return true;
 	}		
 	public boolean On_atr(byte[] src, int atr_idx, int atr_val_bgn, int atr_val_end, int itm_bgn, int itm_end, int key_bgn, int key_end, int val_bgn, int val_end) {
-		if		(Bry_.Match(src, key_bgn, key_end, Style__max_width))	// 'max-width'
-			gly_w = Bry_.To_int_or__lax(src, val_bgn, val_end, 0);
-		else if	(Bry_.Match(src, key_bgn, key_end, Style___width)) {}	// '_width'
-		else	{
-			if (this.xtra_style_bgn == -1) {
-				this.xtra_style_bgn = itm_bgn; // itm_bgn;
-				this.xtra_style_end = atr_val_end;
-			}
+		if		(Bry_.Match(src, key_bgn, key_end, Style__max_width)) {	// 'max-width'
+			if (ul_style_max_w == 0) {
+				ul_style_max_w = Bry_.To_int_or__lax(src, val_bgn, val_end, 0);
+				return true;
+			}	// else if already set, fall-thru to below
+		}
+		else if	(Bry_.Match(src, key_bgn, key_end, Style___width)) {	// '_width'
+			if (ul_style_w == 0) {
+				ul_style_w = Bry_.To_int_or__lax(src, val_bgn, val_end, 0);
+				return true;
+			}	// else if already set, fall-thru to below
+		}			
+		if (this.xtra_style_bgn == -1) {
+			this.xtra_style_bgn = itm_bgn;
+			this.xtra_style_end = atr_val_end;
 		}
 		return true;
 	}

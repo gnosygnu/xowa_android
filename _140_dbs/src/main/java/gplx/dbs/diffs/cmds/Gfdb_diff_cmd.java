@@ -14,6 +14,7 @@ class Gfdb_diff_ctx implements Gfo_srl_ctx {
 class Gfo_srl_mgr_rdr__defn {
 	public String Tbl = null;
 	public String[] Select_crt_cols = null;
+	public String[] Delete_crt_cols = null;
 }
 class Gfo_srl_mgr_rdr__db {
 	public Object	Get_subs	(Gfo_srl_ctx ctx, Gfo_srl_itm owner, Gfo_srl_itm proto, String defn_key, Dbmeta_dat_mgr crt_mgr) {
@@ -38,6 +39,25 @@ class Gfo_srl_mgr_rdr__db {
 		rdr.Rls();
 
 		return list.To_ary_and_clear(proto.getClass());
+	}
+	public void	Set_subs	(Gfo_srl_ctx ctx, Gfo_srl_itm owner, Gfo_srl_itm proto, Gfo_srl_itm[] subs_ary, String defn_key, Dbmeta_dat_mgr crt_mgr) {
+		Gfo_srl_mgr_rdr__defn defn = new Gfo_srl_mgr_rdr__defn();	// Get(key)
+		Db_conn conn = Db_conn_.Noop;
+		Db_stmt delete = conn.Stmt_delete(defn.Tbl, defn.Delete_crt_cols);
+		int crt_len = crt_mgr.Len();
+		for (int i = 0; i < crt_len; ++i) {
+			Dbmeta_dat_itm crt = crt_mgr.Get_at(i);
+			switch (crt.Tid) {
+				case Dbmeta_fld_tid.Tid__int: delete.Crt_int(crt.Key, Int_.cast(crt.Val)); break;
+			}				
+		}
+		delete.Exec_delete();
+
+		int subs_len = subs_ary.length;
+		for (int i = 0; i < subs_len; ++i) {
+			Gfo_srl_itm itm = subs_ary[i];
+			itm.Save(ctx, owner, null);
+		}
 	}
 }
 class Gfdb_diff_cmd__idx__delete {

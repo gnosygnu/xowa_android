@@ -10,10 +10,13 @@ public class Xoh_thm_caption_data {
 	public int Capt_2_end() {return capt_2_end;} private int capt_2_end;
 	public boolean Capt_2_exists() {return capt_2_end > capt_2_bgn;}
 	public boolean Capt_2_is_tidy() {return capt_2_is_tidy;} private boolean capt_2_is_tidy;
+	public int Capt_3_bgn() {return capt_3_bgn;} private int capt_3_bgn;
+	public int Capt_3_end() {return capt_3_end;} private int capt_3_end;
+	public boolean Capt_3_exists() {return capt_3_end > capt_3_bgn;}
 	public Xoh_thm_magnify_data Magnify_data() {return magnify_data;} private final Xoh_thm_magnify_data magnify_data = new Xoh_thm_magnify_data();
 	public void Clear() {
 		this.capt_2_is_tidy = false;
-		this.src_bgn = src_end = capt_1_bgn = capt_1_end = capt_2_bgn = capt_2_end = -1;
+		this.src_bgn = src_end = capt_1_bgn = capt_1_end = capt_2_bgn = capt_2_end = capt_3_bgn = capt_3_end = -1;
 		magnify_data.Clear();
 	}
 	public boolean Parse1(Xoh_hdoc_wkr hdoc_wkr, Gfh_tag_rdr tag_rdr, byte[] src, Gfh_tag capt_head) {
@@ -50,5 +53,6 @@ public class Xoh_thm_caption_data {
 			}
 		}
 	}
-	private static final byte[] Bry__div_1_tail_bgn = Bry_.new_a7("\n</div>");
+	public void Capt_3_(int bgn, int end) {this.capt_3_bgn = bgn; this.capt_3_end = end;}
+	public static final byte[] Bry__div_1_tail_bgn = Bry_.new_a7("\n</div>");
 }

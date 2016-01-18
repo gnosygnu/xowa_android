@@ -42,7 +42,7 @@ public class Xoh_img_xoimg_data implements Bfr_arg_clearable {
 		return rv;
 	}
 	public void Parse(Bry_err_wkr err_wkr, byte[] src, Gfh_tag tag) {
-		Gfh_atr atr = tag.Atrs__get_by_or_empty(Bry__name);
+		Gfh_atr atr = tag.Atrs__get_by_or_empty(Bry__data_xowa_image);
 		Parse(err_wkr, src, atr.Val_bgn(), atr.Val_end());
 	}
 	public void Parse(Bry_err_wkr err_wkr, byte[] src, int src_bgn, int src_end) {
@@ -72,7 +72,7 @@ public class Xoh_img_xoimg_data implements Bfr_arg_clearable {
 		bfr.Add_int_variable(lnki_page);
 	}
 	public static final byte[]
-	  Bry__name		= Bry_.new_a7("data-xoimg")
-	, Bry__html		= Bry_.new_a7("\" data-xoimg=\"")
+	  Bry__data_xowa_image	= Bry_.new_a7("data-xoimg")
+	, Bry__data_xowa_title	= Bry_.new_a7("data-xowa-title")
 	;
 }
