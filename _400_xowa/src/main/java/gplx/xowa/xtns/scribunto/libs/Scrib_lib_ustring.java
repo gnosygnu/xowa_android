@@ -126,7 +126,7 @@ public class Scrib_lib_ustring implements Scrib_lib {
 				if (	j < capts_len				// bounds check	b/c null can be passed
 					&&	Bool_.cast(capts[j].Val())	// check if true; indicates that group is "()" or "anypos" see regex converter; DATE:2014-04-23
 					)
-					tmp_list.Add(Int_.To_str(grp.Bgn() + Scrib_lib_ustring.Base1));	// return index only for (); NOTE: always return as String; callers expect String, and may do operations like len(result), which will fail if int; DATE:2013-12-20
+					tmp_list.Add(grp.Bgn() + Scrib_lib_ustring.Base1);	// return index only for "()"; NOTE: do not return as String; callers expect int and will fail typed comparisons; DATE:2016-01-21
 				else
 					tmp_list.Add(grp.Val());		// return match
 			}

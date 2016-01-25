@@ -14,6 +14,8 @@ import org.wikipedia.crash.BaseCrashReporter;
 import org.wikipedia.crash.CrashReportActivity;
 import org.wikipedia.util.log.L;
 
+import gplx.xowa.drds.OfflineCrashLog;
+
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -93,6 +95,7 @@ public class HockeyAppCrashReporter extends BaseCrashReporter {
             Context context = WikipediaApp.getInstance();
             int flags = FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK;
             Intent intent = new Intent(context, CrashReportActivity.class).addFlags(flags);
+            intent.putExtra("Last_error", OfflineCrashLog.Last_error());
             context.startActivity(intent);
         }
 

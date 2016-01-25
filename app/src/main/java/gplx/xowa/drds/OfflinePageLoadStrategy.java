@@ -672,7 +672,8 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
             return;
         }
         try {
-            final Page page = model.getPage();
+            // final Page page = model.getPage();
+            final Page page = xo_app_mgr.Get_page_or_load(model.getTitle(), false);  // XOWA
             JSONObject wrapper = new JSONObject();
             wrapper.put("sequence", sequenceNumber.get());
             wrapper.put(BRIDGE_PAYLOAD_SAVED_PAGE, savedPage);

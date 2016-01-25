@@ -9,6 +9,7 @@ import org.wikipedia.activity.CompatSingleFragmentActivity;
 
 public class CrashReportActivity extends CompatSingleFragmentActivity<CrashReportFragment>
         implements CrashReportFragmentCallback {
+    public static String Last_error = "";
     @Override
     protected CrashReportFragment createFragment() {
         return CrashReportFragment.newInstance();
@@ -18,6 +19,10 @@ public class CrashReportActivity extends CompatSingleFragmentActivity<CrashRepor
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WikipediaApp.getInstance().checkCrashes(this);
+        Intent intent = getIntent();
+        if (intent.hasExtra("Last_error")) {
+            Last_error = intent.getStringExtra("Last_error");
+        }
     }
 
     @Override

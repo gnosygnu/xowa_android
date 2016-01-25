@@ -56,6 +56,7 @@ Javafy.Project:refreshAll='diff' {
         Javafy.Using:;
         Javafy.Inherit:
       classes='GfuiElemBase|Err|RuntimeException'; // RuntimeException has to occur after Javafy.ReplaceText (will replace Exception with RuntimeException); also Err needs to extend RuntimeException, not Exception
+        Javafy.Super:;
         Javafy.Foreach:;
         Javafy.Params:;
         Javafy.Virtual:;

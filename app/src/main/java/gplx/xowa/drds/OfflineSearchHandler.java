@@ -28,6 +28,7 @@ public class OfflineSearchHandler extends Handler {
                 OfflineSearchTask offlineSearchTask = new OfflineSearchTask(Xod_app_mgr.Instance.Cur_site(app), fragment, this, search_term);
                 fragment.cancelSearchTask();
                 fragment.curSearchTask = offlineSearchTask;
+                fragment.Task__bgn();
                 offlineSearchTask.execute();
                 break;
             case Msg__display:

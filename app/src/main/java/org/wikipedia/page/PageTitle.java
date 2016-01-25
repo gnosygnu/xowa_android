@@ -16,6 +16,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 
+import gplx.CompareAble;
+import gplx.CompareAble_;
+
 import static org.wikipedia.util.StringUtil.capitalizeFirstChar;
 import static org.wikipedia.util.StringUtil.md5string;
 import static org.wikipedia.util.UriUtil.decodeURL;
@@ -29,7 +32,7 @@ import static org.wikipedia.util.UriUtil.decodeURL;
  * description can be altered after construction. Therefore do NOT rely on all the fields
  * of a PageTitle to remain constant for the lifetime of the object.
  */
-public class PageTitle implements Parcelable {
+public class PageTitle implements Parcelable, CompareAble {
     /**
      * The localised namespace of the page as a string, or null if the page is in mainspace.
      *
@@ -106,6 +109,11 @@ public class PageTitle implements Parcelable {
 
     public PageTitle(String text, final Site site) {
         this(text, site, null);
+    }
+
+    public int Search_score;
+    @Override public int compareTo(Object comp) {
+        return CompareAble_.Compare(Search_score, ((PageTitle)comp).Search_score) * -1;
     }
 
     @Nullable

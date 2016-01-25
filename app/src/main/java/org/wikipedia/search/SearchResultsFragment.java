@@ -36,10 +36,8 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
-import gplx.String_;
 import gplx.xowa.drds.OfflineSearchHandler;
 import gplx.xowa.drds.OfflineSearchTask;
-import gplx.xowa.drds.Xod_app;
 import gplx.xowa.drds.Xod_app_mgr;
 
 public class SearchResultsFragment extends Fragment {
@@ -226,54 +224,52 @@ public class SearchResultsFragment extends Fragment {
     public void Task__bgn() {
         getPageActivity().updateProgressBar(true, true, 0);
     }
-    private final Object thread_lock = new Object();
     public void Task__end(SearchResults results, long startTime, String searchTerm, boolean disable_progress) {
-//        synchronized (thread_lock) {
-            if (!isAdded()) {
-                return;
-            }
-            List<PageTitle> pageTitles = results.getPageTitles();
-            // To ease data analysis and better make the funnel track with user behaviour,
-            // only transmit search results events if there are a nonzero number of results
-            if (!pageTitles.isEmpty()) {
-                // Calculate total time taken to display results, in milliseconds
-                final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
-                searchFragment.getFunnel().searchResults(false, pageTitles.size(), timeToDisplay);
-            }
+        if (!isAdded()) {
+            return;
+        }
+        List<PageTitle> pageTitles = results.getPageTitles();
+        // To ease data analysis and better make the funnel track with user behaviour,
+        // only transmit search results events if there are a nonzero number of results
+        if (!pageTitles.isEmpty()) {
+            // Calculate total time taken to display results, in milliseconds
+            final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
+            searchFragment.getFunnel().searchResults(false, pageTitles.size(), timeToDisplay);
+        }
 
-            if (disable_progress)
-                getPageActivity().updateProgressBar(false, true, 0);
-            searchErrorView.setVisibility(View.GONE);
-            if (!pageTitles.isEmpty()) {
-                clearResults();
-                displayResults(pageTitles);
+        if (disable_progress)
+            getPageActivity().updateProgressBar(false, true, 0);
+
+        searchErrorView.setVisibility(View.GONE);
+        if (!pageTitles.isEmpty()) {
+            clearResults();
+            displayResults(pageTitles);
+        }
+
+        // add titles to cache...
+        Site site = Xod_app_mgr.Instance.Cur_site(app);
+        searchResultsCache.put(site.getLanguageCode() + "-" + searchTerm, pageTitles);
+        // curSearchTask = null; // XOWA reused for incremental progress
+
+        final String suggestion = results.getSuggestion();
+        if (!suggestion.isEmpty()) {
+            searchSuggestion.setText(Html.fromHtml("<u>"
+            + String.format(getString(R.string.search_did_you_mean), suggestion)
+            + "</u>"));
+            searchSuggestion.setTag(suggestion);
+            searchSuggestion.setVisibility(View.VISIBLE);
+        } else {
+            searchSuggestion.setVisibility(View.GONE);
+        }
+
+        // scroll to top, but post it to the message queue, because it should be done
+        // after the data set is updated.
+        searchResultsList.post(new Runnable() {
+            @Override
+            public void run() {
+                searchResultsList.setSelectionAfterHeaderView();
             }
-
-            // add titles to cache...
-            Site site = Xod_app_mgr.Instance.Cur_site(app);
-            searchResultsCache.put(site.getLanguageCode() + "-" + searchTerm, pageTitles);
-            curSearchTask = null;
-
-            final String suggestion = results.getSuggestion();
-            if (!suggestion.isEmpty()) {
-                searchSuggestion.setText(Html.fromHtml("<u>"
-                + String.format(getString(R.string.search_did_you_mean), suggestion)
-                + "</u>"));
-                searchSuggestion.setTag(suggestion);
-                searchSuggestion.setVisibility(View.VISIBLE);
-            } else {
-                searchSuggestion.setVisibility(View.GONE);
-            }
-
-            // scroll to top, but post it to the message queue, because it should be done
-            // after the data set is updated.
-            searchResultsList.post(new Runnable() {
-                @Override
-                public void run() {
-                    searchResultsList.setSelectionAfterHeaderView();
-                }
-            });
-//        }
+        });
 //        if (pageTitles.isEmpty()) {
 //            // kick off full text search if we get no results
 //            doFullTextSearch(currentSearchTerm, null, true);
@@ -364,7 +360,6 @@ public class SearchResultsFragment extends Fragment {
 //        curSearchTask = searchTask;
 //        searchTask.execute();
     }
-
     public void cancelSearchTask() {
         getPageActivity().updateProgressBar(false, true, 0);
         searchHandler.removeMessages(MESSAGE_SEARCH);
@@ -431,7 +426,7 @@ public class SearchResultsFragment extends Fragment {
                 // Calculate total time taken to display results, in milliseconds
                 final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
                 searchFragment.getFunnel().searchError(true, timeToDisplay);
-                getPageActivity().updateProgressBar(false, true, 0);
+                // getPageActivity().updateProgressBar(false, true, 0); // XOWA: ignore else will zap progress bar when only 1 result is returned
 
                 // since this is a follow-up search just show a message
                 FeedbackUtil.showError(getView(), caught);
@@ -482,7 +477,12 @@ public class SearchResultsFragment extends Fragment {
      * @param results List of results to display. If null, clears the list of suggestions & hides it.
      */
     private void displayResults(List<PageTitle> results) {
-        for (PageTitle newResult : results) {
+        // XOWA: stop at 128; more than 128 (300) will freeze UI noticeably
+        totalResults.clear();
+        int results_len = results.size();
+        for (int i = 0; i < results_len; ++i) {
+            if (i >= 128) break;
+            PageTitle newResult = results.get(i);
             if (!totalResults.contains(newResult)) {
                 totalResults.add(newResult);
             }
@@ -497,8 +497,18 @@ public class SearchResultsFragment extends Fragment {
             searchResultsList.setVisibility(View.VISIBLE);
         }
 
+//        int rslt_count = searchResultsList.getCount();
+//        int rslt_1st_visible = searchResultsList.getFirstVisiblePosition();
+//        int rslt_nth_visible = searchResultsList.getLastVisiblePosition();
+//        for (int i = 0; i < rslt_count; ++i) {
+//            View view = searchResultsList.getChildAt(i - rslt_1st_visible); if (view == null) continue;
+//            TextView textView = (TextView) view.findViewById(R.id.page_list_item_title);
+//            PageTitle pageTitle = totalResults.get(i); if (pageTitle == null) continue;
+//            textView.setText(pageTitle.getText());
+//        }
         getAdapter().notifyDataSetChanged();
     }
+
 
     private class LongPressHandler extends PageActivityLongPressHandler
             implements PageLongPressHandler.ListViewContextMenuListener {

@@ -87,12 +87,9 @@ public class Xod_app_mgr {
         if (drd_app == null) Init_app();
         Xow_wiki wiki = drd_app.Wikis__get_by_domain(title.getSite().getDomain());
         if (wiki == null) wiki = drd_app.Wikis__get_by_domain("home");
-        // get page title; lines needed to handle "A:B" where "A:" is not a ns, even though PageTitle treats "A:" as a namespace
-        byte[] canonical_url = Bry_.new_u8(title.getCanonicalUri());
-        int ttl_bgn = Bry_find_.Move_fwd(canonical_url, Xoh_href_.Bry__wiki, 0); if (ttl_bgn == Bry_find_.Not_found) throw Err_.new_("drd", "uknown url format: no '/wiki/'", "url", canonical_url);
-        Xoa_ttl page_ttl = wiki.Ttl_parse(canonical_url, ttl_bgn, canonical_url.length);
-        byte[] page_url_bry = Xoa_ttl.Replace_spaces(Gfo_url_encoder_.Href.Decode(page_ttl.Page_db())); // canonical url has spaces as well as %-encoding
 
+        byte[] page_url_bry = Xod_app.To_page_url(wiki, title.getCanonicalUri());
+        Xoa_ttl page_ttl = wiki.Ttl_parse(page_url_bry);
         Xoa_url page_url = wiki.Utl__url_parser().Parse(page_url_bry);
 
         Xod_page_itm xpg = drd_app.Wiki__get_by_url(wiki, page_url);
@@ -105,10 +102,14 @@ public class Xod_app_mgr {
     public String[] Search_titles(Cancelable cxl, Xows_ui_async ui_async, String domain, String search) {
         return drd_app.Wiki__search(cxl, drd_app.Wikis__get_by_domain(domain), ui_async, search);
     }
+    public void Search_titles2(Cancelable cxl, Xows_ui_async ui_async, String domain, String search) {
+        Xod_search_cmd[] cmds = new Xod_search_cmd[] {Xod_search_cmd_.New__page_eq, Xod_search_cmd_.New__word_eq, Xod_search_cmd_.New__word_like};
+        drd_app.Wiki__search(cxl, drd_app.Wikis__get_by_domain(domain), ui_async, search, cmds);
+    }
     private void Init_app() {
         // init app
         Env_.Init_drd();
-        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("mem/mnt/sdcard/external_sd/temp/"));
+        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("/mnt/sdcard/external_sd/temp/"));
         Gfo_usr_dlg usr_dlg = new Gfo_usr_dlg_base(log, Gfo_usr_dlg__gui_.Console);
         Io_url user_dir = Io_url_.new_dir_(activity.getFilesDir().getAbsolutePath() + "/");
         this.xo_app = new Xoav_app(usr_dlg, Xoa_app_mode.Itm_gui, "drd", user_dir, user_dir, user_dir.GenSubDir("temp"));

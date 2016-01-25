@@ -6,6 +6,11 @@ import android.util.Log;
 import net.hockeyapp.android.Constants;
 import net.hockeyapp.android.ExceptionHandler;
 
+import org.wikipedia.crash.CrashReportFragment;
+
+import gplx.Io_mgr;
+import gplx.xowa.drds.OfflineCrashLog;
+
 /** Wrapper around {@link ExceptionHandler} that calls {@link HockeyAppCrashListener#onCrash()}. */
 /*package*/ class HockeyAppExceptionHandler extends ExceptionHandler {
     private final boolean ignoreDefaultHandler;
@@ -39,6 +44,7 @@ import net.hockeyapp.android.ExceptionHandler;
             // Always call the default handler instead
             defaultExceptionHandler.uncaughtException(thread, exception);
         } else {
+            OfflineCrashLog.Save(exception, listener);    // XOWA
             saveException(exception, listener);
 
             if (!ignoreDefaultHandler) {
