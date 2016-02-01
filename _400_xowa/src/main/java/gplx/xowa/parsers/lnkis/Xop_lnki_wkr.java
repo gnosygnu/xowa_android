@@ -1,7 +1,7 @@
 package gplx.xowa.parsers.lnkis; import gplx.*; import gplx.xowa.*; import gplx.xowa.parsers.*;
 import gplx.core.btries.*; import gplx.core.primitives.*;
 import gplx.xowa.wikis.nss.*;
-import gplx.xowa.wikis.*; import gplx.xowa.parsers.lnkis.redlinks.*; import gplx.xowa.xtns.pfuncs.ttls.*; import gplx.xowa.xtns.relatedSites.*;
+import gplx.xowa.wikis.*; import gplx.xowa.parsers.lnkis.files.*; import gplx.xowa.xtns.pfuncs.ttls.*; import gplx.xowa.xtns.relatedSites.*;
 import gplx.xowa.parsers.tmpls.*; import gplx.xowa.parsers.miscs.*;
 public class Xop_lnki_wkr implements Xop_ctx_wkr, Xop_arg_wkr {
 	private Arg_bldr arg_bldr = Arg_bldr.Instance;
@@ -12,7 +12,7 @@ public class Xop_lnki_wkr implements Xop_ctx_wkr, Xop_arg_wkr {
 		sites_regy_mgr = ctx.Wiki().Xtn_mgr().Xtn_sites().Regy_mgr(); if (!sites_regy_mgr.Xtn_mgr().Enabled()) sites_regy_mgr = null;	// sets sites_xtn_mgr status for page; see below
 	}
 	public void Page_end(Xop_ctx ctx, Xop_root_tkn root, byte[] src, int src_len) {}
-	public Xopg_redlink_logger File_wkr() {return file_wkr;} public Xop_lnki_wkr File_wkr_(Xopg_redlink_logger v) {file_wkr = v; return this;} private Xopg_redlink_logger file_wkr;
+	public Xop_file_logger File_logger() {return lnki_logger;} public Xop_lnki_wkr File_logger_(Xop_file_logger v) {lnki_logger = v; return this;} private Xop_file_logger lnki_logger = Xop_file_logger_.Noop;
 	public void Auto_close(Xop_ctx ctx, Xop_tkn_mkr tkn_mkr, Xop_root_tkn root, byte[] src, int src_len, int bgn_pos, int cur_pos, Xop_tkn_itm tkn) {
 		Xop_lnki_tkn lnki = (Xop_lnki_tkn)tkn;
 		lnki.Tkn_tid_to_txt();
@@ -40,7 +40,7 @@ public class Xop_lnki_wkr implements Xop_ctx_wkr, Xop_arg_wkr {
 		switch (lnki.Ns_id()) {
 			case Xow_ns_.Tid__file:
 				if (	Xop_lnki_type.Id_is_thumbable(lnki.Lnki_type())		// thumbs produce <div> cancels pre
-					||	lnki.Align_h() != Xop_lnki_align_h_.Null				// halign (left, right, none) also produces <div>; DATE:2014-02-17
+					||	lnki.Align_h() != Xop_lnki_align_h_.Null			// halign (left, right, none) also produces <div>; DATE:2014-02-17
 					)
 					ctx.Para().Process_block_lnki_div();
 				lnki_is_file = true;
@@ -54,14 +54,14 @@ public class Xop_lnki_wkr implements Xop_ctx_wkr, Xop_arg_wkr {
 				break;
 		}
 		if (lnki_is_file) {
-			ctx.Cur_page().Lnki_list().Add(lnki);
-			if (file_wkr != null) file_wkr.Wkr_exec(ctx, src, lnki, gplx.xowa.bldrs.cmds.files.Xob_lnki_src_tid.Tid_file);
+			ctx.Page().Lnki_list().Add(lnki);
+			lnki_logger.Log_file(ctx, lnki, Xop_file_logger_.Tid__file);
 		}
 		Xoa_ttl lnki_ttl = lnki.Ttl();
 		if (	lnki_ttl.Wik_bgn() != -1		// lnki is xwiki
 			&&	sites_regy_mgr != null			// relatedSites xtn is enabled
 			) {
-			lnki.Xtn_sites_link_(sites_regy_mgr.Match(ctx.Cur_page(), lnki_ttl));
+			lnki.Xtn_sites_link_(sites_regy_mgr.Match(ctx.Page(), lnki_ttl));
 		}
 		return cur_pos;
 	}
@@ -157,7 +157,7 @@ public class Xop_lnki_wkr implements Xop_ctx_wkr, Xop_arg_wkr {
 			}
 			return true;
 		} catch (Exception e) {
-			ctx.App().Usr_dlg().Warn_many("", "", "fatal error in lnki: page=~{0} src=~{1} err=~{2}", String_.new_u8(ctx.Cur_page().Ttl().Full_db()), String_.new_u8(src, lnki.Src_bgn(), lnki.Src_end()), Err_.Message_gplx_full(e));
+			ctx.App().Usr_dlg().Warn_many("", "", "fatal error in lnki: page=~{0} src=~{1} err=~{2}", String_.new_u8(ctx.Page().Ttl().Full_db()), String_.new_u8(src, lnki.Src_bgn(), lnki.Src_end()), Err_.Message_gplx_full(e));
 			return false;
 		}
 	}	private static final byte[] Const_pipe = Bry_.new_a7("|");

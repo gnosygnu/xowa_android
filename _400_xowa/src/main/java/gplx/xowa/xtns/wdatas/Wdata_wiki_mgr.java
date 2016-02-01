@@ -125,6 +125,15 @@ public class Wdata_wiki_mgr implements GfoEvObj, GfoInvkAble {
 		}
 		return qids[qid_idx];
 	}
+	public byte[] Get_claim_or(Xow_domain_itm domain, Xoa_ttl page_ttl, int pid, byte[] or) {
+		byte[] qid = this.Qids_get(domain.Abrv_wm(), page_ttl); if (qid == null) return or;
+		Wdata_doc wdoc = this.Pages_get(qid); if (wdoc == null) return or;
+		Wdata_claim_grp claim_grp = wdoc.Claim_list_get(pid); if (claim_grp == null || claim_grp.Len() == 0) return or;
+		Wdata_claim_itm_core claim_itm = claim_grp.Get_at(0);
+		prop_val_visitor.Init(tmp_bfr, hwtr_mgr.Msgs(), domain.Lang_orig_key());
+		claim_itm.Welcome(prop_val_visitor);
+		return tmp_bfr.To_bry_and_clear();
+	}	private final Bry_bfr tmp_bfr = Bry_bfr.new_(32);
 	public void Resolve_to_bfr(Bry_bfr bfr, Wdata_claim_grp prop_grp, byte[] lang_key) {
 		Hwtr_mgr_assert();
 		int len = prop_grp.Len();
@@ -228,6 +237,6 @@ public class Wdata_wiki_mgr implements GfoEvObj, GfoInvkAble {
 		return false;
 	}
 	public static void Log_missing_qid(Xop_ctx ctx, byte[] qid) {
-		ctx.Wiki().Appe().Usr_dlg().Log_many("", "", "qid not found in wikidata; qid=~{0} page=~{1}", String_.new_u8(qid), String_.new_u8(ctx.Cur_page().Ttl().Page_db()));
+		ctx.Wiki().Appe().Usr_dlg().Log_many("", "", "qid not found in wikidata; qid=~{0} page=~{1}", String_.new_u8(qid), String_.new_u8(ctx.Page().Ttl().Page_db()));
 	}
 }

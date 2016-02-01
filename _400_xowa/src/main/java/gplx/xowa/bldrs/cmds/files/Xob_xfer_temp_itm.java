@@ -1,7 +1,7 @@
 package gplx.xowa.bldrs.cmds.files; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*;
 import gplx.core.stores.*;
 import gplx.dbs.*; import gplx.xowa.files.*;
-import gplx.xowa.parsers.lnkis.*;
+import gplx.xowa.parsers.lnkis.*; import gplx.xowa.parsers.lnkis.files.*;
 class Xob_xfer_temp_itm {
 	public int Lnki_id() {return lnki_id;} private int lnki_id;
 	public int Lnki_tier_id() {return lnki_tier_id;} private int lnki_tier_id;
@@ -102,7 +102,7 @@ class Xob_xfer_temp_itm {
 			chk_tid = Chk_tid_orig_media_type_is_audio;
 			return false;
 		}
-		if (lnki_src_tid == Xob_lnki_src_tid.Tid_media) {
+		if (lnki_src_tid == Xop_file_logger_.Tid__media) {
 			chk_tid = Chk_tid_ns_is_media;
 			return false;
 		}

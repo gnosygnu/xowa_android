@@ -54,10 +54,6 @@ public class Xod_app_mgr {
     public Site Cur_site(WikipediaApp app) {
         return cur_page == null ? app.getPrimarySite() : cur_page.getSite();
     }
-    public int Imported_wikis_count() {
-        if (drd_app == null) Init_app();
-        return drd_app.Wikis__count();
-    }
     public Xod_app_mgr Init(Activity activity, CommunicationBridge bridge) {
         this.activity = activity; this.bridge = bridge;
         this.version = Drd_version.New(activity.getApplicationContext());
@@ -109,7 +105,7 @@ public class Xod_app_mgr {
     private void Init_app() {
         // init app
         Env_.Init_drd();
-        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("/mnt/sdcard/external_sd/temp/"));
+        Gfo_usr_dlg__log_base log = new Gfo_usr_dlg__log_base(); log.Log_dir_(Io_url_.new_dir_("mem/mnt/sdcard/external_sd/temp/"));
         Gfo_usr_dlg usr_dlg = new Gfo_usr_dlg_base(log, Gfo_usr_dlg__gui_.Console);
         Io_url user_dir = Io_url_.new_dir_(activity.getFilesDir().getAbsolutePath() + "/");
         this.xo_app = new Xoav_app(usr_dlg, Xoa_app_mode.Itm_gui, "drd", user_dir, user_dir, user_dir.GenSubDir("temp"));

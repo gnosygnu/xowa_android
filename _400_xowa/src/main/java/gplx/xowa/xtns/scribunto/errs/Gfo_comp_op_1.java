@@ -56,7 +56,7 @@ class Gfo_comp_op_lt implements Gfo_comp_op_1 {
 	public boolean Comp_double(double val, double comp)					{return val < comp;}
 	public boolean Comp_decimal(Decimal_adp val, Decimal_adp comp)			{return val.Comp_lt(comp);}
 	public boolean Comp_char(char val, char comp)							{return val < comp;}
-	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) < CompareAble_.Same;}
+	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) == CompareAble_.Same;}
 	public boolean Comp_bry(byte[] val, byte[] comp)						{return Bry_.Compare(val, comp) < CompareAble_.Same;}
 	public boolean Comp_date(DateAdp val, DateAdp comp)					{return val.compareTo(comp) < CompareAble_.Same;}
 	public boolean Comp_url(Io_url val, Io_url comp)						{return val.compareTo(comp) < CompareAble_.Same;}
@@ -72,7 +72,7 @@ class Gfo_comp_op_lte implements Gfo_comp_op_1 {
 	public boolean Comp_double(double val, double comp)					{return val <= comp;}
 	public boolean Comp_decimal(Decimal_adp val, Decimal_adp comp)			{return val.Comp_lte(comp);}
 	public boolean Comp_char(char val, char comp)							{return val <= comp;}
-	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) <= CompareAble_.Same;}
+	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) != CompareAble_.More;}
 	public boolean Comp_bry(byte[] val, byte[] comp)						{return Bry_.Compare(val, comp) <= CompareAble_.Same;}
 	public boolean Comp_date(DateAdp val, DateAdp comp)					{return val.compareTo(comp) <= CompareAble_.Same;}
 	public boolean Comp_url(Io_url val, Io_url comp)						{return val.compareTo(comp) <= CompareAble_.Same;}
@@ -88,7 +88,7 @@ class Gfo_comp_op_mt implements Gfo_comp_op_1 {
 	public boolean Comp_double(double val, double comp)					{return val > comp;}
 	public boolean Comp_decimal(Decimal_adp val, Decimal_adp comp)			{return val.Comp_lt(comp);}
 	public boolean Comp_char(char val, char comp)							{return val > comp;}
-	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) > CompareAble_.Same;}
+	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) == CompareAble_.More;}
 	public boolean Comp_bry(byte[] val, byte[] comp)						{return Bry_.Compare(val, comp) > CompareAble_.Same;}
 	public boolean Comp_date(DateAdp val, DateAdp comp)					{return val.compareTo(comp) > CompareAble_.Same;}
 	public boolean Comp_url(Io_url val, Io_url comp)						{return val.compareTo(comp) > CompareAble_.Same;}
@@ -104,7 +104,7 @@ class Gfo_comp_op_mte implements Gfo_comp_op_1 {
 	public boolean Comp_double(double val, double comp)					{return val >= comp;}
 	public boolean Comp_decimal(Decimal_adp val, Decimal_adp comp)			{return val.Comp_lte(comp);}
 	public boolean Comp_char(char val, char comp)							{return val >= comp;}
-	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) >= CompareAble_.Same;}
+	public boolean Comp_str(String val, String comp)						{return String_.Compare(val, comp) != CompareAble_.Less;}
 	public boolean Comp_bry(byte[] val, byte[] comp)						{return Bry_.Compare(val, comp) >= CompareAble_.Same;}
 	public boolean Comp_date(DateAdp val, DateAdp comp)					{return val.compareTo(comp) >= CompareAble_.Same;}
 	public boolean Comp_url(Io_url val, Io_url comp)						{return val.compareTo(comp) >= CompareAble_.Same;}

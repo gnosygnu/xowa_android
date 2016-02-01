@@ -102,7 +102,7 @@ public class String_ implements GfoInvkAble {
 	public static boolean EqNot(String lhs, String rhs) {return !Object_.Eq(lhs, rhs);}
 	public static boolean EqEmpty(String lhs) {return lhs.equals("");} //#<>.Equals~.equals
 	public static String IfNullOrEmpty(String s, String or) {return s == null || s.length() == 0 ? or : s;}	//#<>.length~.length()
-	public static int Compare(String lhs, String rhs) {return lhs.compareTo(rhs);} // NOTE: Compare instead of compareTo b/c javafy lowercases compareTo
+	public static int Compare_as_ordinals(String lhs, String rhs) {return lhs.compareTo(rhs);}
 	public static int Compare_ignoreCase(String lhs, String rhs) {
 		//#{Compare_ignoreCase
 		if		(lhs == null && rhs != null) 	return CompareAble_.Less;
@@ -118,8 +118,8 @@ public class String_ implements GfoInvkAble {
 	*/
 	//#}
 	}
-	public static int Compare_strict(String lhs, String rhs) {
-		int compare = String_.Compare(lhs, rhs);
+	public static int Compare(String lhs, String rhs) {
+		int compare = lhs.compareTo(rhs);
 		if 		(compare == CompareAble_.Same) 		return CompareAble_.Same;
 		else if (compare <  CompareAble_.Same) 		return CompareAble_.Less;
 		else /* (compare  > CompareAble_.Same) */	return CompareAble_.More;
@@ -305,6 +305,14 @@ public class String_ implements GfoInvkAble {
 		for (String val : values)
 			sb.Add(val).Add("\n");
 		return sb.To_str();
+	}
+	public static String Concat_lines_nl_apos_skip_last(String... lines) {
+		Bry_bfr bfr = Bry_bfr_.Get();
+		try {
+			Bry_.New_u8_nl_apos(bfr, lines);
+			return bfr.To_str_and_clear();
+		}
+		finally {bfr.Mkr_rls();}
 	}
 	public static String Concat_lines_nl_skip_last(String... ary) {
 		String_bldr sb = String_bldr_.new_();

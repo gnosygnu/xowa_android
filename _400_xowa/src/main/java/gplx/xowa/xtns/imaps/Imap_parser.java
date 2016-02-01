@@ -1,6 +1,6 @@
 package gplx.xowa.xtns.imaps; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*;
 import gplx.core.btries.*; import gplx.core.primitives.*;
-import gplx.xowa.parsers.*; import gplx.xowa.parsers.lnkis.*; import gplx.xowa.parsers.lnkis.redlinks.*; import gplx.xowa.parsers.xndes.*; import gplx.xowa.parsers.tmpls.*;
+import gplx.xowa.parsers.*; import gplx.xowa.parsers.lnkis.*; import gplx.xowa.parsers.lnkis.files.*; import gplx.xowa.parsers.xndes.*; import gplx.xowa.parsers.tmpls.*;
 class Imap_parser {
 	private Imap_xtn_mgr xtn_mgr; private Xoa_url page_url; private Gfo_usr_dlg usr_dlg = Gfo_usr_dlg_.Instance;
 	private byte[] imap_img_src;
@@ -24,8 +24,8 @@ class Imap_parser {
 		shapes.Clear(); pts.Clear(); errs.Clear();
 	}
 	public Imap_map Parse(Xowe_wiki wiki, Xop_ctx ctx, Xop_root_tkn root, byte[] src, Xop_xnde_tkn xnde) {
-		Imap_map rv = new Imap_map(ctx.Cur_page().Html_data().Xtn_imap_next_id());
-		Init(wiki, ctx.Cur_page(), wiki.Appe().Usr_dlg());
+		Imap_map rv = new Imap_map(ctx.Page().Html_data().Xtn_imap_next_id());
+		Init(wiki, ctx.Page(), wiki.Appe().Usr_dlg());
 		this.Parse(rv, src, xnde.Tag_open_end(), xnde.Tag_close_bgn());
 		return rv;
 	}
@@ -171,7 +171,6 @@ class Imap_parser {
 		imap_img_src = Bry_.Add(Xop_tkn_.Lnki_bgn, Bry_.Mid(src, img_bgn, img_end), Xop_tkn_.Lnki_end);
 		Xop_tkn_itm tkn_itm = Parse_link(imap_img_src);			// NOTE: need to parse before imap_root.Data_mid() below
 		imap_img_src = imap_root.Data_mid();					// need to re-set src to pick up templates; EX: <imagemap>File:A.png|thumb|{{Test_template}}\n</imagemap>; PAGE:en.w:Kilauea; DATE:2014-07-27
-		Xopg_redlink_logger file_wkr = wiki_ctx.Lnki().File_wkr();	// NOTE: do not do imap_ctx.Lnki(); imap_ctx is brand new
 		if (	tkn_itm == null									// no lnki or lnke
 			||	tkn_itm.Tkn_tid() != Xop_tkn_itm_.Tid_lnki		// no lnki; occurs with badly constructed maps; PAGE:en.w:Demography_of_the_United_Kingdom DATE:2015-01-22
 			)
@@ -180,8 +179,8 @@ class Imap_parser {
 			Xop_lnki_tkn lnki_tkn = (Xop_lnki_tkn)tkn_itm;
 			imap_img = new Imap_itm_img(lnki_tkn);
 			lnki_tkn.Lnki_file_wkr_(imap);
-			wiki_ctx.Cur_page().Lnki_list().Add(lnki_tkn);
-			if (file_wkr != null) file_wkr.Wkr_exec(wiki_ctx, src, lnki_tkn, gplx.xowa.bldrs.cmds.files.Xob_lnki_src_tid.Tid_imageMap);
+			wiki_ctx.Page().Lnki_list().Add(lnki_tkn);
+			wiki_ctx.Lnki().File_logger().Log_file(wiki_ctx, lnki_tkn, Xop_file_logger_.Tid__imap);	// NOTE: do not do imap_ctx.Lnki(); imap_ctx is brand new
 		}
 		return img_end;
 	}

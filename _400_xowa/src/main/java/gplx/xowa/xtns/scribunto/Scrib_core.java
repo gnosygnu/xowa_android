@@ -7,7 +7,7 @@ public class Scrib_core {
 	private Hash_adp_bry mods = Hash_adp_bry.cs();
 	public Scrib_core(Xoae_app app, Xop_ctx ctx) {// NOTE: ctx needed for language reg
 		this.app = app; this.ctx = ctx;
-		this.wiki = ctx.Wiki(); this.page = ctx.Cur_page();	// NOTE: wiki / page needed for title reg; DATE:2014-02-05
+		this.wiki = ctx.Wiki(); this.page = ctx.Page();	// NOTE: wiki / page needed for title reg; DATE:2014-02-05
 		this.lang = wiki.Lang();
 		this.Engine_(Scrib_engine_type.Type_lua, false);	// TEST: default to lua
 		fsys_mgr.Root_dir_(app.Fsys_mgr().Bin_xtns_dir().GenSubDir_nest("Scribunto"));
@@ -29,6 +29,7 @@ public class Scrib_core {
 	@gplx.Internal protected void Wiki_(Xowe_wiki v) {this.wiki = v;} // TEST:
 	public Xoae_page Page() {return page;} private Xoae_page page;
 	public boolean Enabled() {return enabled;} private boolean enabled = true;
+	public void Engine_(Scrib_engine v) {this.engine = v;}
 	private void Engine_(byte type, boolean luaj_debug_enabled) {
 		if		(type == Scrib_engine_type.Type_lua)
 			engine = new gplx.xowa.xtns.scribunto.engines.process.Process_engine(app, this);

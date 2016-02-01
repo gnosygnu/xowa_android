@@ -1180,6 +1180,7 @@ li.gallerybox div.thumb > div {
 div.gallerytext > p {
   margin-top: 0px !important;
 }
+
 .xowa_redlink {
   pointer-events:none;
   cursor:default;
@@ -1197,6 +1198,184 @@ div.gallerytext > p {
 .xowa_filebrowser_tbl td + td { border-left:1px solid #AAAAAA; }
 .xowa_filebrowser_help    {background-color:#EEEEEE;}
 
-.tsingle        {max-width:100% !important;}            /* XOWA:en.w; uses tmulti / tsingle to keep images on one row; make max-width:100% to center; DATE:2016-01-13; */
-.portal > table {background:transparent !important;}    /* XOWA:en.w; change background to transparent else noticeable gray color; DATE:2016-01-13; */
-.sisterproject > table {background:transparent !important;}    /* XOWA:en.w; change background to transparent else noticeable gray color; DATE:2016-01-16; */
+/* XOWA:en.w; uses tmulti / tsingle to keep images on one row; make max-width:100% to center; DATE:2016-01-13; */
+.tsingle        {max-width:100% !important;}
+
+/* XOWA:en.w; change background to transparent else noticeable gray color; DATE:2016-01-13; */
+  .portal > table
+, .sisterproject > table
+{background:transparent !important;}
+
+/* XOWA:add gray border to right-hand side, else rainbow-border; PAGE:en.w:Earth#Surface */
+.transborder ~ div > a > img[src*="Circle_frame.svg"] {border-right:2px solid #F9F9F9;}
+
+/*
+XOWA: force table-centering by changing to "display: table !important"
+*/
+  .infobox
+, .wikitable
+, .content table
+, .content .sistersitebox
+, .content .tmbox
+, .content .ambox
+, .content #coordinates
+, .content .navbox
+, .content .vertical-navbox
+, .content .topicon
+, .content .metadata
+{
+  display: table !important;
+  background:transparent !important;
+}
+
+/*
+XOWA: force caption-centering by changing to "display: table-caption !important"; DATE:2016-01-29
+*/
+  .infobox   > caption
+, .wikitable > caption
+{
+display: table-caption !important;
+background-color:inherit !important;
+caption-side: top;
+}
+
+/*
+XOWA: force navbox to show; copied from desktop en.w;
+*/
+.navbox {                     /* Navbox container style */
+    border: 1px solid #aaa;
+    width: 100%;
+    margin: auto;
+    clear: both;
+    font-size: 88%;
+    text-align: center;
+    padding: 1px;
+}
+.navbox-inner,
+.navbox-subgroup {
+    width: 100%;
+}
+.navbox-group,
+.navbox-title,
+.navbox-abovebelow {
+    padding: 0.25em 1em;      /* Title, group and above/below styles */
+    line-height: 1.5em;
+    text-align: center;
+}
+th.navbox-group {             /* Group style */
+    white-space: nowrap;
+    /* @noflip */
+    text-align: right;
+}
+.navbox,
+.navbox-subgroup {
+    background: #fdfdfd;      /* Background color */
+}
+.navbox-list {
+    line-height: 1.5em;
+    border-color: #fdfdfd;    /* Must match background color */
+}
+.navbox th,
+.navbox-title {
+    background: #ccccff;      /* Level 1 color */
+}
+.navbox-abovebelow,
+th.navbox-group,
+.navbox-subgroup .navbox-title {
+    background: #ddddff;      /* Level 2 color */
+}
+.navbox-subgroup .navbox-group,
+.navbox-subgroup .navbox-abovebelow {
+    background: #e6e6ff;      /* Level 3 color */
+}
+.navbox-even {
+    background: #f7f7f7;      /* Even row striping */
+}
+.navbox-odd {
+    background: transparent;  /* Odd row striping */
+}
+table.navbox {
+    margin-top: 1em;          /* Prevent preceding content from clinging to navboxes */
+}
+table.navbox table.navbox {
+    margin-top: 0;            /* No top margin for nested navboxes */
+}
+table.navbox + table.navbox {
+    margin-top: -1px;         /* Single pixel border between adjacent navboxes */
+}
+.navbox .hlist td dl,
+.navbox .hlist td ol,
+.navbox .hlist td ul,
+.navbox td.hlist dl,
+.navbox td.hlist ol,
+.navbox td.hlist ul {
+    padding: 0.125em 0;       /* Adjust hlist padding in navboxes */
+}
+
+/* Default styling for Navbar template */
+.navbar {
+    display: inline;
+    font-size: 88%;
+    font-weight: normal;
+}
+.navbar ul {
+    display: inline;
+    white-space: nowrap;
+}
+.mw-body-content .navbar ul {
+    line-height: inherit;
+}
+.navbar li {
+    word-spacing: -0.125em;
+}
+.navbar.mini li abbr[title] {
+  font-variant: small-caps;
+  border-bottom: none;
+  text-decoration: none;
+  cursor: inherit;
+}
+/* Navbar styling when nested in infobox and navbox */
+.infobox .navbar {
+    font-size: 100%;
+}
+.navbox .navbar {
+    display: block;
+    font-size: 100%;
+}
+.navbox-title .navbar {
+    /* @noflip */
+    float: left;
+    /* @noflip */
+    text-align: left;
+    /* @noflip */
+    margin-right: 0.5em;
+    width: 6em;
+}
+
+/* 'show'/'hide' buttons created dynamically by the CollapsibleTables javascript
+   in [[MediaWiki:Common.js]] are styled here so they can be customised. */
+.collapseButton {
+    /* @noflip */
+    float: right;
+    font-weight: normal;
+    /* @noflip */
+    margin-left: 0.5em;
+    /* @noflip */
+    text-align: right;
+    width: auto;
+}
+/* In navboxes, the show/hide button balances the v·d·e links
+   from [[Template:Navbar]], so they need to be the same width. */
+.navbox .collapseButton {
+    width: 6em;
+}
+
+/* Styling for JQuery makeCollapsible, matching that of collapseButton */
+.mw-collapsible-toggle {
+    font-weight: normal;
+    /* @noflip */
+    text-align: right;
+}
+.navbox .mw-collapsible-toggle {
+    width: 6em;
+}

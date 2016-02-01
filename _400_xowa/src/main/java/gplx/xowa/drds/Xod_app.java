@@ -11,10 +11,6 @@ public class Xod_app {
 	public Xod_app(Xoav_app app) {
 		this.app = app;
 	}
-	public int Wikis__count() {
-		int rv = app.Wiki_mgri().Count();
-		return rv - 1;	// ignore home wiki
-	}
 	public Xow_wiki Wikis__get_by_domain(String wiki_domain) {
 		Xow_wiki rv = app.Wiki_mgri().Get_by_or_make_init_y(Bry_.new_u8(wiki_domain));
 		if (rv != null && rv.Data__core_mgr() == null) rv.Init_by_wiki();
@@ -42,12 +38,9 @@ public class Xod_app {
 		for (Xod_search_cmd cmd : cmds)
 			cmd.Search(cancelable, wiki, ui_async, search);
 	}
-    public void Save__all() {
-
-    }
 	public void Page__load_files(Xow_wiki wiki, Xod_page_itm pg, Xog_js_wkr js_wkr) {
 		file_mgr.Load_files(wiki, pg, js_wkr);
-        app.User().User_db_mgr().Cache_mgr().Db_save();
+		app.User().User_db_mgr().Cache_mgr().Db_save();
 	}
 	public static byte[] To_page_url(Xow_wiki wiki, String canonical_str) {// NOTE: need canonical_url to handle "A:B" where "A:" is not a ns, even though PageTitle treats "A:" as a namespace
 		byte[] canonical_bry = Bry_.new_u8(canonical_str);

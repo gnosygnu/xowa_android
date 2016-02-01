@@ -8,12 +8,15 @@ public class Pf_func_ {
 	public static final byte Name_dlm = Byte_ascii.Colon;
 	public static byte[] Eval_arg_or(Xop_ctx ctx, byte[] src, Xot_invk caller, Xot_invk self, int self_args_len, int i, byte[] or) {
 		if (i >= self_args_len) return or;
-		Bry_bfr bfr = Bry_bfr.new_();
 		Arg_nde_tkn nde = self.Args_get_by_idx(i);
+		Bry_bfr bfr = Bry_bfr.new_();
+		Eval_arg_or(bfr, ctx, src, caller, self, nde, or);
+		return bfr.To_bry_and_clear_and_trim();
+	}
+	public static void Eval_arg_or(Bry_bfr bfr, Xop_ctx ctx, byte[] src, Xot_invk caller, Xot_invk self, Arg_nde_tkn nde, byte[] or) {
 		nde.Key_tkn().Tmpl_evaluate(ctx, src, caller, bfr);	// NOTE: must add key b/c parser functions do not have keys and some usages pass in xml_tkns; EX: {{#if|<a href='{{{1}}}'|}}; "<a href" should not be interpreted as key
 		if (nde.KeyTkn_exists()) bfr.Add_byte(Byte_ascii.Eq);
 		nde.Val_tkn().Tmpl_evaluate(ctx, src, caller, bfr);
-		return bfr.To_bry_and_clear_and_trim();
 	}
 	public static byte[] Eval_val_or(Xop_ctx ctx, byte[] src, Xot_invk caller, Xot_invk self, int self_args_len, int i, byte[] or) {
 		if (i >= self_args_len) return or;
@@ -21,10 +24,6 @@ public class Pf_func_ {
 		Arg_nde_tkn nde = self.Args_get_by_idx(i);
 		nde.Val_tkn().Tmpl_evaluate(ctx, src, caller, bfr);
 		return bfr.To_bry_and_clear_and_trim();
-	}
-	public static byte[] Eval_tkn(Bry_bfr bfr, Xop_ctx ctx, byte[] src, Xot_invk caller, Xop_tkn_itm tkn) {
-		tkn.Tmpl_evaluate(ctx, src, caller, bfr);
-		return bfr.To_bry_and_clear();
 	}
 	private static final Number_parser lhs_parser = new Number_parser().Hex_enabled_(true), rhs_parser = new Number_parser().Hex_enabled_(true);
 	public static boolean Eq_(byte[] lhs, byte[] rhs) {	// PATCH.PHP: php allows "003" == "3.0"; ASSUME: numbers are either int or int-like decimal; long, float, decimal not supported
@@ -221,6 +220,8 @@ public class Pf_func_ {
 	, Xol_kwd_grp_.Id_pagesUsingPendingChanges
 	, Xol_kwd_grp_.Id_bang
 	, Xol_kwd_grp_.Id_rev_revisionsize
+	, Xol_kwd_grp_.Id_pagebanner
+	, Xol_kwd_grp_.Id_rev_protectionexpiry
 	};
 	public static Xot_defn Get_prototype(int id) {
 		switch (id) {
@@ -305,6 +306,7 @@ public class Pf_func_ {
 			case Xol_kwd_grp_.Id_rev_pagesize:
 			case Xol_kwd_grp_.Id_rev_revisionsize:
 			case Xol_kwd_grp_.Id_rev_user:
+			case Xol_kwd_grp_.Id_rev_protectionexpiry:
 			case Xol_kwd_grp_.Id_rev_protectionlevel:			return Pfunc_rev_props.Instance;
 			case Xol_kwd_grp_.Id_page_displaytitle:				return Pfunc_displaytitle.Instance;
 			case Xol_kwd_grp_.Id_page_defaultsort:				return Pfunc_defaultsort.Instance;
@@ -370,6 +372,7 @@ public class Pf_func_ {
 			case Xol_kwd_grp_.Id_lst:							return gplx.xowa.xtns.lst.Lst_pfunc_lst.Instance;
 			case Xol_kwd_grp_.Id_lstx:							return gplx.xowa.xtns.lst.Lst_pfunc_lstx.Instance;
 			case Xol_kwd_grp_.Id_invoke:						return new gplx.xowa.xtns.scribunto.Scrib_invoke_func();
+			case Xol_kwd_grp_.Id_pagebanner:					return new gplx.xowa.xtns.pagebanners.Pgbnr_func();
 
 			case Xol_kwd_grp_.Id_property:						return new gplx.xowa.xtns.wdatas.pfuncs.Wdata_pf_property();
 			case Xol_kwd_grp_.Id_noexternallanglinks:			return new gplx.xowa.xtns.wdatas.pfuncs.Wdata_pf_noExternalLangLinks();

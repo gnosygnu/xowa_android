@@ -41,12 +41,30 @@ a.external {
   background-color: #202020;
   border-radius: 0;
 }
+
 /*
-XOWA: manually hard-code infobox / wikitable background color to black for night-mode
+XOWA: manually hard-code infobox / wikitable background color to black for night-mode; DATE:2016-01-29
 SEE: https://github.com/gnosygnu/xowa/issues/36 en.w:Earth en.w:Template:Infobox_planet
 */
-  .infobox    *
+  .infobox  *
 , .wikitable  *
+, .sistersitebox *
+, .tmbox *
+, .ambox *
+, #coordinates *
+, .navbox *
+, .vertical-navbox *
+, .topicon *
+, .metadata *
 {
   background-color: black !important;
+}
+
+/*
+XOWA: force hieroglyphics to be white-background b/c images are black text on transparent; PAGE:en.w:Hieroglyphics; DATE:2016-01-31
+note that hieroglphics also has some hard-coded images which are black text on white
+*/
+.mw-hiero-table *
+{
+background-color: white !important;
 }
