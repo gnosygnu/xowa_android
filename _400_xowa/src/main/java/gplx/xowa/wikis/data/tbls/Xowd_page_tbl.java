@@ -4,22 +4,25 @@ import gplx.dbs.*; import gplx.xowa.*; import gplx.xowa.wikis.dbs.*; import gplx
 import gplx.xowa.wikis.nss.*;
 public class Xowd_page_tbl implements Rls_able {
 	private final String tbl_name = "page";
-	private String fld_id, fld_ns, fld_title, fld_is_redirect, fld_touched, fld_len, fld_random_int, fld_text_db_id, fld_html_db_id, fld_redirect_id;
+	private String fld_id, fld_ns, fld_title, fld_is_redirect, fld_touched, fld_len, fld_random_int, fld_score, fld_text_db_id, fld_html_db_id, fld_redirect_id;
 	private final Dbmeta_fld_list flds = Dbmeta_fld_list.new_();
-	private final Db_conn conn; private Db_stmt stmt_select_all_by_ttl, stmt_select_all_by_id, stmt_select_id_by_ttl, stmt_insert; private boolean hdump_enabled;
+	private Db_stmt stmt_select_all_by_ttl, stmt_select_all_by_id, stmt_select_id_by_ttl, stmt_insert; private boolean hdump_enabled;
 	private final String[] flds_select_all, flds_select_idx;
 	public String Tbl_name()					{return tbl_name;}
+	public Dbmeta_fld_list Flds__all()			{return flds;}
 	public String Fld_page_id()					{return fld_id;}
 	public String Fld_page_ns()					{return fld_ns;}
 	public String Fld_page_title()				{return fld_title;}
 	public String Fld_page_len()				{return fld_len;}
+	public String Fld_page_score()				{return fld_score;}				public static final String Fld__page_score__key = "page_score";
 	public String Fld_html_db_id()				{return fld_html_db_id;}
+	public String Fld_is_redirect()				{return fld_is_redirect;}
 	public String Fld_redirect_id()				{return fld_redirect_id;}
 	public String[] Flds_select_idx()			{return flds_select_idx;}
 	public String[] Flds_select_all()			{return flds_select_all;}
-	public Db_conn Conn() {return conn;}
+	public final Db_conn conn; public final boolean schema_is_1;
 	public Xowd_page_tbl(Db_conn conn, boolean schema_is_1) {
-		this.conn = conn;
+		this.conn = conn; this.schema_is_1 = schema_is_1;
 		String fld_text_db_id_name = "";
 		if (schema_is_1)	{fld_text_db_id_name = "page_file_idx";}
 		else				{fld_text_db_id_name = "page_text_db_id";}
@@ -31,12 +34,13 @@ public class Xowd_page_tbl implements Rls_able {
 		fld_len				= flds.Add_int("page_len");					// int(10); unsigned -- MW:same except NULL REF: WikiPage.php!updateRevisionOn;"
 		fld_random_int		= flds.Add_int("page_random_int");			// MW:XOWA
 		fld_text_db_id		= flds.Add_int(fld_text_db_id_name);		// MW:XOWA
+		fld_score			= Dbmeta_fld_itm.Make_or_null(conn, flds, tbl_name, Dbmeta_fld_tid.Tid__int, -1, Fld__page_score__key);
 		Hdump_enabled_(!schema_is_1);
 		flds_select_all	= String_.Ary_wo_null(fld_id, fld_ns, fld_title, fld_touched, fld_is_redirect, fld_len, fld_text_db_id, fld_html_db_id, fld_redirect_id);
 		flds_select_idx	= String_.Ary(fld_ns, fld_title, fld_id, fld_len);
 		conn.Rls_reg(this);
 	}
-	public void Create_tbl() {conn.Ddl_create_tbl(Dbmeta_tbl_itm.New(tbl_name, flds.To_fld_ary()));}
+	public void Create_tbl() {conn.Meta_tbl_create(Dbmeta_tbl_itm.New(tbl_name, flds.To_fld_ary()));}
 	public void Insert(int page_id, int ns_id, byte[] ttl_wo_ns, boolean page_is_redirect, DateAdp modified_on, int page_len, int random_int, int text_db_id, int html_db_id) {
 		this.Insert_bgn();
 		this.Insert_cmd_by_batch(page_id, ns_id, ttl_wo_ns, page_is_redirect, modified_on, page_len, random_int, text_db_id, html_db_id);
@@ -56,6 +60,7 @@ public class Xowd_page_tbl implements Rls_able {
 		.Val_int(fld_text_db_id, text_db_id)
 		.Val_int(fld_html_db_id, html_db_id)
 		.Val_int(fld_redirect_id, -1)
+		.Val_int(fld_score, -1)
 		.Exec_insert();
 	}
 	public void Hdump_enabled_(boolean v) {
@@ -93,8 +98,8 @@ public class Xowd_page_tbl implements Rls_able {
 		finally {rdr.Rls();}
 		return false;
 	}
-	public Db_rdr Select_all() {
-		Db_qry__select_cmd qry = Db_qry__select_cmd.new_().From_(tbl_name).Cols_(fld_id, fld_title).OrderBy_asc_(fld_id);
+	public Db_rdr Select_all__id__ttl() {
+		Db_qry__select_cmd qry = new Db_qry__select_cmd().From_(tbl_name).Cols_(fld_id, fld_title).Order_asc_(fld_id);
 		return conn.Stmt_new(qry).Exec_select__rls_auto();
 	}
 	public int Select_id(int ns_id, byte[] ttl) {
@@ -150,7 +155,7 @@ public class Xowd_page_tbl implements Rls_able {
 	}
 	public void Select_by_search(Cancelable cancelable, List_adp rv, byte[] search, int results_max) {
 		if (Bry_.Len_eq_0(search)) return;	// do not allow empty search
-		Criteria crt = Criteria_.And_many(Db_crt_.eq_(fld_ns, Xow_ns_.Tid__main), Db_crt_.like_(fld_title, ""));
+		Criteria crt = Criteria_.And_many(Db_crt_.New_eq(fld_ns, Xow_ns_.Tid__main), Db_crt_.New_like(fld_title, ""));
 		Db_qry__select_cmd qry = Db_qry_.select_().From_(tbl_name).Cols_(fld_id, fld_len, fld_ns, fld_title).Where_(crt);	// NOTE: use fields from main index only
 		search = Bry_.Replace(search, Byte_ascii.Star, Byte_ascii.Percent);
 		Db_rdr rdr = conn.Stmt_new(qry).Clear().Crt_int(fld_ns, Xow_ns_.Tid__main).Val_bry_as_str(fld_title, search).Exec_select__rls_auto();
@@ -190,16 +195,16 @@ public class Xowd_page_tbl implements Rls_able {
 	}
 	private Db_rdr Load_ttls_starting_with_rdr(int ns_id, byte[] ttl_frag, boolean include_redirects, int max_results, int min_page_len, int browse_len, boolean fwd, boolean search_suggest) {
 		String ttl_frag_str = String_.new_u8(ttl_frag);
-		Criteria crt_ttl = fwd ? Db_crt_.mte_(fld_title, ttl_frag_str) : Db_crt_.lt_(fld_title, ttl_frag_str);
-		Criteria crt = Criteria_.And_many(Db_crt_.eq_(fld_ns, ns_id), crt_ttl, Db_crt_.mte_(fld_len, min_page_len));
+		Criteria crt_ttl = fwd ? Db_crt_.New_mte(fld_title, ttl_frag_str) : Db_crt_.New_lt(fld_title, ttl_frag_str);
+		Criteria crt = Criteria_.And_many(Db_crt_.New_eq(fld_ns, ns_id), crt_ttl, Db_crt_.New_mte(fld_len, min_page_len));
 		if (!include_redirects)
-			crt = Criteria_.And(crt, Db_crt_.eq_(fld_is_redirect, Byte_.Zero));
+			crt = Criteria_.And(crt, Db_crt_.New_eq(fld_is_redirect, Byte_.Zero));
 		String[] cols = search_suggest 
 			? flds_select_idx 
 			: flds_select_all 
 			;
 		int limit = fwd ? max_results + 1 : max_results; // + 1 to get next item
-		Db_qry__select_cmd qry = Db_qry_.select_cols_(tbl_name, crt, cols).Limit_(limit).OrderBy_(fld_title, fwd);
+		Db_qry__select_cmd qry = Db_qry_.select_cols_(tbl_name, crt, cols).Limit_(limit).Order_(fld_title, fwd);
 		Db_stmt stmt = conn.Stmt_new(qry).Crt_int(fld_ns, ns_id).Crt_str(fld_title, ttl_frag_str).Crt_int(fld_len, min_page_len);
 		if (!include_redirects)
 			stmt.Crt_bool_as_byte(fld_is_redirect, include_redirects);
@@ -297,10 +302,13 @@ public class Xowd_page_tbl implements Rls_able {
 			;
 	}
 	public void Create_index() {
-		conn.Ddl_create_idx(Xoa_app_.Usr_dlg()
+		conn.Meta_idx_create(Xoa_app_.Usr_dlg()
 		, Dbmeta_idx_itm.new_normal_by_tbl(tbl_name, "title"		, fld_ns, fld_title, fld_id, fld_len, fld_is_redirect)
 		, Dbmeta_idx_itm.new_normal_by_tbl(tbl_name, "random"		, fld_ns, fld_random_int)
 		);
+	}
+	public int Fld_page_score_eval(Db_rdr rdr, int page_len) {
+		return fld_score == Dbmeta_fld_itm.Key_null ? page_len : rdr.Read_int(fld_score);
 	}
 	public void Rls() {
 		stmt_select_all_by_ttl = Db_stmt_.Rls(stmt_select_all_by_ttl);
@@ -310,11 +318,9 @@ public class Xowd_page_tbl implements Rls_able {
 	}
 	private static final String Page_touched_fmt = "yyyyMMddHHmmss";
 	public static void Assert_col__page_html_db_id(Xowd_db_mgr db_mgr) {
-		Xowd_page_tbl page_tbl = db_mgr.Tbl__page(); Db_conn page_conn = page_tbl.Conn();
-		boolean html_flds_exists = page_conn.Meta_fld_exists(page_tbl.Tbl_name(), page_tbl.Fld_html_db_id());
-		if (html_flds_exists) return;
-		page_conn.Ddl_append_fld(page_tbl.Tbl_name(), Dbmeta_fld_itm.new_int(page_tbl.Fld_html_db_id()).Default_(-1));
-		page_conn.Ddl_append_fld(page_tbl.Tbl_name(), Dbmeta_fld_itm.new_int(page_tbl.Fld_redirect_id()).Default_(-1));
+		Xowd_page_tbl page_tbl = db_mgr.Tbl__page(); Db_conn page_conn = page_tbl.conn;
+		page_conn.Meta_fld_assert(page_tbl.Tbl_name(), page_tbl.Fld_html_db_id()	, Dbmeta_fld_tid.Itm__int, -1);
+		page_conn.Meta_fld_assert(page_tbl.Tbl_name(), page_tbl.Fld_redirect_id()	, Dbmeta_fld_tid.Itm__int, -1);
 		page_tbl.Hdump_enabled_(Bool_.Y);
 	}
 }

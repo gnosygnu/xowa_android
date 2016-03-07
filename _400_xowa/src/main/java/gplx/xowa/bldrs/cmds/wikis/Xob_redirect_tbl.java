@@ -4,7 +4,7 @@ import gplx.langs.htmls.encoders.*;
 public class Xob_redirect_tbl {
 	private Gfo_url_encoder encoder; private Db_stmt insert_stmt;
 	public Xob_redirect_tbl(Io_url root_dir, Gfo_url_encoder encoder) {
-		this.db_file = Xob_db_file.new__wiki_redirect(root_dir);
+		this.db_file = Xob_db_file.New__wiki_redirect(root_dir);
 		this.conn = db_file.Conn();
 		this.encoder = encoder;
 	}

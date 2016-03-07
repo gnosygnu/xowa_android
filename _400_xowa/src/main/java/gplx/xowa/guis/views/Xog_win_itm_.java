@@ -20,7 +20,7 @@ public class Xog_win_itm_ {
 		return rv;
 	}
 	public static GfuiTextBox new_txt(Xoae_app app, Gfui_kit kit, GfuiWin win, FontAdp ui_font, String id, boolean border_on) {
-		GfuiTextBox rv = kit.New_text_box(id, win, KeyVal_.new_(GfuiTextBox.CFG_border_on_, border_on));
+		GfuiTextBox rv = kit.New_text_box(id, win, Keyval_.new_(GfuiTextBox.CFG_border_on_, border_on));
 		rv.TextMgr().Font_(ui_font);
 		return rv;
 	}

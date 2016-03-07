@@ -1,6 +1,6 @@
 package gplx.gfui; import gplx.*;
 public class GfuiCheckListPanel extends GfuiElemBase {
-	@Override public void ctor_GfuiBox_base(KeyValHash ctorArgs) {
+	@Override public void ctor_GfuiBox_base(Keyval_hash ctorArgs) {
 		super.ctor_GfuiBox_base(ctorArgs);
 		InitToggleWidget();
 		InitReverseWidget();

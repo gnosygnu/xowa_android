@@ -284,6 +284,7 @@ function replaceImageSrc( payload ) {
         img.removeAttribute( "srcset" );
     }
 }
+
 bridge.registerListener( "replaceImageSrc", replaceImageSrc );
 
 bridge.registerListener( "replaceImageSources", function( payload ) {
@@ -327,6 +328,12 @@ bridge.registerListener("xowa__anch_redlink", function ( payload ) {
 bridge.registerListener("xowa_atr_set", function ( payload ) {
     var elem = document.getElementById(elem_id);
     elem.setAttribute(atr_key, atr_val);
+});
+
+bridge.registerListener("xowa__meta__update", function ( payload ) {// XOWA: update bottom content DATE:2016-02-06
+  document.getElementById("xowa_foot_row_browser").innerHTML = payload.browser;
+  document.getElementById("xowa_foot_row_updated").innerHTML = payload.updated;
+  document.getElementById("xowa_foot_row_license").innerHTML = payload.license;
 });
 
 bridge.registerListener( "setDecorOffset", function( payload ) {
@@ -611,9 +618,11 @@ bridge.registerListener( "displayLeadSection", function( payload ) {
 });
 function clearContents() {
     document.getElementById( "content" ).innerHTML = "";
+    document.getElementById("xowa_bottom_content").style.display = "none";  // XOWA: hide xowa_bottom_content on every page-load, else will show up for a split-second before content is loaded; DATE:2016-02-06
     window.scrollTo( 0, 0 );
 }
 function runXowaExtensions() {  // XOWA
+  document.getElementById("xowa_bottom_content").style.display = "";    // XOWA: show xowa_bottom_content after last page section is loaded; DATE:2016-02-06
   runMathjax();
   runTimeline();
 }

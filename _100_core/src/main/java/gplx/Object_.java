@@ -15,6 +15,13 @@ public class Object_ {//_20101128
 			rv[i] = rhs[i - lhs_len];
 		return rv;
 	}
+	public static String[] Ary__to_str_ary(Object[]... ary) {
+		int len = ary.length;
+		String[] rv = new String[len];
+		for (int i = 0; i < len; ++i)
+			rv[i] = String_.Concat_with_obj("|", (Object[])ary[i]);
+		return rv;
+	}
 	public static boolean Eq(Object lhs, Object rhs) {
 		if		(lhs == null && rhs == null)	return true;
 		else if (lhs == null || rhs == null)	return false;
@@ -39,5 +46,6 @@ public class Object_ {//_20101128
 		else if	(Type_adp_.Eq(c, Double_.Cls_ref_type))		return Double_.To_str_loose(Double_.cast(v));
 		else												return v.toString();	//#<>.toString~.toString
 	}
+	public static final Object Null = null;
 	public static final byte[] Bry__null = Bry_.new_a7("null");
 }

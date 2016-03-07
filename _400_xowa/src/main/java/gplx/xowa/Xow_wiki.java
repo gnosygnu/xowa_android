@@ -1,7 +1,7 @@
 package gplx.xowa; import gplx.*;
 import gplx.core.primitives.*;
 import gplx.xowa.langs.*;
-import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.xwikis.*;
+import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.addons.*;
 import gplx.xowa.files.*; import gplx.xowa.files.repos.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.bins.*; import gplx.fsdb.meta.*; import gplx.fsdb.*;
 import gplx.xowa.htmls.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.htmls.core.hzips.*; import gplx.xowa.htmls.core.*; import gplx.xowa.htmls.bridges.dbuis.tbls.*;
 import gplx.xowa.parsers.*;
@@ -32,4 +32,5 @@ public interface Xow_wiki extends Xow_ttl_parser, GfoInvkAble {
 	Xow_wiki_props				Props();
 	void						Init_by_wiki();
 	Xoa_url_parser				Utl__url_parser();
+	Xoax_addon_mgr				Addon_mgr();
 }

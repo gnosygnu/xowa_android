@@ -1197,6 +1197,11 @@ div.gallerytext > p {
 }
 .xowa_filebrowser_tbl td + td { border-left:1px solid #AAAAAA; }
 .xowa_filebrowser_help    {background-color:#EEEEEE;}
+.xowa_foot_row {
+  width: 100%;
+  text-align: center;
+  margin: 0px auto;
+}
 
 /* XOWA:en.w; uses tmulti / tsingle to keep images on one row; make max-width:100% to center; DATE:2016-01-13; */
 .tsingle        {max-width:100% !important;}

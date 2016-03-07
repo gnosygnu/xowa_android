@@ -17,7 +17,7 @@ public class Swt_text_w_border implements GxwTextFld, Swt_control {
 	private Composite text_host;
 	private Composite text_margin;
 	private Text text_elem;
-	public Swt_text_w_border(Swt_control owner_control, Color color, KeyValHash ctorArgs) {
+	public Swt_text_w_border(Swt_control owner_control, Color color, Keyval_hash ctorArgs) {
 		Composite owner = owner_control.Under_composite();
 		int text_elem_style = ctorArgs.Has(GfuiTextBox_.Ctor_Memo) ? SWT.MULTI | SWT.WRAP | SWT.V_SCROLL : SWT.FLAT;
 		New_box_text_w_border(owner.getDisplay(), owner.getShell(), text_elem_style, color);

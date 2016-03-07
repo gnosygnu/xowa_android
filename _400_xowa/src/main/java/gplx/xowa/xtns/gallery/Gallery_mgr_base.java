@@ -175,7 +175,7 @@ public abstract class Gallery_mgr_base {
 			int len = xatr_list.Count();
 			for (int i = 0; i < len; i++) {
 				Mwh_atr_itm xatr = (Mwh_atr_itm)xatr_list.Get_at(i);
-				if (!whitelist_mgr.Chk(Xop_xnde_tag_.Tid_ul, src, xatr)) continue;
+				if (!whitelist_mgr.Chk(Xop_xnde_tag_.Tid__ul, src, xatr)) continue;
 				byte[] key = xatr.Key_bry();
 				byte[] val = xatr.Val_as_bry();
 				Gfh_wtr.Write_atr_bry(bfr, key, val);

@@ -17,7 +17,7 @@ public class Xob_wdata_db_cmd extends Xob_dump_mgr_base implements Xob_cmd {
 		cfg_tbl.Delete_all();
 	}
 	@Override protected Db_conn Init_db_file() {
-		Xob_db_file tbl_file = Xob_db_file.new_(wiki.Fsys_mgr().Root_dir(), "wdata_db.sqlite3");
+		Xob_db_file tbl_file = Xob_db_file.New(wiki.Fsys_mgr().Root_dir(), "wdata_db.sqlite3");
 		Db_conn conn = tbl_file.Conn();
 		tbl_mgr.Init(conn);
 		return conn;

@@ -5,7 +5,7 @@ import java.sql.*; //#<>System.Data~java.sql
 //#}
 public class Postgres_engine extends Db_engine_sql_base {
 	@Override public String Tid() {return Postgres_conn_info.Tid_const;}
-	@Override public Sql_qry_wtr SqlWtr() {return Sql_qry_wtr_.new_escape_backslash();}
+	@Override public Sql_qry_wtr	Sql_wtr() {return Sql_qry_wtr_.Mysql;}
 	@Override public Db_engine New_clone(Db_conn_info connectInfo) {
 		Postgres_engine rv = new Postgres_engine();
 		rv.Ctor(connectInfo);
@@ -15,8 +15,8 @@ public class Postgres_engine extends Db_engine_sql_base {
 	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {throw Err_.new_unimplemented();}
 	//#{lang
 	@gplx.Internal @Override protected Connection Conn_new() {
-		Postgres_conn_info conn_info_as_postgres = (Postgres_conn_info)conn_info; 
-		return Conn_make_by_url("jdbc:" + conn_info_as_postgres.Tid() + "://localhost/" + conn_info_as_postgres.Database(), conn_info_as_postgres.Uid(), conn_info_as_postgres.Pwd());
+		Postgres_conn_info conn_info_as_postgres = (Postgres_conn_info)conn_info;
+		return Conn_make_by_url("jdbc:" + conn_info_as_postgres.Key() + "://localhost/" + conn_info_as_postgres.Database(), conn_info_as_postgres.Uid(), conn_info_as_postgres.Pwd());
 	}
 	//#}
 	public static final Postgres_engine Instance = new Postgres_engine(); Postgres_engine() {}

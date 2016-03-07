@@ -81,7 +81,6 @@ import javax.net.ssl.SSLException;
 
 import gplx.String_;
 import gplx.xowa.drds.OfflinePageLoadStrategy;
-import gplx.xowa.drds.Xod_app_mgr;
 
 import static butterknife.ButterKnife.findById;
 import static org.wikipedia.util.DeviceUtil.hideSoftKeyboard;

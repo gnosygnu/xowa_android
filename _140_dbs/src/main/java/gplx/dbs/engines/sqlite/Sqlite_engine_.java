@@ -41,9 +41,9 @@ public class Sqlite_engine_ {
 		int len = idx_ary.length;
 		for (int i = 0; i < len; ++i) {
 			Dbmeta_idx_itm idx = idx_ary[i];
-			String idx_sql = idx.To_sql_create();
+			String idx_sql = idx.To_sql_create(conn.Engine().Sql_wtr());
 			usr_dlg.Plog_many("", "", "creating index: ~{0} ~{1}", tbl, idx_sql);
-			conn.Exec_qry(Db_qry_sql.ddl_(idx.To_sql_create()));
+			conn.Exec_qry(Db_qry_sql.ddl_(idx.To_sql_create(conn.Engine().Sql_wtr())));
 			usr_dlg.Log_many("", "", "index created: ~{0} ~{1}", tbl, idx_sql);
 		}
 	}
@@ -56,15 +56,6 @@ public class Sqlite_engine_ {
 			p.Exec_qry(Db_qry_sql.ddl_(index));
 			usr_dlg.Log_many("", "", "index created: ~{0} ~{1}", file_id, index);
 		}
-	}
-	public static Db_conn Conn_load_or_make_(Io_url url, Bool_obj_ref created) {
-		boolean exists = Io_mgr.Instance.ExistsFil(url);
-		created.Val_(!exists);
-		Db_conn_info connect = exists ? Sqlite_conn_info.load_(url) : Sqlite_conn_info.make_(url); 
-		Db_conn p = Db_conn_pool.Instance.Get_or_new(connect);
-		if (!exists)
-			Pragma_page_size(p, 4096);
-		return p;
 	}
 	public static final int Stmt_arg_max = 999;					// 999 is max number of variables allowed by sqlite
 	public static final boolean Supports_read_binary_stream = false;	//#<>false~false

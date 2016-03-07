@@ -76,8 +76,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import gplx.String_;
-import gplx.xowa.drds.Xod_app;
-import gplx.xowa.drds.Xod_app_mgr;
 
 import static org.wikipedia.util.DeviceUtil.isBackKeyUp;
 import static org.wikipedia.util.DeviceUtil.hideSoftKeyboard;
@@ -1050,4 +1048,5 @@ public class PageActivity extends ThemedActionBarActivity {
         widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(widgetIntent);
     }
+
 }

@@ -51,6 +51,7 @@ public class CommunicationBridge {
         webView.getSettings().setBuiltInZoomControls(true); // XOWA
         webView.getSettings().setDisplayZoomControls(false); // XOWA
         webView.getSettings().setLoadWithOverviewMode(true); // XOWA
+        // webView.getSettings().setUseWideViewPort(true); // XOWA: trying to do zoom-out
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new CommunicatingChrome());
         webView.addJavascriptInterface(marshaller, "marshaller");

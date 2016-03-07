@@ -24,7 +24,7 @@ class MockTextBox extends GxwElem_mock_base implements GxwTextFld {
 	public void Margins_set(int left, int top, int right, int bot) {}
 }
 class MockTextBoxMulti extends MockTextBox implements GxwTextMemo, GxwTextHtml {	//#*inherit
-	public KeyVal[] Html_sel_atrs() {return KeyVal_.Ary_empty;}
+	public Keyval[] Html_sel_atrs() {return Keyval_.Ary_empty;}
 	public void Html_enabled(boolean v) {}
 	public String Html_doc_html() {return "";}
 	public void Html_css_set(String s) {}

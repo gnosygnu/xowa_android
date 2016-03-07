@@ -1,6 +1,6 @@
     package gplx.gfui; import gplx.*;
 public abstract class Gfui_kit_base implements Gfui_kit {
-	private KeyValHash ctor_args = KeyValHash.new_();
+	private Keyval_hash ctor_args = new Keyval_hash();
 	public abstract byte Tid();
 	public abstract String Key();
 	public abstract GxwElemFactory_base Factory();
@@ -19,43 +19,43 @@ public abstract class Gfui_kit_base implements Gfui_kit {
 	public void Btn_img_(GfuiBtn btn, IconAdp v) {}
 	public GfuiInvkCmd New_cmd_sync(GfoInvkAble invk) {return new Gfui_kit_cmd_sync(invk);}
 	public GfuiInvkCmd New_cmd_async(GfoInvkAble invk) {return new Gfui_kit_cmd_async(invk);}
-	public GfuiWin New_win_app(String key, KeyVal... args) {
+	public GfuiWin New_win_app(String key, Keyval... args) {
 		GfuiWin rv = GfuiWin_.kit_(this, key, this.Factory().win_app_(), ctor_args);
 		main_win = rv;
 		return rv;
 	}
-	public GfuiWin New_win_utl(String key, GfuiWin owner, KeyVal... args) {return GfuiWin_.kit_(this, key, this.Factory().win_tool_(ctor_args), ctor_args);}
-	@gplx.Virtual public Gfui_html New_html(String key, GfuiElem owner, KeyVal... args) {
+	public GfuiWin New_win_utl(String key, GfuiWin owner, Keyval... args) {return GfuiWin_.kit_(this, key, this.Factory().win_tool_(ctor_args), ctor_args);}
+	@gplx.Virtual public Gfui_html New_html(String key, GfuiElem owner, Keyval... args) {
 		Gfui_html rv = Gfui_html.kit_(this, key, this.New_html_impl(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	public Gfui_tab_mgr New_tab_mgr(String key, GfuiElem owner, KeyVal... args) {
+	public Gfui_tab_mgr New_tab_mgr(String key, GfuiElem owner, Keyval... args) {
 		Gfui_tab_mgr rv = Gfui_tab_mgr.kit_(this, key, this.New_tab_mgr_impl(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	public Gfui_tab_itm New_tab_itm(String key, Gfui_tab_mgr owner, KeyVal... args) {
+	public Gfui_tab_itm New_tab_itm(String key, Gfui_tab_mgr owner, Keyval... args) {
 		Gfui_tab_itm rv = Gfui_tab_itm.kit_(this, key, this.New_tab_itm_impl(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	public GfuiTextBox New_text_box(String key, GfuiElem owner, KeyVal... args) {
+	public GfuiTextBox New_text_box(String key, GfuiElem owner, Keyval... args) {
 		GfuiTextBox rv = GfuiTextBox_.kit_(this, key, this.Factory().text_fld_(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	@gplx.Virtual public GfuiBtn New_btn(String key, GfuiElem owner, KeyVal... args) {
+	@gplx.Virtual public GfuiBtn New_btn(String key, GfuiElem owner, Keyval... args) {
 		GfuiBtn rv = GfuiBtn_.kit_(this, key, New_btn_impl(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	@gplx.Virtual public GfuiLbl New_lbl(String key, GfuiElem owner, KeyVal... args) {
+	@gplx.Virtual public GfuiLbl New_lbl(String key, GfuiElem owner, Keyval... args) {
 		GfuiLbl rv = GfuiLbl_.kit_(this, key, New_btn_impl(), ctor_args);
 		owner.SubElems().Add(rv);
 		return rv;
 	}
-	@gplx.Virtual public GfuiStatusBox New_status_box(String key, GfuiElem owner, KeyVal... args) {
+	@gplx.Virtual public GfuiStatusBox New_status_box(String key, GfuiElem owner, Keyval... args) {
 		GfuiStatusBox rv = GfuiStatusBox_.kit_(this, key, this.Factory().text_memo_());
 		owner.SubElems().Add(rv);
 		return rv;

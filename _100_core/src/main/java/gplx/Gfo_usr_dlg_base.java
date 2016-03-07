@@ -8,6 +8,7 @@ public class Gfo_usr_dlg_base implements Gfo_usr_dlg {
 	public Gfo_usr_dlg__gui Gui_wkr() {return gui_wkr;} public void Gui_wkr_(Gfo_usr_dlg__gui v) {gui_wkr = v;} private Gfo_usr_dlg__gui gui_wkr;
 	public boolean Canceled() {return canceled;} public void Canceled_y_() {canceled = true;} public void Canceled_n_() {canceled = false;} private boolean canceled;
 	public void Cancel() {canceled = true;} public void Cancel_reset() {canceled = false;}
+	public boolean Cancel_ackd() {return false;} public void Cancel_ackd_() {}
 	public String Log_many(String grp_key, String msg_key, String fmt, Object... args)	{String rv = Bld_msg_many(grp_key, msg_key, fmt, args	); log_wkr.Log_to_session(rv); return rv;}
 	public String Warn_many(String grp_key, String msg_key, String fmt, Object... args)	{String rv = Bld_msg_many(grp_key, msg_key, fmt, args	); log_wkr.Log_to_err(rv); gui_wkr.Write_warn(rv); return rv;}
 	public String Prog_many(String grp_key, String msg_key, String fmt, Object... args)	{String rv = Bld_msg_many(grp_key, msg_key, fmt, args	); gui_wkr.Write_prog(rv); return rv;}

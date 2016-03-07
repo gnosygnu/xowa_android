@@ -1,7 +1,7 @@
 package gplx.xowa.wikis.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*;
 import gplx.core.primitives.*;
 import gplx.xowa.wikis.nss.*;
-import gplx.xowa.bldrs.cmds.ctgs.*; import gplx.xowa.wikis.ctgs.*; import gplx.xowa.specials.search.*; import gplx.xowa.wikis.data.tbls.*;
+import gplx.xowa.bldrs.cmds.ctgs.*; import gplx.xowa.wikis.ctgs.*; import gplx.xowa.addons.searchs.v1s.*; import gplx.xowa.wikis.data.tbls.*;
 public interface Xodb_load_mgr {
 	void Load_init					(Xowe_wiki wiki);
 	void Load_page					(Xowd_page_itm rv, Xow_ns ns, boolean timestamp_enabled);

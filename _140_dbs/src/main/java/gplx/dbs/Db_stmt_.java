@@ -7,7 +7,7 @@ public class Db_stmt_ {
 		return conn.Stmt_new(qry);
 	}
 	public static Db_stmt new_update_(Db_conn conn, String tbl, String[] where, String... flds) {
-		Db_qry qry = Db_qry_update.new_(tbl, where, flds);
+		Db_qry qry = Db_qry_update.New(tbl, where, flds);
 		return conn.Stmt_new(qry);
 	}
 	public static Db_stmt new_delete_(Db_conn conn, String tbl, String... where) {
@@ -19,7 +19,7 @@ public class Db_stmt_ {
 		return conn.Stmt_new(qry);
 	}
 	public static Db_stmt new_select_in_(Db_conn conn, String tbl, String in_fld, Object[] in_vals, String... flds) {
-		Db_qry__select_cmd qry = Db_qry_.select_cols_(tbl, Db_crt_.in_(in_fld, in_vals), flds).OrderBy_asc_(in_fld);
+		Db_qry__select_cmd qry = Db_qry_.select_cols_(tbl, Db_crt_.New_in(in_fld, in_vals), flds).Order_asc_(in_fld);
 		return conn.Stmt_new(qry);
 	}
 	public static Db_stmt new_select_all_(Db_conn conn, String tbl) {
@@ -38,4 +38,18 @@ public class Db_stmt_ {
 		throw Err_.new_exc(e, "core", "db call failed", "tbl", tbl, "proc", proc);
 	}
 	public static Db_stmt Rls(Db_stmt v) {if (v != null) v.Rls(); return null;}
+	public static void Val_by_obj(Db_stmt stmt, String key, Object val) {
+		int tid = Type_adp_.To_tid_obj(val);
+		switch (tid) {
+			case Type_adp_.Tid__bool:			stmt.Val_bool_as_byte	(key, Bool_.cast(val)); break;
+			case Type_adp_.Tid__byte:			stmt.Val_byte			(key, Byte_.cast(val)); break;
+			case Type_adp_.Tid__int:			stmt.Val_int			(key, Int_.cast(val)); break;
+			case Type_adp_.Tid__long:			stmt.Val_long			(key, Long_.cast(val)); break;
+			case Type_adp_.Tid__float:			stmt.Val_float			(key, Float_.cast(val)); break;
+			case Type_adp_.Tid__double:			stmt.Val_double			(key, Double_.cast(val)); break;
+			case Type_adp_.Tid__str:			stmt.Val_str			(key, String_.cast(val)); break;
+			case Type_adp_.Tid__bry:			stmt.Val_bry			(key, Bry_.cast(val)); break;
+			default:							throw Err_.new_unhandled_default(tid);
+		}
+	}
 }

@@ -31,7 +31,7 @@ public class Scrib_lib_wikibase implements Scrib_lib {
 	private static final int Proc_getLabel = 0, Proc_getEntity = 1, Proc_getSetting = 2, Proc_renderSnak = 3, Proc_renderSnaks = 4, Proc_getEntityId = 5, Proc_getUserLang = 6, Proc_getDescription = 7, Proc_resolvePropertyId = 8, Proc_getSiteLinkPageName = 9, Proc_incrementExpensiveFunctionCount = 10;
 	public static final String Invk_getLabel = "getLabel", Invk_getEntity = "getEntity", Invk_getSetting = "getSetting", Invk_renderSnak = "renderSnak", Invk_renderSnaks = "renderSnaks", Invk_getEntityId = "getEntityId", Invk_getUserLang = "getUserLang", Invk_getDescription = "getDescription", Invk_resolvePropertyId = "resolvePropertyId", Invk_getSiteLinkPageName = "getSiteLinkPageName", Invk_incrementExpensiveFunctionCount = "incrementExpensiveFunctionCount";
 	private static final String[] Proc_names = String_.Ary(Invk_getLabel, Invk_getEntity, Invk_getSetting, Invk_renderSnak, Invk_renderSnaks, Invk_getEntityId, Invk_getUserLang, Invk_getDescription, Invk_resolvePropertyId, Invk_getSiteLinkPageName, Invk_incrementExpensiveFunctionCount);
-	public void Notify_page_changed() {if (notify_page_changed_fnc != null) core.Interpreter().CallFunction(notify_page_changed_fnc.Id(), KeyVal_.Ary_empty);}
+	public void Notify_page_changed() {if (notify_page_changed_fnc != null) core.Interpreter().CallFunction(notify_page_changed_fnc.Id(), Keyval_.Ary_empty);}
 	public boolean GetLabel(Scrib_proc_args args, Scrib_proc_rslt rslt) {			
 		byte[] ttl_bry = args.Pull_bry(0); if (Bry_.Len_eq_0(ttl_bry)) return rslt.Init_ary_empty();
 		Wdata_doc wdoc = Get_wdoc(ttl_bry); if (wdoc == null) return rslt.Init_ary_empty();			
@@ -71,7 +71,7 @@ public class Scrib_lib_wikibase implements Scrib_lib {
 		Xow_domain_itm domain_itm = core.Wiki().Domain_itm();
 		return rslt.Init_obj(wdoc.Slink_list__get_or_fallback(domain_itm.Abrv_wm()));
 	}
-	public boolean IncrementExpensiveFunctionCount(Scrib_proc_args args, Scrib_proc_rslt rslt) {return rslt.Init_obj(KeyVal_.Ary_empty);}	// NOTE: for now, always return null (XOWA does not care about expensive parser functions)
+	public boolean IncrementExpensiveFunctionCount(Scrib_proc_args args, Scrib_proc_rslt rslt) {return rslt.Init_obj(Keyval_.Ary_empty);}	// NOTE: for now, always return null (XOWA does not care about expensive parser functions)
 	public boolean GetGlobalSiteId(Scrib_proc_args args, Scrib_proc_rslt rslt) {			
 		return rslt.Init_obj(core.Wiki().Domain_abrv());	// ;siteGlobalID: This site's global ID (e.g. <code>'itwiki'</code>), as used in the sites table. Default: <code>$wgDBname</code>.; REF:/xtns/Wikibase/docs/options.wiki
 	}

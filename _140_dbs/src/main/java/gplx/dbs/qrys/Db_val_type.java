@@ -14,5 +14,6 @@ public class Db_val_type {//_20110430
 	, Tid_varchar	= 10
 	, Tid_nvarchar	= 11
 	, Tid_rdr		= 12
+	, Tid_text		= 13
 	;
 }

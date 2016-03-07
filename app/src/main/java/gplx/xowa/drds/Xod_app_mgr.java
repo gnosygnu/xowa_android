@@ -15,10 +15,7 @@ import org.wikipedia.server.PageLeadProperties;
 import java.util.ArrayList;
 import java.util.List;
 
-import gplx.Bry_;
-import gplx.Bry_find_;
 import gplx.Cancelable;
-import gplx.Err_;
 import gplx.Gfo_usr_dlg;
 import gplx.Gfo_usr_dlg_;
 import gplx.Gfo_usr_dlg__gui_;
@@ -31,16 +28,15 @@ import gplx.String_;
 import gplx.core.drds.Drd_version;
 import gplx.core.envs.Env_;
 import gplx.dbs.Drd_db_mgr;
-import gplx.langs.htmls.encoders.Gfo_url_encoder_;
 import gplx.xowa.Xoa_ttl;
 import gplx.xowa.Xoa_url;
 import gplx.xowa.Xow_wiki;
+import gplx.xowa.addons.searchs.searchers.itms.Srch2_rslt_cbk;
 import gplx.xowa.apps.Xoa_app_mode;
 import gplx.xowa.apps.Xoav_app;
 import gplx.xowa.drds.pages.Xod_page_itm;
-import gplx.xowa.htmls.hrefs.Xoh_href_;
 import gplx.xowa.htmls.sections.Xoh_section_itm;
-import gplx.xowa.specials.search.Xows_ui_async;
+import gplx.xowa.addons.searchs.v1s.Srch_rslt_lnr;
 
 public class Xod_app_mgr {
     private Activity activity; private CommunicationBridge bridge;
@@ -95,12 +91,8 @@ public class Xod_app_mgr {
         cached_page = new Page(title, sections, new PageProperties(lead_props));
         return cached_page;
     }
-    public String[] Search_titles(Cancelable cxl, Xows_ui_async ui_async, String domain, String search) {
-        return drd_app.Wiki__search(cxl, drd_app.Wikis__get_by_domain(domain), ui_async, search);
-    }
-    public void Search_titles2(Cancelable cxl, Xows_ui_async ui_async, String domain, String search) {
-        Xod_search_cmd[] cmds = new Xod_search_cmd[] {Xod_search_cmd_.New__page_eq, Xod_search_cmd_.New__word_eq, Xod_search_cmd_.New__word_like};
-        drd_app.Wiki__search(cxl, drd_app.Wikis__get_by_domain(domain), ui_async, search, cmds);
+    public void Search_titles(Cancelable cxl, Srch2_rslt_cbk rslt_cbk, String domain, String search) {
+        drd_app.Wiki__search(cxl, rslt_cbk, drd_app.Wikis__get_by_domain(domain), search, Xod_search_cmd__srch2.Instance);
     }
     private void Init_app() {
         // init app

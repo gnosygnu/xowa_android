@@ -1,9 +1,9 @@
 package gplx.xowa.guis; import gplx.*; import gplx.xowa.*;
 import gplx.core.brys.fmtrs.*; import gplx.core.envs.*;
-import gplx.gfui.*; import gplx.xowa.specials.search.*; import gplx.xowa.guis.menus.*; import gplx.xowa.guis.cmds.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.users.*;
+import gplx.gfui.*; import gplx.xowa.addons.searchs.suggests.*; import gplx.xowa.addons.searchs.v1s.*; import gplx.xowa.guis.menus.*; import gplx.xowa.guis.cmds.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.users.*;
 import gplx.xowa.langs.*;
 import gplx.xowa.guis.bnds.*; import gplx.xowa.guis.views.*; import gplx.xowa.guis.urls.url_macros.*;
-import gplx.xowa.guis.views.boots.*;
+import gplx.xowa.guis.views.boots.*;	
 public class Xoa_gui_mgr implements GfoEvObj, GfoInvkAble {
 	public Xoa_gui_mgr(Xoae_app app) {
 		this.ev_mgr = GfoEvMgr.new_(this);
@@ -30,7 +30,7 @@ public class Xoa_gui_mgr implements GfoEvObj, GfoInvkAble {
 	public Xog_url_macro_mgr Url_macro_mgr() {return url_macro_mgr;} private Xog_url_macro_mgr url_macro_mgr = new Xog_url_macro_mgr();
 	public void Show_prog() {
 		GfuiWin memo_win = kit.New_win_utl("memo_win", browser_win.Win_box());
-		GfuiTextBox memo_txt = kit.New_text_box("memo_txt", memo_win, KeyVal_.new_(GfuiTextBox_.Ctor_Memo, true));
+		GfuiTextBox memo_txt = kit.New_text_box("memo_txt", memo_win, Keyval_.new_(GfuiTextBox_.Ctor_Memo, true));
 		RectAdp prog_box_rect = browser_win.Prog_box().Rect();
 		memo_win.Rect_set(RectAdp_.new_(prog_box_rect.X(), prog_box_rect.Y() - 75, prog_box_rect.Width(), 100));
 		memo_txt.Size_(memo_win.Size().Op_add(-8, -30));

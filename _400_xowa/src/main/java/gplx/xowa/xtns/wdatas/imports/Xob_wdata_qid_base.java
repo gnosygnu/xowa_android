@@ -3,14 +3,13 @@ import gplx.langs.jsons.*; import gplx.core.ios.*; import gplx.xowa.xtns.wdatas.
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wkrs.*;
 import gplx.xowa.bldrs.wms.sites.*;
-public abstract class Xob_wdata_qid_base extends Xob_itm_dump_base implements Xobd_wkr, GfoInvkAble {
+public abstract class Xob_wdata_qid_base extends Xob_itm_dump_base implements Xob_page_wkr, GfoInvkAble {
 	private Json_parser parser; private Xob_wbase_ns_parser ns_parser; private final Xob_wbase_ns_parser_rslt ns_parser_rslt = new Xob_wbase_ns_parser_rslt();
 	public Xob_wdata_qid_base Ctor(Xob_bldr bldr, Xowe_wiki wiki) {this.Cmd_ctor(bldr, wiki); return this;}
 	public abstract String Wkr_key();
 	public abstract void Qid_bgn();
 	public abstract void Qid_add(byte[] wiki_key, int ns_id, byte[] ttl, byte[] qid);
 	public abstract void Qid_end();
-	public void Wkr_ini(Xob_bldr bldr) {}
 	public void Wkr_bgn(Xob_bldr bldr) {
 		this.Init_dump(this.Wkr_key(), wiki.Tdb_fsys_mgr().Site_dir().GenSubDir_nest("data", "qid"));	// NOTE: must pass in correct make_dir in order to delete earlier version (else make_dirs will append)
 		this.parser = bldr.App().Wiki_mgr().Wdata_mgr().Jdoc_parser();
@@ -44,5 +43,4 @@ public abstract class Xob_wdata_qid_base extends Xob_itm_dump_base implements Xo
 		this.Qid_end();
 		// wiki.Data__core_mgr().Db__wbase().Tbl__cfg().Insert_int("", "", 1);
 	}
-	public void Wkr_print() {}
 }

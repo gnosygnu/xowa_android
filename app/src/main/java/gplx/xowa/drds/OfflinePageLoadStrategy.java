@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mediawiki.api.json.ApiException;
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.bridge.CommunicationBridge;
@@ -29,38 +28,24 @@ import org.wikipedia.page.PageBackStackItem;
 import org.wikipedia.page.PageCache;
 import org.wikipedia.page.PageFragment;
 import org.wikipedia.page.PageLoadStrategy;
-import org.wikipedia.page.PageTitle;
 import org.wikipedia.page.PageViewModel;
 import org.wikipedia.page.bottomcontent.BottomContentHandler;
 import org.wikipedia.page.bottomcontent.BottomContentInterface;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.pageimages.PageImage;
-import org.wikipedia.pageimages.PageImagesTask;
 import org.wikipedia.savedpages.LoadSavedPageTask;
 import org.wikipedia.search.SearchBarHideHandler;
-import org.wikipedia.server.PageLead;
-import org.wikipedia.server.PageRemaining;
-import org.wikipedia.server.ServiceError;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.util.L10nUtil;
-import org.wikipedia.util.PageLoadUtil;
 import org.wikipedia.util.ResourceUtil;
 import org.wikipedia.util.log.L;
 import org.wikipedia.views.ObservableWebView;
 import org.wikipedia.views.SwipeRefreshLayoutWithScroll;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import gplx.String_;
-import gplx.xowa.drds.pages.Xod_page_mgr;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-import static org.wikipedia.util.DimenUtil.calculateLeadImageWidth;
 import static org.wikipedia.util.L10nUtil.getStringsForArticleLanguage;
 
 /**
@@ -663,12 +648,14 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
         if (progress_denominator == 0) return;
         activity.updateProgressBar(true, false, PageActivity.PROGRESS_BAR_MAX_VALUE / progress_denominator);
         if (index > model.getPage().getSections().size()) {
+            /*
             // TODO: Remove this check if we find that it no longer happens, or if we fix it.
             String errorText = "Section index mismatch!";
             errorText += " modelTitle=" + model.getTitleOriginal().getPrefixedText();
             errorText += ", pageTitle=" + model.getPage().getTitle().getPrefixedText();
             errorText += ", source=" + model.getCurEntry().getSource();
             L.logRemoteErrorIfProd(new RuntimeException(errorText));
+            */
             return;
         }
         try {

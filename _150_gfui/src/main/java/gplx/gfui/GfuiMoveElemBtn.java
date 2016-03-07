@@ -1,7 +1,7 @@
 package gplx.gfui; import gplx.*;
 public class GfuiMoveElemBtn extends GfuiBtn { //#*inherit
-	@Override public GxwElem UnderElem_make(KeyValHash ctorArgs) {return GxwElemFactory_.Instance.lbl_();}
-	@Override public void ctor_GfuiBox_base(KeyValHash ctorArgs) {
+	@Override public GxwElem UnderElem_make(Keyval_hash ctorArgs) {return GxwElemFactory_.Instance.lbl_();}
+	@Override public void ctor_GfuiBox_base(Keyval_hash ctorArgs) {
 		super.ctor_GfuiBox_base(ctorArgs);
 		this.Text_("*");
 		this.TipText_("move/resize");

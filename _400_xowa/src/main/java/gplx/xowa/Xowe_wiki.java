@@ -2,12 +2,13 @@ package gplx.xowa; import gplx.*;
 import gplx.core.brys.*; import gplx.core.primitives.*; import gplx.core.brys.fmtrs.*;
 import gplx.xowa.apps.*; import gplx.xowa.apps.fsys.*; import gplx.xowa.apps.cfgs.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.apps.urls.*; 
 import gplx.xowa.langs.*; import gplx.xowa.langs.msgs.*;
-import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.caches.*;
+import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.caches.*; import gplx.xowa.addons.*;
 import gplx.xowa.users.*; import gplx.xowa.htmls.*; import gplx.xowa.users.history.*; import gplx.xowa.specials.*; import gplx.xowa.xtns.*; import gplx.xowa.wikis.dbs.*;
 import gplx.xowa.files.*; import gplx.xowa.files.repos.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.bins.*; import gplx.fsdb.*; import gplx.fsdb.meta.*; import gplx.xowa.files.exts.*;		
 import gplx.xowa.htmls.heads.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.htmls.core.hzips.*; import gplx.xowa.htmls.core.*; import gplx.xowa.htmls.css.*; import gplx.xowa.htmls.ns_files.*; import gplx.xowa.htmls.bridges.dbuis.tbls.*;	
 import gplx.xowa.bldrs.xmls.*; import gplx.xowa.bldrs.installs.*; import gplx.xowa.bldrs.setups.maints.*;
 import gplx.xowa.parsers.*; import gplx.xowa.parsers.utils.*;
+import gplx.xowa.wikis.ctgs.*;
 import gplx.xowa.guis.views.*;
 import gplx.xowa.xtns.gallery.*; import gplx.xowa.xtns.pfuncs.*; 
 import gplx.xowa.wikis.tdbs.*; import gplx.xowa.wikis.tdbs.hives.*;
@@ -86,6 +87,7 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 	public Xow_xwiki_mgr			Xwiki_mgr() {return xwiki_mgr;} private final Xow_xwiki_mgr xwiki_mgr;
 	public Xow_wiki_props			Props() {return props;} private final Xow_wiki_props props = new Xow_wiki_props();
 	public Xow_parser_mgr			Parser_mgr() {return parser_mgr;} private final Xow_parser_mgr parser_mgr;
+	public Xoax_addon_mgr			Addon_mgr() {return addon_mgr;} private final Xoax_addon_mgr addon_mgr = new Xoax_addon_mgr();
 
 	public Xow_hdump_mgr			Html__hdump_mgr() {return html__hdump_mgr;} private final Xow_hdump_mgr html__hdump_mgr;
 	public Xoae_app					Appe() {return app;} private Xoae_app app;

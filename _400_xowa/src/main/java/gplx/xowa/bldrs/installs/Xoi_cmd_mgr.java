@@ -58,7 +58,7 @@ public class Xoi_cmd_mgr implements GfoInvkAble {
 		String dump_type = m.Args_getAt(2).Val_to_str_or_empty();
 		Gfo_thread_cmd cmd = null;
 		for (int i = 3; i < args_len; i++) {
-			KeyVal kv = m.Args_getAt(i);
+			Keyval kv = m.Args_getAt(i);
 			String kv_val = kv.Val_to_str_or_empty();
 			if (String_.Eq(kv_val, Wiki_cmd_custom))
 				return Dump_add_many_custom(wiki_key, wiki_date, dump_type, false);

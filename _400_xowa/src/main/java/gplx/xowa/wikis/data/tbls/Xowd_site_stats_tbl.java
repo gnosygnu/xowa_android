@@ -12,7 +12,7 @@ public class Xowd_site_stats_tbl {
 		fld_images			= flds.Add_int("ss_images");
 	}
 	public void Create_tbl() {
-		conn.Ddl_create_tbl(Dbmeta_tbl_itm.New(tbl_name, flds));
+		conn.Meta_tbl_create(Dbmeta_tbl_itm.New(tbl_name, flds));
 		conn.Stmt_insert(tbl_name, flds).Val_int(fld_row_id, Site_stats_row_id).Val_long(fld_good_articles, 0).Val_long(fld_total_pages, 0).Val_int(fld_images, 0).Exec_insert();
 	}
 	public void Update(int num_articles, int num_pages, int num_files) {

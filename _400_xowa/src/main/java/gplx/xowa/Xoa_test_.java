@@ -6,12 +6,12 @@ public class Xoa_test_ {
 	public static boolean Db_skip()			{return Bool_.N;}
 	public static boolean Db_is_mem_dflt()		{return Bool_.Y;}
 	public static void Db_init(Io_url sqlite_url) {Db_init(Db_is_mem_dflt(), sqlite_url);}
-	public static void Db__init__mem(Xowe_wiki wiki) {
+	public static void Init__db__edit(Xowe_wiki wiki) {
 		Db__init__mem();
 		wiki.Db_mgr_create_as_sql();
 		wiki.Data__core_mgr().Init_by_make(Xowd_core_db_props.Test, Xob_info_session.Test);
 	}
-	public static void Init__db__mem(gplx.xowa.wikis.Xowv_wiki wiki) {
+	public static void Init__db__view(gplx.xowa.wikis.Xowv_wiki wiki) {
 		Db__init__mem();
 		wiki.Init_by_make(Xowd_core_db_props.Test, Xob_info_session.Test);
 //			wiki.Data__core_mgr().Init_by_make(Xowd_core_db_props.Test, Xob_info_session.Test);

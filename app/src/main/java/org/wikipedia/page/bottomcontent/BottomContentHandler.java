@@ -38,6 +38,7 @@ import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageFragment;
 import org.wikipedia.page.SuggestionsTask;
 import org.wikipedia.search.SearchResults;
+import org.wikipedia.util.log.L;
 import org.wikipedia.views.ConfigurableListView;
 import org.wikipedia.views.GoneIfEmptyTextView;
 import org.wikipedia.views.ObservableWebView;
@@ -87,11 +88,14 @@ public class BottomContentHandler implements BottomContentInterface,
         webview.addOnScrollChangeListener(this);
         webview.addOnContentHeightChangedListener(this);
 
+        /* XOWA: comment out bottom-panel; DATE:2016-02-06
         pageLastUpdatedText = (TextView) bottomContentContainer.findViewById(R.id.page_last_updated_text);
         pageLicenseText = (TextView) bottomContentContainer.findViewById(R.id.page_license_text);
         readMoreContainer = bottomContentContainer.findViewById(R.id.read_more_container);
         readMoreList = (ConfigurableListView) bottomContentContainer.findViewById(R.id.read_more_list);
+        */
 
+        /* XOWA: comment out bottom-panel; DATE:2016-02-06
         TextView pageExternalLink = (TextView) bottomContentContainer.findViewById(R.id.page_external_link);
         pageExternalLink.setPaintFlags(pageExternalLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         pageExternalLink.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +107,6 @@ public class BottomContentHandler implements BottomContentInterface,
         PageLongPressHandler.ListViewContextMenuListener contextMenuListener = new LongPressHandler(activity);
         new PageLongPressHandler(activity, readMoreList, HistoryEntry.SOURCE_INTERNAL_LINK,
                 contextMenuListener);
-
         // set up pass-through scroll functionality for the ListView
         readMoreList.setOnTouchListener(new View.OnTouchListener() {
             private int touchSlop = ViewConfiguration.get(readMoreList.getContext())
@@ -155,7 +158,7 @@ public class BottomContentHandler implements BottomContentInterface,
                 return false;
             }
         });
-
+        */
         // preload the display density, since it will be used in a lot of places
         displayDensity = activity.getResources().getDisplayMetrics().density;
         // hide ourselves by default
@@ -221,6 +224,7 @@ public class BottomContentHandler implements BottomContentInterface,
     }
 
     private void layoutContent() {
+        /* XOWA: comment out bottom-panel; DATE:2016-02-06
         if (!parentFragment.isAdded()) {
             return;
         }
@@ -261,17 +265,21 @@ public class BottomContentHandler implements BottomContentInterface,
         bridge.sendMessage("setPaddingBottom", payload);
         // ^ sending the padding event will guarantee a ContentHeightChanged event to be triggered,
         // which will update our margin based on the scroll offset, so we don't need to do it here.
+        */
     }
 
     private void setupAttribution() {
         Page page = parentFragment.getPage();
+        /* XOWA: comment out bottom-panel; DATE:2016-02-06
         pageLicenseText.setText(Html.fromHtml(activity.getString(R.string.content_license_html)));
         pageLicenseText.setMovementMethod(new LinkMovementMethodExt(linkHandler));
+        */
 
         // Don't display last updated message for main page or file pages, because it's always wrong
         if (page.isMainPage() || page.isFilePage()) {
-            pageLastUpdatedText.setVisibility(View.GONE);
+        // pageLastUpdatedText.setVisibility(View.GONE); // XOWA: comment out bottom-panel; DATE:2016-02-06
         } else {
+            /*XOWA: comment out bottom-panel; DATE:2016-02-06
             String lastUpdatedHtml = "<a href=\"" + page.getTitle().getUriForAction("history")
                     + "\">" + activity.getString(R.string.last_updated_text,
                     formatDateRelative(page.getPageProperties().getLastModified())
@@ -279,9 +287,25 @@ public class BottomContentHandler implements BottomContentInterface,
             pageLastUpdatedText.setText(Html.fromHtml(lastUpdatedHtml));
             pageLastUpdatedText.setMovementMethod(new LinkMovementMethodExt(linkHandler));
             pageLastUpdatedText.setVisibility(View.VISIBLE);
+            */
+            Update_meta(page);
         }
     }
-
+    private void Update_meta(Page page) {   // XOWA
+        String license = activity.getString(R.string.content_license_html);
+        String browser = "<a href=\"" + page.getTitle().getUriForAction("view") + "\"/>" + activity.getString(R.string.page_view_in_browser) + "</a>";
+        String updated = "<a href=\"" + page.getTitle().getUriForAction("history")+ "\">" + activity.getString(R.string.last_updated_text, formatDateRelative(page.getPageProperties().getLastModified())+ "</a>");
+        JSONObject wrapper = new JSONObject();
+        try {
+            // whatever we pass to this event will be passed back to us by the WebView!
+            wrapper.put("browser", browser);
+            wrapper.put("license", license);
+            wrapper.put("updated", updated);
+        } catch (JSONException e) {
+            L.logRemoteErrorIfProd(e);
+        }
+        bridge.sendMessage("xowa__meta__update", wrapper);
+    }
     private void preRequestReadMoreItems(final LayoutInflater layoutInflater) {
         if (parentFragment.getPage().isMainPage()) {
             new MainPageReadMoreTopicTask(activity) {
@@ -340,7 +364,7 @@ public class BottomContentHandler implements BottomContentInterface,
     }
 
     private void hideReadMore() {
-        readMoreContainer.setVisibility(View.GONE);
+//        readMoreContainer.setVisibility(View.GONE);
     }
 
     private void showReadMore() {

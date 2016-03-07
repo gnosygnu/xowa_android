@@ -4,6 +4,7 @@ import gplx.dbs.qrys.*; import gplx.dbs.sqls.*;
 public class TdbEngine implements Db_engine {
 	public String Tid() {return Tdb_conn_info.Tid_const;}
 	public Db_conn_info Conn_info() {return conn_info;} private Db_conn_info conn_info;
+	public Sql_qry_wtr Sql_wtr() {return sql_wtr;} private final Sql_qry_wtr sql_wtr = Sql_qry_wtr_.Basic;
 	public TdbDatabase Db() {return db;} TdbDatabase db;
 	public void Conn_open() {
 		Tdb_conn_info tdb_url = (Tdb_conn_info)conn_info;
@@ -25,7 +26,7 @@ public class TdbEngine implements Db_engine {
 		Db_qryWkr wkr = (Db_qryWkr)wkrs.Get_by_or_fail(qry.Tid());
 		return wkr.Exec(this, qry);
 	}
-	public Db_stmt	New_stmt_prep(Db_qry qry) {return new Db_stmt_sql().Parse(qry, Sql_qry_wtr_.Instance.Xto_str(qry, true));}
+	public Db_stmt	New_stmt_prep(Db_qry qry) {return new Db_stmt_sql().Parse(qry, Sql_qry_wtr_.Basic.To_sql_str(qry, true));}
 	public Object	New_stmt_prep_as_obj(String sql) {throw Err_.new_unimplemented();}
 	public Db_rdr	New_rdr__rls_manual(Object rdr_obj, String sql) {return Db_rdr_.Empty;}
 	public Db_rdr	New_rdr__rls_auto(Db_stmt stmt, Object rdr_obj, String sql) {return Db_rdr_.Empty;}
@@ -45,8 +46,10 @@ public class TdbEngine implements Db_engine {
 	public void Ddl_create_idx(Gfo_usr_dlg usr_dlg, Dbmeta_idx_itm... ary) {throw Err_.new_unimplemented();}
 	public void				Ddl_append_fld(String tbl, Dbmeta_fld_itm fld) {throw Err_.new_unimplemented();}
 	public void				Ddl_delete_tbl(String tbl)						{}
+	public void				Env_db_attach(String alias, Db_conn conn)		{}
 	public void				Env_db_attach(String alias, Io_url db_url)		{}
 	public void				Env_db_detach(String alias)						{}
+	public void				Meta_reload()									{}
 	public boolean				Meta_tbl_exists(String name)					{return false;}
 	public boolean				Meta_fld_exists(String tbl, String fld)			{return false;}
 	public Dbmeta_tbl_mgr	Meta_tbl_load_all()								{return meta_tbl_mgr;} private final Dbmeta_tbl_mgr meta_tbl_mgr = new Dbmeta_tbl_mgr();

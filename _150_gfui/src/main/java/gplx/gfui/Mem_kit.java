@@ -4,7 +4,7 @@ public class Mem_kit extends Gfui_kit_base {
 	@Override public String Key() {return "mem";}
 	@Override public GxwElemFactory_base Factory() {return factory;} private GxwElemFactory_cls_mock factory = new GxwElemFactory_cls_mock();
 	public void New_html_impl_prototype_(Gxw_html v) {html_impl_prototype = v;} private Gxw_html html_impl_prototype;
-	@Override public Gfui_html New_html(String key, GfuiElem owner, KeyVal... args) {
+	@Override public Gfui_html New_html(String key, GfuiElem owner, Keyval... args) {
 		if (html_impl_prototype == null)
 			return super.New_html(key, owner, args);
 		else {

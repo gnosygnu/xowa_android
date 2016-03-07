@@ -13,8 +13,7 @@ public class Xodb_save_mgr_sql implements Xodb_save_mgr {
 		int ns_count = db_file.Tbl__ns().Select_ns_count(ns_id) + 1;
 		int page_id = db_file.Tbl__cfg().Select_int_or("db", "page.id_next", -1);
 		if (page_id == -1) {	// HACK: changed for tests; was dbs.qrys.Db_qry_sql.rdr_("SELECT (Max(page_id) + 1) AS max_page_id FROM page;")
-//				Db_rdr rdr = db_mgr.Core_data_mgr().Tbl__page().Conn().Stmt_new(Db_qry_sql.rdr_("SELECT (Max(page_id) + 1) AS max_page_id FROM page;")).Exec_select__rls_manual();
-			Db_rdr rdr = db_mgr.Core_data_mgr().Tbl__page().Conn().Stmt_select(db_file.Tbl__page().Tbl_name(), String_.Ary(db_file.Tbl__page().Fld_page_id()), Dbmeta_fld_itm.Str_ary_empty).Exec_select__rls_auto();
+			Db_rdr rdr = db_mgr.Core_data_mgr().Tbl__page().conn.Stmt_select(db_file.Tbl__page().Tbl_name(), String_.Ary(db_file.Tbl__page().Fld_page_id()), Dbmeta_fld_itm.Str_ary_empty).Exec_select__rls_auto();
 			try {
 				int max_page_id = -1;
 				while (rdr.Move_next()) {
@@ -50,7 +49,7 @@ public class Xodb_save_mgr_sql implements Xodb_save_mgr {
 		db_mgr.Core_data_mgr().Tbl__page().Update__redirect__modified(page_id, redirect, modified);
 		Xowd_page_itm db_page = new Xowd_page_itm();
 		db_mgr.Load_mgr().Load_by_id(db_page, page.Revision_data().Id());
-		Xowd_text_tbl text_tbl = db_mgr.Core_data_mgr().Dbs__get_at(db_page.Text_db_id()).Tbl__text();
+		Xowd_text_tbl text_tbl = db_mgr.Core_data_mgr().Dbs__get_by_id(db_page.Text_db_id()).Tbl__text();
 		text_tbl.Update(page.Revision_data().Id(), text_raw);
 //			int html_db_id = db_page.Html_db_id();
 //			if (html_db_id != -1)

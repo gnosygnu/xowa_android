@@ -11,15 +11,15 @@ public class Xob_diff_regy_make_cmd extends Xob_itm_basic_base implements Xob_cm
 	public void Cmd_end() {}
 	public void Cmd_term() {}
 	private void Exec_main() {
-		Db_conn make_db_provider = Xob_db_file.new__file_make(wiki.Fsys_mgr().Root_dir()).Conn();
+		Db_conn make_db_provider = Xob_db_file.New__file_make(wiki.Fsys_mgr().Root_dir()).Conn();
 		this.Make_join_indexes(make_db_provider);
 		this.Make_diff_regy(make_db_provider);
 		this.Make_delete_sql(make_db_provider);
 	}
 	private void Make_join_indexes(Db_conn make_db_provider) {
 		try {
-			make_db_provider.Ddl_create_idx(Dbmeta_idx_itm.new_normal_by_name("fsdb_regy", "fsdb_regy__join", "fsdb_name", "fsdb_is_orig", "fsdb_repo", "fsdb_w", "fsdb_time", "fsdb_page"));
-			make_db_provider.Ddl_create_idx(Dbmeta_idx_itm.new_normal_by_name("xfer_regy", "xfer_regy__join", "lnki_ttl", "file_is_orig", "orig_repo", "file_w", "lnki_time", "lnki_page"));
+			make_db_provider.Meta_idx_create(Dbmeta_idx_itm.new_normal_by_name("fsdb_regy", "fsdb_regy__join", "fsdb_name", "fsdb_is_orig", "fsdb_repo", "fsdb_w", "fsdb_time", "fsdb_page"));
+			make_db_provider.Meta_idx_create(Dbmeta_idx_itm.new_normal_by_name("xfer_regy", "xfer_regy__join", "lnki_ttl", "file_is_orig", "orig_repo", "file_w", "lnki_time", "lnki_page"));
 		}
 		catch (Exception exc) {
 			app.Usr_dlg().Warn_many("", "", "error while making indexes: err=~{0}", Err_.Message_gplx_full(exc));
@@ -31,7 +31,7 @@ public class Xob_diff_regy_make_cmd extends Xob_itm_basic_base implements Xob_cm
 		Sqlite_engine_.Idx_create(make_db_provider, Xob_diff_regy_tbl.Idx_diff_regy__load);
 	}
 	private void Make_delete_sql(Db_conn make_db_provider) {
-		DataRdr rdr = make_db_provider.Exec_sql_as_rdr(Xob_diff_regy_tbl.Make_deletes);
+		DataRdr rdr = make_db_provider.Exec_sql_as_old_rdr(Xob_diff_regy_tbl.Make_deletes);
 		int cur_db_id = -1, cur_count = 0;
 		Bry_bfr atr_bfr = Bry_bfr.new_(), bin_bfr = Bry_bfr.new_();
 		Io_url sql_tmp_dir = wiki.App().Fsys_mgr().File_dir().GenSubDir_nest(wiki.Domain_str(), "tmp_sql");

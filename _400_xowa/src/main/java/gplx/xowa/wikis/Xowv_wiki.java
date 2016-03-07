@@ -5,7 +5,7 @@ import gplx.xowa.apps.*;
 import gplx.xowa.guis.*;
 import gplx.xowa.langs.*; import gplx.xowa.langs.cases.*; 
 import gplx.xowa.files.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.fsdb.*; import gplx.xowa.files.bins.*;
-import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.*; import gplx.xowa.files.repos.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.specials.*;
+import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.*; import gplx.xowa.files.repos.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.specials.*; import gplx.xowa.addons.*;
 import gplx.xowa.htmls.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.htmls.core.*; import gplx.xowa.htmls.core.hzips.*; import gplx.xowa.htmls.css.*; import gplx.xowa.htmls.bridges.dbuis.tbls.*;
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.parsers.*;
@@ -52,6 +52,7 @@ public class Xowv_wiki implements Xow_wiki, Xow_ttl_parser, GfoInvkAble {
 	public Xow_wiki_props				Props() {return props;} private final Xow_wiki_props props = new Xow_wiki_props();
 	public Xol_lang_itm					Lang() {throw Err_.new_unimplemented();}
 	public Xoa_url_parser				Utl__url_parser() {return url__parser;} private final Xoa_url_parser url__parser;
+	public Xoax_addon_mgr				Addon_mgr() {return addon_mgr;} private final Xoax_addon_mgr addon_mgr = new Xoax_addon_mgr();
 
 	public Xosp_special_mgr Special_mgr() {return special_mgr;} private Xosp_special_mgr special_mgr;
 	public Xow_xwiki_mgr Xwiki_mgr() {return xwiki_mgr;} private final Xow_xwiki_mgr xwiki_mgr;

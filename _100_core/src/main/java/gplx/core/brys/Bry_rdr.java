@@ -51,7 +51,7 @@ public class Bry_rdr {
 		}
 		return rv;
 	}
-	public double Read_double_to() {return Read_double_to(dflt_dlm);}
+	public double Read_double_to()			{return Read_double_to(dflt_dlm);}
 	public double Read_double_to(byte to_char) {
 		byte[] bry = Read_bry_to(to_char);
 		return Double_.parse(String_.new_a7(bry));

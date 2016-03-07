@@ -9,7 +9,7 @@ public interface DataRdr extends SrlMgr, Rls_able {
 	int FieldCount();
 	String KeyAt(int i);
 	Object ReadAt(int i);
-	KeyVal KeyValAt(int i);
+	Keyval KeyValAt(int i);
 
 	Object Read(String key);
 	String ReadStr(String key);				String ReadStrOr(String key, String or);
@@ -22,7 +22,7 @@ public interface DataRdr extends SrlMgr, Rls_able {
 	double ReadDouble(String key);			double ReadDoubleOr(String key, double or);
 	float ReadFloat(String key);			float ReadFloatOr(String key, float or);
 	byte ReadByte(String key);				byte ReadByteOr(String key, byte or);
-	Decimal_adp ReadDecimal(String key);		Decimal_adp ReadDecimalOr(String key, Decimal_adp or);
+	Decimal_adp ReadDecimal(String key);	Decimal_adp ReadDecimalOr(String key, Decimal_adp or);
 	DateAdp ReadDate(String key);			DateAdp ReadDateOr(String key, DateAdp or);
 	gplx.core.ios.Io_stream_rdr ReadRdr(String key);
 

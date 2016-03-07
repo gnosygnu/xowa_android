@@ -1,8 +1,8 @@
 package gplx.gfui; import gplx.*;
 import gplx.core.lists.*; /*EnumerAble*/
 public class GfuiListBox extends GfuiElemBase {
-	@Override public GxwElem UnderElem_make(KeyValHash ctorArgs) {return GxwElemFactory_.Instance.listBox_();}
-	@Override public void ctor_GfuiBox_base(KeyValHash ctorArgs) {
+	@Override public GxwElem UnderElem_make(Keyval_hash ctorArgs) {return GxwElemFactory_.Instance.listBox_();}
+	@Override public void ctor_GfuiBox_base(Keyval_hash ctorArgs) {
 		super.ctor_GfuiBox_base(ctorArgs);
 		this.listBox = (GxwListBox)UnderElem();
 	}

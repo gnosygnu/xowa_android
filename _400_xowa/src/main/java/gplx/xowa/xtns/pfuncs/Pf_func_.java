@@ -72,6 +72,7 @@ public class Pf_func_ {
 			, Xol_kwd_grp_.Id_strx_replace
 			, Xol_kwd_grp_.Id_strx_explode
 			, Xol_kwd_grp_.Id_strx_urldecode
+			, Xol_kwd_grp_.Id_new_window_link
 			);
 			Ary_nonwmf = (int[])list.To_ary_and_clear(int.class);
 		}
@@ -373,6 +374,7 @@ public class Pf_func_ {
 			case Xol_kwd_grp_.Id_lstx:							return gplx.xowa.xtns.lst.Lst_pfunc_lstx.Instance;
 			case Xol_kwd_grp_.Id_invoke:						return new gplx.xowa.xtns.scribunto.Scrib_invoke_func();
 			case Xol_kwd_grp_.Id_pagebanner:					return new gplx.xowa.xtns.pagebanners.Pgbnr_func();
+			case Xol_kwd_grp_.Id_new_window_link:				return new gplx.xowa.xtns.new_window_links.New_window_link_func();
 
 			case Xol_kwd_grp_.Id_property:						return new gplx.xowa.xtns.wdatas.pfuncs.Wdata_pf_property();
 			case Xol_kwd_grp_.Id_noexternallanglinks:			return new gplx.xowa.xtns.wdatas.pfuncs.Wdata_pf_noExternalLangLinks();

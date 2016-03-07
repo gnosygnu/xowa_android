@@ -1,6 +1,6 @@
 package gplx.dbs.engines.sqlite; import gplx.*; import gplx.dbs.*; import gplx.dbs.engines.*;
 import java.sql.*; //#<>System.Data~java.sql
-import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.engines.sqlite.*; import gplx.dbs.metas.*;
+import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.engines.sqlite.*; import gplx.dbs.metas.*; import gplx.dbs.sqls.*;
 //#{import
 import gplx.dbs.qrys.*; 
 //#}
@@ -10,23 +10,31 @@ public class Sqlite_engine extends Db_engine_sql_base {
 		this.txn_mgr = new Sqlite_txn_mgr(this);
 		this.schema_mgr = new Sqlite_schema_mgr(this);
 	}
-	@Override public String Tid() {return Sqlite_conn_info.Tid_const;}
+	@Override public String Tid() {return Sqlite_conn_info.Key_const;}
+	@Override public gplx.dbs.sqls.Sql_qry_wtr Sql_wtr() {return Sql_qry_wtr_.Sqlite;}
 	@Override public Db_engine New_clone(Db_conn_info connectInfo) {
 		Sqlite_engine rv = new Sqlite_engine();
 		rv.Ctor(connectInfo);
 		return rv;
 	}
 	@Override public DataRdr New_rdr(ResultSet rdr, String commandText) {return Sqlite_rdr.new_(rdr, commandText);}//#<>IDataReader~ResultSet
-	@Override public Db_rdr New_rdr_clone() {return new Db_rdr__sqlite();}
+	@Override public Db_rdr	New_rdr_clone() {return new Db_rdr__sqlite();}
+	@Override public void	Env_db_attach(String alias, Db_conn conn)	{
+		Db_conn_info cs_obj = conn.Conn_info(); if (!String_.Eq(cs_obj.Key(), Sqlite_conn_info.Key_const)) throw Err_.new_("dbs", "must attach to sqlite databases", "conn", cs_obj.Raw());
+		Sqlite_conn_info cs = (Sqlite_conn_info)cs_obj;
+		Env_db_attach(alias, cs.Url());
+	}
 	@Override public void	Env_db_attach(String alias, Io_url db_url)	{Exec_as_int(String_.Format("ATTACH '{0}' AS {1};", db_url.Raw(), alias));}
 	@Override public void	Env_db_detach(String alias)					{Exec_as_int(String_.Format("DETACH {0};", alias));}
 	@Override public void	Txn_bgn(String name)	{txn_mgr.Txn_bgn(name);}
 	@Override public String	Txn_end()				{return txn_mgr.Txn_end();}
 	@Override public void	Txn_cxl()				{txn_mgr.Txn_cxl();}
 	@Override public void	Txn_sav()				{txn_mgr.Txn_sav();}
+	@Override public void	Meta_reload()							{schema_mgr.Tbl_load_all();}
 	@Override public boolean	Meta_tbl_exists(String tbl)				{return schema_mgr.Tbl_exists(tbl);}
 	@Override public boolean	Meta_fld_exists(String tbl, String fld) {return schema_mgr.Fld_exists(tbl, fld);}
 	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {return schema_mgr.Tbl_load_all();}
+	@Override public Db_stmt New_stmt_prep(Db_qry qry) {return new Sqlite_stmt(this, qry);}
 	//#{lang
 	private static boolean loaded = false;
 	protected void Meta_tbl_gather_hook() {throw Err_.new_unimplemented();}
@@ -122,4 +130,11 @@ class Sqlite_rdr extends Db_data_rdr {//#*inherit
 		rv.ctor_db_data_rdr(rdr, commandText);
 		return rv;
 	}	Sqlite_rdr() {}
+}
+class Sqlite_stmt extends gplx.dbs.qrys.Db_stmt_cmd {//#*inherit
+	public Sqlite_stmt(Db_engine engine, Db_qry qry) {super(engine, qry);}
+	@Override protected Db_stmt Add_date(boolean where, String k, DateAdp v) {
+		if (k == Dbmeta_fld_itm.Key_null) return this;	// key is explicitly null; ignore; allows version_2+ type definitions
+		return super.Add_str(where, k, v.XtoStr_fmt_iso_8561());
+	}
 }

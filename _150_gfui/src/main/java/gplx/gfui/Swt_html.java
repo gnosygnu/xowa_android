@@ -21,11 +21,11 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 class Swt_html implements Gxw_html, Swt_control, FocusListener {
 	private Swt_html_lnr_location lnr_location; private Swt_html_lnr_status lnr_status;
-	public Swt_html(Swt_kit kit, Swt_control owner_control, KeyValHash ctorArgs) {
+	public Swt_html(Swt_kit kit, Swt_control owner_control, Keyval_hash ctorArgs) {
 		this.kit = kit;
 		lnr_location = new Swt_html_lnr_location(this);
 		lnr_status = new Swt_html_lnr_status(this);
-		Object browser_tid_obj = ctorArgs.FetchValOr(Swt_kit.Cfg_Html_BrowserType, null);
+		Object browser_tid_obj = ctorArgs.Get_val_or(Swt_kit.Cfg_Html_BrowserType, null);
 		this.browser_tid = browser_tid_obj == null ? Browser_tid_none : Int_.cast(browser_tid_obj);
 		browser = new Browser(owner_control.Under_composite(), browser_tid);
 		core = new Swt_core_cmds_html(this, browser);

@@ -19,6 +19,7 @@ public class Xowd_page_itm {
 	public Xow_ns		Ns() {return ns;} private Xow_ns ns;
 	public Object		Xtn() {return xtn;} public Xowd_page_itm Xtn_(Object v) {this.xtn = v; return this;} private Object xtn;
 	public int			Tdb_row_idx() {return tdb_row_idx;} public void Tdb_row_idx_(int v) {tdb_row_idx = v;} private int tdb_row_idx;
+	public int			Rank() {return text_len;}
 	public Xowd_page_itm	Init(int id, byte[] ttl_page_db, boolean redirected, int text_len, int text_db_id, int tdb_row_idx) {
 		this.id = id; this.ttl_page_db = ttl_page_db; this.redirected = redirected;
 		this.text_len = text_len; this.text_db_id = text_db_id; this.tdb_row_idx = tdb_row_idx; 

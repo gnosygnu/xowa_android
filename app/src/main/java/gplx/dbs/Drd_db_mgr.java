@@ -62,6 +62,7 @@ class Drd_db_rdr implements Db_rdr {
         if (rv == null || !rv.moveToFirst()) throw Err_.new_wo_type("failed to open cursor", "sql", sql, "crt", String_.AryXtoStr(args));
         return rv;
     }
+    public int          Fld_len()                       {return cursor.getColumnCount();}
     public byte[]		Read_bry_by_str(String k) 		{return Bry_.new_u8(cursor.getString(cursor.getColumnIndex(k)));}
     public String 		Read_str(String k) 				{return cursor.getString(cursor.getColumnIndex(k));}
     public byte 		Read_byte(String k) 			{return (byte)cursor.getInt(cursor.getColumnIndex(k));}
@@ -72,6 +73,7 @@ class Drd_db_rdr implements Db_rdr {
     public DateAdp		Read_date_by_str(String k) 		{return DateAdp_.parse_iso8561(Read_str(k));}
     public boolean 		Read_bool_by_byte(String k) 	{return ((byte)cursor.getInt(cursor.getColumnIndex(k))) == 1;}
     public Object 		Read_obj(String k)				{throw Err_.new_unimplemented();}
+    public Object 		Read_at(int k)				    {throw Err_.new_unimplemented();}
     public void			Rls() 							{
         cursor.close();
         if (stmt != null) stmt.Rls();
@@ -127,6 +129,12 @@ class Drd_db_stmt implements Db_stmt {
     public Db_stmt Val_bry_as_str(String k, byte[] v)			{return Add_bry_as_str(Bool_.N, k, v);}
     public Db_stmt Val_bry_as_str(byte[] v)						{return Add_bry_as_str(Bool_.N, Key_na, v);}
     private Db_stmt Add_bry_as_str(boolean where, String k, byte[] v) {Add(k, String_.new_u8(v)); return this;}
+    public Db_stmt Crt_date(String k, DateAdp v)				{return Add_date(Bool_.Y, k, v);}
+    public Db_stmt Val_date(String k, DateAdp v)				{return Add_date(Bool_.N, k, v);}
+    private Db_stmt Add_date(boolean where, String k, DateAdp v) {Add(k, v.XtoStr_fmt_iso_8561()); return this;}
+    public Db_stmt Crt_text(String k, String v)					{return Add_text(Bool_.Y, k, v);}
+    public Db_stmt Val_text(String k, String v)					{return Add_text(Bool_.N, k, v);}
+    private Db_stmt Add_text(boolean where, String k, String v) {Add(k, v); return this;}
     public Db_stmt Val_rdr_(gplx.core.ios.Io_stream_rdr rdr, long rdr_len) {return this;}
     private void Add(String k, String v) {
         if (k == Dbmeta_fld_itm.Key_null) return;	// key is explicitly null; ignore; allows version_2+ type definitions
@@ -147,7 +155,7 @@ class Drd_db_stmt implements Db_stmt {
 //		Db_qry_insert qry = (Db_qry_insert)qry_obj;
 //		int len = list.Count();
 //		for (int i = 0; i < len; ++i) {
-//			KeyVal kv = (KeyVal)qry.Args().FetchAt(i);
+//			Keyval kv = (Keyval)qry.Args().FetchAt(i);
 //			Db_arg arg = (Db_arg)kv.Val(); 
 //			arg.Val_((String)list.FetchAt(i));
 //		}
@@ -158,7 +166,7 @@ class Drd_db_stmt implements Db_stmt {
         return true;
     }
     private void Exec_qry(Db_qry qry) {
-        String sql = Sql_qry_wtr_.Instance.Xto_str(qry, true);
+        String sql = Sql_qry_wtr_.Sqlite.To_sql_str(qry, true);
         sql = Db_stmt_sql.Xto_str(tmp_bfr, tmp_fmtr, sql, list);
         list.Clear();
         Db_assert();
@@ -200,12 +208,16 @@ class Drd_db_stmt implements Db_stmt {
         else {
             if (qry_obj.getClass().equals(Db_qry_sql.class)) {
                 Db_qry_sql qry = (Db_qry_sql) qry_obj;
-                Cursor cursor = db.rawQuery(qry.Xto_sql(), String_.Ary_empty);
+                Cursor cursor = null;
+                if (selection_args == null || selection_args.length == 0)
+                    cursor = db.rawQuery(qry.To_sql__exec(engine.Sql_wtr()), String_.Ary_empty);
+                else
+                    cursor = db.rawQuery(engine.Sql_wtr().To_sql_str(qry, Bool_.Y), selection_args);
                 return rls_manual ? engine.New_rdr__rls_manual(cursor, "") : engine.New_rdr__rls_auto(this, cursor, "");
             }
             else {
                 Db_qry__select_cmd qry = (Db_qry__select_cmd) qry_obj;
-                Cursor cursor = db.rawQuery(qry.Xto_sql_prepare(), selection_args);
+                Cursor cursor = db.rawQuery(qry.To_sql__prep(engine.Sql_wtr()), selection_args);
                 return rls_manual ? engine.New_rdr__rls_manual(cursor, "") : engine.New_rdr__rls_auto(this, cursor, "");
             }
         }

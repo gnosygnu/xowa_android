@@ -99,6 +99,12 @@ public class Xoh_lnki_wtr {
 					Gfh_utl.Escape_html_to_bfr(bfr, title_bry, 0, title_len, Bool_.N, Bool_.N, Bool_.N, Bool_.Y, Bool_.N);	// escape title; DATE:2014-10-27
 				}
 			}
+			if (wiki.Domain_tid() == gplx.xowa.wikis.domains.Xow_domain_tid_.Int__other) {
+				if (lnki.Target != null) {
+					bfr.Add_str_a7("\" target=\"");
+					bfr.Add(lnki.Target);
+				}
+			}
 			if (!hctx.Mode_is_hdump()) {							// don't write visited for hdump
 				if (cfg.Lnki__visited()
 					&& history_mgr.Has(wiki.Domain_bry(), ttl_bry))

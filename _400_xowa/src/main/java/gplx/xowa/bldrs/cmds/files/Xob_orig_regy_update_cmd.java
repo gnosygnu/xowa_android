@@ -8,7 +8,7 @@ public class Xob_orig_regy_update_cmd extends Xob_itm_basic_base implements Xob_
 	public void Cmd_init(Xob_bldr bldr) {}
 	public void Cmd_bgn(Xob_bldr bldr) {
 //			Xof_orig_mgr qry_mgr = new Xof_orig_mgr();
-		Db_conn conn = Xob_db_file.new__file_make(wiki.Fsys_mgr().Root_dir()).Conn();
+		Db_conn conn = Xob_db_file.New__file_make(wiki.Fsys_mgr().Root_dir()).Conn();
 		Xob_orig_regy_update_bmk_mgr bmk = new Xob_orig_regy_update_bmk_mgr();
 		bmk.Init(conn, this.Cmd_key(), true, false, true);
 		bmk.Load();
@@ -32,7 +32,7 @@ public class Xob_orig_regy_update_cmd extends Xob_itm_basic_base implements Xob_
 		}
 		*/
 	}
-	public DataRdr Select(Db_conn p, byte prv_repo_id, byte[] prv_ttl) {
+	public DataRdr Select(Db_conn conn, byte prv_repo_id, byte[] prv_ttl) {
 		String sql = String_.Concat_lines_nl_skip_last
 		(	"SELECT	lnki_ttl"
 		,	"FROM	orig_regy"	
@@ -41,7 +41,7 @@ public class Xob_orig_regy_update_cmd extends Xob_itm_basic_base implements Xob_
 		,	"AND	oimg_orig_page_id = -1;"
 		);
 		Db_qry select_qry = Db_qry_sql.rdr_(sql);
-		return p.Exec_qry_as_rdr(select_qry);
+		return conn.Exec_qry_as_old_rdr(select_qry);
 	}
 	public void Cmd_run() {}
 	public void Cmd_end() {}

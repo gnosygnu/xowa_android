@@ -15,9 +15,9 @@ public class Xowd_cat_link_tbl implements Rls_able {
 		fld_timestamp		= flds.Add_str	("cl_timestamp", 14);
 		conn.Rls_reg(this);
 	}
-	public Xowd_cat_link_tbl Create_tbl() {conn.Ddl_create_tbl(Dbmeta_tbl_itm.New(tbl_name, flds)); return this;}
+	public Xowd_cat_link_tbl Create_tbl() {conn.Meta_tbl_create(Dbmeta_tbl_itm.New(tbl_name, flds)); return this;}
 	public void Create_idx() {
-		conn.Ddl_create_idx(Xoa_app_.Usr_dlg()
+		conn.Meta_idx_create(Xoa_app_.Usr_dlg()
 		, Dbmeta_idx_itm.new_normal_by_tbl(tbl_name, "main", fld_to_id, fld_type_id, fld_sortkey, fld_from)
 		, Dbmeta_idx_itm.new_normal_by_tbl(tbl_name, "from", fld_from)
 		);
@@ -37,11 +37,11 @@ public class Xowd_cat_link_tbl implements Rls_able {
 	public int Select_by_type(List_adp list, int cat_page_id, byte arg_tid, byte[] arg_sortkey, boolean arg_is_from, int limit) {
 		String arg_sortkey_str = arg_sortkey == null ? "" : String_.new_u8(arg_sortkey);
 		gplx.core.criterias.Criteria comp_crt = !arg_is_from 
-			? Db_crt_.mte_(fld_sortkey, arg_sortkey_str)		// from:  sortkey >= 'val'
-			: Db_crt_.lte_(fld_sortkey, arg_sortkey_str);		// until: sortkey <= 'val'
+			? Db_crt_.New_mte(fld_sortkey, arg_sortkey_str)		// from:  sortkey >= 'val'
+			: Db_crt_.New_lte(fld_sortkey, arg_sortkey_str);		// until: sortkey <= 'val'
 		Db_qry__select_cmd qry = Db_qry_.select_().Cols_(fld_from, fld_sortkey).From_(tbl_name)
-			.Where_(gplx.core.criterias.Criteria_.And_many(Db_crt_.eq_(fld_to_id, -1), Db_crt_.eq_(fld_type_id, arg_tid), comp_crt))
-			.OrderBy_(fld_sortkey, !arg_is_from)
+			.Where_(gplx.core.criterias.Criteria_.And_many(Db_crt_.New_eq(fld_to_id, -1), Db_crt_.New_eq(fld_type_id, arg_tid), comp_crt))
+			.Order_(fld_sortkey, !arg_is_from)
 			.Limit_(limit + 1);									// + 1 to get last_plus_one for next page / previous page
 		Db_rdr rdr = conn.Stmt_new(qry).Crt_int(fld_to_id, cat_page_id).Crt_byte(fld_type_id, arg_tid).Crt_str(fld_sortkey, arg_sortkey_str).Exec_select__rls_auto();
 		int count = 0;

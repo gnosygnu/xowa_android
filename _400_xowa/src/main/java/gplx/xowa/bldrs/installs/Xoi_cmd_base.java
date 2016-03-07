@@ -89,10 +89,22 @@ class Xoi_cmd_search2_build extends Xoi_cmd_base {
 		if (app.Setup_mgr().Dump_mgr().Wiki_storage_type_is_sql()) {
 			wiki.Db_mgr_as_sql().Category_version_update(false);
 			bldr.Cmd_mgr().Add_many(wiki, Xob_cmd_keys.Key_text_search_cmd);
+			int page_rank_iterations = app.Api_root().Bldr().Wiki().Import().Page_rank().Iteration_max();
+			boolean page_rank_enabled = page_rank_iterations > 0;
+			if (page_rank_enabled) {
+				bldr.Cmd_mgr().Add(new gplx.xowa.bldrs.cmds.utils.Xob_download_cmd(bldr, wiki).Dump_type_(gplx.xowa.addons.pagelinks.bldrs.Pglnk_bldr_cmd.Dump_type_key));
+				bldr.Cmd_mgr().Add_many(wiki, Xob_cmd_keys.Key_wiki_page_link);
+			}
+			bldr.Cmd_mgr().Add(new gplx.xowa.addons.searchs.bldrs.Srch_page_rank_cmd(bldr, wiki).Iteration_max_(page_rank_iterations));
+			bldr.Cmd_mgr().Add(new gplx.xowa.addons.searchs.bldrs.Srch_page_score_cmd(bldr, wiki).Page_rank_enabled_(page_rank_enabled));
+			bldr.Cmd_mgr().Add_many(wiki, Xob_cmd_keys.Key_search_link_tier);
+			Xob_db_file db_file = Xob_db_file.New__page_link(wiki);
+			db_file.Conn().Rls_conn();
+			Io_mgr.Instance.DeleteFil(db_file.Url());
 		}
 	}
 	@Override public void Process_async_done(Xoae_app app, Xowe_wiki wiki, Xob_bldr bldr) {
 		app.Usr_dlg().Prog_many("", "", "search2 setup done");
-		wiki.Db_mgr().Search_version_refresh();
+		// wiki.Db_mgr().Search_version_refresh();
 	}
 }

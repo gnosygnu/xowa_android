@@ -13,9 +13,8 @@ class Xob_ns_to_db_wkr__html implements Xob_ns_to_db_wkr {
 	public void Tbl_term(Xowd_db_file db) {
 		db.Tbl__text().Insert_end(); 
 		Db_conn db_conn = db.Conn();
-		Db_attach_cmd.new_(page_db.Conn(), "html_db", db.Url())
-			.Add_fmt("hdump.update page.html_db_id", Sql_update_page_html_db_id, db.Id())
-			.Exec();
+		new Db_attach_mgr(page_db.Conn(), new Db_attach_itm("html_db", db.Url()))
+			.Exec_sql_w_msg("hdump.update page.html_db_id", Sql_update_page_html_db_id, db.Id());
 		db_conn.Rls_conn();
 	}
 	private static final String Sql_update_page_html_db_id = String_.Concat_lines_nl_skip_last
@@ -31,6 +30,6 @@ class Xob_ns_to_db_wkr__html implements Xob_ns_to_db_wkr {
 	, ",        {0}"
 	, ",        p.page_redirect_id"
 	, "FROM     page p"
-	, "         JOIN <attach_db>html h ON p.page_id = h.page_id"
+	, "         JOIN <html_db>html h ON p.page_id = h.page_id"
 	);
 }
