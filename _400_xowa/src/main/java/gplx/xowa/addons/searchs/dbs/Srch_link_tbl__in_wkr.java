@@ -21,7 +21,7 @@ class Srch_link_tbl__in_wkr extends gplx.dbs.utls.Db_in_wkr__base {
 	}
 	@Override protected void Read_data(Cancelable cxl, Db_rdr rdr) {
 		while (rdr.Move_next()) {
-			if (cxl.Canceled()) {cxl.Cancel_ackd_(); return;}
+			if (cxl.Canceled()) return;
 			int page_id = rdr.Read_int(fld_page_id);
 			Xowd_page_itm page = new Xowd_page_itm().Id_(page_id);
 			pages.Add(page);

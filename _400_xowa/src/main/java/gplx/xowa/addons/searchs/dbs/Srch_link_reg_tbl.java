@@ -21,7 +21,6 @@ public class Srch_link_reg_tbl implements Rls_able {
 		Db_stmt stmt_insert = conn.Stmt_insert(tbl_name, flds);
 		stmt_insert.Clear().Val_int(fld_id, id).Val_int(fld_db_id, db_id).Val_str(fld_db_type, db_type).Val_str(fld_ns_ids, ns_ids).Val_int(fld_sub_id, sub_id).Val_int(fld_score_min, score_min).Val_int(fld_score_max, score_max).Exec_insert();
 	}
-
 	public static final String Tbl_name = "search_link_reg";
 	public static final String Db_type__title	= "title"	, Db_type__text = "text";
 	public static final String Ns_type__main	= "0"		, Ns_type__rest = "*";

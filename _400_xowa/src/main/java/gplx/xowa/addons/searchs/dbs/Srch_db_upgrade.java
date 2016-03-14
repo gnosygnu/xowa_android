@@ -6,9 +6,9 @@ public class Srch_db_upgrade {
 	public int Version() {
 		if (version == Version__unknown) {
 			Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
-			if		(word_tbl.fld_page_count		== Dbmeta_fld_itm.Key_null) version = Version__needs__page_count;
-			else if (word_tbl.fld_page_score_max	== Dbmeta_fld_itm.Key_null) version = Version__needs__page_score_max;
-			else																version = Version__current;
+			if		(word_tbl.fld_link_count		== Dbmeta_fld_itm.Key_null) version = Version__initial;
+			else if (word_tbl.fld_link_score_min	== Dbmeta_fld_itm.Key_null) version = Version__page_count;
+			else																version = Version__link_score;
 		}
 		return version;
 	}	private int version = Version__unknown;
@@ -19,8 +19,8 @@ public class Srch_db_upgrade {
 	}	private boolean version_check;
 	public void Upgrade() {
 		switch (version) {
-			case Version__needs__page_count:		Upgrade__page_count(); break;
-			case Version__needs__page_score_max:	Upgrade__page_score_max(); break;
+			case Version__initial:					Upgrade__page_count(); break;
+			case Version__page_count:	Upgrade__page_score_max(); break;
 			default: throw Err_.new_unhandled_default(version);
 		}
 	}
@@ -28,7 +28,6 @@ public class Srch_db_upgrade {
 		Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
 		Srch_link_tbl link_tbl = search_db_mgr.Tbl__link__get_at(0);
 		Db_conn conn = word_tbl.conn;
-
 		conn.Txn_bgn("schema__search_word__upgrade");
 		conn.Meta_fld_assert(word_tbl.tbl_name, "word_page_count", Dbmeta_fld_tid.Itm__int, 0);
 		conn.Exec_sql_plog_ntx("calculating page count per word (please wait)", String_.Format(String_.Concat_lines_nl_skip_last
@@ -47,17 +46,16 @@ public class Srch_db_upgrade {
 	}
 	private void Upgrade__page_score_max() {
 		Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
-		// Srch_link_tbl link_tbl = search_db_mgr.Tbl__link();
 		Db_conn conn = word_tbl.conn;
-
 		conn.Txn_bgn("schema__search_word__upgrade");
-		conn.Meta_fld_assert(word_tbl.tbl_name, "word_page_score_max", Dbmeta_fld_tid.Itm__int, 0);
+		conn.Meta_fld_assert(word_tbl.tbl_name, Srch_word_tbl.Fld_link_score_min, Dbmeta_fld_tid.Itm__int, 0);
+		conn.Meta_fld_assert(word_tbl.tbl_name, Srch_word_tbl.Fld_link_score_max, Dbmeta_fld_tid.Itm__int, 0);
 		conn.Txn_end();
 	}
 	public static final int 
 	  Version__unknown					= 0
-	, Version__current					= 1
-	, Version__needs__page_count		= 2
-	, Version__needs__page_score_max	= 3
+	, Version__initial					= 1
+	, Version__page_count				= 2
+	, Version__link_score				= 3
 	;
 }

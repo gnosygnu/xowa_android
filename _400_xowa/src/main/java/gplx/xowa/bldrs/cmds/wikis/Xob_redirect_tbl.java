@@ -130,7 +130,7 @@ public class Xob_redirect_tbl {
 	)
 	, Sql_update_redirect_id = String_.Concat_lines_nl_skip_last
 	( "REPLACE INTO"
-	, "        page_db.page"
+	, "        page_db.page (page_id, page_name"+"space, page_title, page_is_redirect, page_touched, page_len, page_random_int, page_text_db_id, page_html_db_id, page_redirect_id, page_score)"
 	, "SELECT  p.page_id"
 	, ",       p.page_name"+"space"
 	, ",       p.page_title"
@@ -141,6 +141,7 @@ public class Xob_redirect_tbl {
 	, ",       p.page_text_db_id"
 	, ",       p.page_html_db_id"
 	, ",       r.trg_id"
+	, ",       p.page_score"
 	, "FROM    redirect r"
 	, "        JOIN page_db.page p ON r.src_id = p.page_id"
 	)

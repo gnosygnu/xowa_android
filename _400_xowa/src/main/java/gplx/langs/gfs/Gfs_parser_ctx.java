@@ -23,7 +23,6 @@ class Gfs_parser_ctx {
 		cur_idf_end = end;
 	}	int cur_idf_bgn = -1, cur_idf_end = -1;
 	private void Held_word_clear() {cur_idf_bgn = -1; cur_idf_end = -1;}
-
 	public Gfs_nde Make_nde(int tkn_bgn, int tkn_end) {	// "abc."; "abc("; "abc;"; "abc{"
 		Gfs_nde nde = new Gfs_nde().Name_rng_(cur_idf_bgn, cur_idf_end);
 		this.Held_word_clear();

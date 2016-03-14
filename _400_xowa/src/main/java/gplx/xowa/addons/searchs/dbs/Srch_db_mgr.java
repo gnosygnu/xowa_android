@@ -1,4 +1,5 @@
 package gplx.xowa.addons.searchs.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*;
+import gplx.dbs.cfgs.*;
 import gplx.xowa.wikis.data.*;
 public class Srch_db_mgr {
 	private final Xow_wiki wiki;
@@ -7,6 +8,8 @@ public class Srch_db_mgr {
 		this.wiki = wiki;
 		Upgrade_mgr = new Srch_db_upgrade(this);
 	}
+	public Srch_db_cfg			Cfg()						{return cfg;} private Srch_db_cfg cfg;
+	public Db_cfg_tbl			Tbl__cfg()					{return tbl__cfg;} private Db_cfg_tbl tbl__cfg;
 	public Srch_word_tbl		Tbl__word()					{return tbl__word;} private Srch_word_tbl tbl__word;
 	public int					Tbl__link__len()			{return tbl__link__ary.length;}
 	public Srch_link_tbl		Tbl__link__get_at(int i)	{return tbl__link__ary[i];}
@@ -17,11 +20,15 @@ public class Srch_db_mgr {
 		if (db_mgr.Db__core().Db_props().Layout_text().Tid_is_all_or_few()) {
 			// single_db; core_db has search_word and search_link
 			word_db = db_mgr.Db__core();
+			tbl__cfg = new Db_cfg_tbl(word_db.Conn(), "xowa_cfg");
 			tbl__word = new Srch_word_tbl(word_db.Conn(), word_db.Db_props().Schema_is_1());
+			tbl__link__ary = new Srch_link_tbl[1];
 			Tbl__link__ary__set(tbl__link__ary, 0, word_db);
 		} else {
 			// many_db; figure out link_dbs
 			word_db = db_mgr.Dbs__get_by_tid_or_null(Srch_db_mgr_.Dbtid__search_core);
+			if (word_db == null) return this;	// HACK: called during init; skip;
+			tbl__cfg = new Db_cfg_tbl(word_db.Conn(), "xowa_cfg");
 			tbl__word = new Srch_word_tbl(word_db.Conn(), word_db.Db_props().Schema_is_1());
 			Ordered_hash hash = db_mgr.Dbs__get_hash_by_tid(Srch_db_mgr_.Dbtid__search_link);
 			if (hash == null) {	// v2 file layout where search_word and search_link is in 1 search_db
@@ -35,7 +42,8 @@ public class Srch_db_mgr {
 					Tbl__link__ary__set(tbl__link__ary, i, db_file);
 				}
 			}
-		}			
+		}
+		cfg = Srch_db_cfg_.New(tbl__cfg, wiki.Stats().Num_pages());
 		return this;
 	}
 	public void Delete_all(Xowd_db_mgr core_data_mgr) {

@@ -28,7 +28,6 @@ import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageActivityLongPressHandler;
 import org.wikipedia.page.PageLongPressHandler;
 import org.wikipedia.page.PageTitle;
-import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.views.GoneIfEmptyTextView;
 import org.wikipedia.views.WikiErrorView;
 
@@ -36,6 +35,8 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
+import gplx.Hash_adp;
+import gplx.Hash_adp_;
 import gplx.xowa.drds.OfflineSearchHandler;
 import gplx.xowa.drds.OfflineSearchTask;
 import gplx.xowa.drds.Xod_app_mgr;
@@ -68,6 +69,7 @@ public class SearchResultsFragment extends Fragment {
     private String currentSearchTerm = "";
     @Nullable private SearchResults lastFullTextResults;
     @NonNull private final List<PageTitle> totalResults = new ArrayList<>();
+    private final Hash_adp totalResultsHash = Hash_adp_.new_();
 
     /**
      * Whether full-text search has been disabled via remote kill-switch.
@@ -199,6 +201,7 @@ public class SearchResultsFragment extends Fragment {
         Message searchMessage = Message.obtain();
         searchMessage.what = MESSAGE_SEARCH;
         searchMessage.obj = term;
+        searchMessage.arg1 = 0;//totalResults.size();
         searchMessage.what = OfflineSearchHandler.Msg__search;
 
         if (force) {
@@ -221,7 +224,9 @@ public class SearchResultsFragment extends Fragment {
             return true;
         }
     }
-    public void Task__bgn() {
+    public void Task__bgn(boolean new_search) {
+        if (new_search)
+            clearResults();
         getPageActivity().updateProgressBar(true, true, 0);
     }
     public void Task__end(SearchResults results, long startTime, String searchTerm, boolean disable_progress) {
@@ -242,7 +247,7 @@ public class SearchResultsFragment extends Fragment {
 
         searchErrorView.setVisibility(View.GONE);
         if (!pageTitles.isEmpty()) {
-            clearResults();
+            // clearResults();
             displayResults(pageTitles);
         }
 
@@ -267,7 +272,8 @@ public class SearchResultsFragment extends Fragment {
         searchResultsList.post(new Runnable() {
             @Override
             public void run() {
-                searchResultsList.setSelectionAfterHeaderView();
+                // XOWA: disable b/c XOWA sends multiple requests and each resets to top
+//                searchResultsList.setSelectionAfterHeaderView();
             }
         });
 //        if (pageTitles.isEmpty()) {
@@ -277,7 +283,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
     public void doTitlePrefixSearch(final String searchTerm) {// XOWA
-        OfflineSearchTask offlineSearchTask = new OfflineSearchTask(app.getPrimarySite(), this, offlineSearchHandler, searchTerm);
+        OfflineSearchTask offlineSearchTask = new OfflineSearchTask(app.getPrimarySite(), this, offlineSearchHandler, searchTerm, totalResults.size(), true);
         cancelSearchTask();
         curSearchTask = offlineSearchTask;
         offlineSearchTask.execute();
@@ -375,63 +381,68 @@ public class SearchResultsFragment extends Fragment {
     private void doFullTextSearch(final String searchTerm,
                                   final SearchResults.ContinueOffset continueOffset,
                                   final boolean clearOnSuccess) {
+        if (!((OfflineSearchTask)curSearchTask).done) return;
+        OfflineSearchTask offlineSearchTask = new OfflineSearchTask(app.getPrimarySite(), this, offlineSearchHandler, searchTerm, totalResults.size(), false);
+        cancelSearchTask();
+        curSearchTask = offlineSearchTask;
+        offlineSearchTask.execute();
         // Use nanoTime to measure the time the search was started.
-        final long startTime = System.nanoTime();
-        new FullSearchArticlesTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite(),
-                                   searchTerm, BATCH_SIZE, continueOffset, false) {
-            @Override
-            public void onBeforeExecute() {
-                getPageActivity().updateProgressBar(true, true, 0);
-            }
-
-            @Override
-            public void onFinish(SearchResults results) {
-                if (!isAdded()) {
-                    return;
-                }
-
-                if (clearOnSuccess) {
-                    clearResults(false);
-                }
-
-                // To ease data analysis and better make the funnel track with user behaviour,
-                // only transmit search results events if there are a nonzero number of results
-                final List<PageTitle> pageTitles = results.getPageTitles();
-                if (!pageTitles.isEmpty()) {
-                    // Calculate total time taken to display results, in milliseconds
-                    final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
-                    searchFragment.getFunnel().searchResults(true, pageTitles.size(), timeToDisplay);
-                }
-
-                // append results to cache...
-                List<PageTitle> cachedTitles = searchResultsCache.get(app.getAppOrSystemLanguageCode() + "-" + searchTerm);
-                if (cachedTitles != null) {
-                    cachedTitles.addAll(pageTitles);
-                }
-
-                getPageActivity().updateProgressBar(false, true, 0);
-                searchErrorView.setVisibility(View.GONE);
-
-                // full text special:
-                SearchResultsFragment.this.lastFullTextResults = results;
-
-                displayResults(pageTitles);
-            }
-
-            @Override
-            public void onCatch(Throwable caught) {
-                if (!isAdded()) {
-                    return;
-                }
-                // Calculate total time taken to display results, in milliseconds
-                final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
-                searchFragment.getFunnel().searchError(true, timeToDisplay);
-                // getPageActivity().updateProgressBar(false, true, 0); // XOWA: ignore else will zap progress bar when only 1 result is returned
-
-                // since this is a follow-up search just show a message
-                FeedbackUtil.showError(getView(), caught);
-            }
-        }.execute();
+//        final long startTime = System.nanoTime();
+//        new FullSearchArticlesTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite(),
+//                                   searchTerm, BATCH_SIZE, continueOffset, false) {
+//            @Override
+//            public void onBeforeExecute() {
+//                getPageActivity().updateProgressBar(true, true, 0);
+//            }
+//
+//            @Override
+//            public void onFinish(SearchResults results) {
+//                if (!isAdded()) {
+//                    return;
+//                }
+//
+//                if (clearOnSuccess) {
+//                    clearResults(false);
+//                }
+//
+//                // To ease data analysis and better make the funnel track with user behaviour,
+//                // only transmit search results events if there are a nonzero number of results
+//                final List<PageTitle> pageTitles = results.getPageTitles();
+//                if (!pageTitles.isEmpty()) {
+//                    // Calculate total time taken to display results, in milliseconds
+//                    final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
+//                    searchFragment.getFunnel().searchResults(true, pageTitles.size(), timeToDisplay);
+//                }
+//
+//                // append results to cache...
+//                List<PageTitle> cachedTitles = searchResultsCache.get(app.getAppOrSystemLanguageCode() + "-" + searchTerm);
+//                if (cachedTitles != null) {
+//                    cachedTitles.addAll(pageTitles);
+//                }
+//
+//                getPageActivity().updateProgressBar(false, true, 0);
+//                searchErrorView.setVisibility(View.GONE);
+//
+//                // full text special:
+//                SearchResultsFragment.this.lastFullTextResults = results;
+//
+//                displayResults(pageTitles);
+//            }
+//
+//            @Override
+//            public void onCatch(Throwable caught) {
+//                if (!isAdded()) {
+//                    return;
+//                }
+//                // Calculate total time taken to display results, in milliseconds
+//                final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
+//                searchFragment.getFunnel().searchError(true, timeToDisplay);
+//                // getPageActivity().updateProgressBar(false, true, 0); // XOWA: ignore else will zap progress bar when only 1 result is returned
+//
+//                // since this is a follow-up search just show a message
+//                FeedbackUtil.showError(getView(), caught);
+//            }
+//        }.execute();
     }
 
     @Nullable
@@ -458,6 +469,7 @@ public class SearchResultsFragment extends Fragment {
         lastFullTextResults = null;
 
         totalResults.clear();
+        totalResultsHash.Clear();
 
         getAdapter().notifyDataSetChanged();
     }
@@ -478,14 +490,13 @@ public class SearchResultsFragment extends Fragment {
      */
     private void displayResults(List<PageTitle> results) {
         // XOWA: stop at 128; more than 128 (300) will freeze UI noticeably
-        totalResults.clear();
+        if (totalResults.size() > 255) return;
         int results_len = results.size();
         for (int i = 0; i < results_len; ++i) {
-            if (i >= 128) break;
-            PageTitle newResult = results.get(i);
-            if (!totalResults.contains(newResult)) {
-                totalResults.add(newResult);
-            }
+            PageTitle pageTitle = results.get(i);
+            if (totalResultsHash.Has(pageTitle.getCanonicalUri())) continue;
+            totalResults.add(pageTitle);
+            totalResultsHash.Add(pageTitle.getCanonicalUri(), pageTitle);
         }
 
         searchResultsContainer.setVisibility(View.VISIBLE);
@@ -563,19 +574,22 @@ public class SearchResultsFragment extends Fragment {
             PageTitle title = (PageTitle) getItem(position);
 
             // highlight search term within the text
-            String displayText = title.getDisplayText();
-            int startIndex = indexOf(displayText, currentSearchTerm);
-            if (startIndex >= 0) {
-                displayText = displayText.substring(0, startIndex)
-                      + "<strong>"
-                      + displayText.substring(startIndex, startIndex + currentSearchTerm.length())
-                      + "</strong>"
-                      + displayText.substring(startIndex + currentSearchTerm.length(),
-                                              displayText.length());
-                pageTitleText.setText(Html.fromHtml(displayText));
-            } else {
-                pageTitleText.setText(displayText);
-            }
+//            String displayText = Xod_app_mgr.Instance.Search_highlight(app.getPrimarySite().getDomain(), currentSearchTerm, title.getDisplayText());
+//            pageTitleText.setText(Html.fromHtml(displayText));
+            pageTitleText.setText(Html.fromHtml(title.Display_text_xowa));
+//            String displayText = title.getDisplayText();
+//            int startIndex = indexOf(displayText, currentSearchTerm);
+//            if (startIndex >= 0) {
+//                displayText = displayText.substring(0, startIndex)
+//                      + "<strong>"
+//                      + displayText.substring(startIndex, startIndex + currentSearchTerm.length())
+//                      + "</strong>"
+//                      + displayText.substring(startIndex + currentSearchTerm.length(),
+//                                              displayText.length());
+//                pageTitleText.setText(Html.fromHtml(displayText));
+//            } else {
+//                pageTitleText.setText(displayText);
+//            }
 
             GoneIfEmptyTextView descriptionText = (GoneIfEmptyTextView) convertView.findViewById(R.id.page_list_item_description);
             descriptionText.setText(title.getDescription());
@@ -622,4 +636,3 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 }
-

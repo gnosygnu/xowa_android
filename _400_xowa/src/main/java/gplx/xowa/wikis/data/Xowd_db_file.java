@@ -1,5 +1,6 @@
 package gplx.xowa.wikis.data; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*;
 import gplx.dbs.*; import gplx.dbs.cfgs.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.bldrs.infos.*;
+import gplx.xowa.wikis.data.site_stats.*;
 import gplx.xowa.htmls.core.dbs.*; import gplx.xowa.addons.searchs.dbs.*;
 public class Xowd_db_file {
 	Xowd_db_file(Db_cfg_tbl cfg_tbl, Xob_info_session info_session, Xob_info_file info_file, Xowd_core_db_props props, Xowd_db_file_schema_props schema_props, int id, byte tid, Io_url url, String ns_ids, int part_id, Guid_adp guid, Db_conn conn, byte cmd_mode) {
@@ -10,7 +11,7 @@ public class Xowd_db_file {
 		this.tbl__cfg = cfg_tbl;
 		this.tbl__db = new Xowd_xowa_db_tbl(conn, schema_is_1);
 		this.tbl__ns = new Xowd_site_ns_tbl(conn, schema_is_1);
-		this.tbl__site_stats = new Xowd_site_stats_tbl(conn, schema_is_1);
+		this.tbl__site_stats = new Xow_site_stats_tbl(conn, schema_is_1);
 		this.tbl__page = new Xowd_page_tbl(conn, schema_is_1);
 		this.tbl__text = new Xowd_text_tbl(conn, schema_is_1, props.Zip_tid_text());
 		this.tbl__html = new Xoh_page_tbl(conn);
@@ -48,7 +49,7 @@ public class Xowd_db_file {
 	public Xowd_css_file_tbl			Tbl__css_file()		{return tbl__css_file;}		private final Xowd_css_file_tbl tbl__css_file;
 	public Xowd_cat_core_tbl			Tbl__cat_core()		{return tbl__cat_core;}		private final Xowd_cat_core_tbl tbl__cat_core;
 	public Xowd_cat_link_tbl			Tbl__cat_link()		{return tbl__cat_link;}		private final Xowd_cat_link_tbl tbl__cat_link;
-	public Xowd_site_stats_tbl			Tbl__site_stats()	{return tbl__site_stats;}	private final Xowd_site_stats_tbl tbl__site_stats;
+	public Xow_site_stats_tbl			Tbl__site_stats()	{return tbl__site_stats;}	private final Xow_site_stats_tbl tbl__site_stats;
 	public Xowd_wbase_qid_tbl			Tbl__wbase_qid()	{return tbl__wbase_qid;}	private final Xowd_wbase_qid_tbl tbl__wbase_qid;
 	public Xowd_wbase_pid_tbl			Tbl__wbase_pid()	{return tbl__wbase_pid;}	private final Xowd_wbase_pid_tbl tbl__wbase_pid;
 	public void							Rls()				{conn.Rls_conn();}

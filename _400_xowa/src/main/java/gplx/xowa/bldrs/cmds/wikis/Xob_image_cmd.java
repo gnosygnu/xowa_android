@@ -19,7 +19,6 @@ public class Xob_image_cmd extends Xob_itm_dump_base implements Xob_cmd, GfoInvk
 			if (src_fil == null) throw Err_.new_wo_type(".sql file not found in dir", "dir", wiki.Fsys_mgr().Root_dir());
 		}
 		parser.Src_fil_(src_fil).Trg_fil_gen_(dump_url_gen).Fld_cmd_(this).Flds_req_idx_(20, Fld_img_name, Fld_img_size, Fld_img_width, Fld_img_height, Fld_img_bits, Fld_img_media_type, Fld_img_minor_mime, Fld_img_timestamp);
-
 		this.conn = Xob_db_file.New__wiki_image(wiki.Fsys_mgr().Root_dir()).Conn();
 		conn.Txn_bgn("bldr__image");
 		this.tbl_image = new Xob_image_tbl();

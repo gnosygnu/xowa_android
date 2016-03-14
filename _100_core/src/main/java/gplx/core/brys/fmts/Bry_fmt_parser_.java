@@ -52,7 +52,7 @@ public class Bry_fmt_parser_ {
 		len = keys.length;
 		for (int i = 0; i < len; ++i) {
 			byte[] key = keys[i];
-			Bry_fmt_itm key_itm = (Bry_fmt_itm)keys_hash.Get_by(key); if (key_itm == null) throw Err_.new_("bry_fmtr", "could not find key", "key", key);
+			Bry_fmt_itm key_itm = (Bry_fmt_itm)keys_hash.Get_by(key); if (key_itm == null) continue; // NOTE: ignore missing keys; EX: fmt=a~{b}c keys=b,d; do not fail b/c ~{d} is not in fmt; allows redefining from tests
 			key_itm.Key_idx = i;
 		}
 		return rv;

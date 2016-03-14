@@ -82,7 +82,6 @@ public class Scrib_regx_converter {
 							case Byte_ascii.Ltr_f: {	// EX: lua frontier pattern; "%f[%a]"; DATE:2015-07-21
 								++i;
 								if (i + 1 >= len || src[i] != Byte_ascii.Brack_bgn) throw Err_.new_("scribunto", "missing '[' after %f in pattern at pattern character $ii");
-
 								// %f always followed by bracketed term; convert lua bracketed term to regex
 								Bry_bfr tmp_bfr = Xoa_app_.Utl__bfr_mkr().Get_b128();
 								i = bracketedCharSetToRegex(tmp_bfr, src, i, len);

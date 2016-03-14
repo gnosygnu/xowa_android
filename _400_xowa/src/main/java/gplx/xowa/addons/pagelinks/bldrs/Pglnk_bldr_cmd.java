@@ -43,7 +43,6 @@ public class Pglnk_bldr_cmd extends Xob_sql_dump_base implements Sql_file_parser
 				break;
 		}
 	}
-
 	private static final byte Fld__pl_from = 0, Fld__pl_namespace = 1, Fld__pl_title = 2;
 	private static final String Sql__page_link__make = String_.Concat_lines_nl_skip_last
 	(	"INSERT INTO page_link (src_id, trg_id, trg_count)"

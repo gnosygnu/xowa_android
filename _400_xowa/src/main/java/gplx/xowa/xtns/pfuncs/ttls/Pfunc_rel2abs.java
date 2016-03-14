@@ -48,7 +48,6 @@ public class Pfunc_rel2abs extends Pf_func_base {
 		
 		// qry_len = RTrim(qry, Byte_ascii.Slash, qry_bgn, qry_len); // not needed, but test anyway		
 		if (qry_len == 0) return src;// no qry; return src; EX:{{#rel2abs:|a/b}} -> a/b
-
 		byte[] tmp = src;
 		int tmp_adj = 0, i = 0, prv_slash_end = 0, tmp_len = src_len, seg_pos = 0;
 		boolean tmp_is_1st = true;		

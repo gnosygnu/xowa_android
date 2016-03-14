@@ -48,9 +48,9 @@ public class Xob_cmd_mgr implements GfoInvkAble {
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_wbase_pid))					return Xml_rdr_direct_add(wiki, new Xob_wdata_pid_sql().Ctor(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_wbase_db))					return Add(new Xob_wdata_db_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_site_meta))					return Add(new Xob_site_meta_cmd(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search_link_tier))			return Add(new gplx.xowa.addons.searchs.bldrs.Srch_link_tier_cmd(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search_page_rank))			return Add(new gplx.xowa.addons.searchs.bldrs.Srch_page_rank_cmd(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search_page_score))			return Add(new gplx.xowa.addons.searchs.bldrs.Srch_page_score_cmd(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__page__page_score))			return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__page__page_score(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__link__link_score))			return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__link__link_score(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__word__link_count))		return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__word__link_count(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_sqlite_normalize))		return Add(new gplx.xowa.addons.sqlite_utils.bldrs.Sqlite_percentile_cmd(bldr, wiki));
 
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_tdb_text_init))				return Add(new Xob_init_tdb(bldr, wiki));

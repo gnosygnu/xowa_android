@@ -1,13 +1,16 @@
 package gplx.xowa.drds; import gplx.*; import gplx.xowa.*;
 import gplx.xowa.drds.pages.*; import gplx.xowa.drds.files.*;
 import gplx.xowa.apps.*; import gplx.xowa.wikis.data.tbls.*;
-import gplx.xowa.wikis.nss.*; import gplx.xowa.files.gui.*;
-import gplx.xowa.addons.searchs.searchers.itms.*; import gplx.xowa.addons.searchs.v1s.*; import gplx.xowa.specials.randoms.*;
+import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.nss.*; import gplx.xowa.files.gui.*;
+import gplx.xowa.addons.searchs.searchers.rslts.*; import gplx.xowa.specials.randoms.*;
 import gplx.langs.htmls.encoders.*; import gplx.xowa.htmls.hrefs.*;
+import gplx.xowa.addons.searchs.*; import gplx.xowa.addons.searchs.searchers.*;
+import gplx.xowa.langs.cases.*;
 public class Xod_app {
 	private final Xoav_app app;
 	private final Xod_page_mgr page_mgr = new Xod_page_mgr();
 	private final Xod_file_mgr file_mgr = new Xod_file_mgr();
+	private final Srch_ns_mgr ns_mgr = new Srch_ns_mgr();
 	public Xod_app(Xoav_app app) {
 		this.app = app;
 	}
@@ -24,18 +27,12 @@ public class Xod_app {
 		Xoa_url url = wiki.Utl__url_parser().Parse(random_ttl_bry);
 		return Wiki__get_by_url(wiki, url);
 	}
-//		public String[] Wiki__search(Cancelable cancelable, Srch_rslt_lnr rslt_lnr, Xow_wiki wiki, String search) {
-//			Srch_db_wkr search_wkr = new Srch_db_wkr();
-//			Srch_rslt_itm[] rows = search_wkr.Search_by_drd(cancelable, wiki, ui_async, Bry_.new_u8(search), 50);
-//			int len = rows.length;
-//			String[] rv = new String[len];
-//			for (int i = 0; i < len; ++i) {
-//				rv[i] = String_.new_u8(rows[i].page_ttl.Page_txt());
-//			}
-//			return rv;
-//		}
-	public void Wiki__search(Cancelable cancelable, Srch2_rslt_cbk rslt_cbk, Xow_wiki wiki, String search, Xod_search_cmd cmd) {
-		cmd.Search(cancelable, rslt_cbk, wiki, search);
+	public void Wiki__search(Cancelable cxl, Srch_rslt_cbk rslt_cbk, Xow_wiki wiki, String search, int bgn, int end) {
+		Srch_search_addon addon = Get_addon(wiki);
+		Srch_search_mgr search_mgr = addon.Search_mgr();
+		ns_mgr.Add_main_if_empty();
+		Srch_rslt_list rslts_list = new Srch_rslt_list();
+		search_mgr.Search(rslts_list, cxl, rslt_cbk, wiki, new Srch_qry(ns_mgr, Process_search(wiki.Case_mgr(), search), -1, bgn, end, false, Xow_domain_itm_.Ary_empty));
 	}
 	public void Page__load_files(Xow_wiki wiki, Xod_page_itm pg, Xog_js_wkr js_wkr) {
 		file_mgr.Load_files(wiki, pg, js_wkr);
@@ -49,4 +46,14 @@ public class Xod_app {
 		page_bry = Xoa_ttl.Replace_spaces(page_bry);								// convert spaces to unders; canonical-url has spaces
 		return page_bry;
 	}
+	private static byte[] Process_search(Xol_case_mgr case_mgr, String raw_str) {
+		byte[] rv = case_mgr.Case_build_lower(Bry_.new_u8(raw_str));	// lowercase String
+		int rv_len = rv.length;
+		if (	rv_len > 0 
+			&&	rv[rv_len - 1] != Byte_ascii.Space) {
+			rv = Bry_.Add(rv, Byte_ascii.Star_bry);
+		}
+		return rv;
+	}
+	private Srch_search_addon Get_addon(Xow_wiki wiki) {return Srch_search_addon.Get(wiki);}
 }

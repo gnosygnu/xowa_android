@@ -1,11 +1,12 @@
 package gplx;
 public class Math_ {
-	public static double Pow(double val, double exponent) {return java.lang.Math.pow(val, exponent);}//#<>System.Math.Pow~java.lang.Math.pow
-	public static double Pi = java.lang.Math.PI; //#<>System.Math.PI~java.lang.Math.PI
-	public static double E = java.lang.Math.E; //#<>System.Math.E~java.lang.Math.E
-	public static double Ceil(double v) {return java.lang.Math.ceil(v);}//#<>System.Math.Ceiling~java.lang.Math.ceil
-	public static double Floor(double v) {return java.lang.Math.floor(v);}//#<>System.Math.Floor~java.lang.Math.floor
-	public static double Round(double v, int places) {
+	public static double	Pow(double val, double exponent) {return java.lang.Math.pow(val, exponent);}//#<>System.Math.Pow~java.lang.Math.pow
+	public static double	Pi = java.lang.Math.PI; //#<>System.Math.PI~java.lang.Math.PI
+	public static double	E = java.lang.Math.E; //#<>System.Math.E~java.lang.Math.E
+	public static int		Ceil_as_int(double v) {return (int)Ceil(v);}
+	public static double	Ceil(double v) {return java.lang.Math.ceil(v);}//#<>System.Math.Ceiling~java.lang.Math.ceil
+	public static double	Floor(double v) {return java.lang.Math.floor(v);}//#<>System.Math.Floor~java.lang.Math.floor
+	public static double	Round(double v, int places) {
 		//#{Round
 		return java.math.BigDecimal.valueOf(v).setScale(places, java.math.BigDecimal.ROUND_HALF_UP).doubleValue();
 		//#}

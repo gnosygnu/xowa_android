@@ -23,12 +23,10 @@ class Xob_diff_build_wkr {
 		String made_by = wiki.App().User().Key();
 		Gdif_job_itm job_itm = dif_core.New_job(name, made_by);
 		Gdif_bldr_ctx ctx = new Gdif_bldr_ctx().Init(dif_core, job_itm);
-
 		Gfdb_diff_wkr__db dif_wkr = new Gfdb_diff_wkr__db();
 		Gdif_db dif_db = dif_core.Db();
 		dif_wkr.Init_conn(dif_db, 1000);
 		dif_bldr.Init(dif_wkr);
-
 		// wiki.Data__core_mgr().Db__core().Conn().Conn_info();
 		Xowd_db_file[] db_files = wiki.Data__core_mgr().Db__core().Tbl__db().Select_all(wiki.Data__core_mgr().Props(), Io_url_.Empty);
 		int db_files_len = db_files.length;

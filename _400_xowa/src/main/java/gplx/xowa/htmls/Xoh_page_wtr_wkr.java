@@ -52,7 +52,6 @@ public class Xoh_page_wtr_wkr {
 		// if custom_html, use it and exit; needed for Default_tab
 		byte[] custom_html = page.Html_data().Custom_html();
 		if (custom_html != null) {bfr.Add(custom_html); return;}
-
 		// temp variables
 		if (root_dir_bry == null) this.root_dir_bry = app.Fsys_mgr().Root_dir().To_http_file_bry();
 		Xoa_ttl page_ttl = page.Ttl(); int page_ns_id = page_ttl.Ns().Id();
@@ -121,26 +120,21 @@ public class Xoh_page_wtr_wkr {
 			bfr.Add(hdump_data);
 			return;
 		}
-
 		// dump and exit if MediaWiki message;
 		if	(ns_id == Xow_ns_.Tid__mediawiki) {	// if MediaWiki and wikitext, must be a message; convert args back to php; DATE:2014-06-13
 			bfr.Add(Xoa_gfs_php_mgr.Xto_php(tmp_bfr, Bool_.N, data_raw));
 			return;
 		}
-
 		// if [[File]], add boilerplate header; note that html is XOWA-generated so does not need to be tidied
 		if (ns_id == Xow_ns_.Tid__file) app.Ns_file_page_mgr().Bld_html(wiki, ctx, page, bfr, page.Ttl(), wiki.Cfg_file_page(), page.File_queue());
-
 		// get separate bfr; note that bfr already has <html> and <head> written to it, so this can't be passed to tidy; DATE:2014-06-11
 		Bry_bfr tidy_bfr = app.Utl__bfr_mkr().Get_m001();
-
 		// write wikitext
 		if (page.Root() != null)	// NOTE: will be null if blank; occurs for one test: Logo_has_correct_main_page; DATE:2015-09-29
 			wiki.Html_mgr().Html_wtr().Write_all(tidy_bfr, page.Wikie().Parser_mgr().Ctx(), hctx, page.Root().Data_mid(), page.Root());
 		
 		// if [[Category]], render rest of html (Subcategories; Pages; Files); note that a category may have other html which requires wikitext processing
 		if (ns_id == Xow_ns_.Tid__category) wiki.Html_mgr().Ns_ctg().Bld_html(wiki, page, hctx, tidy_bfr);
-
 		// tidy html
 		gplx.xowa.htmls.core.htmls.tidy.Xoh_tidy_mgr tidy_mgr = app.Html_mgr().Tidy_mgr();
 		if (tidy_mgr.Enabled()) tidy_mgr.Run_tidy_html(page, tidy_bfr, !hctx.Mode_is_hdump());
@@ -148,7 +142,6 @@ public class Xoh_page_wtr_wkr {
 		// add back to main bfr
 		bfr.Add_bfr_and_clear(tidy_bfr);
 		tidy_bfr.Mkr_rls();
-
 		// handle Categories at bottom of page; note that html is XOWA-generated so does not need to be tidied
 		int ctgs_len = page.Category_list().length;
 		if (	ctgs_enabled
@@ -161,7 +154,6 @@ public class Xoh_page_wtr_wkr {
 			else
 				wiki.Html_mgr().Ctg_mgr().Bld(bfr, page, ctgs_len);
 		}
-
 		// translate if variants are enabled
 		Xol_vnt_mgr vnt_mgr = wiki.Lang().Vnt_mgr();
 		if (vnt_mgr.Enabled()) bfr.Add(vnt_mgr.Convert_lang().Parse_page(vnt_mgr.Cur_itm(), page.Revision_data().Id(), bfr.To_bry_and_clear()));

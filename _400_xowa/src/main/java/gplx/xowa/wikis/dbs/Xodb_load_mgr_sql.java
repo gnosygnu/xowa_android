@@ -1,6 +1,6 @@
 package gplx.xowa.wikis.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*;
 import gplx.core.primitives.*; import gplx.dbs.*; import gplx.dbs.cfgs.*;
-import gplx.xowa.apps.gfs.*; import gplx.xowa.bldrs.cmds.ctgs.*; import gplx.xowa.wikis.ctgs.*; import gplx.xowa.addons.searchs.v1s.*; import gplx.xowa.wikis.data.tbls.*;
+import gplx.xowa.apps.gfs.*; import gplx.xowa.bldrs.cmds.ctgs.*; import gplx.xowa.wikis.ctgs.*; import gplx.xowa.wikis.data.tbls.*;
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.wikis.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.*;
 import gplx.xowa.addons.searchs.*;
@@ -94,15 +94,6 @@ public class Xodb_load_mgr_sql implements Xodb_load_mgr {
 			view_grp.Itms_make();
 			view_grp.Total_(ctg.Count_by_tid(i));
 		}
-	}
-	public void Load_search(Cancelable cancelable, List_adp rv, byte[] search, int results_max) {			
-		// if (v0_search) db_mgr.Core_data_mgr().Tbl__page().Select_by_search(cancelable, rv, search, results_max); // NOTE:disabled DATE:2016-02-26
-		Xowd_db_mgr core_data_mgr = db_mgr.Core_data_mgr();
-		Srch_search_addon search_addon = Srch_search_addon.Get(wiki);
-		int link_tbls_len = search_addon.Db_mgr().Tbl__link__len();
-		for (int i = 0; i < link_tbls_len; ++i)
-			search_addon.Db_mgr().Tbl__word().Select_by_word(cancelable, search_addon.Db_mgr().Tbl__link__get_at(i), rv, search, results_max);
-		core_data_mgr.Tbl__page().Select_in__id(cancelable, true, rv);
 	}
 	public void Load_ttls_for_all_pages(Cancelable cancelable, List_adp rslt_list, Xowd_page_itm rslt_nxt, Xowd_page_itm rslt_prv, Int_obj_ref rslt_count, Xow_ns ns, byte[] key, int max_results, int min_page_len, int browse_len, boolean include_redirects, boolean fetch_prv_item) {
 		db_mgr.Core_data_mgr().Tbl__page().Select_for_special_all_pages(cancelable, rslt_list, rslt_nxt, rslt_prv, rslt_count, ns, key, max_results, min_page_len, browse_len, include_redirects, fetch_prv_item);

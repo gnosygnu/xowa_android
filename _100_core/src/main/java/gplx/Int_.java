@@ -161,6 +161,7 @@ public class Int_ implements GfoInvkAble {//_20101128
 		}
 		return rv;
 	}
+	public static int Subtract_long(long lhs, long rhs) {return (int)(lhs - rhs);}
 	public static int To_int_hex(byte b) {
 		switch (b) {
 			case Byte_ascii.Num_0: case Byte_ascii.Num_1: case Byte_ascii.Num_2: case Byte_ascii.Num_3: case Byte_ascii.Num_4:
@@ -235,9 +236,10 @@ public class Int_ implements GfoInvkAble {//_20101128
 	}
 	public static byte[] To_bry(int v) {return Bry_.new_a7(To_str(v));}
 	public static final int
-		Min_value	= Integer.MIN_VALUE	//#<>int.MinValue~Integer.MIN_VALUE
-	,	Max_value	= Integer.MAX_VALUE	//#<>int.MaxValue~Integer.MAX_VALUE
-	,	Neg1		= -1
-	,	Neg1_count	= -1
+		Min_value		= Integer.MIN_VALUE	//#<>int.MinValue~Integer.MIN_VALUE
+	,	Max_value		= Integer.MAX_VALUE	//#<>int.MaxValue~Integer.MAX_VALUE
+	,	Max_value__31	= 2147483647
+	,	Neg1			= -1
+	,	Neg1_count		= -1
 	;
 }

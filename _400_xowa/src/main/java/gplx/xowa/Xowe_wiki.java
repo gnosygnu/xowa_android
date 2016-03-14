@@ -1,8 +1,8 @@
 package gplx.xowa; import gplx.*;
 import gplx.core.brys.*; import gplx.core.primitives.*; import gplx.core.brys.fmtrs.*;
 import gplx.xowa.apps.*; import gplx.xowa.apps.fsys.*; import gplx.xowa.apps.cfgs.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.apps.urls.*; 
-import gplx.xowa.langs.*; import gplx.xowa.langs.msgs.*;
-import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.caches.*; import gplx.xowa.addons.*;
+import gplx.xowa.langs.*; import gplx.xowa.langs.msgs.*; import gplx.xowa.langs.cases.*;
+import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.site_stats.*; import gplx.xowa.wikis.ttls.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.caches.*; import gplx.xowa.addons.*;
 import gplx.xowa.users.*; import gplx.xowa.htmls.*; import gplx.xowa.users.history.*; import gplx.xowa.specials.*; import gplx.xowa.xtns.*; import gplx.xowa.wikis.dbs.*;
 import gplx.xowa.files.*; import gplx.xowa.files.repos.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.bins.*; import gplx.fsdb.*; import gplx.fsdb.meta.*; import gplx.xowa.files.exts.*;		
 import gplx.xowa.htmls.heads.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.htmls.core.hzips.*; import gplx.xowa.htmls.core.*; import gplx.xowa.htmls.css.*; import gplx.xowa.htmls.ns_files.*; import gplx.xowa.htmls.bridges.dbuis.tbls.*;	
@@ -32,9 +32,9 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 		cfg_parser = new Xowc_parser(this);
 		props.SiteName_(domain_tid).ServerName_(domain_bry);
 		props.ContentLanguage_(lang.Key_bry());
+		stats = new Xow_site_stats_mgr(this);
 		Pf_func_.Reg(lang.Func_regy(), lang);
 		special_mgr = new Xows_mgr(this, lang);
-		stats = new Xow_wiki_stats(this);
 		sys_cfg = new Xow_sys_cfg(this);
 		hive_mgr = new Xob_hive_mgr(this);
 		util = new Xow_html_util(this);
@@ -66,6 +66,7 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 	public boolean						Type_is_edit() {return Bool_.Y;}
 	public Xoa_app					App() {return app;}
 	public Xol_lang_itm				Lang() {return lang;} private final Xol_lang_itm lang;
+	public Xol_case_mgr				Case_mgr() {return lang.Case_mgr();}
 	public byte[]					Domain_bry() {return domain_bry;} private final byte[] domain_bry; 
 	public String					Domain_str() {return domain_str;} private final String domain_str;
 	public int						Domain_tid() {return domain_tid;} private final int domain_tid;
@@ -86,6 +87,7 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 	public Xow_mw_parser_mgr		Mw_parser_mgr() {return mw_parser_mgr;} private final Xow_mw_parser_mgr mw_parser_mgr = new Xow_mw_parser_mgr();
 	public Xow_xwiki_mgr			Xwiki_mgr() {return xwiki_mgr;} private final Xow_xwiki_mgr xwiki_mgr;
 	public Xow_wiki_props			Props() {return props;} private final Xow_wiki_props props = new Xow_wiki_props();
+	public Xow_site_stats_mgr		Stats() {return stats;} private final Xow_site_stats_mgr stats;
 	public Xow_parser_mgr			Parser_mgr() {return parser_mgr;} private final Xow_parser_mgr parser_mgr;
 	public Xoax_addon_mgr			Addon_mgr() {return addon_mgr;} private final Xoax_addon_mgr addon_mgr = new Xoax_addon_mgr();
 
@@ -123,7 +125,6 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 	public Xow_cfg_wiki_core	Cfg_wiki_core() {return cfg_wiki_core;} private Xow_cfg_wiki_core cfg_wiki_core;
 	public Xob_import_cfg		Import_cfg() {return import_cfg;} private Xob_import_cfg import_cfg;
 	public Xotdb_fsys_mgr		Tdb_fsys_mgr() {return tdb_fsys_mgr;} private final Xotdb_fsys_mgr tdb_fsys_mgr;
-	public Xow_wiki_stats		Stats() {return stats;} private Xow_wiki_stats stats;
 	public Xou_history_cfg		Cfg_history() {return cfg_history;} private Xou_history_cfg cfg_history = new Xou_history_cfg();
 	public Xoh_cfg_gallery		Cfg_gallery() {return cfg_gallery;} private Xoh_cfg_gallery cfg_gallery = new Xoh_cfg_gallery();
 	public Xoh_file_page_wtr	Cfg_file_page() {return cfg_file_page;} private Xoh_file_page_wtr cfg_file_page = new Xoh_file_page_wtr();

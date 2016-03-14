@@ -17,7 +17,7 @@ public abstract class Xob_wdata_qid_base extends Xob_itm_dump_base implements Xo
 		this.Qid_bgn();
 	}
 	public void Wkr_run(Xowd_page_itm page) {
-		if (page.Ns_id() != Xow_ns_.Tid__main) return;	// qid pages are only in the Main namespace
+		if (page.Ns_id() != Xow_ns_.Tid__main) return;	// qid pages are only in the Main Srch_rslt_cbk
 		Json_doc jdoc = parser.Parse(page.Text()); 
 		if (jdoc == null) {bldr.Usr_dlg().Warn_many("", "", "json is invalid: ns=~{0} id=~{1}", page.Ns_id(), String_.new_u8(page.Ttl_page_db())); return;}
 		this.Parse_jdoc(jdoc);

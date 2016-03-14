@@ -15,13 +15,11 @@ public class Wdata_pf_property extends Pf_func_base {
 			log_time_bgn = Env_.TickCount();
 			if (!property_wkr.Eval_bgn(ctx.Page(), id)) return;
 		}
-
 		Xoae_app app = ctx.App();
 		Wdata_wiki_mgr wdata_mgr = app.Wiki_mgr().Wdata_mgr();
 		if (!wdata_mgr.Enabled()) return;
 		Xowe_wiki wiki = ctx.Wiki();
 		Xoa_ttl ttl = ctx.Page().Ttl();
-
 		Wdata_pf_property_data data = new Wdata_pf_property_data();
 		data.Init_by_parse(ctx, src, caller, self, this, id);
 		Wdata_doc prop_doc = wdata_mgr.Pages_get(wiki, ttl, data); if (prop_doc == null) return; // NOTE: some pages will not exist in qid; EX: {{#property:P345}} for "Unknown_page" will not even had a qid; if no qid, then no pid

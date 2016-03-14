@@ -1,6 +1,6 @@
 package gplx.xowa.guis; import gplx.*; import gplx.xowa.*;
 import gplx.core.brys.fmtrs.*; import gplx.core.envs.*;
-import gplx.gfui.*; import gplx.xowa.addons.searchs.suggests.*; import gplx.xowa.addons.searchs.v1s.*; import gplx.xowa.guis.menus.*; import gplx.xowa.guis.cmds.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.users.*;
+import gplx.gfui.*; import gplx.xowa.addons.searchs.suggests.*; import gplx.xowa.guis.menus.*; import gplx.xowa.guis.cmds.*; import gplx.xowa.apps.cfgs.gui.*; import gplx.xowa.users.*;
 import gplx.xowa.langs.*;
 import gplx.xowa.guis.bnds.*; import gplx.xowa.guis.views.*; import gplx.xowa.guis.urls.url_macros.*;
 import gplx.xowa.guis.views.boots.*;	
@@ -13,7 +13,7 @@ public class Xoa_gui_mgr implements GfoEvObj, GfoInvkAble {
 		win_cfg = new Xocfg_win(app);
 		html_mgr = new Xog_html_mgr(app);
 		menu_mgr = new Xog_menu_mgr(this);
-		search_suggest_mgr = new Xog_search_suggest_mgr(this);
+		search_suggest_cfg = new Srch_suggest_cfg(app);
 	}
 	public GfoEvMgr EvMgr() {return ev_mgr;} private GfoEvMgr ev_mgr;
 	public Xoae_app App() {return app;} private Xoae_app app;
@@ -25,7 +25,7 @@ public class Xoa_gui_mgr implements GfoEvObj, GfoInvkAble {
 	public Xocfg_win Win_cfg() {return win_cfg;} private Xocfg_win win_cfg;
 	public Xog_layout Layout() {return layout;} private Xog_layout layout = new Xog_layout();
 	public Xog_html_mgr Html_mgr() {return html_mgr;} private Xog_html_mgr html_mgr;
-	public Xog_search_suggest_mgr Search_suggest_mgr() {return search_suggest_mgr;} private Xog_search_suggest_mgr search_suggest_mgr;
+	public Srch_suggest_cfg Search_suggest_mgr() {return search_suggest_cfg;} private Srch_suggest_cfg search_suggest_cfg;
 	public Xog_menu_mgr Menu_mgr() {return menu_mgr;} private Xog_menu_mgr menu_mgr;
 	public Xog_url_macro_mgr Url_macro_mgr() {return url_macro_mgr;} private Xog_url_macro_mgr url_macro_mgr = new Xog_url_macro_mgr();
 	public void Show_prog() {
@@ -73,7 +73,7 @@ public class Xoa_gui_mgr implements GfoEvObj, GfoInvkAble {
 		else if	(ctx.Match(k, Invk_win_opts))						return win_cfg;
 		else if	(ctx.Match(k, Invk_layout))							return layout;
 		else if	(ctx.Match(k, Invk_html))							return html_mgr;
-		else if	(ctx.Match(k, Invk_search_suggest))					return search_suggest_mgr;
+		else if	(ctx.Match(k, Invk_search_suggest))					return search_suggest_cfg;
 		else if	(ctx.Match(k, Invk_menus))							return menu_mgr;
 		else if	(ctx.Match(k, Invk_cmds))							return cmd_mgr;
 		else if	(ctx.Match(k, Invk_url_macros))						return url_macro_mgr;

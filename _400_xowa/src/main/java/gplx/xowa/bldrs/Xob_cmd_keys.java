@@ -42,9 +42,9 @@ public class Xob_cmd_keys {
 	, Key_diff_build				= "diff.build"
 	, Key_diff_merge				= "diff.merge"
 	, Key_text_delete_page			= "text.delete_page"
-	, Key_search_link_tier			= "search.link_tier"
-	, Key_search_page_rank			= "search.page_rank"
-	, Key_search_page_score			= "search.page_score"
+	, Key_search__page__page_score	= "search.page__page_score"
+	, Key_search__link__link_score	= "search.link__link_score"
+	, Key_search__word__link_count	= "search.word__link_count"
 
 	, Key_tdb_text_init				= "tdb.text.init"			// "core.init"
 	, Key_tdb_make_page				= "tdb.text.page"			// "core.make_page"

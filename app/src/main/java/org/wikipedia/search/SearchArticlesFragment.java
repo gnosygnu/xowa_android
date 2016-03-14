@@ -383,7 +383,7 @@ public class SearchArticlesFragment extends Fragment implements BackPressedHandl
 
         @Override
         public boolean onQueryTextChange(String queryText) {
-            startSearch(queryText.trim(), false);
+            startSearch(queryText, false);  // XOWA: do not trim end; allows "constant " to mean "constant
             return true;
         }
     };

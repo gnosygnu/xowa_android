@@ -9,7 +9,6 @@ public class Xob_page_delete_cmd extends Xob_cmd_base {
 		Xowd_db_file core_db = wiki.Data__core_mgr().Db__core();
 		Db_conn core_db_conn = core_db.Conn();
 		Gfo_usr_dlg usr_dlg = Gfo_usr_dlg_.Instance;
-
 		usr_dlg.Plog_many("", "", "creating page_filter");
 		if (!core_db_conn.Meta_tbl_exists("page_filter")) {
 			core_db_conn.Meta_tbl_create
@@ -21,7 +20,6 @@ public class Xob_page_delete_cmd extends Xob_cmd_base {
 			,   Dbmeta_idx_itm.new_normal_by_tbl("page_filter", "page_id", "page_id")
 			));
 		}
-
 		core_db_conn.Exec_sql_plog_ntx("finding missing redirects", String_.Concat_lines_nl_skip_last
 		( "INSERT INTO page_filter (page_id, page_text_db_id)"
 		, "SELECT  ptr.page_id, ptr.page_text_db_id"
@@ -36,7 +34,6 @@ public class Xob_page_delete_cmd extends Xob_cmd_base {
 		, "AND     ptr.page_redirect_id = -1"
 		, ";"
 		));
-
 		try {
 			Xowd_db_file[] db_files = core_db.Tbl__db().Select_all(wiki.Data__core_mgr().Props(), wiki.Fsys_mgr().Root_dir());
 			int len = db_files.length;

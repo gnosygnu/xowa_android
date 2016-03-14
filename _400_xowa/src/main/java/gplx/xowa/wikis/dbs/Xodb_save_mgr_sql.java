@@ -24,7 +24,6 @@ public class Xodb_save_mgr_sql implements Xodb_save_mgr {
 				db_mgr.Core_data_mgr().Tbl__cfg().Upsert_int("db", "page.id_next", page_id + 1);
 			} finally {rdr.Rls();}
 		}
-
 		Xowd_db_mgr fsys_mgr = db_mgr.Core_data_mgr();
 		Xowd_db_file page_text_db = fsys_mgr.Db__text();
 		Xowd_text_tbl page_text_tbl = page_text_db.Tbl__text();

@@ -25,10 +25,11 @@ public class OfflineSearchHandler extends Handler {
             case Msg__search:
                 this.search_term = (String)msg.obj;
                 this.search_time_bgn = System.nanoTime();
-                OfflineSearchTask offlineSearchTask = new OfflineSearchTask(Xod_app_mgr.Instance.Cur_site(app), fragment, this, search_term);
+                int rslts_count = msg.arg1;
+                OfflineSearchTask offlineSearchTask = new OfflineSearchTask(Xod_app_mgr.Instance.Cur_site(app), fragment, this, search_term, rslts_count, true);
                 fragment.cancelSearchTask();
                 fragment.curSearchTask = offlineSearchTask;
-                fragment.Task__bgn();
+                fragment.Task__bgn(true);
                 offlineSearchTask.execute();
                 break;
             case Msg__display:

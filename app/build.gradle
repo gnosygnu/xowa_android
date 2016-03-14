@@ -106,12 +106,12 @@ android {
         }
         alpha {
             versionName computeVersionName("alpha")
-            applicationId 'org.wikipedia.alpha'
+            applicationId 'org.xowa.alpha'
             signingConfig signingConfigs.debug
         }
         beta {
             versionName computeVersionName("beta")
-            applicationId 'org.wikipedia.beta'
+            applicationId 'org.xowa.beta'
             signingConfig signingConfigs.prod
         }
         amazon {

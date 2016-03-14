@@ -23,7 +23,6 @@ public class Xoax_ctg_addon implements Xoax_addon_itm {	// TODO:mem_mgr
 	public void Mem__free__all()	{hash.Clear();}
 	public void Mem__free__reduce()	{Mem_mgr_.Free__reduce(hash);}
 	public void Mem__free__unused()	{Mem_mgr_.Free__unused(hash);}
-
 	public long Mem__stat__size()	{return mem__stat__size;} private long mem__stat__size;
 	public long Mem__stat__last()	{return mem__stat__last;} private long mem__stat__last;
 	public int  Mem__stat__count()	{return mem__stat__count;} private int mem__stat__count;

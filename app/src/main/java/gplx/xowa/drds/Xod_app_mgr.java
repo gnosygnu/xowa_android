@@ -31,12 +31,12 @@ import gplx.dbs.Drd_db_mgr;
 import gplx.xowa.Xoa_ttl;
 import gplx.xowa.Xoa_url;
 import gplx.xowa.Xow_wiki;
-import gplx.xowa.addons.searchs.searchers.itms.Srch2_rslt_cbk;
+import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_cbk;
+import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_cbk;
 import gplx.xowa.apps.Xoa_app_mode;
 import gplx.xowa.apps.Xoav_app;
 import gplx.xowa.drds.pages.Xod_page_itm;
 import gplx.xowa.htmls.sections.Xoh_section_itm;
-import gplx.xowa.addons.searchs.v1s.Srch_rslt_lnr;
 
 public class Xod_app_mgr {
     private Activity activity; private CommunicationBridge bridge;
@@ -91,8 +91,8 @@ public class Xod_app_mgr {
         cached_page = new Page(title, sections, new PageProperties(lead_props));
         return cached_page;
     }
-    public void Search_titles(Cancelable cxl, Srch2_rslt_cbk rslt_cbk, String domain, String search) {
-        drd_app.Wiki__search(cxl, rslt_cbk, drd_app.Wikis__get_by_domain(domain), search, Xod_search_cmd__srch2.Instance);
+    public void Search_titles(Cancelable cxl, Srch_rslt_cbk rslt_cbk, String domain, String search, int slab_bgn, int slab_end) {
+        drd_app.Wiki__search(cxl, rslt_cbk, drd_app.Wikis__get_by_domain(domain), search, slab_bgn, slab_end);
     }
     private void Init_app() {
         // init app

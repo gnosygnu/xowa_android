@@ -45,10 +45,8 @@ public class Random_selection_xnde implements Xox_xnde {
 		}
 		if (atrs(before) != null)
 			atrs(before) = before + option_bry;
-
 		if (atrs(after) != null)
 			atrs(after) = option_bry + after;
-
 		this.val = ctx.Parse(option_bry)			
 		*/			
 		ctx.Para().Process_block__xnde(xnde.Tag(), Xop_xnde_tag.Block_end);

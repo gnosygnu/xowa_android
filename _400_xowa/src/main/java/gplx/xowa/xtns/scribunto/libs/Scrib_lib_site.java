@@ -1,7 +1,7 @@
 package gplx.xowa.xtns.scribunto.libs; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.scribunto.*;
 import gplx.xowa.langs.*; import gplx.xowa.langs.msgs.*;
 import gplx.xowa.wikis.nss.*; import gplx.xowa.addons.ctgs.*;
-import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.xwikis.*;
+import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.site_stats.*; import gplx.xowa.wikis.xwikis.*;
 public class Scrib_lib_site implements Scrib_lib {
 	public Scrib_lib_site(Scrib_core core) {this.core = core;} private final Scrib_core core;
 	public Scrib_lua_mod Mod() {return mod;} private Scrib_lua_mod mod;
@@ -176,16 +176,16 @@ public class Scrib_lib_site implements Scrib_lib {
 		return rv;
 	}
 	private Keyval[] Bld_stats(Xowe_wiki wiki) {
-		Xow_wiki_stats stats = wiki.Stats();
+		Xow_site_stats_mgr stats = wiki.Stats();
 		Keyval[] rv = new Keyval[8];
-		rv[0] = Keyval_.new_("pages", stats.NumPages());			// SiteStats::pages(),
-		rv[1] = Keyval_.new_("articles", stats.NumArticles());		// SiteStats::articles(),
-		rv[2] = Keyval_.new_("files", stats.NumFiles());			// SiteStats::images(),
-		rv[3] = Keyval_.new_("edits", stats.NumEdits());			// SiteStats::edits(),
-		rv[4] = Keyval_.new_("views", stats.NumViews());			// $wgDisableCounters ? null : (int)SiteStats::views(),
-		rv[5] = Keyval_.new_("users", stats.NumUsers());			// SiteStats::users(),
-		rv[6] = Keyval_.new_("activeUsers", stats.NumUsersActive());// SiteStats::activeUsers(),
-		rv[7] = Keyval_.new_("admins", stats.NumAdmins());			// SiteStats::activeUsers(),
+		rv[0] = Keyval_.new_("pages"		, stats.Num_pages());			// SiteStats::pages(),
+		rv[1] = Keyval_.new_("articles"		, stats.Num_articles());		// SiteStats::articles(),
+		rv[2] = Keyval_.new_("files"		, stats.Num_files());			// SiteStats::images(),
+		rv[3] = Keyval_.new_("edits"		, stats.Num_edits());			// SiteStats::edits(),
+		rv[4] = Keyval_.new_("views"		, stats.Num_views());			// $wgDisableCounters ? null : (int)SiteStats::views(),
+		rv[5] = Keyval_.new_("users"		, stats.Num_users());			// SiteStats::users(),
+		rv[6] = Keyval_.new_("activeUsers"	, stats.Num_active());			// SiteStats::activeUsers(),
+		rv[7] = Keyval_.new_("admins"		, stats.Num_admins());			// SiteStats::activeUsers(),
 		return rv;
 	}
 }

@@ -40,8 +40,8 @@
         android:label="@string/app_name_prod"
         android:name=".XowaApp"
         android:theme="@style/AppTheme"
-        android:versionCode="6"
-        android:versionName="3.3.1.1"
+        android:versionCode="7"
+        android:versionName="3.3.2.1"
         >
         <!--
         The following is used for determining the distribution channel.

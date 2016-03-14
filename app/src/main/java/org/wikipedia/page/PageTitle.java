@@ -112,6 +112,7 @@ public class PageTitle implements Parcelable, CompareAble {
     }
 
     public int Search_score;
+    public String Display_text_xowa;
     @Override public int compareTo(Object comp) {
         return CompareAble_.Compare(Search_score, ((PageTitle)comp).Search_score) * -1;
     }

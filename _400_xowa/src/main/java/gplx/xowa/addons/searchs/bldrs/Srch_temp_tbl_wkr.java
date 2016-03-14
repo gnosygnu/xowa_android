@@ -3,21 +3,19 @@ import gplx.dbs.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tb
 import gplx.xowa.addons.searchs.dbs.*; import gplx.xowa.addons.searchs.parsers.*;
 class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 	private Xowe_wiki wiki; private Xowd_db_mgr core_data_mgr; private Srch_search_addon search_addon; 
-	private Srch2_text_parser title_parser;
+	private Srch_text_parser title_parser;
 	private Srch_temp_tbl search_temp_tbl; private int word_id, page_id;	// needed for Parse_done
 	public Srch_temp_tbl_wkr Init(boolean cmd, Xowe_wiki wiki) {
 		// init
 		this.wiki = wiki;
 		this.core_data_mgr = wiki.Db_mgr_as_sql().Core_data_mgr();
 		this.search_addon = Srch_search_addon.Get(wiki);
-		this.title_parser = search_addon.Parsers__ttl_parser();
+		this.title_parser = search_addon.Ttl_parser();
 		this.word_id = 0;
-
 		// assert search_word / search_link tables
 		Srch_db_mgr search_db_mgr = search_addon.Db_mgr();
 		if (cmd) search_db_mgr.Delete_all(core_data_mgr); // always delete if launched by cmd
 		search_db_mgr.Create_all();
-
 		// start processing search_temp
 		this.search_temp_tbl = new Srch_temp_tbl(search_db_mgr.Tbl__word().conn);
 		search_temp_tbl.Insert_bgn();
@@ -26,18 +24,14 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 	public void Term() {
 		// end inserts
 		search_temp_tbl.Insert_end();
-
 		// init
 		Srch_db_mgr search_db_mgr = search_addon.Db_mgr();
 		Db_conn word_conn = search_temp_tbl.conn;
 		Db_conn page_conn = wiki.Data__core_mgr().Tbl__page().conn;
-
 		// update search_word ids if they exist
 		Update_word_id(word_conn, wiki);
 
-		// create search_word
-		word_conn.Exec_sql_plog_txn("search_temp.create_word", Sql__create_word);
-		search_db_mgr.Tbl__word().Create_idx();
+		word_conn.Exec_sql("filling search_word", Sql__create_word);
 
 		// create search_link
 		if (search_db_mgr.Tbl__link__len() == 1) {
@@ -45,7 +39,7 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 			Srch_link_tbl link_tbl = search_db_mgr.Tbl__link__ary()[0];
 			new Db_attach_mgr(word_conn, new Db_attach_itm("link_db", link_tbl.conn))
 				.Exec_sql(Sql__create_link__one);
-			link_tbl.Create_idx();
+			link_tbl.Create_idx__page_id();
 		} else {
 			// many_db; split into main links and non-main; ASSUME:link_dbs_is_2
 			int len = search_db_mgr.Tbl__link__len();
@@ -56,10 +50,9 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 				, new Db_attach_itm("page_db", page_conn)
 				, new Db_attach_itm("link_db", link_tbl.conn));
 				attach_mgr.Exec_sql(Sql__create_link__many, i == 0 ? " = 0" : " != 0");
-				link_tbl.Create_idx();
+				link_tbl.Create_idx__page_id();
 			}
 		}
-
 		// remove search_temp; vacuum;
 		word_conn.Meta_tbl_drop(search_temp_tbl.tbl_name);
 		word_conn.Env_vacuum();
@@ -84,7 +77,7 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 		}	finally {page_rdr.Rls();}
 		this.Term();
 	}
-	public void Parse_done(Srch2_word_itm word) {
+	public void Parse_done(Srch_word_itm word) {
 		search_temp_tbl.Insert_cmd_by_batch(++word_id, page_id, word.Word);
 	}
 	private void Update_word_id(Db_conn cur_conn, Xow_wiki wiki) {
@@ -92,7 +85,6 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 		Io_url cur_url = gplx.dbs.engines.sqlite.Sqlite_conn_info.To_url(cur_conn);					// EX: /xowa/wiki/en.wikipedia.org/en.wikipedia.org-xtn.search.core.xowa
 		Io_url prv_url = wiki.Fsys_mgr().Root_dir().GenSubFil_nest("prv", cur_url.NameAndExt());	// EX: /xowa/wiki/en.wikipedia.org/prv/en.wikipedia.org-xtn.search.core.xowa
 		if (!Io_mgr.Instance.Exists(prv_url)) return;
-
 		// update ids for old_words
 		cur_conn.Exec_sql("UPDATE search_temp SET word_id = -1");
 		Db_conn prv_conn = Db_conn_bldr.Instance.Get_or_noop(prv_url);			
@@ -101,7 +93,6 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 		( "UPDATE  search_temp"
 		, "SET     word_id = Coalesce((SELECT prv.word_id FROM <prv_db>search_word prv WHERE prv.word_text = search_temp.word_text), -1)"
 		));
-
 		// assign incrementing int to new_words
 		int nxt_word_id = cur_conn.Exec_select_as_int("SELECT Max(word_id) AS word_id FROM search_temp", -1); if (nxt_word_id == -1) throw Err_.new_("dbs", "max_id not found");
 		int uids_max = 10000;
@@ -123,7 +114,6 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 			}
 			finally {rdr.Rls();}
 			if (uids_len == 0) break;
-
 			// update
 			for (int i = 0; i < uids_max; ++i) {
 				int uid = uids_ary[i];
@@ -133,7 +123,7 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 	}
 	private static final String 
 	  Sql__create_word = String_.Concat_lines_nl
-	( "INSERT INTO search_word (word_id, word_text, word_page_count)"
+	( "INSERT INTO search_word (word_id, word_text, link_count)"
 	, "SELECT  word_id"
 	, ",       word_text"
 	, ",       Count(DISTINCT page_id)"
