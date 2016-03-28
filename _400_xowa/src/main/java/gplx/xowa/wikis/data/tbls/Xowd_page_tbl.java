@@ -3,11 +3,11 @@ import gplx.core.primitives.*; import gplx.core.criterias.*;
 import gplx.dbs.*; import gplx.xowa.*; import gplx.xowa.wikis.dbs.*; import gplx.dbs.qrys.*;
 import gplx.xowa.wikis.nss.*;
 public class Xowd_page_tbl implements Rls_able {
-	private final String tbl_name = "page";
+	private final    String tbl_name = "page";
 	private String fld_id, fld_ns, fld_title, fld_is_redirect, fld_touched, fld_len, fld_random_int, fld_score, fld_text_db_id, fld_html_db_id, fld_redirect_id;
-	private final Dbmeta_fld_list flds = Dbmeta_fld_list.new_();
+	private final    Dbmeta_fld_list flds = Dbmeta_fld_list.new_();
 	private Db_stmt stmt_select_all_by_ttl, stmt_select_all_by_id, stmt_select_id_by_ttl, stmt_insert; private boolean hdump_enabled;
-	private final String[] flds_select_all, flds_select_idx;
+	private final    String[] flds_select_all, flds_select_idx;
 	public String Tbl_name()					{return tbl_name;}
 	public Dbmeta_fld_list Flds__all()			{return flds;}
 	public String Fld_page_id()					{return fld_id;}
@@ -20,7 +20,7 @@ public class Xowd_page_tbl implements Rls_able {
 	public String Fld_redirect_id()				{return fld_redirect_id;}
 	public String[] Flds_select_idx()			{return flds_select_idx;}
 	public String[] Flds_select_all()			{return flds_select_all;}
-	public final Db_conn conn; public final boolean schema_is_1;
+	public final    Db_conn conn; public final    boolean schema_is_1;
 	public Xowd_page_tbl(Db_conn conn, boolean schema_is_1) {
 		this.conn = conn; this.schema_is_1 = schema_is_1;
 		String fld_text_db_id_name = "";
@@ -320,7 +320,7 @@ public class Xowd_page_tbl implements Rls_able {
 		stmt_select_id_by_ttl = Db_stmt_.Rls(stmt_select_id_by_ttl);
 		stmt_insert = Db_stmt_.Rls(stmt_insert);
 	}
-	private static final String Page_touched_fmt = "yyyyMMddHHmmss";
+	private static final    String Page_touched_fmt = "yyyyMMddHHmmss";
 	public static void Assert_col__page_html_db_id(Xowd_db_mgr db_mgr) {
 		Xowd_page_tbl page_tbl = db_mgr.Tbl__page(); Db_conn page_conn = page_tbl.conn;
 		page_conn.Meta_fld_assert(page_tbl.Tbl_name(), page_tbl.Fld_html_db_id()	, Dbmeta_fld_tid.Itm__int, -1);

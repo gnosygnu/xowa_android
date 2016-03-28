@@ -3,9 +3,9 @@ import gplx.core.consoles.*; import gplx.core.ios.*;
 import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.parsers.tmpls.*;
 import gplx.xowa.bldrs.xmls.*; 
 public class Xob_page_wkr_cmd implements Xob_cmd {
-	private final Xob_bldr bldr; private final Xowe_wiki wiki;
+	private final    Xob_bldr bldr; private final    Xowe_wiki wiki;
 	public Xob_page_wkr_cmd(Xob_bldr bldr, Xowe_wiki wiki) {this.bldr = bldr; this.wiki = wiki;}
-	public String Cmd_key() {return KEY;} public static final String KEY = "dump_mgr";
+	public String Cmd_key() {return KEY;} public static final    String KEY = "dump_mgr";
 	public void Cmd_run() {
 		Xob_page_wkr[] wkr_ary = (Xob_page_wkr[])wkrs.To_ary(Xob_page_wkr.class); int wkr_ary_len = wkr_ary.length;
 		for (int i = 0; i < wkr_ary_len; i++)
@@ -48,7 +48,7 @@ public class Xob_page_wkr_cmd implements Xob_cmd {
 		}
 		finally {fil.Rls();}
 		bldr.Usr_dlg().Prog_none("", "", "reading completed: performing post-processing clean-up");
-		for (int i = 0; i < wkr_ary_len; i++)
+		for (int i = wkr_ary_len - 1; i > -1; --i)	// NOTE: release in reverse order; needed to make sure txns are released correctly
 			wkr_ary[i].Wkr_end();
 	}
 	public void Cmd_bgn(Xob_bldr bldr) {}

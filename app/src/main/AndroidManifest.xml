@@ -19,10 +19,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- For Nearby feature -->
+    <!--
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.location" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    -->
 
     <!--
         Don't let Google Play filter out devices that just have fake touch
@@ -40,8 +42,8 @@
         android:label="@string/app_name_prod"
         android:name=".XowaApp"
         android:theme="@style/AppTheme"
-        android:versionCode="7"
-        android:versionName="3.3.2.1"
+        android:versionCode="8"
+        android:versionName="3.3.4.1"
         >
         <!--
         The following is used for determining the distribution channel.

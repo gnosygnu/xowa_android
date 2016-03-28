@@ -2,8 +2,8 @@ package gplx.xowa.addons.searchs.searchers; import gplx.*; import gplx.xowa.*; i
 import gplx.core.primitives.*;
 import gplx.xowa.wikis.nss.*;
 public class Srch_ns_mgr {
-	private final Ordered_hash ns_hash = Ordered_hash_.New(); private final Int_obj_ref tmp_ns_id = Int_obj_ref.neg1_();
-	private final Bry_bfr tmp_bfr = Bry_bfr.reset_(32);
+	private final    Ordered_hash ns_hash = Ordered_hash_.New(); private final    Int_obj_ref tmp_ns_id = Int_obj_ref.neg1_();
+	private final    Bry_bfr tmp_bfr = Bry_bfr.reset_(32);
 	private boolean ns_all, ns_main;
 	public void Clear() {
 		ns_hash.Clear();
@@ -15,8 +15,8 @@ public class Srch_ns_mgr {
 			|| ns_main && ns_id == Xow_ns_.Tid__main	// ns_main returns true if main_ns
 			|| ns_hash.Has(tmp_ns_id.Val_(ns_id));		// ns_hash returns true if has ns_id
 	}
-	public void Add_all()				{ns_all = true;}
-	public void Add_main_if_empty()		{if (ns_hash.Count() == 0) ns_main = true;}
+	public void Add_all()					{ns_all = true;}
+	public Srch_ns_mgr Add_main_if_empty()	{if (ns_hash.Count() == 0) ns_main = true; return this;}
 	public void Add_by_id(int ns_id)	{
 		if (ns_hash.Has(tmp_ns_id.Val_(ns_id))) ns_hash.Del(tmp_ns_id);
 		ns_hash.Add_as_key_and_val(Int_obj_ref.new_(ns_id));
@@ -30,7 +30,7 @@ public class Srch_ns_mgr {
 		int ns_enabled = Bry_.To_int_or_neg1(val);
 		if (ns_enabled == 1) {										// make sure set to 1; EX: ignore &ns0=0
 			int key_len = key.length;
-			if (key_len == 3 && key[2] == Byte_ascii.Star)			// key=ns* sets ns_all to true
+			if (key_len == 3 && key[2] == Srch_search_addon.Wildcard__star)	// key=ns* sets ns_all to true
 				ns_all = true;
 			else {
 				int ns_id = Bry_.To_int_or(key, 2, key_len, Int_.Min_value);
@@ -54,5 +54,29 @@ public class Srch_ns_mgr {
 			return tmp_bfr.To_bry_and_clear();
 		}
 	}
-	private static final byte[] Hash_key_all = new byte[] {Byte_ascii.Star}, Hash_key_main = new byte[] {Byte_ascii.Num_0};
+	public void Add_by_int_ids(int[] ns_ids) {
+		this.Clear();
+		if (ns_ids.length == 0) {
+			this.Add_all();
+		} else if (ns_ids.length == 1 && ns_ids[0] == Xow_ns_.Tid__main) {
+			this.Add_main_if_empty();
+		} else {
+			for (int ns_id : ns_ids)
+				this.Add_by_id(ns_id);
+		}
+	}
+	public int[] To_int_ary() {
+		if		(ns_all)	return Int_.Ary_empty;
+		else if (ns_main)	return Int_.Ary(Xow_ns_.Tid__main);
+		else {
+			int len = ns_hash.Count();
+			int[] rv = new int[len];
+			for (int i = 0; i < len; i++) {
+				Int_obj_ref ns_id_ref = (Int_obj_ref)ns_hash.Get_at(i);
+				rv[i] = ns_id_ref.Val();
+			}
+			return rv;
+		}
+	}
+	private static final    byte[] Hash_key_all = new byte[] {Srch_search_addon.Wildcard__star}, Hash_key_main = new byte[] {Byte_ascii.Num_0};
 }

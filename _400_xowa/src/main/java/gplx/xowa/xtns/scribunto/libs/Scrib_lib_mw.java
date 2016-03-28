@@ -64,7 +64,7 @@ public class Scrib_lib_mw implements Scrib_lib {
 	, Invk_getFrameTitle = "getFrameTitle", Invk_setTTL = "setTTL"
 	, Invk_parentFrameExists = "parentFrameExists"
 	;
-	private static final String[] Proc_names = String_.Ary
+	private static final    String[] Proc_names = String_.Ary
 	( Invk_loadPackage, Invk_loadPHPLibrary
 	, Invk_frameExists, Invk_newChildFrame
 	, Invk_getExpandedArgument, Invk_getAllExpandedArguments
@@ -299,7 +299,7 @@ public class Scrib_lib_mw implements Scrib_lib {
 		if (sub_src == null)						// ttl is not in template cache, or is a ttl in non-Template ns; load title
 			sub_src = core.Wiki().Cache_mgr().Page_cache().Get_or_load_as_src(ttl);
 		if (sub_src !=  null) {
-			Xot_invk_mock sub_frame = Xot_invk_mock.new_(core.Frame_current().Defn_tid(), 0, ttl.Full_txt(), args_ary);	// NOTE: (1) must have ns (Full); (2) must be txt (space, not underscore); EX:Template:Location map+; DATE:2014-09-21
+			Xot_invk_mock sub_frame = Xot_invk_mock.new_(core.Frame_current().Defn_tid(), 0, ttl.Full_txt_w_ttl_case(), args_ary);	// NOTE: (1) must have ns (Full); (2) must be txt (space, not underscore); EX:Template:Location map+; DATE:2014-09-21
 			Xot_defn_tmpl transclude_tmpl = ctx.Wiki().Parser_mgr().Main().Parse_text_to_defn_obj(ctx, ctx.Tkn_mkr(), ttl.Ns(), ttl.Page_db(), sub_src);
 			Bry_bfr sub_bfr = cur_wiki.Utl__bfr_mkr().Get_k004();
 			transclude_tmpl.Tmpl_evaluate(ctx, sub_frame, sub_bfr);
@@ -343,7 +343,7 @@ public class Scrib_lib_mw implements Scrib_lib {
 			if (ttl == null) throw Err_.new_wo_type("newChild: invalid title", "title", (String)ttl_obj);
 		}
 		Keyval[] args_ary = args.Pull_kv_ary(2);
-		Xot_invk_mock new_frame = Xot_invk_mock.new_(core.Frame_current().Defn_tid(), 0, ttl.Full_txt(), args_ary); // NOTE: use spaces, not unders; REF.MW:$frame->getTitle()->getPrefixedText(); DATE:2014-08-14
+		Xot_invk_mock new_frame = Xot_invk_mock.new_(core.Frame_current().Defn_tid(), 0, ttl.Full_txt_w_ttl_case(), args_ary); // NOTE: use spaces, not unders; REF.MW:$frame->getTitle()->getPrefixedText(); DATE:2014-08-14
 		String new_frame_id = "frame" + Int_.To_str(frame_list_len);
 		frame_list.Add(new_frame_id, new_frame);
 		return rslt.Init_obj(new_frame_id);
@@ -375,5 +375,5 @@ class Scrib_lib_mw_callParserFunction_sorter implements gplx.core.lists.Comparer
 		else															// both are strings
 			return String_.Compare(String_.cast(lhs_key), String_.cast(rhs_key));
 	}
-	public static final Scrib_lib_mw_callParserFunction_sorter Instance = new Scrib_lib_mw_callParserFunction_sorter(); Scrib_lib_mw_callParserFunction_sorter() {}
+	public static final    Scrib_lib_mw_callParserFunction_sorter Instance = new Scrib_lib_mw_callParserFunction_sorter(); Scrib_lib_mw_callParserFunction_sorter() {}
 }

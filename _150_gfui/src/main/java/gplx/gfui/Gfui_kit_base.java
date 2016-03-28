@@ -50,6 +50,11 @@ public abstract class Gfui_kit_base implements Gfui_kit {
 		owner.SubElems().Add(rv);
 		return rv;
 	}
+    @gplx.Virtual public GfuiComboBox New_combo(String key, GfuiElem owner, Keyval... args) {
+        GfuiComboBox rv = GfuiComboBox.kit_(this, key, New_combo_impl(), ctor_args);
+        owner.SubElems().Add(rv);
+        return rv;
+    }
 	@gplx.Virtual public GfuiLbl New_lbl(String key, GfuiElem owner, Keyval... args) {
 		GfuiLbl rv = GfuiLbl_.kit_(this, key, New_btn_impl(), ctor_args);
 		owner.SubElems().Add(rv);
@@ -65,7 +70,8 @@ public abstract class Gfui_kit_base implements Gfui_kit {
 	protected abstract Gxw_tab_mgr New_tab_mgr_impl();
 	protected abstract Gxw_tab_itm New_tab_itm_impl();
 	protected abstract GxwElem New_btn_impl();
-	@gplx.Virtual public Gfui_dlg_file New_dlg_file(byte type, String msg) {return Gfui_dlg_file_.Noop;}
+    protected abstract GxwElem New_combo_impl();
+    @gplx.Virtual public Gfui_dlg_file New_dlg_file(byte type, String msg) {return Gfui_dlg_file_.Noop;}
 	@gplx.Virtual public Gfui_dlg_msg New_dlg_msg(String msg) {return Gfui_dlg_msg_.Noop;}
 	@gplx.Virtual public Gfui_mnu_grp New_mnu_popup(String key, GfuiElem owner) {return Gfui_mnu_grp_.Noop;}
 	@gplx.Virtual public Gfui_mnu_grp New_mnu_bar(String key, GfuiWin owner) {return Gfui_mnu_grp_.Noop;}

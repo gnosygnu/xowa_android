@@ -3,9 +3,10 @@ import java.sql.*; //#<>System.Data~java.sql
 import gplx.core.stores.*; import gplx.dbs.engines.*; import gplx.dbs.engines.sqlite.*; import gplx.dbs.metas.*; import gplx.dbs.sqls.*;
 //#{import
 import gplx.dbs.qrys.*; 
+import org.sqlite.SQLiteConnection;
 //#}
 public class Sqlite_engine extends Db_engine_sql_base {
-	private final Sqlite_txn_mgr txn_mgr; private final Sqlite_schema_mgr schema_mgr;
+	private final    Sqlite_txn_mgr txn_mgr; private final    Sqlite_schema_mgr schema_mgr;
 	Sqlite_engine() {
 		this.txn_mgr = new Sqlite_txn_mgr(this);
 		this.schema_mgr = new Sqlite_schema_mgr(this);
@@ -48,10 +49,13 @@ public class Sqlite_engine extends Db_engine_sql_base {
 		}
 		Sqlite_conn_info conn_info_as_sqlite = (Sqlite_conn_info)conn_info;
 		Connection rv = Conn_make_by_url("jdbc:sqlite://" + String_.Replace(conn_info_as_sqlite.Url().Raw(), "\\", "/"), "", "");
+		SQLiteConnection rv_as_sqlite = (org.sqlite.SQLiteConnection)rv;
+		try {rv_as_sqlite.setBusyTimeout(10000);}
+		catch (SQLException e) {Gfo_usr_dlg_.Instance.Warn_many("", "", "failed to set busy timeout; err=~{0}", Err_.Message_gplx_log(e));}
 		return rv;
 	}
 	//#}
-	public static final Sqlite_engine Instance = new Sqlite_engine();
+	public static final    Sqlite_engine Instance = new Sqlite_engine();
 }
 class Db_rdr__sqlite extends Db_rdr__basic {//#*inherit
 	@Override public byte Read_byte(String k)		{try {return (byte)Int_.cast(rdr.getObject(k));} catch (Exception e) {throw Err_.new_exc(e, "db", "read failed", "k", k, "type", Byte_.Cls_val_name);}} //#<>[k]~.getObject(k)

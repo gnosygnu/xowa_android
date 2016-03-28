@@ -33,6 +33,6 @@ public interface Xow_wiki extends Xow_ttl_parser, GfoInvkAble {
 	Xow_wiki_props				Props();
 	Xow_site_stats_mgr			Stats();
 	void						Init_by_wiki();
-	Xoa_url_parser				Utl__url_parser();
+	Xow_url_parser				Utl__url_parser();
 	Xoax_addon_mgr				Addon_mgr();
 }

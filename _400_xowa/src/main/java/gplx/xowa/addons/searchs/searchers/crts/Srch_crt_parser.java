@@ -1,89 +1,129 @@
 package gplx.xowa.addons.searchs.searchers.crts; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*; import gplx.xowa.addons.searchs.searchers.*;
-import gplx.xowa.addons.searchs.parsers.*;
+import gplx.xowa.addons.searchs.searchers.crts.visitors.*;
 public class Srch_crt_parser {
-	private final Srch_parser_ctx ctx = new Srch_parser_ctx(); private byte[] src;
-	private final Srch_crt_visitor__flatten flatten = new Srch_crt_visitor__flatten();
+	private final    Srch_crt_scanner scanner;
+	private final    Srch_crt_visitor__words		words_visitor = new Srch_crt_visitor__words();
+	private final    Srch_crt_visitor__print		print_visitor = new Srch_crt_visitor__print();
+	private final    byte wildcard_byte;
 	private int uid_next;
-	private final Srch_text_parser parser;
-	public Srch_crt_parser(Srch_text_parser parser) {this.parser = parser;}
-	public Srch_crt_node Parse(byte[] src) {
-		this.src = src;
-		uid_next = 0;
-		Srch_crt_tkn[] tkns = new Srch_crt_scanner(parser).Scan(src);
-		return Flatten(Parse_itm_or(ctx.Init(tkns)));
+	public Srch_crt_parser(Srch_crt_scanner_syms trie_bldr) {
+		this.wildcard_byte = trie_bldr.Wild();
+		this.scanner = new Srch_crt_scanner(trie_bldr);
 	}
-	private Srch_crt_node Flatten(Srch_crt_node root) {
-		Srch_crt_node rv = root;
-		Srch_crt_node[] subs = flatten.Flatten(root);
-		if (subs != null) rv = new Srch_crt_node(root.uid, root.tid, true, subs, null);
-		return rv;
+	public int Next_uid() {return ++uid_next;}
+	public Srch_crt_mgr Parse_or_invalid(byte[] src, boolean auto_wildcard) {
+		this.uid_next = -1;
+
+		Srch_crt_tkn[] tkns_ary = scanner.Scan(src);
+		Srch_crt_parser_frame root_frame = new Srch_crt_parser_frame(this);
+		Parse_tkns(root_frame, tkns_ary, 0, tkns_ary.length);
+		Srch_crt_itm root_itm = root_frame.Produce_or_null();
+
+		if (root_itm == null) return Srch_crt_mgr.Invalid;
+		byte[] key = print_visitor.Print(root_itm);
+		words_visitor.Gather(root_itm);
+		return new Srch_crt_mgr(key, tkns_ary, root_itm, words_visitor.Words_tid(), words_visitor.Words_ary(), words_visitor.Words_nth());
 	}
-	private Srch_crt_node Parse_itm_or(Srch_parser_ctx ctx) {
-		Srch_crt_node lhs = Parse_itm_and(ctx);
-		while (ctx.Cur_tid(Srch_crt_tkn.Tid__or)) {
-			ctx.Move_next();
-			Srch_crt_node rhs = Parse_itm_and(ctx);
-			lhs = New_join(Srch_crt_node_.Tid__or, ++uid_next, lhs, rhs);
-		}
-		return lhs;
-	}
-	private Srch_crt_node Parse_itm_and(Srch_parser_ctx ctx) {
-		Srch_crt_node lhs = Parse_itm_not(ctx);
-		while (ctx.Cur_tid(Srch_crt_tkn.Tid__and)) {
-			ctx.Move_next();
-			Srch_crt_node rhs = Parse_itm_not(ctx);
-			lhs = New_join(Srch_crt_node_.Tid__and, ++uid_next, lhs, rhs);
-		}
-		return lhs;
-	}
-	private Srch_crt_node Parse_itm_not(Srch_parser_ctx ctx) {
-		Srch_crt_node lhs = Parse_itm_leaf(ctx);
-		while (ctx.Cur_tid(Srch_crt_tkn.Tid__not)) {
-			ctx.Move_next();
-			Srch_crt_node rhs = Parse_itm_leaf(ctx);
-			lhs = New_join(Srch_crt_node_.Tid__not, ++uid_next, rhs);
-		}
-		return lhs;
-	}
-	private Srch_crt_node Parse_itm_leaf(Srch_parser_ctx ctx) {
-		if (ctx.Cur_tid(Srch_crt_tkn.Tid__paren_bgn)) {
-			ctx.Move_next();
-			Srch_crt_node lhs = Parse_itm_or(ctx);
-			if (ctx.Cur_tid(Srch_crt_tkn.Tid__paren_end)) ctx.Move_next();	// skip token
-			return lhs;
-		}
-		else if (ctx.Cur_tid(Srch_crt_tkn.Tid__eos))
-			return Srch_crt_node.Invalid;
-		else {
-			Srch_crt_tkn word_tkn = ctx.Move_next();
-			if (word_tkn.tid == Srch_crt_tkn.Tid__not) {
-				word_tkn = ctx.Move_next();
-				if (word_tkn == null) return Srch_crt_node.Invalid; // occurs in "a -"
-				Srch_crt_node word_itm = New_word(word_tkn, ++uid_next, src);
-				return New_join(Srch_crt_node_.Tid__not, ++uid_next, word_itm);
+	private int Parse_tkns(Srch_crt_parser_frame frame, Srch_crt_tkn[] tkns_ary, int tkns_bgn, int tkns_end) {
+		int tkns_cur = tkns_bgn;
+		while (tkns_cur < tkns_end) {
+			Srch_crt_tkn cur_tkn = tkns_ary[tkns_cur];
+			int new_tkns_cur = Process_tkn(frame, tkns_ary, tkns_cur, tkns_end, cur_tkn);
+			if (new_tkns_cur < 0) {
+				tkns_cur = -new_tkns_cur;
+				break;
 			}
 			else
-				return New_word(word_tkn, ++uid_next, src);
+				tkns_cur = new_tkns_cur;
 		}
+		return tkns_cur;
 	}
-	private static Srch_crt_node New_join(int tid, int uid, Srch_crt_node... ary) {return new Srch_crt_node(uid, tid, false, ary, null);}
-	private static Srch_crt_node New_word(Srch_crt_tkn tkn, int uid, byte[] src) {
-		int tid = tkn.tid == Srch_crt_tkn.Tid__word ? Srch_crt_node_.Tid__word : Srch_crt_node_.Tid__word_quote; 
-		return new Srch_crt_node(uid, tid, false, Srch_crt_node_.Ary_empty, tkn.val);
+	private int Process_tkn(Srch_crt_parser_frame frame, Srch_crt_tkn[] tkns_ary, int tkns_cur, int tkns_end, Srch_crt_tkn cur_tkn) {
+		byte cur_tid = cur_tkn.Tid;
+		switch (cur_tid) {
+			case Srch_crt_tkn.Tid__word:
+			case Srch_crt_tkn.Tid__word_w_quote:
+				frame.Subs__add(Srch_crt_itm.New_word(wildcard_byte, cur_tkn, frame.Next_uid(), cur_tkn.Val));
+				break;
+			case Srch_crt_tkn.Tid__and:
+				frame.Eval_join(Srch_crt_itm.Tid__and);
+				break;
+			case Srch_crt_tkn.Tid__or:
+				frame.Eval_join(Srch_crt_itm.Tid__or);
+				break;
+			case Srch_crt_tkn.Tid__paren_bgn: {
+				Srch_crt_parser_frame paren_frame = new Srch_crt_parser_frame(this);
+				int new_tkns_cur = Parse_tkns(paren_frame, tkns_ary, tkns_cur + 1, tkns_end);
+				Srch_crt_itm paren_itm = paren_frame.Produce_or_null();
+				if (paren_itm != null) {
+					frame.Subs__add(paren_itm);
+				}
+				return new_tkns_cur;
+			}
+			case Srch_crt_tkn.Tid__paren_end:
+				return -(tkns_cur + 1);
+			case Srch_crt_tkn.Tid__not:
+				frame.Notted_y_();
+				break;
+		}
+		return tkns_cur + 1;
 	}
 }
-class Srch_parser_ctx {
-	private Srch_crt_tkn[] ary; private int pos = 0; private int ary_len;
-	public Srch_parser_ctx Init(Srch_crt_tkn[] ary) {
-		this.ary = ary;
-		this.ary_len = ary.length; 
-		this.pos = 0;
-		return this;
+class Srch_crt_parser_frame {
+	public Srch_crt_parser_frame(Srch_crt_parser parser) {
+		this.parser = parser;
 	}
-	public boolean Cur_tid(byte tid) {return pos < ary_len ? tid == ary[pos].tid : tid == Srch_crt_tkn.Tid__eos;}
-	public Srch_crt_tkn Move_next() {
-		Srch_crt_tkn rv = null; 
-		if (pos < ary_len) rv = ary[pos++];
-		return rv;
+	private int join_tid = Srch_crt_tkn.Tid__null;
+	private boolean notted = false;
+	private final    List_adp subs = List_adp_.new_();
+	private final    Srch_crt_parser parser;
+	public int Next_uid() {return parser.Next_uid();}
+	public void Notted_y_() {
+		if (notted)				// already notted; disable; EX: "--a"
+			notted = false;
+		else
+			notted = true;
+	}
+	public void Subs__add(Srch_crt_itm itm) {
+		// if notted, wrap itm in not; EX: "-a"; "-(a & b)"
+		if		(notted) {
+			itm = Srch_crt_itm.New_join(Srch_crt_itm.Tid__not, this.Next_uid(), itm);
+			notted = false;
+		}
+		subs.Add(itm);
+
+		// auto-and behavior; EX: "a b" -> "a & b"; EX: "a (b | c)" -> "a & (b | c)"
+		if	(	join_tid == Srch_crt_tkn.Tid__null				// if currently null
+			&&	subs.Len() > 1									// but 2 items in list
+			)
+			join_tid = Srch_crt_itm.Tid__and;					// default to AND;  EX: "a (b) c"
+	}
+	public void Eval_join(int tid) {
+		if		(join_tid == Srch_crt_tkn.Tid__null)			join_tid = tid;
+		else if	(join_tid == tid)								{}	// tid is same; ignore; note that this handles dupes; EX: "a & & b"
+		else {	// tid changed; EX: a & b | c
+			Merge_and_add();
+			join_tid = tid;
+		}
+	}
+	public Srch_crt_itm Produce_or_null() {
+		int subs_len = subs.Len();
+		switch (subs_len) {
+			case 0:
+				return null;
+			case 1:
+				join_tid = Srch_crt_tkn.Tid__null;
+				return (Srch_crt_itm)subs.Get_at(0);
+			default: 
+				Srch_crt_itm[] subs_ary = (Srch_crt_itm[])subs.To_ary_and_clear(Srch_crt_itm.class);
+				Srch_crt_itm rv = Srch_crt_itm.New_join(join_tid, parser.Next_uid(), subs_ary);
+				join_tid = Srch_crt_tkn.Tid__null;
+				return rv;
+		}
+	}
+	private void Merge_and_add() {
+		int subs_len = subs.Len();
+		if (subs_len > 1)
+			subs.Add(Produce_or_null());
 	}
 }

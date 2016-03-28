@@ -5,8 +5,8 @@ import gplx.xowa.wikis.nss.*;
 import gplx.xowa.wikis.*; import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.*;
 import gplx.xowa.addons.searchs.*;
 public class Xodb_load_mgr_sql implements Xodb_load_mgr {
-	private final Xow_wiki wiki; private Xodb_mgr_sql db_mgr; Xowd_db_mgr fsys_mgr;
-	public Xodb_load_mgr_sql(Xow_wiki wiki, Xodb_mgr_sql db_mgr, Xowd_db_mgr fsys_mgr) {this.wiki = wiki; this.db_mgr = db_mgr; this.fsys_mgr = fsys_mgr;}
+	private Xodb_mgr_sql db_mgr; Xowd_db_mgr fsys_mgr;
+	public Xodb_load_mgr_sql(Xow_wiki wiki, Xodb_mgr_sql db_mgr, Xowd_db_mgr fsys_mgr) {this.db_mgr = db_mgr; this.fsys_mgr = fsys_mgr;}
 	public void Load_init(Xowe_wiki wiki) {
 		Load_init_cfg(wiki);
 		Xowd_db_file db_core = wiki.Data__core_mgr().Db__core();

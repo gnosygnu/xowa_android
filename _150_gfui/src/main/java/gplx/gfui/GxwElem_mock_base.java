@@ -48,7 +48,19 @@ class MockTextBoxMulti extends MockTextBox implements GxwTextMemo, GxwTextHtml {
 	public void ScrollTillCaretIsVisible() {}
 }
 class MockComboBox extends GxwElem_mock_base implements GxwComboBox {
-	public void DataSource_set(Object... ary) {}
+    public int SelBgn() {return -1;} public void SelBgn_set(int v) {}
+    public int SelLen() {return 0;}  public void SelLen_set(int v) {}
+    public void Sel_(int bgn, int end) {}
+    public String[] DataSource_as_str_ary() {return String_.Ary_empty;}
+    public void DataSource_set(Object... ary) {}
+    public String Text_fallback() {return "";} public void Text_fallback_(String v) {}
+    public int List_sel_idx() {return -1;} public void List_sel_idx_(int v) {}
+    public void Items__update(String[] ary) {}
+    public void Items__size_to_fit(int count) {}
+    public void Items__visible_rows_(int v) {}
+    public void Items__jump_len_(int v) {}
+    public void Margins_set(int left, int top, int right, int bot) {}
+    public boolean List_visible() {return false;} public void List_visible_(boolean v) {}
 	public Object SelectedItm() {return selectedItm;} public void SelectedItm_set(Object v) {this.selectedItm = v;} Object selectedItm;
 }
 class MockListBox extends GxwElem_mock_base implements GxwListBox {

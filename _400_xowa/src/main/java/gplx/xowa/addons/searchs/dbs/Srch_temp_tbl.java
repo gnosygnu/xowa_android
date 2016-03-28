@@ -1,5 +1,5 @@
 package gplx.xowa.addons.searchs.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*;
-import gplx.dbs.*; import gplx.dbs.qrys.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*;
+import gplx.dbs.*;
 public class Srch_temp_tbl {
 	public final String tbl_name = "search_temp"; 
 	private final Dbmeta_fld_list flds = Dbmeta_fld_list.new_();

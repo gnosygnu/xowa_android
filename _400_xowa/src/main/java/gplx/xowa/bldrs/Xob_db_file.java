@@ -5,9 +5,9 @@ public class Xob_db_file {
 		this.url = url; this.conn = conn;
 		this.tbl__cfg = new Db_cfg_tbl(conn, "xowa_cfg");
 	}
-	public Io_url			Url()		{return url;} private final Io_url url;
-	public Db_conn			Conn()		{return conn;} private final Db_conn conn;
-	public Db_cfg_tbl		Tbl__cfg()	{return tbl__cfg;} private final Db_cfg_tbl tbl__cfg;
+	public Io_url			Url()		{return url;} private final    Io_url url;
+	public Db_conn			Conn()		{return conn;} private final    Db_conn conn;
+	public Db_cfg_tbl		Tbl__cfg()	{return tbl__cfg;} private final    Db_cfg_tbl tbl__cfg;
 	public static Xob_db_file New__file_make(Io_url dir)			{return New(dir, Name__file_make);}
 	public static Xob_db_file New__page_regy(Io_url dir)			{return New(dir, Name__page_regy);}
 	public static Xob_db_file New__wiki_image(Io_url dir)			{return New(dir, Name__wiki_image);}
@@ -28,6 +28,6 @@ public class Xob_db_file {
 	  Name__wiki_image = "xowa.wiki.image.sqlite3", Name__wiki_redirect = "xowa.wiki.redirect.sqlite3"
 	, Name__file_make = "xowa.file.make.sqlite3", Name__temp_log = "xowa.temp.log.sqlite3"
 	, Name__page_regy = "xowa.file.page_regy.sqlite3", Name__redlink = "xowa.temp.redlink.sqlite3"
-	, Name__page_link = "xowa.wiki.page_link.sqlite3"
+	, Name__page_link = "xowa.wiki.pagelinks.sqlite3"
 	;
 }

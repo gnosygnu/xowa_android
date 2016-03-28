@@ -914,7 +914,8 @@ function handleTableCollapseOrExpandClick() {
     var divBottom = container.children[2];
     var caption = divCollapsed.querySelector('.app_table_collapsed_caption');
     if (tableFull.style.display !== 'none') {
-        tableFull.style.display = 'none';
+        // tableFull.style.display = 'none';
+        tableFull.setAttribute("style", 'display:none !important');   // XOWA
         divCollapsed.classList.remove('app_table_collapse_close');
         divCollapsed.classList.remove('app_table_collapse_icon');
         divCollapsed.classList.add('app_table_collapsed_open');
@@ -927,7 +928,8 @@ function handleTableCollapseOrExpandClick() {
             window.scrollTo( 0, container.offsetTop - transformer.getDecorOffset() );
         }
     } else {
-        tableFull.style.display = 'block';
+        // tableFull.style.display = 'block';
+        tableFull.setAttribute("style", 'display:table !important') // XOWA
         divCollapsed.classList.remove('app_table_collapsed_open');
         divCollapsed.classList.add('app_table_collapse_close');
         divCollapsed.classList.add('app_table_collapse_icon');

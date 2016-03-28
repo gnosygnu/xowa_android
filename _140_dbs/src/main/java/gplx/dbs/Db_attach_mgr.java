@@ -1,20 +1,26 @@
 package gplx.dbs; import gplx.*;
 import gplx.dbs.sqls.*; import gplx.dbs.sqls.itms.*;
 public class Db_attach_mgr {
-	private final Ordered_hash hash = Ordered_hash_.New();
-	public final List_adp attached_dbs_list = List_adp_.new_();
+	private final    Ordered_hash hash = Ordered_hash_.New();
+	public final    List_adp attached_dbs_list = List_adp_.new_();
 	public String Attached_sql() {return attached_sql;} private String attached_sql;	// TEST
 	private Db_conn main_conn; private Io_url main_conn_url;
 	public Db_attach_mgr() {}
-	public Db_attach_mgr(Db_conn main_conn, Db_attach_itm... itms_ary) {this.Init(main_conn, itms_ary);}
-	public Db_attach_mgr Init(Db_conn main_conn, Db_attach_itm... itms_ary) {
-		this.main_conn = main_conn; this.main_conn_url = Db_conn_info_.To_url(main_conn.Conn_info());
+	public Db_attach_mgr(Db_conn main_conn, Db_attach_itm... itms_ary) {
+		this.Main_conn_(main_conn);
+		this.Init(itms_ary);
+	}
+	public Db_attach_mgr Init(Db_attach_itm... itms_ary) {
 		hash.Clear();
 		int itms_len = itms_ary.length;
 		for (int i = 0; i < itms_len; ++i) {
 			Db_attach_itm itm = itms_ary[i];
 			hash.Add(itm.Key, itm);
 		}
+		return this;
+	}
+	public Db_attach_mgr Main_conn_(Db_conn conn) {
+		this.main_conn = conn; this.main_conn_url = Db_conn_info_.To_url(conn.Conn_info());
 		return this;
 	}
 	public void Attach() {
@@ -31,6 +37,15 @@ public class Db_attach_mgr {
 			main_conn.Env_db_detach(itm.Key);
 		}
 		attached_dbs_list.Clear();	// clear list so multiple detachs don't fail
+	}
+	public String List__to_str() {
+		String rv = "";
+		int len = attached_dbs_list.Len();
+		for (int i = 0; i < len; ++i) {
+			Db_attach_itm itm = (Db_attach_itm)attached_dbs_list.Get_at(i);
+			rv += itm.Key + ";";
+		}
+		return rv;
 	}
 	public String Resolve_sql(String sql) {
 		attached_dbs_list.Clear();

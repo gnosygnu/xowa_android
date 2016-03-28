@@ -194,7 +194,7 @@ public class Xop_tblw_wkr implements Xop_ctx_wkr {
 						}
 						else {
 							if (!tbl_is_xml)					// only for "\n|" not <td>
-								ctx.Para().Process_nl(ctx, root, src, bgn_pos, bgn_pos + 1);	// simulate "\n"; DATE:2014-02-20; ru.w:;[[Help:Download]]; DATE:2014-02-20
+								ctx.Para().Process_nl(ctx, root, src, bgn_pos, bgn_pos + 1);	// simulate "\n"; DATE:2014-02-20; ru.w:;home/wiki/Dashboard/Image_databases; DATE:2014-02-20
 							ctx.Para().Process_block__bgn_y__end_n(Xop_xnde_tag_.Tag__td);		// <td>
 							ctx.Stack_pop_til(root, src, ctx.Stack_idx_typ(prv_tid), true, bgn_pos, bgn_pos, Xop_tkn_itm_.Tid_tblw_td);
 						}

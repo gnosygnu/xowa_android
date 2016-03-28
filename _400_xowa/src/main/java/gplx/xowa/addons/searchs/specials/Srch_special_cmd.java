@@ -1,90 +1,69 @@
 package gplx.xowa.addons.searchs.specials; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*;
 import gplx.core.threads.*;
-import gplx.xowa.wikis.*; import gplx.xowa.wikis.domains.*; import gplx.xowa.files.gui.*; import gplx.xowa.guis.views.*;
-import gplx.xowa.addons.searchs.*; import gplx.xowa.addons.searchs.specials.*; import gplx.xowa.addons.searchs.htmls.*; import gplx.xowa.addons.searchs.searchers.*; import gplx.xowa.addons.searchs.searchers.rslts.*;
-public class Srch_special_cmd implements GfoInvkAble, Cancelable, Srch_rslt_cbk, Xog_tab_close_lnr {
-	private final Srch_special_searcher mgr; private final Srch_qry qry;
-	private final Xoae_page page; private final Xog_tab_close_mgr tab_close_mgr; private final Xog_js_wkr js_wkr;
-	private final boolean async; private Srch_rslt_cbk__html rslt_cbk; 
-	private final Srch_rslt_list cur_rslts = new Srch_rslt_list();
-	public Srch_special_cmd(Srch_special_searcher mgr, Srch_qry qry, Xow_wiki wiki, Xoae_page page, Xog_tab_close_mgr tab_close_mgr, Xog_js_wkr js_wkr, byte[] key, Srch_rslt_list rslts_list) {
-		this.mgr = mgr; this.qry = qry; this.wiki = wiki; this.page = page; this.tab_close_mgr = tab_close_mgr; this.js_wkr = js_wkr;
-		this.key = key; this.rslts_list = rslts_list;
-		this.async = wiki.App().Mode().Tid_is_gui() && qry.Async_db;			
+import gplx.xowa.files.gui.*; import gplx.xowa.guis.views.*;
+import gplx.xowa.addons.searchs.specials.htmls.*; import gplx.xowa.addons.searchs.searchers.*; import gplx.xowa.addons.searchs.searchers.rslts.*;
+public class Srch_special_cmd implements GfoInvkAble, Srch_rslt_cbk, Xog_tab_close_lnr {
+	private final    Srch_special_searcher mgr; private final    Srch_search_qry qry;
+	public final    Xow_wiki wiki; private final    Xog_tab_close_mgr tab_close_mgr; private final    Xog_js_wkr js_wkr;
+	private Srch_html_row_wkr html_row_wkr; private final    boolean async; 
+	public final    byte[] key; private boolean canceled = false;
+	public Srch_special_cmd(Srch_special_searcher mgr, Srch_search_qry qry, Xow_wiki wiki, Xog_tab_close_mgr tab_close_mgr, Xog_js_wkr js_wkr, byte[] key, boolean search_is_async) {
+		this.mgr = mgr; this.qry = qry; this.wiki = wiki; this.tab_close_mgr = tab_close_mgr; this.js_wkr = js_wkr; this.key = key;
+		this.async = wiki.App().Mode().Tid_is_gui() && search_is_async;
 	}
-	public final byte[] key;
-	public final Xow_wiki wiki;
-	public final Srch_rslt_list rslts_list;
-	public boolean Canceled() {return canceled;} private boolean canceled;
-	public void Cancel() {
-		Xoa_app_.Usr_dlg().Prog_many("", "", "search canceled: key=~{0}", key);
+	public void On_cancel() {
 		canceled = true;
+		Xoa_app_.Usr_dlg().Prog_many("", "", "search canceled: key=~{0}", key);
 		this.Hide_cancel_btn();
 	}
-	public boolean Search() {
-		boolean rv = false, fill_from_cache = true;
-		if (!rslts_list.Done() && (qry.Slab_end > rslts_list.Len())) {
-			if (async) {
-				fill_from_cache = false; // NOTE: do not retrieve cached results to page, else ui_async cmd will add out of order; DATE:2015-04-24
-				if (rslt_cbk == null) rslt_cbk = new Srch_rslt_cbk__html(this, new Srch_html_row_bldr(new gplx.xowa.htmls.core.htmls.utls.Xoh_lnki_bldr(wiki.App(), wiki.App().Html__href_wtr())), js_wkr, qry.Slab_len, wiki.Domain_bry());
-				Thread_adp_.invk_(gplx.xowa.apps.Xoa_thread_.Key_special_search_db, this, Invk_search_db).Start();
-			}
-			else
-				Search_db();
-			rv = true;
+	public void Search() {
+		if (async) {	// NOTE: async useful with multiple wikis; allows parallel searches;
+			Srch_html_row_bldr html_row_bldr = new Srch_html_row_bldr(new gplx.xowa.htmls.core.htmls.utls.Xoh_lnki_bldr(wiki.App(), wiki.App().Html__href_wtr()));
+			html_row_wkr = new Srch_html_row_wkr(html_row_bldr, js_wkr, qry.Slab_end - qry.Slab_bgn, wiki.Domain_bry());
+			Thread_adp_.invk_(gplx.xowa.apps.Xoa_thread_.Key_special_search_db, this, Invk_search_db).Start();
 		}
-		if (fill_from_cache) {
-			qry.Slab_idx_max = rslts_list.Len() / qry.Slab_len;
-		}
-		return rv;
+		else
+			Search_db();
 	}
-	public void Search_db() {
-		tab_close_mgr.Add(this);
-		if (async) {
-			while (!page.Html_data().Mode_wtxt_shown())	// NOTE:must check for wtxt_shown else async can happen first, and then be overwritten by wtxt; DATE:2015-04-26
-				Thread_adp_.Sleep(100);
-			int slab_bgn = qry.Slab_bgn;
-			int rslts_len = rslts_list.Len();
-			for (int i = 0; i < qry.Slab_len; ++i) {
-				if (i + slab_bgn >= rslts_len) break;
-				rslt_cbk.Set(i, rslts_list.Get_at(i + slab_bgn));
-			}
+	private void Search_db() {
+		synchronized (mgr) {	// THREAD: needed else multiple Special:Search pages will fail at startup; DATE:2016-03-27
+			tab_close_mgr.Add(this);
+			// DEPRECATE: causes search to fail when using go back / go forward; DELETE:2016-05; DATE:2016-03-27
+			//	if (async) {
+			//		while (!page.Html_data().Mode_wtxt_shown())	// NOTE:must check to see if page is shown; else async can happen first, and then be overwritten by page_showing; DATE:2015-04-26
+			//		Thread_adp_.Sleep(100);
+			//	}
+			Srch_search_addon.Get(wiki).Search(qry, this);
+			mgr.Search__done(this);
+			if (canceled) return; 	// NOTE: must check else throws SWT exception
+			this.Hide_cancel_btn();
 		}
-		cur_rslts.Clear();
-		Srch_search_mgr search_mgr = Srch_search_addon.Get(wiki).Search_mgr();
-		search_mgr.Search(rslts_list, this, this, wiki, qry);
-		rslts_list.Sort();
-
-		mgr.Search__done(this);
-		if (this.Canceled()) return; 	// NOTE: must check else throws SWT exception
-		this.Hide_cancel_btn();
-		if (rslts_list.Done())
-			qry.Slab_idx_max = rslts_list.Len() / qry.Slab_len;
 		Xoa_app_.Usr_dlg().Prog_many("", "", "");
 	}
 	private void Hide_cancel_btn()			{Thread_adp_.invk_(gplx.xowa.apps.Xoa_thread_.Key_special_search_cancel, this, Invk_hide_cancel).Start();}
 	private void Hide_cancel_btn_async()	{js_wkr.Html_atr_set("xowa_cancel_" + wiki.Domain_str(), "style", "display:none;");}
-	public void On_rslt_found(Srch_rslt_row rslt_row) {
-		cur_rslts.Add(rslt_row);
-	}
-	public void On_rdr_done(boolean last_rdr) {
-		cur_rslts.Sort();
-		int cur_rslts_len = cur_rslts.Len();
-		int rslts_list_len = rslts_list.Len();
-		for (int i = 0; i < cur_rslts_len; ++i) {
-			if ((rslts_list_len - cur_rslts_len + i) < qry.Slab_bgn)
-				continue;
-			Srch_rslt_row row = cur_rslts.Get_at(i);
-			rslt_cbk.On_rslt_found(row);
+	public void On_rslts_found(Srch_search_qry qry, Srch_rslt_list rslts_list, int rslts_bgn, int rslts_end) {
+		if (rslts_list.Rslts_are_first) {
+			if (rslts_bgn > qry.Slab_bgn) {
+				for (int i = qry.Slab_bgn; i < rslts_bgn; ++i) {
+					Srch_rslt_row row = rslts_list.Get_at(i);
+					html_row_wkr.On_rslt_found(row);
+				}
+			}
 		}
-		cur_rslts.Clear();
+		for (int i = rslts_bgn; i < rslts_end; ++i) {
+			if (i < qry.Slab_bgn) continue;	// do not write row if < slab_bgn; occurs when restarting app directly at page > 1; EX: 11-20 requested; 1-20 returned; do not write 1-10;
+			if (i >= qry.Slab_end) break;	// do not write row if > slab_end; occurs when paging forward; EX: 01-10 requested; 1-12 retrieved; do not write 11, 12
+			Srch_rslt_row row = rslts_list.Get_at(i);
+			html_row_wkr.On_rslt_found(row);
+		}
 	}
 	public boolean When_close(Xog_tab_itm tab, Xoa_url url) {
 		if (url != Xoa_url.Null) {	// not called by close_tab (Ctrl+W)
 			byte[] cancel_arg = url.Qargs_mgr().Get_val_bry_or(Srch_qarg_mgr.Bry__cancel, null);
 			if (cancel_arg != null)	return true; // cancel arg exists; assume tab is not being closed; note that cancel will be processed by Xows_page__special; DATE:2015-04-30
 		}
-		this.Cancel();
+		this.On_cancel();
 		return true;
 	}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {

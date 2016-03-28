@@ -18,6 +18,7 @@
             android:icon="@drawable/ic_history_black_24dp"
             android:checkable="true"
             />
+        <!--
         <item android:id="@+id/nav_item_saved_pages"
             android:title="@string/nav_item_saved_pages"
             android:icon="@drawable/ic_turned_in_black_24dp"
@@ -28,6 +29,7 @@
             android:icon="@drawable/ic_explore_black_24dp"
             android:checkable="true"
             />
+        -->
         <item android:id="@+id/nav_item_random"
             android:title="@string/nav_item_random"
             android:icon="@drawable/ic_dice"

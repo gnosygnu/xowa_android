@@ -7,12 +7,13 @@ import gplx.langs.htmls.encoders.*; import gplx.xowa.htmls.hrefs.*;
 import gplx.xowa.addons.searchs.*; import gplx.xowa.addons.searchs.searchers.*;
 import gplx.xowa.langs.cases.*;
 public class Xod_app {
-	private final Xoav_app app;
-	private final Xod_page_mgr page_mgr = new Xod_page_mgr();
-	private final Xod_file_mgr file_mgr = new Xod_file_mgr();
-	private final Srch_ns_mgr ns_mgr = new Srch_ns_mgr();
+	private final    Xoav_app app;
+	private final    Xod_page_mgr page_mgr = new Xod_page_mgr();
+	private final    Xod_file_mgr file_mgr = new Xod_file_mgr();
+	private final    Srch_ns_mgr ns_mgr = new Srch_ns_mgr();
 	public Xod_app(Xoav_app app) {
 		this.app = app;
+		ns_mgr.Add_main_if_empty();
 	}
 	public Xow_wiki Wikis__get_by_domain(String wiki_domain) {
 		Xow_wiki rv = app.Wiki_mgri().Get_by_or_make_init_y(Bry_.new_u8(wiki_domain));
@@ -27,12 +28,10 @@ public class Xod_app {
 		Xoa_url url = wiki.Utl__url_parser().Parse(random_ttl_bry);
 		return Wiki__get_by_url(wiki, url);
 	}
-	public void Wiki__search(Cancelable cxl, Srch_rslt_cbk rslt_cbk, Xow_wiki wiki, String search, int bgn, int end) {
+	public void Wiki__search(Cancelable cxl, Srch_rslt_cbk cbk, Xow_wiki wiki, String search, int bgn, int end) {
 		Srch_search_addon addon = Get_addon(wiki);
-		Srch_search_mgr search_mgr = addon.Search_mgr();
-		ns_mgr.Add_main_if_empty();
-		Srch_rslt_list rslts_list = new Srch_rslt_list();
-		search_mgr.Search(rslts_list, cxl, rslt_cbk, wiki, new Srch_qry(ns_mgr, Process_search(wiki.Case_mgr(), search), -1, bgn, end, false, Xow_domain_itm_.Ary_empty));
+		Srch_search_qry qry = Srch_search_qry.New__drd(wiki, ns_mgr, Bry_.new_u8(search), bgn, end);
+		addon.Search(qry, cbk);
 	}
 	public void Page__load_files(Xow_wiki wiki, Xod_page_itm pg, Xog_js_wkr js_wkr) {
 		file_mgr.Load_files(wiki, pg, js_wkr);
@@ -45,15 +44,6 @@ public class Xod_app {
 		page_bry = Gfo_url_encoder_.Http_url.Decode(page_bry);						// decode %-encoding; convert + to space
 		page_bry = Xoa_ttl.Replace_spaces(page_bry);								// convert spaces to unders; canonical-url has spaces
 		return page_bry;
-	}
-	private static byte[] Process_search(Xol_case_mgr case_mgr, String raw_str) {
-		byte[] rv = case_mgr.Case_build_lower(Bry_.new_u8(raw_str));	// lowercase String
-		int rv_len = rv.length;
-		if (	rv_len > 0 
-			&&	rv[rv_len - 1] != Byte_ascii.Space) {
-			rv = Bry_.Add(rv, Byte_ascii.Star_bry);
-		}
-		return rv;
 	}
 	private Srch_search_addon Get_addon(Xow_wiki wiki) {return Srch_search_addon.Get(wiki);}
 }

@@ -79,14 +79,14 @@ public class NavDrawerHelper {
                         activity.pushFragment(new HistoryFragment());
                         funnel.logHistory();
                         break;
-                    case R.id.nav_item_saved_pages:
-                        activity.pushFragment(new SavedPagesFragment());
-                        funnel.logSavedPages();
-                        break;
-                    case R.id.nav_item_nearby:
-                        activity.pushFragment(new NearbyFragment());
-                        funnel.logNearby();
-                        break;
+//                    case R.id.nav_item_saved_pages:
+//                        activity.pushFragment(new SavedPagesFragment());
+//                        funnel.logSavedPages();
+//                        break;
+//                    case R.id.nav_item_nearby:
+//                        activity.pushFragment(new NearbyFragment());
+//                        funnel.logNearby();
+//                        break;
                     case R.id.nav_item_more:
                         launchSettingsActivity();
                         funnel.logMore();
@@ -186,10 +186,10 @@ public class NavDrawerHelper {
             return R.id.nav_item_today;
         } else if (fragment instanceof HistoryFragment) {
             return R.id.nav_item_history;
-        } else if (fragment instanceof SavedPagesFragment) {
-            return R.id.nav_item_saved_pages;
-        } else if (fragment instanceof NearbyFragment) {
-            return R.id.nav_item_nearby;
+//        } else if (fragment instanceof SavedPagesFragment) {
+//            return R.id.nav_item_saved_pages;
+//        } else if (fragment instanceof NearbyFragment) {
+//            return R.id.nav_item_nearby;
         }
         return null;
     }

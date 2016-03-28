@@ -20,6 +20,7 @@ public class Pglnk_bldr_cmd extends Xob_sql_dump_base implements Sql_file_parser
 		temp_tbl.Insert_bgn();
 	}
 	@Override public void Cmd_end() {
+		if (fail) return;
 		temp_tbl.Insert_end();
 		temp_tbl.Create_idx();
 		Pglnk_page_link_tbl actl_tbl = new Pglnk_page_link_tbl(conn);
@@ -44,7 +45,7 @@ public class Pglnk_bldr_cmd extends Xob_sql_dump_base implements Sql_file_parser
 		}
 	}
 	private static final byte Fld__pl_from = 0, Fld__pl_namespace = 1, Fld__pl_title = 2;
-	private static final String Sql__page_link__make = String_.Concat_lines_nl_skip_last
+	private static final    String Sql__page_link__make = String_.Concat_lines_nl_skip_last
 	(	"INSERT INTO page_link (src_id, trg_id, trg_count)"
 	,	"SELECT  pl.src_id"
 	,	",       p.page_id"

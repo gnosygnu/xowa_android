@@ -55,7 +55,7 @@ android {
 //        preDexLibraries = preDexEnabled
     }
     defaultConfig {
-        applicationId 'org.wikipedia'
+        applicationId 'org.xowa'
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 136
@@ -93,7 +93,7 @@ android {
     productFlavors {
         dev {
             versionName computeVersionName("dev")
-            applicationId 'org.wikipedia.dev'
+            applicationId 'org.xowa.dev'
             signingConfig signingConfigs.debug
         }
         prod {

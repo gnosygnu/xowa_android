@@ -37,7 +37,9 @@ import java.util.List;
 
 import gplx.Hash_adp;
 import gplx.Hash_adp_;
-import gplx.xowa.drds.OfflineSearchHandler;
+import gplx.String_;
+import gplx.core.consoles.Console_adp__sys;
+// import gplx.xowa.drds.OfflineSearchHandler;
 import gplx.xowa.drds.OfflineSearchTask;
 import gplx.xowa.drds.Xod_app_mgr;
 
@@ -65,7 +67,7 @@ public class SearchResultsFragment extends Fragment {
             = new ParcelableLruCache<>(MAX_CACHE_SIZE_SEARCH_RESULTS, List.class);
     private Handler searchHandler;
     public SaneAsyncTask<SearchResults> curSearchTask; // XOWA
-    private OfflineSearchHandler offlineSearchHandler;
+    // private OfflineSearchHandler offlineSearchHandler;
     private String currentSearchTerm = "";
     @Nullable private SearchResults lastFullTextResults;
     @NonNull private final List<PageTitle> totalResults = new ArrayList<>();
@@ -139,7 +141,7 @@ public class SearchResultsFragment extends Fragment {
         });
 
         searchHandler = new Handler(new SearchHandlerCallback());
-        offlineSearchHandler = new OfflineSearchHandler(app, this);
+        // offlineSearchHandler = new OfflineSearchHandler(app, this);
 
         return rootView;
     }
@@ -177,40 +179,52 @@ public class SearchResultsFragment extends Fragment {
      *              search may be delayed by a small time, so that network requests are not sent
      *              too often.  If the search is forced, the network request is sent immediately.
      */
-    public void startSearch(String term, boolean force) {
-        if (!force && currentSearchTerm.equals(term)) {
-            return;
-        }
-
+    public void startSearch(String term, boolean force) {// NOTE: can be called twice when clicking on saved searches (1) onItemClick; (2) onQueryTextChanged
+        Console_adp__sys.Instance.Write_str_w_nl("beginning:" + term);
         cancelSearchTask();
-        currentSearchTerm = term;
+        synchronized (task_end_mutex) {
+            if (!force && currentSearchTerm.equals(term)) {
+                return;
+            }
+            currentSearchTerm = term;
 
-        if (term.isEmpty()) {
-            clearResults();
-            return;
+            if (term.isEmpty()) {
+                clearResults();
+                return;
+            }
+
+            List<PageTitle> cacheResult = searchResultsCache.get(app.getAppOrSystemLanguageCode() + "-" + term);
+            if (cacheResult != null && !cacheResult.isEmpty()) {
+                clearResults();
+                displayResults(cacheResult);
+                return;
+            }
+
+            Run_search(term, true);
+            /*
+            Message searchMessage = Message.obtain();
+            searchMessage.what = MESSAGE_SEARCH;
+            searchMessage.obj = term;
+            searchMessage.arg1 = 0;//totalResults.size();
+            searchMessage.what = OfflineSearchHandler.Msg__search;
+
+            if (force) {
+                offlineSearchHandler.sendMessage(searchMessage);
+                // searchHandler.sendMessage(searchMessage);
+            } else {
+                offlineSearchHandler.sendMessageDelayed(searchMessage, DELAY_MILLIS);
+                // searchHandler.sendMessageDelayed(searchMessage, DELAY_MILLIS);
+            }
+            */
         }
-
-        List<PageTitle> cacheResult = searchResultsCache.get(app.getAppOrSystemLanguageCode() + "-" + term);
-        if (cacheResult != null && !cacheResult.isEmpty()) {
-            clearResults();
-            displayResults(cacheResult);
-            return;
-        }
-
-
-        Message searchMessage = Message.obtain();
-        searchMessage.what = MESSAGE_SEARCH;
-        searchMessage.obj = term;
-        searchMessage.arg1 = 0;//totalResults.size();
-        searchMessage.what = OfflineSearchHandler.Msg__search;
-
-        if (force) {
-            offlineSearchHandler.sendMessage(searchMessage);
-            // searchHandler.sendMessage(searchMessage);
-        } else {
-            offlineSearchHandler.sendMessageDelayed(searchMessage, DELAY_MILLIS);
-            // searchHandler.sendMessageDelayed(searchMessage, DELAY_MILLIS);
-        }
+    }
+    private void Run_search(String term, boolean new_search) {
+        this.cancelSearchTask();
+        int slab_end = new_search ? 0 : totalResults.size();
+        OfflineSearchTask offlineSearchTask = new OfflineSearchTask(Xod_app_mgr.Instance.Cur_site(app), this, term, slab_end, new_search);
+        this.curSearchTask = offlineSearchTask;
+        this.Task__bgn(new_search);
+        offlineSearchTask.execute();
     }
 
     private class SearchHandlerCallback implements Handler.Callback {
@@ -224,47 +238,64 @@ public class SearchResultsFragment extends Fragment {
             return true;
         }
     }
+
     public void Task__bgn(boolean new_search) {
         if (new_search)
             clearResults();
         getPageActivity().updateProgressBar(true, true, 0);
     }
+    private final Object task_end_mutex = new Object();
     public void Task__end(SearchResults results, long startTime, String searchTerm, boolean disable_progress) {
         if (!isAdded()) {
             return;
         }
-        List<PageTitle> pageTitles = results.getPageTitles();
-        // To ease data analysis and better make the funnel track with user behaviour,
-        // only transmit search results events if there are a nonzero number of results
-        if (!pageTitles.isEmpty()) {
-            // Calculate total time taken to display results, in milliseconds
-            final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
-            searchFragment.getFunnel().searchResults(false, pageTitles.size(), timeToDisplay);
-        }
+        synchronized (task_end_mutex) {
+            //if (!String_.Eq(searchTerm, this.currentSearchTerm)) return;
+            if (!String_.Eq(results.SearchTerm, this.currentSearchTerm)) return;
+            Console_adp__sys.Instance.Write_str_w_nl("ending:" + searchTerm);
 
-        if (disable_progress)
-            getPageActivity().updateProgressBar(false, true, 0);
+            List<PageTitle> pageTitles = results.getPageTitles();
+            // To ease data analysis and better make the funnel track with user behaviour,
+            // only transmit search results events if there are a nonzero number of results
+            if (!pageTitles.isEmpty()) {
+                // Calculate total time taken to display results, in milliseconds
+                final int timeToDisplay = (int) ((System.nanoTime() - startTime) / NANO_TO_MILLI);
+                searchFragment.getFunnel().searchResults(false, pageTitles.size(), timeToDisplay);
+            }
 
-        searchErrorView.setVisibility(View.GONE);
-        if (!pageTitles.isEmpty()) {
-            // clearResults();
-            displayResults(pageTitles);
-        }
+            if (disable_progress)
+                getPageActivity().updateProgressBar(false, true, 0);
 
-        // add titles to cache...
-        Site site = Xod_app_mgr.Instance.Cur_site(app);
-        searchResultsCache.put(site.getLanguageCode() + "-" + searchTerm, pageTitles);
-        // curSearchTask = null; // XOWA reused for incremental progress
+            searchErrorView.setVisibility(View.GONE);
+            if (!pageTitles.isEmpty()) {
+                // clearResults();
+                displayResults(pageTitles);
+            }
 
-        final String suggestion = results.getSuggestion();
-        if (!suggestion.isEmpty()) {
-            searchSuggestion.setText(Html.fromHtml("<u>"
-            + String.format(getString(R.string.search_did_you_mean), suggestion)
-            + "</u>"));
-            searchSuggestion.setTag(suggestion);
-            searchSuggestion.setVisibility(View.VISIBLE);
-        } else {
-            searchSuggestion.setVisibility(View.GONE);
+            // add titles to cache...
+            Site site = Xod_app_mgr.Instance.Cur_site(app);
+            String cache_key = site.getLanguageCode() + "-" + searchTerm;
+            List<PageTitle> cache_titles = searchResultsCache.get(cache_key);
+            if (cache_titles == null) {
+                searchResultsCache.put(cache_key, pageTitles);
+            }
+            else {
+                for (PageTitle new_title : pageTitles) {
+                    cache_titles.add(new_title);
+                }
+            }
+            // curSearchTask = null; // XOWA reused for incremental progress
+
+            final String suggestion = results.getSuggestion();
+            if (!suggestion.isEmpty()) {
+                searchSuggestion.setText(Html.fromHtml("<u>"
+                + String.format(getString(R.string.search_did_you_mean), suggestion)
+                + "</u>"));
+                searchSuggestion.setTag(suggestion);
+                searchSuggestion.setVisibility(View.VISIBLE);
+            } else {
+                searchSuggestion.setVisibility(View.GONE);
+            }
         }
 
         // scroll to top, but post it to the message queue, because it should be done
@@ -283,10 +314,13 @@ public class SearchResultsFragment extends Fragment {
     }
 
     public void doTitlePrefixSearch(final String searchTerm) {// XOWA
+        Run_search(searchTerm, false);
+        /*
         OfflineSearchTask offlineSearchTask = new OfflineSearchTask(app.getPrimarySite(), this, offlineSearchHandler, searchTerm, totalResults.size(), true);
         cancelSearchTask();
         curSearchTask = offlineSearchTask;
         offlineSearchTask.execute();
+        */
 
 //        TitleSearchTask searchTask = new TitleSearchTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite(), searchTerm) {
 //            @Override
@@ -381,11 +415,16 @@ public class SearchResultsFragment extends Fragment {
     private void doFullTextSearch(final String searchTerm,
                                   final SearchResults.ContinueOffset continueOffset,
                                   final boolean clearOnSuccess) {
-        if (!((OfflineSearchTask)curSearchTask).done) return;
+        OfflineSearchTask cur_task_as_offline_task = (OfflineSearchTask)curSearchTask;
+        if (    cur_task_as_offline_task.rslts_are_done
+            ||  !cur_task_as_offline_task.rslts_are_enough) return;
+        Run_search(searchTerm, false);
+        /*
         OfflineSearchTask offlineSearchTask = new OfflineSearchTask(app.getPrimarySite(), this, offlineSearchHandler, searchTerm, totalResults.size(), false);
         cancelSearchTask();
         curSearchTask = offlineSearchTask;
         offlineSearchTask.execute();
+        */
         // Use nanoTime to measure the time the search was started.
 //        final long startTime = System.nanoTime();
 //        new FullSearchArticlesTask(app.getAPIForSite(app.getPrimarySite()), app.getPrimarySite(),
@@ -490,7 +529,7 @@ public class SearchResultsFragment extends Fragment {
      */
     private void displayResults(List<PageTitle> results) {
         // XOWA: stop at 128; more than 128 (300) will freeze UI noticeably
-        if (totalResults.size() > 255) return;
+        // if (totalResults.size() > 255) return;
         int results_len = results.size();
         for (int i = 0; i < results_len; ++i) {
             PageTitle pageTitle = results.get(i);

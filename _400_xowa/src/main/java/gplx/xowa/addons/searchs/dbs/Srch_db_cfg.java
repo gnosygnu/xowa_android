@@ -9,6 +9,7 @@ public class Srch_db_cfg {
 		this.link_score_max = link_score_max;
 	}
 	public int		Version_id() {return version_id;} private int version_id;
+	public boolean		Version_id__needs_upgrade() {return version_id < Srch_db_upgrade.Version__link_score;}
 	public long		Page_count() {return page_count;} private long page_count;
 	public int		Word_count() {return word_count;} private int word_count;
 	public int		Link_count_score_max() {return link_count_score_max;} private int link_count_score_max;

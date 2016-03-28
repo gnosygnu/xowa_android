@@ -2,15 +2,15 @@ package gplx.dbs; import gplx.*;
 import gplx.core.brys.fmtrs.*;
 import gplx.core.stores.*; import gplx.dbs.metas.*; import gplx.dbs.engines.*; import gplx.dbs.qrys.*; import gplx.dbs.sys.*;
 public class Db_conn {
-	private final Db_engine engine; private final List_adp rls_list = List_adp_.new_();
-	private final Bry_fmt exec_sql_fmt = Bry_fmt.New(""); private final Bry_bfr exec_sql_bfr = Bry_bfr.new_();
+	private final    Db_engine engine; private final    List_adp rls_list = List_adp_.new_();
+	private final    Bry_fmt exec_sql_fmt = Bry_fmt.New(""); private final    Bry_bfr exec_sql_bfr = Bry_bfr.new_();
 	public Db_conn(Db_engine engine) {
 		this.engine = engine;
 		sys_mgr = new Db_sys_mgr(this);
 	}
 	public Db_engine		Engine()				{return engine;}
 	public Db_conn_info		Conn_info()				{return engine.Conn_info();}
-	public Db_sys_mgr		Sys_mgr()				{return sys_mgr;} private final Db_sys_mgr sys_mgr;
+	public Db_sys_mgr		Sys_mgr()				{return sys_mgr;} private final    Db_sys_mgr sys_mgr;
 	public boolean				Eq(Db_conn comp)		{return String_.Eq(engine.Conn_info().Db_api(), comp.Conn_info().Db_api());}
 	public void				Txn_bgn(String name)	{engine.Txn_bgn(name);}
 	public void				Txn_end()				{engine.Txn_end();}

@@ -12,6 +12,7 @@ public class SearchResults {
     private List<PageTitle> pageTitles;
     private ContinueOffset continueOffset;
     private String suggestion;
+    public String SearchTerm;
 
     /**
      * Empty results. Use for fallback when something goes wrong.

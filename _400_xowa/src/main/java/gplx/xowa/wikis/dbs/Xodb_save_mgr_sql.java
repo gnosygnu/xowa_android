@@ -2,12 +2,12 @@ package gplx.xowa.wikis.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa
 import gplx.core.ios.*; import gplx.dbs.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.dbs.qrys.*;
 import gplx.xowa.wikis.*;
 public class Xodb_save_mgr_sql implements Xodb_save_mgr {
-	private final Xodb_mgr_sql db_mgr;
+	private final    Xodb_mgr_sql db_mgr;
 	public Xodb_save_mgr_sql(Xodb_mgr_sql db_mgr) {this.db_mgr = db_mgr;} 
 	public boolean Create_enabled() {return create_enabled;} public void Create_enabled_(boolean v) {create_enabled = v;} private boolean create_enabled;
 	public boolean Update_modified_on_enabled() {return update_modified_on_enabled;} public void Update_modified_on_enabled_(boolean v) {update_modified_on_enabled = v;} private boolean update_modified_on_enabled;
 	public int Page_id_next() {return page_id_next;} public void Page_id_next_(int v) {page_id_next = v;} private int page_id_next;
-	public void Data_create(Xoa_ttl ttl, byte[] text_raw) {
+	public int Data_create(Xoa_ttl ttl, byte[] text_raw) {
 		int ns_id = ttl.Ns().Id();
 		Xowd_db_file db_file = db_mgr.Core_data_mgr().Db__core();
 		int ns_count = db_file.Tbl__ns().Select_ns_count(ns_id) + 1;
@@ -40,6 +40,7 @@ public class Xodb_save_mgr_sql implements Xodb_save_mgr {
 			page_core_tbl.Insert_end();
 			page_text_tbl.Insert_end();
 		}
+		return page_id;
 	}
 	public void Data_update(Xoae_page page, byte[] text_raw) {
 		boolean redirect = db_mgr.Wiki().Redirect_mgr().Is_redirect(text_raw, text_raw.length);

@@ -4,7 +4,7 @@ import gplx.xowa.wikis.*; import gplx.xowa.xtns.wdatas.imports.*;
 import gplx.xowa.bldrs.cmds.texts.*; import gplx.xowa.bldrs.cmds.texts.sqls.*; import gplx.xowa.bldrs.cmds.texts.tdbs.*; import gplx.xowa.bldrs.cmds.files.*; import gplx.xowa.bldrs.cmds.ctgs.*; import gplx.xowa.bldrs.cmds.utils.*; import gplx.xowa.bldrs.cmds.wikis.*;
 import gplx.xowa.bldrs.cmds.diffs.*;
 import gplx.xowa.files.origs.*; import gplx.xowa.htmls.core.bldrs.*;
-import gplx.xowa.addons.searchs.bldrs.*;
+import gplx.xowa.addons.searchs.dbs.bldrs.*;
 public class Xob_cmd_mgr implements GfoInvkAble {
 	public Xob_cmd_mgr(Xob_bldr bldr) {this.bldr = bldr;} private Xob_bldr bldr;
 	public void Clear() {list.Clear(); dump_rdrs.Clear();}
@@ -15,7 +15,7 @@ public class Xob_cmd_mgr implements GfoInvkAble {
 		if		(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_init))					return Add(new Xob_init_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_page))					return Xml_rdr_direct_add(wiki, new Xob_page_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_css))					return Add(new Xob_css_cmd(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_search_wkr))				return Xml_rdr_direct_add(wiki, new gplx.xowa.addons.searchs.bldrs.Srch_bldr_wkr(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_search_wkr))				return Xml_rdr_direct_add(wiki, new gplx.xowa.addons.searchs.dbs.bldrs.Srch_bldr_wkr(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_search_cmd))				return Add(new Srch_bldr_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_cat_core_v1))			return Xml_rdr_parser_add(wiki, new Xob_ctg_v1_sql().Ctor(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_text_cat_core))				return Add(new Xob_category_registry_sql(bldr, wiki));
@@ -41,6 +41,7 @@ public class Xob_cmd_mgr implements GfoInvkAble {
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_file_xfer_update))			return Add(new Xob_xfer_update_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_html_redlinks))				return Add(new Xob_redlink_mkr_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_cleanup))				return Add(new Xob_cleanup_cmd(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_delete))					return Add(new Xob_delete_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_download))				return Add(new Xob_download_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_xml_dump))				return Add(new Xob_xml_dumper_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_wbase_json_dump))				return Add(new Xob_wbase_json_dump_cmd(bldr, wiki));
@@ -48,9 +49,9 @@ public class Xob_cmd_mgr implements GfoInvkAble {
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_wbase_pid))					return Xml_rdr_direct_add(wiki, new Xob_wdata_pid_sql().Ctor(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_wbase_db))					return Add(new Xob_wdata_db_cmd(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_site_meta))					return Add(new Xob_site_meta_cmd(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__page__page_score))			return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__page__page_score(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__link__link_score))			return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__link__link_score(bldr, wiki));
-		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__word__link_count))		return Add(new gplx.xowa.addons.searchs.bldrs.cmds.Srch__word__link_count(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__page__page_score))	return Add(new gplx.xowa.addons.searchs.dbs.bldrs.cmds.Srch__page__page_score(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__link__link_score))	return Add(new gplx.xowa.addons.searchs.dbs.bldrs.cmds.Srch__link__link_score(bldr, wiki));
+		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_search__word__link_count))	return Add(new gplx.xowa.addons.searchs.dbs.bldrs.cmds.Srch__word__link_count(bldr, wiki));
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_util_sqlite_normalize))		return Add(new gplx.xowa.addons.sqlite_utils.bldrs.Sqlite_percentile_cmd(bldr, wiki));
 
 		else if	(String_.Eq(cmd_key, Xob_cmd_keys.Key_tdb_text_init))				return Add(new Xob_init_tdb(bldr, wiki));

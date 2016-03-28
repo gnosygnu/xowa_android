@@ -4,7 +4,7 @@ import gplx.xowa.langs.*; import gplx.xowa.langs.kwds.*;
 import gplx.xowa.parsers.*; import gplx.xowa.parsers.tmpls.*;
 public class Pfunc_rel2abs extends Pf_func_base {
 	@Override public boolean Func_require_colon_arg() {return true;}
-	private static final byte[] Ary_dot_slash = Bry_.new_a7("./"), Ary_dot_dot = Bry_.new_a7(".."), Ary_dot_dot_slash = Bry_.new_a7("../");
+	private static final    byte[] Ary_dot_slash = Bry_.new_a7("./"), Ary_dot_dot = Bry_.new_a7(".."), Ary_dot_dot_slash = Bry_.new_a7("../");
 	private static void qry_bgns_with_init() {
 		qry_bgns_with = Btrie_fast_mgr.cs();
 		qry_bgns_with.Add(Byte_ascii.Slash, Int_obj_ref.new_(Id_slash));
@@ -16,7 +16,7 @@ public class Pfunc_rel2abs extends Pf_func_base {
 	@Override public void Func_evaluate(Bry_bfr bfr, Xop_ctx ctx, Xot_invk caller, Xot_invk self, byte[] src) {// REF.MW:ParserFunctions_body.php
 		byte[] qry = Eval_argx(ctx, src, caller, self);
 		byte[] orig = Pf_func_.Eval_arg_or_empty(ctx, src, caller, self, self.Args_len(), 0);
-		if (orig.length == 0) orig = ctx.Page().Ttl().Full_txt();
+		if (orig.length == 0) orig = ctx.Page().Ttl().Full_txt_w_ttl_case();
 		bfr.Add(Rel2abs(ctx.App().Utl__bfr_mkr().Get_b512().Mkr_rls(), qry, orig));
 	}
 	public static boolean Rel2abs_ttl(byte[] ttl, int bgn, int end) {
@@ -40,7 +40,7 @@ public class Pfunc_rel2abs extends Pf_func_base {
 		}
 		return rv;
 	}
-	private static final Int_obj_ref ignore_rel2abs_tid = Int_obj_ref.zero_();
+	private static final    Int_obj_ref ignore_rel2abs_tid = Int_obj_ref.zero_();
 	public static byte[] Rel2abs(Bry_bfr tmp_bfr, byte[] qry, byte[] src) {return Rel2abs(tmp_bfr, qry, src, ignore_rel2abs_tid);}
 	public static byte[] Rel2abs(Bry_bfr tmp_bfr, byte[] qry, byte[] src, Int_obj_ref rel2abs_tid) {
 		if (qry_bgns_with == null) qry_bgns_with_init();

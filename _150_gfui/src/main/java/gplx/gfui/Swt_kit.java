@@ -124,6 +124,11 @@ public class Swt_kit implements Gfui_kit {
 		owner.SubElems().Add(rv);
 		return rv;
 	}
+    public GfuiComboBox New_combo(String key, GfuiElem owner, Keyval... args) {
+        GfuiComboBox rv = GfuiComboBox.kit_(this, key, new Swt_combo(Swt_control_.cast_or_fail(owner), ctor_args), ctor_args);
+        owner.SubElems().Add(rv);
+        return rv;
+    }
 	public GfuiLbl New_lbl(String key, GfuiElem owner, Keyval... args) {
 		GfuiLbl rv = GfuiLbl_.kit_(this, key, new Swt_lbl(Swt_control_.cast_or_fail(owner), ctor_args), ctor_args);
 		owner.SubElems().Add(rv);

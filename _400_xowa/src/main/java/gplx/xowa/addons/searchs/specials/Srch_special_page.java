@@ -1,11 +1,10 @@
 package gplx.xowa.addons.searchs.specials; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*;
 import gplx.core.primitives.*; import gplx.xowa.apps.apis.xowa.specials.*;
-import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.domains.crts.*;
-import gplx.xowa.addons.searchs.suggests.*;
-import gplx.xowa.specials.*; import gplx.xowa.addons.searchs.searchers.*;
+import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.domains.crts.*;	
+import gplx.xowa.specials.*; import gplx.xowa.addons.searchs.searchers.*; import gplx.xowa.addons.searchs.searchers.cbks.*;
 public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
-	private final Xoae_app app; private final Xow_domain_itm wiki_domain; private final Xoapi_search search_api;		
-	private final Srch_special_searcher search_mgr; private final Srch_qarg_mgr qargs_mgr = new Srch_qarg_mgr();
+	private final    Xoae_app app; private final    Xow_domain_itm wiki_domain; private final    Xoapi_search search_api;		
+	private final    Srch_special_searcher search_mgr; private final    Srch_qarg_mgr qargs_mgr;
 	private Xow_domain_itm[] search_domain_ary;
 	public Srch_special_page(Xowe_wiki wiki) {
 		this.ev_mgr = GfoEvMgr.new_(this);
@@ -13,18 +12,18 @@ public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
 		this.wiki_domain = wiki.Domain_itm();
 		this.search_mgr = new Srch_special_searcher(wiki.Appe().Wiki_mgr());
 		this.search_api = wiki.Appe().Api_root().Special().Search();
+		this.qargs_mgr = new Srch_qarg_mgr(app.Gui_mgr().Search_cfg().Ns_mgr());
 		GfoEvMgr_.SubSame_many(search_api, this, Xoapi_search.Evt_multi_wikis_changed, Xoapi_search.Evt_multi_wikis_changed);
 	}
-	public GfoEvMgr					EvMgr()					{return ev_mgr;} private final GfoEvMgr ev_mgr;
+	public GfoEvMgr					EvMgr()					{return ev_mgr;} private final    GfoEvMgr ev_mgr;
 	public Xows_special_meta		Special_meta()			{return Xows_special_meta_.Itm__search;}
 	public void Special_gen(Xowe_wiki wiki, Xoae_page page, Xoa_url url, Xoa_ttl ttl) {
-		if (wiki.Domain_tid() == Xow_domain_tid_.Int__home) return;	// do not allow search in home wiki; will throw null ref error b/c no search_ttl dirs
 		if (search_domain_ary == null) Multi_wikis_changed();
 
-		// get args from urls while applying defaults from search_suggest_mgr
-		Srch_suggest_cfg search_suggest_mgr = wiki.Appe().Gui_mgr().Search_suggest_mgr();
+		// get args from urls while applying defaults from search_cfg
+		Srch_search_cfg search_cfg = wiki.Appe().Gui_mgr().Search_cfg();
 		qargs_mgr.Clear();
-		qargs_mgr.Parse(search_suggest_mgr.Args_default());
+		qargs_mgr.Parse(search_cfg.Args_default());
 		qargs_mgr.Parse(url.Qargs_ary());
 		qargs_mgr.Ns_mgr().Add_main_if_empty();
 
@@ -35,20 +34,22 @@ public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
 			qargs_mgr.Search_raw_(search_raw);
 		}
 		if (Bry_.Len_eq_0(search_raw)) return;		// emptry String; exit now, else null ref error; DATE:2015-08-11
-		if (	search_suggest_mgr.Auto_wildcard()	// add * automatically if option set
+		if (	search_cfg.Auto_wildcard()			// add * automatically if option set
 			&&	wiki.Db_mgr().Tid() == gplx.xowa.wikis.dbs.Xodb_mgr_sql.Tid_sql	// only apply to sql
-			&&	Bry_find_.Find_fwd(search_raw, Byte_ascii.Star) == -1			// search term does not have asterisk
+			&&	Bry_find_.Find_fwd(search_raw, Srch_search_addon.Wildcard__star) == -1			// search term does not have asterisk
 			)
-			search_raw = Bry_.Add(search_raw, Byte_ascii.Star);
+			search_raw = Bry_.Add(search_raw, Srch_search_addon.Wildcard__star);
 
-		// search wiki
+		// get page directly from url
+		boolean fulltext_invoked = url.Qargs_mgr().Match(Qarg__fulltext, Qarg__fulltext__y);
 		Xoa_ttl search_ttl = Xoa_ttl.parse(wiki, search_raw); 
 		Xoae_page search_page = page;
-		if (!Bry_.Eq(search_raw, Xows_special_meta_.Itm__search.Ttl_bry()))	// do not lookup self else stack overflow; happens when going directly to Special:Search (from history)
-			search_page = wiki.Data_mgr().Get_page(search_ttl, false);		// try to find page; EX:Special:Search?search=Earth -> en.w:Earth; needed for search suggest
+		if (	!fulltext_invoked
+			&&	!Bry_.Eq(search_raw, Xows_special_meta_.Itm__search.Ttl_bry()))	// do not lookup self else stack overflow; happens when going directly to Special:Search (from history)
+			search_page = wiki.Data_mgr().Get_page(search_ttl, false);			// try to find page; EX:Special:Search?search=Earth -> en.w:Earth; needed for search suggest
 
 		// page not found, or explicit_search invoked
-		if (search_page.Missing() || url.Qargs_mgr().Match(Qarg__fulltext, Qarg__fulltext__y)) {
+		if (search_page.Missing() || fulltext_invoked) {
 			if (qargs_mgr.Cancel() != null) {	// cancel any existing searches
 				search_mgr.Search__cancel(qargs_mgr.Cancel());
 				page.Tab_data().Cancel_show_y_();
@@ -56,13 +57,8 @@ public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
 			}
 			page.Html_data().Html_restricted_n_();
 			page.Html_data().Xtn_search_text_(search_raw);
-			int slab_idx = qargs_mgr.Slab_idx();
-			int slab_len = search_api.Results_per_page();
-			int slab_bgn = slab_idx * slab_len;
-			int slab_end = slab_bgn + slab_len;
-			search_raw = wiki.Case_mgr().Case_build_lower(search_raw);	// lowercase String
-			Srch_qry qry = new Srch_qry(qargs_mgr.Ns_mgr(), search_raw, qargs_mgr.Slab_idx(), slab_bgn, slab_end, search_api.Async_db(), search_domain_ary);
-			search_mgr.Search(wiki, page, qry);
+			Srch_search_qry qry = Srch_search_qry.New__search_page(search_domain_ary, wiki, search_cfg, qargs_mgr.Simple_search(), search_raw, qargs_mgr.Slab_idx(), search_api.Results_per_page());
+			search_mgr.Search(wiki, page, search_api.Async_db(), search_domain_ary, qry);
 		}
 		// page found; return it;
 		else {
@@ -70,7 +66,7 @@ public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
 			page.Data_raw_(search_page.Data_raw());
 			if (page.Root() != null) // NOTE: null when going from w:Earth -> q:Earth; DATE:2013-03-20
 				page.Root().Data_htm_(search_page.Root().Data_htm());
-			page.Ttl_(search_ttl).Url_(Xoa_url.new_(wiki.Domain_bry(), search_ttl.Full_txt())).Redirected_(true);
+			page.Ttl_(search_ttl).Url_(Xoa_url.new_(wiki.Domain_bry(), search_ttl.Full_txt_w_ttl_case())).Redirected_(true);
 		}
 	}
 	private void Multi_wikis_changed() {
@@ -93,12 +89,15 @@ public class Srch_special_page implements Xows_page, GfoInvkAble, GfoEvObj {
 	}
 	public static final byte Match_tid_all = 0, Match_tid_bgn = 1;
 	public static final byte Version_null = 0, Version_1 = 1, Version_2 = 2;
-	private static final byte[] Qarg__fulltext = Bry_.new_a7("fulltext"), Qarg__fulltext__y = Bry_.new_a7("y");
+	private static final    byte[] Qarg__fulltext = Bry_.new_a7("fulltext"), Qarg__fulltext__y = Bry_.new_a7("y");
 	private static Xow_domain_itm[] Get_by_crt(gplx.xowa.wikis.xwikis.Xow_xwiki_mgr xwiki_mgr, Xow_domain_itm cur, gplx.xowa.wikis.domains.crts.Xow_domain_crt_itm crt) {
 		List_adp rv = List_adp_.new_();
 		int len = xwiki_mgr.Len();
 		for (int i = 0; i < len; ++i) {
-			gplx.xowa.wikis.xwikis.Xow_xwiki_itm xwiki = xwiki_mgr.Get_at(i); if (!xwiki.Offline()) continue;
+			gplx.xowa.wikis.xwikis.Xow_xwiki_itm xwiki = xwiki_mgr.Get_at(i);
+			if (	!xwiki.Offline()									// note that filters are broad (*.wiktionary); skip offline wikis which won't be available on system
+				&&	xwiki.Domain_tid() != Xow_domain_tid_.Int__home)	// note that home is marked "offline" so it won't show up in wikis sidebar
+				continue;
 			Xow_domain_itm domain_itm = Xow_domain_itm_.parse(xwiki.Domain_bry());
 			if (crt.Matches(cur, domain_itm)) rv.Add(domain_itm);
 		}

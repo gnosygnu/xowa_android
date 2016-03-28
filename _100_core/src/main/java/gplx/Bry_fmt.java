@@ -11,6 +11,7 @@ public class Bry_fmt {
 		dirty = true;
 		this.src = src; this.keys = keys; this.args = args;
 	}
+	public byte[] Fmt()									{return src;}
 	public Bry_fmt Fmt_(String v)						{dirty = true; src = Bry_.new_u8(v); return this;}
 	public Bry_fmt Args_(Bfr_fmt_arg... v)		{dirty = true; args = v; return this;}
 	public Bry_fmt Keys_(String... v)				{return Keys_(Bry_.Ary(v));}

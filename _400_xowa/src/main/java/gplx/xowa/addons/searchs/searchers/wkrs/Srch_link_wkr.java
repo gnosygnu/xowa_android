@@ -1,31 +1,104 @@
 package gplx.xowa.addons.searchs.searchers.wkrs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*; import gplx.xowa.addons.searchs.searchers.*;
 import gplx.dbs.*; import gplx.xowa.wikis.data.tbls.*;
 import gplx.xowa.addons.searchs.dbs.*; import gplx.xowa.addons.searchs.searchers.crts.*; import gplx.xowa.addons.searchs.searchers.rslts.*; import gplx.dbs.percentiles.*;
-import gplx.xowa.langs.cases.*; import gplx.xowa.addons.searchs.parsers.*;
+import gplx.xowa.langs.cases.*; import gplx.xowa.addons.searchs.parsers.*;	
 public class Srch_link_wkr extends Percentile_select_base {
-	private final Srch_rdr_mkr rdr_mkr = new Srch_rdr_mkr();
-	private Srch_rslt_list rslts; private Srch_rslt_cbk rslt_cbk; private Srch_ctx ctx;
-	private List_adp rdr_rslts = List_adp_.new_();
-	private Xowd_page_tbl page_tbl; private Srch_link_tbl cur_link_tbl;
-	private Srch_rslt_row cur_row; private final Xowd_page_itm tmp_page_itm = new Xowd_page_itm();
-	public void Search(Srch_rslt_list rslts, Srch_rslt_cbk rslt_cbk, Srch_ctx ctx) {
+	private final    Srch_link_wkr_sql sql_mkr = new Srch_link_wkr_sql();
+	private final    Db_attach_mgr attach_mgr = new Db_attach_mgr();
+	private final    Srch_rslt_list tmp_rslts = new Srch_rslt_list();
+	private Srch_rslt_list rslts_list; private Srch_rslt_cbk rslt_cbk; private Srch_search_ctx ctx;
+	private Xowd_page_tbl page_tbl;
+	private Db_stmt stmt;
+	private int rslts_bgn, rslts_end;
+	private Srch_rslt_row cur_row; private final    Xowd_page_itm tmp_page_itm = new Xowd_page_itm();
+	private int link_tbl_idx, link_tbl_nth; private boolean link_loop_done;
+	private Srch_crt_itm sql_root;
+	public void Search(Srch_rslt_list rslts_list, Srch_rslt_cbk rslt_cbk, Srch_search_ctx ctx) {
+		// init
 		super.cxl = ctx.Cxl;
 		super.rng = ctx.Score_rng;
 		super.rng_log = new Percentile_rng_log(ctx.Addon.Db_mgr().Cfg().Link_score_max());
-
-		rng_log.Init(ctx.Qry.Search_raw, ctx.Rslts_needed, ctx.Qry.Slab_idx);
-		this.rslts = rslts; this.rslt_cbk = rslt_cbk; this.ctx = ctx;
+		rng_log.Init(ctx.Qry.Phrase.Orig, ctx.Rslts_needed);
+		this.rslts_list = rslts_list; this.rslt_cbk = rslt_cbk; this.ctx = ctx;
+		this.rslts_bgn = rslts_list.Len(); this.rslts_end = rslts_bgn;
 		this.page_tbl = ctx.Tbl__page;
-		int link_tbls_len = ctx.Tbl__link__ary.length;
-		for (int i = 0; i < link_tbls_len; ++i) {
-			if (i == 1 && ctx.Qry.Ns_mgr.Ns_main_only()) return;// TODO: search other dbs beside main_db
-			this.cur_link_tbl = ctx.Tbl__link__ary[i];
-			attach_mgr.Init(cur_link_tbl.conn, new Db_attach_itm("page_db", ctx.Db__core.Conn()), new Db_attach_itm("word_db", ctx.Tbl__word.conn));
+
+		try {
+			// enough results at start; occurs in Special:Search when revisiting slabs; EX: 1-100 -> 101-200 -> 1-100
+			if (ctx.Qry.Slab_end < rslts_list.Len()) {
+				rslts_list.Rslts_are_enough = true;
+				rslt_cbk.On_rslts_found(ctx.Qry, rslts_list, 0, rslts_list.Len());
+				return;
+			}
+
+			// prepare for iteration
+			this.link_tbl_idx = 0;
+			this.link_tbl_nth = ctx.Tbl__link__ary.length - 1;
+			sql_root = Srch_link_wkr_.Find_sql_root(ctx);
+			attach_mgr.Init(new Db_attach_itm("page_db", ctx.Db__core.Conn()), new Db_attach_itm("word_db", ctx.Tbl__word.conn));
 			super.Select();
+		} 
+		finally {
+			try {
+				// gplx.core.consoles.Console_adp__sys.Instance.Write_str_w_nl("detaching: " + String_.new_u8(ctx.Qry.Phrase.Lcase_wild) + " " + Int_.To_str(ctx.Score_rng.Score_bgn()) + " " + Int_.To_str(ctx.Score_rng.Score_end()) + " " + attach_mgr.List__to_str());
+				attach_mgr.Detach();
+				stmt = Db_stmt_.Rls(stmt);
+			}
+			catch (Exception e) {
+				gplx.core.consoles.Console_adp__sys.Instance.Write_str_w_nl("detaching err: " + String_.new_u8(ctx.Qry.Phrase.Orig) + " " + Int_.To_str(ctx.Score_rng.Score_bgn()) + Err_.Message_lang(e));
+			}
 		}
 	}	
-	@Override protected Db_rdr Rdr__init(Db_attach_mgr attach_mgr) {
-		return rdr_mkr.Rdr__make(ctx, attach_mgr, page_tbl, cur_link_tbl);
+	@Override protected Db_rdr Rdr__init() {
+		try {
+			Db_conn link_tbl_conn = ctx.Tbl__link__ary[link_tbl_idx].conn;
+			attach_mgr.Main_conn_(link_tbl_conn);
+			sql_mkr.Init(ctx, attach_mgr, sql_root);
+			if (stmt == null) stmt = sql_mkr.Make(ctx, attach_mgr, link_tbl_conn);
+			sql_mkr.Fill(stmt);
+			return stmt.Exec_select__rls_manual();
+		} finally {sql_mkr.Clear();}
+	}
+	@Override protected boolean Found_enough() {return (rslts_list.Len() + tmp_rslts.Len()) >= ctx.Qry.Slab_end;}
+	@Override protected void Rng__update(int rdr_found) {
+		link_loop_done = false;
+		if (ctx.Qry.Ns_mgr.Ns_main_only()) {
+			link_loop_done = true;
+		}
+		else {
+			if (link_tbl_idx == link_tbl_nth) {
+				link_tbl_idx = 0;
+				link_loop_done = true;
+			}
+			else {
+				++link_tbl_idx;
+			}
+			// NOTE: must do detach_database and rls_stmt b/c link_tbl_conn changes
+			attach_mgr.Detach();
+			stmt = Db_stmt_.Rls(stmt);
+		}
+		if (link_loop_done)
+			rng.Update(rslts_end - rslts_bgn);
+	}
+	@Override protected void Rdr__done(boolean rslts_are_enough, boolean rslts_are_done)  {
+		if (!link_loop_done) return;
+		int tmp_rslts_len = tmp_rslts.Len();
+
+		// get redirect ttl; note that main rdr should be closed
+		for (int i = 0; i < tmp_rslts_len; ++i) {
+			Srch_rslt_row row = tmp_rslts.Get_at(i);
+			int redirect_id = row.Page_redirect_id;
+			if (redirect_id != Srch_rslt_row.Page_redirect_id_null)
+				Srch_rslt_list_.Get_redirect_ttl(page_tbl, tmp_page_itm, row);
+		}
+
+		// merge to rslts_list; notify; cleanup;
+		if (tmp_rslts_len > 0) rslts_list.Merge(tmp_rslts);
+		rslts_list.Process_rdr_done(rng, rslts_are_enough, rslts_are_done);
+		rslt_cbk.On_rslts_found(ctx.Qry, rslts_list, rslts_bgn, rslts_end);
+		rslts_list.Rslts_are_first = false;
+		rslts_bgn = rslts_end;
+		// gplx.core.consoles.Console_adp__sys.Instance.Write_str(rng_log.To_str_and_clear());
 	}
 	@Override protected boolean Row__read(Db_rdr rdr) {
 		if (!rdr.Move_next()) return false;
@@ -39,31 +112,23 @@ public class Srch_link_wkr extends Percentile_select_base {
 			int page_ns_id = rdr.Read_int(page_tbl.Fld_page_ns());
 			byte[] page_ttl_wo_ns = rdr.Read_bry_by_str(page_tbl.Fld_page_title());
 			Xoa_ttl page_ttl = ctx.Wiki.Ttl_parse(page_ns_id, page_ttl_wo_ns);
-			this.cur_row = new Srch_rslt_row(key, wiki_bry, page_ttl, page_ns_id, page_ttl_wo_ns, page_id, page_len, page_score, rdr.Read_int(page_tbl.Fld_redirect_id()), Srch_rslt_tid_.Tid__title__search);
+			this.cur_row = new Srch_rslt_row(key, wiki_bry, page_ttl, page_ns_id, page_ttl_wo_ns, page_id, page_len, page_score, rdr.Read_int(page_tbl.Fld_redirect_id()));
 			ctx.Cache__page.Add(cur_row);
 		}
 		return true;
 	}
 	@Override protected boolean Row__eval() {
 		if (	!ctx.Qry.Ns_mgr.Has(cur_row.Page_ns)							// ignore: ns doesn't match
-			||	!Srch_link_wkr_.Matches(ctx.Search_crt, ctx.Addon.Ttl_parser(), ctx.Case_mgr, cur_row.Page_ttl_wo_ns)		// ignore: ttl doesn't match ttl_matcher; EX: "A B"
+			||	!Srch_link_wkr_.Matches(ctx.Crt_mgr__root, ctx.Addon.Ttl_parser(), ctx.Case_mgr, cur_row.Page_ttl_wo_ns)		// ignore: ttl doesn't match ttl_matcher; EX: "A B"
 			)
 			return false;
-		Srch_rslt_row_.Format_ttl(ctx, page_tbl, tmp_page_itm, cur_row);
-		if (rslts.Has(cur_row.Key)											// ignore: page already added by another word; EX: "A B"; word is "B", but "A B" already added by "A"				
-			) return false;
-		if (!Srch_rslt_row_.Redirect_handle(rslts, cur_row)) return false;
-		rslt_cbk.On_rslt_found(cur_row);
-		rslts.Add(cur_row);														// true if rows_found == request_count
-		rslts.Ids__add(cur_row.Page_id, cur_row);
-		rdr_rslts.Add(cur_row);
-		return true;
-	}
-	@Override protected boolean Select__finished() {return rslts.Len() >= ctx.Qry.Slab_end;}
-	@Override protected void Rdr__done(boolean last_rdr) {
-		rslt_cbk.On_rdr_done(last_rdr);
-		if (last_rdr)
-			gplx.core.consoles.Console_adp__sys.Instance.Write_str(rng_log.To_str_and_clear());
+		boolean rv = Srch_rslt_list_.Add_if_new(ctx, rslts_list, cur_row);
+		if (rv) {
+			++rslts_end;
+			rslts_list.Ids__add(cur_row.Page_id, cur_row);
+			tmp_rslts.Add(cur_row);
+		}
+		return rv;
 	}
 	public static int Percentile_rng__calc_adj(int last_word_len) {
 		switch (last_word_len) {
@@ -79,51 +144,3 @@ public class Srch_link_wkr extends Percentile_select_base {
 		}
 	}
 }
-class Srch_link_wkr_ {
-	public static boolean Matches(Srch_crt_node node, Srch_text_parser text_parser, Xol_case_mgr case_mgr, byte[] ttl) {
-		byte[] ttl_lower = case_mgr.Case_build_lower(Xoa_ttl.Replace_unders(ttl));
-		byte[][] ttl_words = text_parser.Parse_to_bry_ary(Bool_.Y, ttl);
-		return Matches(node, ttl_lower, ttl_words);
-	}
-	private static boolean Matches(Srch_crt_node node, byte[] ttl_lower, byte[][] ttl_words) {
-		int tid = node.tid;
-		byte[] raw = node.raw;
-		Srch_crt_node[] subs = node.subs;
-		int subs_len = subs.length;
-		switch (tid) {
-			case Srch_crt_node_.Tid__word: {
-				int len = ttl_words.length;
-				for (int i = 0; i < len; ++i) {
-					byte[] word = ttl_words[i];
-					if (node.raw_pattern == null) {
-						if (Bry_.Eq(word, raw)) return true;
-					}
-					else {
-						if (node.raw_pattern.Match(word)) return true;
-					}
-				}
-				return false;
-			}
-			case Srch_crt_node_.Tid__word_quote:		return Bry_find_.Find_fwd(ttl_lower, raw) != Bry_find_.Not_found;// note that raw does not have quotes; EX: "B*" -> B*
-			case Srch_crt_node_.Tid__not:				return !Matches(subs[0], ttl_lower, ttl_words);
-			case Srch_crt_node_.Tid__or: {
-				for (int i = 0; i < subs_len; ++i) {
-					Srch_crt_node sub = subs[i];
-					if (Matches(sub, ttl_lower, ttl_words))
-						return true;
-				}
-				return false;
-			}
-			case Srch_crt_node_.Tid__and:
-				for (int i = 0; i < subs_len; ++i) {
-					Srch_crt_node sub = subs[i];
-					if (!Matches(sub, ttl_lower, ttl_words))
-						return false;
-				}
-				return true;
-			case Srch_crt_node_.Tid__invalid:			return false;
-			default: throw Err_.new_unhandled(tid);
-		}
-	}
-}
-	

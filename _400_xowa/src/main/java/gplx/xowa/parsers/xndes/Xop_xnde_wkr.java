@@ -656,7 +656,7 @@ public class Xop_xnde_wkr implements Xop_ctx_wkr {
 						xnde_xtn.Xtn_parse(ctx.Wiki(), ctx, root, src, xnde);
 					}
 					catch (Exception e) {
-						String err_msg = String_.Format("failed to render extension: title={0} excerpt={1} err={2}", ctx.Page().Ttl().Full_txt()
+						String err_msg = String_.Format("failed to render extension: title={0} excerpt={1} err={2}", ctx.Page().Ttl().Full_txt_w_ttl_case()
 							, Bry_.Mid(src, xnde.Tag_open_end(), xnde.Tag_close_bgn())
 							, Err_.Message_gplx_log(e));
 						if (Env_.Mode_testing()) 
@@ -677,7 +677,7 @@ public class Xop_xnde_wkr implements Xop_ctx_wkr {
 		ctx.Subs_add(root, rv);
 		return rv;
 	}
-	private static final byte[] 
+	private static final    byte[] 
 	  Bry_escape_lt_slash = Bry_.new_a7("&lt;/")
 	;
 	public static int Find_gt_pos(Xop_ctx ctx, byte[] src, int cur_pos, int src_len) {	// UNUSED

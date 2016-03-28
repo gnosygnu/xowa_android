@@ -1,59 +1,36 @@
 package gplx.xowa.addons.searchs.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.searchs.*;
 import gplx.dbs.*; import gplx.dbs.cfgs.*;
 public class Srch_db_upgrade {
-	private final Srch_db_mgr search_db_mgr;
-	public Srch_db_upgrade(Srch_db_mgr search_db_mgr) {this.search_db_mgr = search_db_mgr;}
-	public int Version() {
-		if (version == Version__unknown) {
-			Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
-			if		(word_tbl.fld_link_count		== Dbmeta_fld_itm.Key_null) version = Version__initial;
-			else if (word_tbl.fld_link_score_min	== Dbmeta_fld_itm.Key_null) version = Version__page_count;
-			else																version = Version__link_score;
-		}
-		return version;
-	}	private int version = Version__unknown;
-	public boolean Version_check() {
-		boolean rv = version_check;
-		version_check = true;
-		return rv;
-	}	private boolean version_check;
+	private final    Xow_wiki wiki;
+	private boolean upgrade_prompted;
+	public Srch_db_upgrade(Xow_wiki wiki, Srch_db_mgr search_db_mgr) {
+		this.wiki = wiki;
+	}
 	public void Upgrade() {
-		switch (version) {
-			case Version__initial:					Upgrade__page_count(); break;
-			case Version__page_count:	Upgrade__page_score_max(); break;
-			default: throw Err_.new_unhandled_default(version);
-		}
-	}
-	private void Upgrade__page_count() {
-		Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
-		Srch_link_tbl link_tbl = search_db_mgr.Tbl__link__get_at(0);
-		Db_conn conn = word_tbl.conn;
-		conn.Txn_bgn("schema__search_word__upgrade");
-		conn.Meta_fld_assert(word_tbl.tbl_name, "word_page_count", Dbmeta_fld_tid.Itm__int, 0);
-		conn.Exec_sql_plog_ntx("calculating page count per word (please wait)", String_.Format(String_.Concat_lines_nl_skip_last
-		( "REPLACE INTO {0} ({1}, {2}, word_page_count)"
-		, "SELECT   w.{1}"
-		, ",        w.{2}"
-		, ",        Count(l.{4})"
-		, "FROM     {0} w"
-		, "         JOIN {3} l ON w.{1} = l.{4}"
-		, "GROUP BY w.{1}"
-		, ",        w.{2};"
-		), word_tbl.tbl_name, word_tbl.fld_id, word_tbl.fld_text
-		, link_tbl.tbl_name, link_tbl.fld_word_id
+		if (!wiki.App().Mode().Tid_is_gui()) return;	// ignore if html-server or drd-app
+		if (upgrade_prompted) return;
+		upgrade_prompted = true;
+		Xoae_app app = ((Xoae_app)wiki.App());
+		boolean ok = app.Gui_mgr().Kit().Ask_ok_cancel("", "", String_.Concat_lines_nl_skip_last
+		( "XOWA would like to upgrade your search database for " + wiki.Domain_str() + "."
+		, ""
+		, "* Press OK to upgrade. This may take an hour for English Wikipedia."
+		, "* Press Cancel to skip. You will not be able to search."
+		, ""
+		, "If you cancel, XOWA will ask you to upgrade this wiki again next time you restart the application."
+		, ""
+		, "Note that you can run this upgrade process manually by doing:"
+		, "  Main Menu -> Tools -> Wiki Maintenance -> Search"
 		));
-		conn.Txn_end();
-	}
-	private void Upgrade__page_score_max() {
-		Srch_word_tbl word_tbl = search_db_mgr.Tbl__word();
-		Db_conn conn = word_tbl.conn;
-		conn.Txn_bgn("schema__search_word__upgrade");
-		conn.Meta_fld_assert(word_tbl.tbl_name, Srch_word_tbl.Fld_link_score_min, Dbmeta_fld_tid.Itm__int, 0);
-		conn.Meta_fld_assert(word_tbl.tbl_name, Srch_word_tbl.Fld_link_score_max, Dbmeta_fld_tid.Itm__int, 0);
-		conn.Txn_end();
+		if (!ok) return;
+		Xowe_wiki wikie = (Xowe_wiki)wiki;
+		gplx.xowa.addons.searchs.dbs.bldrs.Srch_bldr_mgr_.Setup(wikie);
+		gplx.xowa.bldrs.Xob_bldr bldr = app.Bldr();
+		bldr.Cmd_mgr().Add(new gplx.xowa.bldrs.cmds.utils.Xob_alert_cmd(bldr, wikie).Msg_("search upgrade finished"));
+		gplx.core.threads.Thread_adp_.invk_("search_upgrade", app.Bldr(), gplx.xowa.bldrs.Xob_bldr.Invk_run).Start();
 	}
 	public static final int 
-	  Version__unknown					= 0
+	  Version__link_score_alpha			= 0		// in 2016-02 android alpha
 	, Version__initial					= 1
 	, Version__page_count				= 2
 	, Version__link_score				= 3
