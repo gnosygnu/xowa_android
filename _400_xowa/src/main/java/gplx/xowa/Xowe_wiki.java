@@ -33,7 +33,7 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 		props.SiteName_(domain_tid).ServerName_(domain_bry);
 		props.ContentLanguage_(lang.Key_bry());
 		stats = new Xow_site_stats_mgr(this);
-		Pf_func_.Reg(lang.Func_regy(), lang);
+		Pf_func_.Reg(domain_itm, lang.Func_regy(), lang);
 		special_mgr = new Xows_mgr(this, lang);
 		sys_cfg = new Xow_sys_cfg(this);
 		hive_mgr = new Xob_hive_mgr(this);
@@ -149,6 +149,7 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 			Xodb_mgr_sql db_mgr_sql = this.Db_mgr_create_as_sql();
 			db_mgr_sql.Core_data_mgr().Init_by_load(core_db_url);
 			file_mgr.Init_file_mgr_by_load(this);
+			db_mgr_sql.Core_data_mgr().Tbl__page().Flds__assert();	// NOTE: must go above html_mgr.Init_by_wiki b/c Page_load will be done via messages
 		}
 	}
 	private void Init_wiki(Xoue_user user) {	// NOTE: (a) one-time initialization for all wikis; (b) not called by tests
@@ -182,7 +183,6 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 		// other init
 		Bry_fmtr.Null.Eval_mgr().Enabled_(false); app.Wiki_mgr().Scripts().Exec(this); Bry_fmtr.Null.Eval_mgr().Enabled_(true);
 		app.Html__css_installer().Install(this, Xowd_css_core_mgr.Key_default);
-		Html__hdump_enabled_(html_mgr__hdump_enabled);
 		html_mgr.Init_by_wiki(this);
 		html__hdump_mgr.Init_by_db(this);
 		this.Copy_cfg(app.Usere().Wiki());
@@ -193,12 +193,6 @@ public class Xowe_wiki implements Xow_wiki, GfoInvkAble, GfoEvObj {
 		init_in_process = false;
 		app.Api_root().Wikis().Get(domain_bry).Subscribe(this);
 		app.Site_cfg_mgr().Load(this);
-	}
-	private void Html__hdump_enabled_(boolean v) {
-		this.html_mgr__hdump_enabled = v;
-		if (html_mgr__hdump_enabled) {
-			Xowd_page_tbl.Assert_col__page_html_db_id(Db_mgr_as_sql().Core_data_mgr());	// NOTE: must go above html_mgr.Init_by_wiki b/c Page_load will be done via messages
-		}
 	}
 	public void Rls() {
 		if (rls_list == null) return;

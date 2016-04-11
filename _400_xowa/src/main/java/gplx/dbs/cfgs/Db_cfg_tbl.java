@@ -1,10 +1,10 @@
 package gplx.dbs.cfgs; import gplx.*; import gplx.dbs.*;
 import gplx.core.primitives.*;
 public class Db_cfg_tbl implements Rls_able {
-	private final String tbl_name; private final Dbmeta_fld_list flds = Dbmeta_fld_list.new_();
-	private final String fld_grp, fld_key, fld_val;
+	private final    String tbl_name; private final    Dbmeta_fld_list flds = Dbmeta_fld_list.new_();
+	private final    String fld_grp, fld_key, fld_val;
 	private Db_stmt stmt_insert, stmt_update, stmt_select;
-	public Db_conn Conn() {return conn;} private final Db_conn conn; 
+	public Db_conn Conn() {return conn;} private final    Db_conn conn; 
 	public Db_cfg_tbl(Db_conn conn, String tbl_name) {
 		this.conn = conn; this.tbl_name = tbl_name;
 		this.fld_grp				= flds.Add_str("cfg_grp", 255);
@@ -17,7 +17,7 @@ public class Db_cfg_tbl implements Rls_able {
 		stmt_update = Db_stmt_.Rls(stmt_update);
 		stmt_select = Db_stmt_.Rls(stmt_select);
 	}
-	public void Create_tbl() {conn.Meta_tbl_create(Dbmeta_tbl_itm.New(tbl_name, flds, Dbmeta_idx_itm.new_unique_by_tbl(tbl_name, "main", fld_grp, fld_key, fld_val)));}
+	public Db_cfg_tbl Create_tbl() {conn.Meta_tbl_create(Dbmeta_tbl_itm.New(tbl_name, flds, Dbmeta_idx_itm.new_unique_by_tbl(tbl_name, "main", fld_grp, fld_key, fld_val))); return this;}
 	public void Delete_val(String grp, String key)	{conn.Stmt_delete(tbl_name, fld_grp, fld_key).Crt_str(fld_grp, grp).Crt_str(fld_key, key).Exec_delete();}
 	public void Delete_grp(String grp)				{conn.Stmt_delete(tbl_name, fld_grp).Crt_str(fld_grp, grp).Exec_delete();}
 	public void Delete_all()						{conn.Stmt_delete(tbl_name, Dbmeta_fld_itm.Str_ary_empty).Exec_delete();}
@@ -47,6 +47,8 @@ public class Db_cfg_tbl implements Rls_able {
 	}
 	public void Upsert_yn		(String grp, String key, boolean val)			{Upsert_str(grp, key, val ? "y" : "n");}
 	public void Upsert_int		(String grp, String key, int val)			{Upsert_str(grp, key, Int_.To_str(val));}
+	public void Upsert_date		(String grp, String key, DateAdp val)		{Upsert_str(grp, key, val.XtoStr_fmt_yyyyMMdd_HHmmss());}
+	public void Upsert_guid		(String grp, String key, Guid_adp val)		{Upsert_str(grp, key, val.To_str());}
 	public void Upsert_str		(String grp, String key, String val) {
 		String cur_val = this.Select_str_or(grp, key, null);
 		if (cur_val == null)	this.Insert_str(grp, key, val);

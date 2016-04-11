@@ -2,6 +2,8 @@ package gplx.xowa.drds;
 
 import android.app.Activity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.wikipedia.Site;
 import org.wikipedia.WikipediaApp;
@@ -11,6 +13,7 @@ import org.wikipedia.page.PageProperties;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.page.Section;
 import org.wikipedia.server.PageLeadProperties;
+import org.wikipedia.util.log.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import gplx.Gfo_usr_dlg__log_base;
 import gplx.Gfo_usr_dlg_base;
 import gplx.Io_url;
 import gplx.Io_url_;
+import gplx.Keyval;
 import gplx.List_adp;
 import gplx.String_;
 import gplx.core.drds.Drd_version;
@@ -31,12 +35,15 @@ import gplx.dbs.Drd_db_mgr;
 import gplx.xowa.Xoa_ttl;
 import gplx.xowa.Xoa_url;
 import gplx.xowa.Xow_wiki;
-import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_cbk;
-import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_cbk;
+import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_cbk;
 import gplx.xowa.apps.Xoa_app_mode;
 import gplx.xowa.apps.Xoav_app;
 import gplx.xowa.drds.pages.Xod_page_itm;
 import gplx.xowa.htmls.sections.Xoh_section_itm;
+import gplx.xowa.users.data.Xoud_site_row;
+import gplx.xowa.wikis.pages.Xopg_html_data;
+import gplx.xowa.wikis.pages.Xopg_tag_itm;
+import gplx.xowa.wikis.pages.Xopg_tag_mgr;
 
 public class Xod_app_mgr {
     private Activity activity; private CommunicationBridge bridge;
@@ -50,20 +57,36 @@ public class Xod_app_mgr {
     public Site Cur_site(WikipediaApp app) {
         return cur_page == null ? app.getPrimarySite() : cur_page.getSite();
     }
+    public String Cur_site_domain(WikipediaApp app) {
+        Site site = cur_page == null ? app.getPrimarySite() : cur_page.getSite();
+        return site.getDomain();
+    }
     public Xod_app_mgr Init(Activity activity, CommunicationBridge bridge) {
         this.activity = activity; this.bridge = bridge;
         this.version = Drd_version.New(activity.getApplicationContext());
         return this;
     }
+    public int Wikis_installed_count(Activity activity) {
+        if (drd_app == null) {
+            this.Init(activity, null);
+            Init_app();
+        }
+        Xoud_site_row[] site_rows = xo_app.User().User_db_mgr().Site_mgr().Get_all();
+        int rv = 0;
+        for (Xoud_site_row site_row : site_rows) {
+            if (String_.Eq(site_row.Domain(), "home")) continue;
+            ++rv;
+        }
+        return rv;
+    }
     public void Rebind_message_handlers(CommunicationBridge bridge) {
-        if (img_loader != null) {
+        if (img_loader != null && bridge != null) {
             bridge.addListener("pageLoadComplete", img_loader); // check for null b/c can be called before app is init'd
             js_wkr.Init(activity, bridge);
         }
     }
     public Xow_wiki Load_wiki_by_url(Io_url core_url) {
-        Xow_wiki rv = xo_app.Wiki_mgr().Load_by_fil(core_url);
-        xo_app.Wiki_mgri().Add(rv);
+        Xow_wiki rv = xo_app.Wiki_mgr().Import_by_url(core_url);
         rv.Init_by_wiki();
         return rv;
     }
@@ -87,9 +110,39 @@ public class Xod_app_mgr {
         Xod_page_itm xpg = drd_app.Wiki__get_by_url(wiki, page_url);
         img_loader.Set(wiki, xpg);
         List<Section> sections = Make_sections(xpg);
-        PageLeadProperties lead_props = Make_lead_props(page_ttl.Ns().Id_is_special() ? "Import XOWA Wiki" : title.getDisplayText(), xpg.Modified_on(), sections);
+        String page_title = page_ttl.Ns().Id_is_special() ? xpg.Ttl_special() : title.getDisplayText();
+        PageLeadProperties lead_props = Make_lead_props(page_title, xpg.Modified_on(), sections);
         cached_page = new Page(title, sections, new PageProperties(lead_props));
+        Process_tags(bridge, xpg.Head_tags());
+        Process_tags(bridge, xpg.Tail_tags());
         return cached_page;
+    }
+    private static void Process_tags(CommunicationBridge bridge, Xopg_tag_mgr tag_mgr) {
+        int len = tag_mgr.Len();
+        for (int i = 0; i < len; ++i) {
+            Process_tag(bridge, tag_mgr.Get_at(i));
+        }
+    }
+    private static void Process_tag(CommunicationBridge bridge, Xopg_tag_itm tag_itm) {
+        JSONObject wrapper = new JSONObject();
+        try {
+            wrapper.put("name", tag_itm.Name);
+            wrapper.put("text", tag_itm.Text);
+            JSONArray trg_atrs = new JSONArray();
+            wrapper.put("atrs", trg_atrs);
+            Keyval[] src_atrs = tag_itm.Atrs_ary;
+            int src_atrs_len = src_atrs.length;
+            for (int i = 0; i < src_atrs_len; ++i) {
+                Keyval src_atr = src_atrs[i];
+                JSONObject trg_atr = new JSONObject();
+                trg_atr.put("key", src_atr.Key());
+                trg_atr.put("val", src_atr.Val());
+                trg_atrs.put(trg_atr);
+            }
+        } catch (JSONException e) {
+            L.logRemoteErrorIfProd(e);
+        }
+        bridge.sendMessage("xowa__html__add__head", wrapper);
     }
     public void Search_titles(Cancelable cxl, Srch_rslt_cbk rslt_cbk, String domain, String search, int slab_bgn, int slab_end) {
         drd_app.Wiki__search(cxl, rslt_cbk, drd_app.Wikis__get_by_domain(domain), search, slab_bgn, slab_end);
@@ -104,6 +157,7 @@ public class Xod_app_mgr {
         this.drd_app = new Xod_app(xo_app);
         Io_url home_wiki_dir = user_dir.GenSubDir_nest("bin", "any", "xowa", "wiki", "home");
         Xod_home_wiki_installer.Assert(activity, version, "xowa/bin/any/xowa/wiki/home/home.xowa", home_wiki_dir);
+        Xod_home_wiki_installer.Assert_dir(activity, version, "xowa/bin/any/xowa/addon", user_dir.GenSubDir_nest("bin", "any", "xowa", "addon"));
         // gplx.xowa.xtns.hieros.Hiero_xtn_mgr.Hiero_root_dir_(Io_url_.new_dir_("android_asset/xowa/bin/xtns/Wikihiero/"));
         Gfo_usr_dlg_.Instance = usr_dlg;
 
@@ -145,7 +199,8 @@ public class Xod_app_mgr {
         );
     }
     public static final Xod_app_mgr Instance = new Xod_app_mgr();
-    public static final String Import_root = "Special:XowaFileBrowser?cmd=xowa.wiki.add&path=/";
+    public static final String Import_root = "Special:XowaFileBrowser?path=/";
+    public static final String Wikis_root = "Special:XowaWikis";
 }
 class Img_loader implements CommunicationBridge.JSEventListener {
     private Xod_app drd_app;

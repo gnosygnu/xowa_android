@@ -19,10 +19,10 @@ import gplx.Cancelable; import gplx.Cancelable_;
 import gplx.Tfds;
 import gplx.core.consoles.Console_adp__sys;
 import gplx.core.threads.Thread_adp_;
-import gplx.xowa.addons.searchs.searchers.Srch_search_qry;
-import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_cbk;
-import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_list;
-import gplx.xowa.addons.searchs.searchers.rslts.Srch_rslt_row;
+import gplx.xowa.addons.apps.searchs.searchers.Srch_search_qry;
+import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_cbk;
+import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_list;
+import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_row;
 
 public class OfflineSearchTask extends SaneAsyncTask<SearchResults> implements Srch_rslt_cbk {
     private final Site site;

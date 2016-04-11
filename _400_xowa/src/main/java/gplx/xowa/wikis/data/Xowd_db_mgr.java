@@ -3,9 +3,9 @@ import gplx.dbs.*; import gplx.dbs.cfgs.*;
 import gplx.xowa.wikis.dbs.*; import gplx.xowa.wikis.data.tbls.*;
 import gplx.xowa.wikis.domains.*; import gplx.xowa.bldrs.infos.*;	
 public class Xowd_db_mgr {
-	private Xowd_db_file[] dbs__ary = new Xowd_db_file[0]; private int dbs__ary_len = 0; private final Xowd_db_file_hash db_file_hash = new Xowd_db_file_hash();
-	private final Hash_adp id_hash = Hash_adp_.new_(); private final gplx.core.primitives.Int_obj_ref id_hash_ref = gplx.core.primitives.Int_obj_ref.neg1_();
-	private final Xow_wiki wiki; private final Io_url wiki_root_dir; private final Xow_domain_itm domain_itm;
+	private Xowd_db_file[] dbs__ary = new Xowd_db_file[0]; private int dbs__ary_len = 0; private final    Xowd_db_file_hash db_file_hash = new Xowd_db_file_hash();
+	private final    Hash_adp id_hash = Hash_adp_.new_(); private final    gplx.core.primitives.Int_obj_ref id_hash_ref = gplx.core.primitives.Int_obj_ref.neg1_();
+	private final    Xow_wiki wiki; private final    Io_url wiki_root_dir; private final    Xow_domain_itm domain_itm;
 	public Xowd_db_mgr(Xow_wiki wiki, Io_url wiki_root_dir, Xow_domain_itm domain_itm) {this.wiki = wiki; this.wiki_root_dir = wiki_root_dir; this.domain_itm = domain_itm;}
 	public Xowd_core_db_props		Props()			{return props;} private Xowd_core_db_props props = Xowd_core_db_props.Test;
 	public Db_cfg_tbl				Tbl__cfg()		{return db__core.Tbl__cfg();}
@@ -26,8 +26,11 @@ public class Xowd_db_mgr {
 		for (int i = 0; i < tids_len; ++i) {
 			byte tid = tids_ary[i];
 			Ordered_hash tid_dbs = db_file_hash.Get_by_tid_or_null(tid); if (tid_dbs == null) continue;
-			if (tid_dbs.Len() != 1) throw Err_.new_("xowa.dbs", "expecting only 1 db for tid; tid=~{0} len=~{1} db_api=~{2}", tid, tid_dbs.Len(), db__core.Conn().Conn_info().Db_api());
-			return (Xowd_db_file)tid_dbs.Get_at(0);
+			int tid_dbs_len = tid_dbs.Len();
+			if (tid_dbs_len != 1) {	// NOTE: occurs when multiple search imports fail; DATE:2016-04-04
+				Xoa_app_.Usr_dlg().Warn_many("", "", "expecting only 1 db for tid; tid=~{0} len=~{1} db_api=~{2}", tid, tid_dbs.Len(), db__core.Conn().Conn_info().Db_api());
+			}
+			return (Xowd_db_file)tid_dbs.Get_at(tid_dbs_len - 1);	// get last idx;
 		}
 		return null;
 	}
@@ -138,6 +141,17 @@ public class Xowd_db_mgr {
 			case Xowd_db_layout.Const_lot:		return domain_name + "-core.xowa";	// EX: en.wikipedia.org-core.xowa
 			default: 							throw Err_.new_unimplemented();
 		}
+	}
+	public static boolean Maybe_core(String domain_name, String fil_name) {
+		Xow_domain_itm domain_itm = Xow_domain_itm_.parse(Bry_.new_u8(domain_name));
+		if (domain_itm.Domain_type_id() == Xow_domain_tid_.Int__other) {
+			return String_.Has_at_end(fil_name, ".xowa");
+		}
+		String domain_str = domain_itm.Domain_str();
+		return	(	String_.Eq(fil_name, domain_str + "-text.xowa")
+				||	String_.Eq(fil_name, domain_str + "-core.xowa")
+				||	String_.Eq(fil_name, domain_str + ".xowa")
+				);
 	}
 	private static byte Core_db_tid(Xowd_db_layout layout) {
 		switch (layout.Tid()) {

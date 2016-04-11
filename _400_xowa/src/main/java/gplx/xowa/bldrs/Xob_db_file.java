@@ -3,7 +3,7 @@ import gplx.dbs.*; import gplx.dbs.cfgs.*;
 public class Xob_db_file {
 	Xob_db_file(Io_url url, Db_conn conn) {
 		this.url = url; this.conn = conn;
-		this.tbl__cfg = new Db_cfg_tbl(conn, "xowa_cfg");
+		this.tbl__cfg = gplx.xowa.wikis.data.Xowd_cfg_tbl_.New(conn);
 	}
 	public Io_url			Url()		{return url;} private final    Io_url url;
 	public Db_conn			Conn()		{return conn;} private final    Db_conn conn;
@@ -15,6 +15,10 @@ public class Xob_db_file {
 	public static Xob_db_file New__temp_log(Io_url dir)				{return New(dir, Name__temp_log);}
 	public static Xob_db_file New__redlink(Io_url dir)				{return New(dir, Name__redlink);}
 	public static Xob_db_file New__page_link(Xow_wiki wiki)			{return New(wiki.Fsys_mgr().Root_dir(), Name__page_link);}
+	public static Xob_db_file New__deletion_db(Xow_wiki wiki)		{
+		String name = String_.Format("{0}-file-core-deletion_db-{1}.xowa", wiki.Domain_str(), DateAdp_.Now().XtoStr_fmt("yyyy.MM"));
+		return New(wiki.Fsys_mgr().Root_dir(), name);
+	}
 	public static Xob_db_file New(Io_url dir, String name) {
 		Io_url url = dir.GenSubFil(name);
 		Db_conn_bldr_data conn_data = Db_conn_bldr.Instance.Get_or_new(url);

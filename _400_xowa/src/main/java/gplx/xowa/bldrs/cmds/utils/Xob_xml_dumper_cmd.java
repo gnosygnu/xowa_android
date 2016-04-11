@@ -1,11 +1,12 @@
 package gplx.xowa.bldrs.cmds.utils; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*;
-import gplx.xowa.bldrs.xmls.*;
+import gplx.xowa.bldrs.wkrs.*; import gplx.xowa.bldrs.xmls.*;
 import gplx.xowa.wikis.dbs.*; import gplx.xowa.wikis.data.tbls.*;
 public class Xob_xml_dumper_cmd implements Xob_cmd {
-	private final Xowe_wiki wiki; private final Gfo_usr_dlg usr_dlg;
-	private final Xob_xml_dumper xml_dumper = new Xob_xml_dumper(); private int commit_interval = 1000;
+	private final    Xowe_wiki wiki; private final    Gfo_usr_dlg usr_dlg;
+	private final    Xob_xml_dumper xml_dumper = new Xob_xml_dumper(); private int commit_interval = 1000;
 	private Io_url dump_url;
 	public Xob_xml_dumper_cmd(Xob_bldr bldr, Xowe_wiki wiki) {this.wiki = wiki; this.usr_dlg = wiki.Appe().Usr_dlg();}
+	public Xob_cmd Cmd_clone(Xob_bldr bldr, Xowe_wiki wiki) {return null;}
 	public String Cmd_key() {return Xob_cmd_keys.Key_util_xml_dump;}
 	public void Cmd_init(Xob_bldr bldr) {
 		dump_url = wiki.Fsys_mgr().Root_dir().GenSubFil(wiki.Domain_str() + "-dump.xml");

@@ -12,12 +12,12 @@ public class Postgres_engine extends Db_engine_sql_base {
 		return rv;
 	}
 	@Override public DataRdr New_rdr(ResultSet rdr, String commandText) {return Db_data_rdr_.new_(rdr, commandText);}//#<>IDataReader~ResultSet
-	@Override public Dbmeta_tbl_mgr Meta_tbl_load_all() {throw Err_.new_unimplemented();}
+	@Override public Dbmeta_tbl_mgr Meta_mgr() {throw Err_.new_unimplemented();}
 	//#{lang
-	@gplx.Internal @Override protected Connection Conn_new() {
+	@gplx.Internal @Override protected Connection Conn_make() {
 		Postgres_conn_info conn_info_as_postgres = (Postgres_conn_info)conn_info;
 		return Conn_make_by_url("jdbc:" + conn_info_as_postgres.Key() + "://localhost/" + conn_info_as_postgres.Database(), conn_info_as_postgres.Uid(), conn_info_as_postgres.Pwd());
 	}
 	//#}
-	public static final Postgres_engine Instance = new Postgres_engine(); Postgres_engine() {}
+	public static final    Postgres_engine Instance = new Postgres_engine(); Postgres_engine() {}
 }

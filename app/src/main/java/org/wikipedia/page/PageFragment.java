@@ -563,6 +563,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     public void displayNewPage(PageTitle title, HistoryEntry entry, PageLoadStrategy.Cache cachePreference,
                                boolean pushBackStack, boolean pageRefreshed) {
+
         displayNewPage(title, entry, cachePreference, pushBackStack, 0, pageRefreshed);
     }
 

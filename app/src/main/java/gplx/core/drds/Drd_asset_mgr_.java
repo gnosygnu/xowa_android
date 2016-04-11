@@ -13,4 +13,12 @@ public class Drd_asset_mgr_ {
             throw Err_.new_exc(e, "drd", "failed to load asset", "url", url_str);
         }
     }
+    public static String[] List_as_str(Activity activity, String dir_str) {
+        try {
+            return activity.getAssets().list(dir_str);
+        }
+        catch (Exception e) {
+            throw Err_.new_exc(e, "drd", "failed to list files", "dir", dir_str);
+        }
+    }
 }

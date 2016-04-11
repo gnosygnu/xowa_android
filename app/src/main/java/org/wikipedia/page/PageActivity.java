@@ -76,6 +76,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import gplx.String_;
+import gplx.xowa.drds.Xod_app_mgr;
 
 import static org.wikipedia.util.DeviceUtil.isBackKeyUp;
 import static org.wikipedia.util.DeviceUtil.hideSoftKeyboard;
@@ -444,10 +445,9 @@ public class PageActivity extends ThemedActionBarActivity {
             // Instantiate the funnel anonymously to save on memory overhead
             new WidgetsFunnel(app).logFeaturedArticleWidgetTap();
             displayMainPageInForegroundTab();
-//        } else if (Xod_app_mgr.Instance.Imported_wikis_count() == 0) {  // XOWA
-//            displayNewPageByUrl("home", Xod_app_mgr.Import_root);
+        } else if (Xod_app_mgr.Instance.Wikis_installed_count(this) == 0) {  // XOWA
+            displayNewPageByUrl("home", Xod_app_mgr.Import_root);
         } else {
-//            displayNewPageByUrl("home", Xod_app_mgr.Import_root);
             displayMainPageIfNoTabs();
         }
     }

@@ -65,7 +65,9 @@ public abstract class LinkHandler implements CommunicationBridge.JSEventListener
             byte[] href_bry = Bry_.new_u8(href);
             int site_end_pos = Bry_find_.Find_fwd(href_bry, Byte_ascii.Slash, 6);   // 6 = len of "/site/" + 1
             Site site = new Site(String_.new_u8(href_bry, 6, site_end_pos));
-            PageTitle title = new PageTitle(String_.new_u8(href_bry, site_end_pos + 6, href_bry.length), site);// 6 = len of "/wiki/" + 1
+            String page_name = String_.new_u8(href_bry, site_end_pos + 6, href_bry.length);
+//            if (String_.Len_eq_0(page_name)) page_name = "Main_Page";
+            PageTitle title = new PageTitle(page_name, site);// 6 = len of "/wiki/" + 1
             onInternalLinkClicked(title);
         } else if (href.startsWith("#")) {
             onPageLinkClicked(href.substring(1));

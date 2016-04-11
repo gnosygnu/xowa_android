@@ -336,6 +336,19 @@ bridge.registerListener("xowa__meta__update", function ( payload ) {// XOWA: upd
   document.getElementById("xowa_foot_row_license").innerHTML = payload.license;
 });
 
+bridge.registerListener("xowa__html__add__head", function ( payload ) {// XOWA: update bottom content DATE:2016-04-08
+  var elem = document.createElement(payload.name);
+  if (payload.text != null) elem.innerHTML = payload.text;
+  var atrs = payload.atrs;
+  var atrs_len = atrs.length;
+  for (var i = 0; i < atrs_len; ++i) {
+    var atr = atrs[i];
+    elem.setAttribute(atr.key, atr.val);
+  }
+  var head = document.getElementsByTagName('head')[0];
+  head.appendChild(elem);
+});
+
 bridge.registerListener( "setDecorOffset", function( payload ) {
     transformer.setDecorOffset(payload.offset);
 } );

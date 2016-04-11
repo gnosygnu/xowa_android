@@ -1,5 +1,7 @@
 package org.wikipedia.page;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.IdRes;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.wikipedia.BuildConfig;
 import org.wikipedia.R;
@@ -28,6 +31,7 @@ import org.wikipedia.settings.SettingsActivity;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.UriUtil;
 
+import gplx.String_;
 import gplx.xowa.drds.Xod_app_mgr;
 
 public class NavDrawerHelper {
@@ -60,7 +64,7 @@ public class NavDrawerHelper {
     }
 
     public void setupDynamicNavDrawerItems() {
-        updateLoginButtonStatus();
+        // updateLoginButtonStatus();   // XOWA:disable "Log in to Wikipedia"
         updateWikipediaZeroStatus();
         accountToggle = false;
         updateMenuGroupToggle();
@@ -79,10 +83,10 @@ public class NavDrawerHelper {
                         activity.pushFragment(new HistoryFragment());
                         funnel.logHistory();
                         break;
-//                    case R.id.nav_item_saved_pages:
-//                        activity.pushFragment(new SavedPagesFragment());
-//                        funnel.logSavedPages();
-//                        break;
+                    case R.id.nav_item_saved_pages:
+                        activity.pushFragment(new SavedPagesFragment());
+                        funnel.logSavedPages();
+                        break;
 //                    case R.id.nav_item_nearby:
 //                        activity.pushFragment(new NearbyFragment());
 //                        funnel.logNearby();
@@ -95,14 +99,29 @@ public class NavDrawerHelper {
                         logout();
                         break;
                     case R.id.nav_item_random:
-                        activity.getRandomHandler().doVisitRandomArticle();
-                        funnel.logRandom();
+                        if (String_.Eq(Xod_app_mgr.Instance.Cur_site_domain(app), "home")) {    // XOWA
+                            Toast.makeText(activity, "The home wiki can not show random pages.\nPress Random again in any other wiki", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            activity.getRandomHandler().doVisitRandomArticle();
+                            funnel.logRandom();
+                        }
                         break;
                     case R.id.nav_item_donate:
                         openDonatePage();
                         break;
                     case R.id.nav_item_xowa:
-                        activity.getCurPageFragment().getPageActivity().displayNewPageByUrl("home", Xod_app_mgr.Import_root);
+                        PageActivity page_activity = null;  // XOWA
+                        if (activity.getClass() == PageActivity.class) {    // handles when History is current page
+                            page_activity = activity;
+                        }
+                        else {
+                            PageFragment intermediate_fragment = activity.getCurPageFragment(); // handles most other instances when wiki page is being viewed
+                            if (intermediate_fragment != null)
+                                page_activity = intermediate_fragment.getPageActivity();
+                        }
+                        if (page_activity != null)
+                            page_activity.displayNewPageByUrl("home", Xod_app_mgr.Wikis_root);
                         break;
                     default:
                         return false;

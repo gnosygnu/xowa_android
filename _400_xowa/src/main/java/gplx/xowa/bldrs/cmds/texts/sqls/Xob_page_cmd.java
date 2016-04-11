@@ -1,10 +1,10 @@
 package gplx.xowa.bldrs.cmds.texts.sqls; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*; import gplx.xowa.bldrs.cmds.texts.*;
-import gplx.dbs.*; import gplx.core.ios.*; import gplx.xowa.bldrs.cmds.*; import gplx.xowa.bldrs.cmds.wikis.*;
+import gplx.dbs.*; import gplx.core.ios.*; import gplx.xowa.bldrs.cmds.*;
 import gplx.xowa.bldrs.wkrs.*;
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.wikis.dbs.*; 
 import gplx.xowa.wikis.*; import gplx.xowa.bldrs.filters.dansguardians.*; import gplx.xowa.apps.apis.xowa.bldrs.imports.*;
-import gplx.xowa.parsers.utils.*;
+import gplx.xowa.parsers.utils.*; import gplx.xowa.addons.builds.files.cmds.*; import gplx.xowa.addons.builds.files.dbs.*;
 public class Xob_page_cmd extends Xob_itm_basic_base implements Xob_page_wkr, GfoInvkAble {
 	private Xowd_db_mgr db_mgr; private Db_idx_mode idx_mode = Db_idx_mode.Itm_end; private Xowd_page_tbl page_core_tbl; private Io_stream_zip_mgr text_zip_mgr; private byte text_zip_tid;
 	private Xop_redirect_mgr redirect_mgr; private Xob_redirect_tbl redirect_tbl; private boolean redirect_id_enabled;
@@ -69,7 +69,7 @@ public class Xob_page_cmd extends Xob_itm_basic_base implements Xob_page_wkr, Gf
 		Xowd_db_file db_core = db_mgr.Db__core();
 		db_core.Tbl__site_stats().Update(page_count_main, page_count_all, ns_mgr.Ns_file().Count());	// save page stats
 		db_core.Tbl__ns().Insert(ns_mgr);															// save ns
-		db_mgr.Tbl__cfg().Insert_str(Xow_cfg_consts.Grp__wiki_init, "props.modified_latest", modified_latest.XtoStr_fmt(DateAdp_.Fmt_iso8561_date_time));
+		db_mgr.Tbl__cfg().Insert_str(Xow_cfg_consts.Grp__wiki_init, Xow_cfg_consts.Key__init__modified_latest, modified_latest.XtoStr_fmt(DateAdp_.Fmt_iso8561_date_time));
 		if (idx_mode.Tid_is_end()) page_core_tbl.Create_index();
 		if (redirect_id_enabled) {
 			redirect_tbl.Conn().Txn_end();

@@ -12,7 +12,7 @@ public class Drd_db_mgr extends SQLiteOpenHelper {
     public static void Setup(Context context) {
         Db_conn_bldr.Instance.Reg_default_sqlite();
         Drd_db_engine prototype = new Drd_db_engine(null, context);
-        Db_conn_pool.Instance.Engines__add(prototype);
+        Db_conn_pool.Instance.Primes__add(prototype);
     }
 }
 class Drd_db_rdr implements Db_rdr {
@@ -203,7 +203,7 @@ class Drd_db_stmt implements Db_stmt {
             qry.Where_sql(sb);
             String where_sql = sb.To_str_and_clear();
             Cursor cursor = db.query(qry.Base_table(), qry.Select_flds(), where_sql, selection_args, qry.Group_by_sql(), qry.Having_sql(), qry.Order_by_sql());
-            return rls_manual ? engine.New_rdr__rls_manual(cursor, "") : engine.New_rdr__rls_auto(this, cursor, "");
+            return rls_manual ? engine.Exec_as_rdr__rls_manual(cursor, "") : engine.Exec_as_rdr__rls_auto(this, cursor, "");
         }
         else {
             if (qry_obj.getClass().equals(Db_qry_sql.class)) {
@@ -213,12 +213,12 @@ class Drd_db_stmt implements Db_stmt {
                     cursor = db.rawQuery(qry.To_sql__exec(engine.Sql_wtr()), String_.Ary_empty);
                 else
                     cursor = db.rawQuery(engine.Sql_wtr().To_sql_str(qry, Bool_.Y), selection_args);
-                return rls_manual ? engine.New_rdr__rls_manual(cursor, "") : engine.New_rdr__rls_auto(this, cursor, "");
+                return rls_manual ? engine.Exec_as_rdr__rls_manual(cursor, "") : engine.Exec_as_rdr__rls_auto(this, cursor, "");
             }
             else {
                 Db_qry__select_cmd qry = (Db_qry__select_cmd) qry_obj;
                 Cursor cursor = db.rawQuery(qry.To_sql__prep(engine.Sql_wtr()), selection_args);
-                return rls_manual ? engine.New_rdr__rls_manual(cursor, "") : engine.New_rdr__rls_auto(this, cursor, "");
+                return rls_manual ? engine.Exec_as_rdr__rls_manual(cursor, "") : engine.Exec_as_rdr__rls_auto(this, cursor, "");
             }
         }
     }
