@@ -64,7 +64,6 @@ public class CabSearchView extends SearchView {
 
         attrsArray.recycle();
     }
-
     private class Callback implements ActionMode.Callback {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -83,7 +82,6 @@ public class CabSearchView extends SearchView {
 
         @Override public void onDestroyActionMode(ActionMode mode) { }
     }
-
     private static class PlainTextInputFilter implements InputFilter {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest,

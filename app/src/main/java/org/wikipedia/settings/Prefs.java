@@ -95,8 +95,9 @@ public final class Prefs {
         remove(getCookiesForDomainKey(domain));
     }
 
-    public static boolean isCrashReportAutoUploadEnabled() {
-        return getBoolean(R.string.preference_key_auto_upload_crash_reports, true);
+    public static boolean isCrashReportAutoUploadEnabled() {    // XOWA:
+        return false;
+        // return getBoolean(R.string.preference_key_auto_upload_crash_reports, true);
     }
 
     public static boolean isShowDeveloperSettingsEnabled() {
@@ -241,8 +242,8 @@ public final class Prefs {
         setInt(R.string.preference_key_text_size_multiplier, multiplier);
     }
 
-    public static boolean isEventLoggingEnabled() {
-        return getBoolean(R.string.preference_key_eventlogging_opt_in, true);
+    public static boolean isEventLoggingEnabled() {// XOWA: disable logging
+        return false; // getBoolean(R.string.preference_key_eventlogging_opt_in, true);
     }
 
     public static boolean useRestBaseSetManually() {

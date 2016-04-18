@@ -1,6 +1,7 @@
 package org.wikipedia.concurrency;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import org.wikipedia.util.log.L;
 
@@ -69,7 +70,13 @@ public abstract class SaneAsyncTask<T> {
      * Start performing the task on the executor specified.
      */
     public void execute() {
-        underlyingTask.executeOnExecutor(executor);
+        // underlyingTask.executeOnExecutor(executor); // XOWA
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
+            underlyingTask.executeOnExecutor(executor);
+        }
+        else {
+            underlyingTask.execute();
+        }
     }
 
     /**

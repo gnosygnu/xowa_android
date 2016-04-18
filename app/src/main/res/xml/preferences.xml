@@ -6,6 +6,7 @@
                 android:key="@string/preference_key_language"
                 android:title="@string/preference_title_language">
         </org.wikipedia.settings.PreferenceMultiLine>
+        <!--
         <org.wikipedia.settings.CheckBoxPreferenceMultiLine
             android:key="@string/preference_key_show_images"
             android:defaultValue="true"
@@ -18,7 +19,9 @@
             android:title="@string/preference_title_show_link_previews"
             android:summary="@string/preference_summary_show_link_previews"
             />
+        -->
     </PreferenceCategory>
+    <!--
     <PreferenceCategory android:title="@string/preferences_privacy_settings_heading">
         <org.wikipedia.settings.CheckBoxPreferenceMultiLine
             android:key="@string/preference_key_eventlogging_opt_in"
@@ -33,6 +36,8 @@
             android:summary="@string/preference_summary_auto_upload_crash_reports"
             />
     </PreferenceCategory>
+    -->
+    <!--
     <PreferenceCategory android:title="@string/zero_wikipedia_zero_heading">
         <org.wikipedia.settings.CheckBoxPreferenceMultiLine
                 android:key="zero_warn_when_leaving"
@@ -47,8 +52,8 @@
                     android:data="@string/zero_webpage_url"
                     />
         </org.wikipedia.settings.PreferenceMultiLine>
-
     </PreferenceCategory>
+    -->
     <PreferenceCategory android:title="@string/about_activity_title">
         <org.wikipedia.settings.PreferenceMultiLine
             android:key="about"
@@ -58,6 +63,7 @@
                     android:targetPackage="org.wikipedia"
                     />
         </org.wikipedia.settings.PreferenceMultiLine>
+        <!--
         <org.wikipedia.settings.PreferenceMultiLine
             android:title="@string/wikipedia_app_faq">
             <intent android:action="android.intent.action.VIEW"
@@ -76,5 +82,6 @@
                     android:data="@string/terms_of_use_url"
                     />
         </org.wikipedia.settings.PreferenceMultiLine>
+        -->
     </PreferenceCategory>
 </PreferenceScreen>

@@ -446,7 +446,7 @@ public class PageActivity extends ThemedActionBarActivity {
             new WidgetsFunnel(app).logFeaturedArticleWidgetTap();
             displayMainPageInForegroundTab();
         } else if (Xod_app_mgr.Instance.Wikis_installed_count(this) == 0) {  // XOWA
-            displayNewPageByUrl("home", Xod_app_mgr.Import_root);
+            displayNewPageByUrl("home", Xod_app_mgr.Import_root());
         } else {
             displayMainPageIfNoTabs();
         }

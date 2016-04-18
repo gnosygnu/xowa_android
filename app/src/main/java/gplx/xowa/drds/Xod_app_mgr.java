@@ -1,6 +1,11 @@
 package gplx.xowa.drds;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +82,17 @@ public class Xod_app_mgr {
             if (String_.Eq(site_row.Domain(), "home")) continue;
             ++rv;
         }
+        if (rv == 0) {
+            Request_permission();
+        }
         return rv;
+    }
+    private static final int READ_EXTERNAL_STORAGE_CONST = 1;
+    private void Request_permission() {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CONST);
+        }
     }
     public void Rebind_message_handlers(CommunicationBridge bridge) {
         if (img_loader != null && bridge != null) {
@@ -199,7 +214,7 @@ public class Xod_app_mgr {
         );
     }
     public static final Xod_app_mgr Instance = new Xod_app_mgr();
-    public static final String Import_root = "Special:XowaFileBrowser?path=/";
+    public static String Import_root() {return "Special:XowaFileBrowser?path=/";}
     public static final String Wikis_root = "Special:XowaWikis";
 }
 class Img_loader implements CommunicationBridge.JSEventListener {
