@@ -33,10 +33,10 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 		Db_conn word_conn = search_temp_tbl.conn;
 
 		// update search_word ids if they exist
-		Srch_db_mgr.Optimize_unsafe_(word_conn, Bool_.Y);
+		// Srch_db_mgr.Optimize_unsafe_(word_conn, Bool_.Y);	// NOTE: fails in multi-db due to transaction
 		Update_word_id(word_conn, wiki);
 		Search_word__insert(word_conn);
-		Srch_db_mgr.Optimize_unsafe_(word_conn, Bool_.N);
+		// Srch_db_mgr.Optimize_unsafe_(word_conn, Bool_.N);
 
 		// create search_link
 		Db_conn page_conn = wiki.Data__core_mgr().Tbl__page().conn;
@@ -45,13 +45,13 @@ class Srch_temp_tbl_wkr implements Srch_text_parser_wkr {
 			Xoa_app_.Usr_dlg().Plog_many("", "", "creating search_link");
 			Srch_link_tbl link_tbl = search_db_mgr.Tbl__link__ary()[0];
 			new Db_attach_mgr(word_conn, new Db_attach_itm("link_db", link_tbl.conn))
-				.Exec_sql
+				.Exec_sql(String_.Concat_lines_nl_skip_last
 				( "INSERT INTO <link_db>search_link (word_id, page_id)"
 				, "SELECT  w.word_id"
 				, ",       t.page_id"
 				, "FROM    search_temp t"
 				, "        JOIN search_word w ON t.word_text = w.word_text"
-				);
+				));
 			link_tbl.Create_idx__page_id();
 		} else {
 			Search_link__insert(search_db_mgr, word_conn, page_conn);

@@ -33,6 +33,7 @@ import gplx.Io_url;
 import gplx.Io_url_;
 import gplx.Keyval;
 import gplx.List_adp;
+import gplx.Object_;
 import gplx.String_;
 import gplx.core.drds.Drd_version;
 import gplx.core.envs.Env_;
@@ -141,8 +142,8 @@ public class Xod_app_mgr {
     private static void Process_tag(CommunicationBridge bridge, Xopg_tag_itm tag_itm) {
         JSONObject wrapper = new JSONObject();
         try {
-            wrapper.put("name", tag_itm.Name);
-            wrapper.put("text", tag_itm.Text);
+            wrapper.put("name", String_.new_u8(tag_itm.Name));
+            wrapper.put("text", String_.new_u8(tag_itm.Text));
             JSONArray trg_atrs = new JSONArray();
             wrapper.put("atrs", trg_atrs);
             Keyval[] src_atrs = tag_itm.Atrs_ary;
@@ -151,7 +152,7 @@ public class Xod_app_mgr {
                 Keyval src_atr = src_atrs[i];
                 JSONObject trg_atr = new JSONObject();
                 trg_atr.put("key", src_atr.Key());
-                trg_atr.put("val", src_atr.Val());
+                trg_atr.put("val", Object_.Xto_str_strict_or_null_mark(src_atr.Val()));
                 trg_atrs.put(trg_atr);
             }
         } catch (JSONException e) {

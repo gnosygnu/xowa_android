@@ -1,5 +1,5 @@
 package gplx.xowa.bldrs.setups.addons; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.setups.*;
-import gplx.core.ios.*; import gplx.core.envs.*;
+import gplx.core.ios.zips.*; import gplx.core.envs.*;
 import gplx.xowa.apps.fsys.*;
 public class Xoi_firefox_installer implements GfoInvkAble {
 	private Io_url src_xpi, trg_xpi;
@@ -44,5 +44,5 @@ public class Xoi_firefox_installer implements GfoInvkAble {
 		if		(ctx.Match(k, Invk_install)) 		Install_via_process();
 		else	return GfoInvkAble_.Rv_unhandled;
 		return this;
-	}	private static final String Invk_program = "program", Invk_install = "install";
+	}	private static final    String Invk_program = "program", Invk_install = "install";
 }

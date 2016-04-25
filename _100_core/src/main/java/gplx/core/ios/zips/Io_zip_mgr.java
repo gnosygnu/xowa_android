@@ -1,4 +1,4 @@
-package gplx.core.ios; import gplx.*; import gplx.core.*;
+package gplx.core.ios.zips; import gplx.*; import gplx.core.*; import gplx.core.ios.*;
 public interface Io_zip_mgr {
 	void Zip_fil(Io_url src_fil, Io_url trg_fil);
 	byte[] Zip_bry(byte[] src, int bgn, int len);

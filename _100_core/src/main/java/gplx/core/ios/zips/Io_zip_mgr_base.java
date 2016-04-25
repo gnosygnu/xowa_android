@@ -1,4 +1,4 @@
-package gplx.core.ios; import gplx.*; import gplx.core.*;
+package gplx.core.ios.zips; import gplx.*; import gplx.core.*; import gplx.core.ios.*;
 //#{import
 import java.io.*;
 import java.util.zip.*;
@@ -111,5 +111,5 @@ public class Io_zip_mgr_base implements Io_zip_mgr {
 	//#{Io_zip_mgr_base
 	byte[] tmp = new byte[4096]; int tmpLen = 4096;
 	//#}
-	public static final Io_zip_mgr Instance = new Io_zip_mgr_base();
+	public static final    Io_zip_mgr Instance = new Io_zip_mgr_base();
 }
