@@ -1,12 +1,12 @@
 package gplx.xowa.apps.urls; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*;
-import gplx.core.primitives.*; import gplx.core.net.*; import gplx.langs.htmls.encoders.*;
+import gplx.core.primitives.*; import gplx.core.net.*; import gplx.core.net.qargs.*; import gplx.langs.htmls.encoders.*;
 import gplx.xowa.htmls.hrefs.*;
 import gplx.xowa.langs.*; import gplx.xowa.langs.vnts.*;
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.wikis.domains.*; import gplx.xowa.wikis.xwikis.*; import gplx.xowa.files.*;
 public class Xow_url_parser {
 	private final    Gfo_url_encoder encoder;
-	private final    Bry_bfr tmp_bfr = Bry_bfr.reset_(255);
+	private final    Bry_bfr tmp_bfr = Bry_bfr_.Reset(255);
 	private final    Gfo_url_parser url_parser = new Gfo_url_parser(); private final    Gfo_url gfo_url = new Gfo_url();
 	private final    Xoa_app app; private final    Xow_wiki wiki; private final    byte[] domain_bry;
 	private byte tmp_protocol_tid;
@@ -36,7 +36,10 @@ public class Xow_url_parser {
 			Xow_wiki wiki_itm = app.Wiki_mgri().Get_by_or_make_init_y(wiki_bry); // NOTE: must call Init to load Main_Page; only call if from url_bar, else all sister wikis will be loaded when parsing Sister_wikis panel
 			rv.Page_bry_(wiki_itm.Props().Main_page());
 		}
-		Xoa_ttl ttl = wiki.Ttl_parse(rv.Page_bry());	// parse to ttl to get proper casing; EX: "earth" -> "Earth" x> "earth"; DATE:2016-03-25
+		Xow_wiki parse_wiki = wiki;
+		if (!Bry_.Eq(wiki_bry, wiki.Domain_bry()))							// NOTE: url's wiki is different than current wiki
+			parse_wiki = app.Wiki_mgr().Get_by_or_make_init_y(wiki_bry);	// NOTE: change parse_wiki to url's wiki; needed to handle transition from home to en.d or other case-sensitivity wiki; EX: "d:earth" -> "earth" x> "Earth"; DATE:2016-04-28
+		Xoa_ttl ttl = parse_wiki .Ttl_parse(rv.Page_bry());					// NOTE: parse to ttl to get proper casing; EX: "earth" -> "Earth" x> "earth"; DATE:2016-03-25
 		rv.Page_bry_(ttl.Full_db());
 		return rv;
 	}

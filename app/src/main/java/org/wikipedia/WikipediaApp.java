@@ -51,6 +51,7 @@ import org.wikipedia.util.ReleaseUtil;
 import org.wikipedia.util.log.L;
 import org.wikipedia.zero.WikipediaZeroHandler;
 
+import gplx.Gfo_log_;
 import gplx.xowa.drds.Xod_app_mgr;
 import retrofit.RequestInterceptor;
 
@@ -186,6 +187,7 @@ public class WikipediaApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Gfo_log_.Instance.Info("app.create.bgn");
         initExceptionHandling();
 
         bus = new Bus();
@@ -208,6 +210,7 @@ public class WikipediaApp extends Application {
 
         zeroHandler = new WikipediaZeroHandler(this);
         pageCache = new PageCache(this);
+        Gfo_log_.Instance.Info("app.create.end");
     }
 
     public Bus getBus() {
@@ -500,7 +503,7 @@ public class WikipediaApp extends Application {
     }
 
     public void checkCrashes(@NonNull Activity activity) {
-        crashReporter.checkCrashes(activity);
+        // crashReporter.checkCrashes(activity); // XOWA: ignore crashes
     }
 
     /**

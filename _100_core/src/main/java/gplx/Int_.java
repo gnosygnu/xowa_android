@@ -1,8 +1,8 @@
 package gplx;
 import gplx.core.strings.*; import gplx.langs.gfs.*;
-public class Int_ implements GfoInvkAble {//_20101128
+public class Int_ implements Gfo_invk {//_20101128
 	public static final String Cls_val_name = "int";
-	public static final Class<?> Cls_ref_type = Integer.class; //#<>typeof(int)~Integer.class
+	public static final    Class<?> Cls_ref_type = Integer.class; //#<>typeof(int)~Integer.class
 	public static final int Base1 = 1;
 	public static final int Const_dlm_len = 1;
 	public static final int Const_position_after_char = 1;
@@ -116,7 +116,7 @@ public class Int_ implements GfoInvkAble {//_20101128
 	static String To_str_pad_bgn_zero(int val, int places, byte pad_chr, boolean bgn) {
 		int len = DigitCount(val);
 		int pad_len = places - len; if (pad_len < 0) return Int_.To_str(val);
-		Bry_bfr bfr = Bry_bfr.new_();
+		Bry_bfr bfr = Bry_bfr_.New();
 		boolean neg = val < 0;
 		if (bgn) {	// special logic to handle negative numbers; EX: -1 -> "-001", not "00-1"
 			if (neg) {
@@ -148,9 +148,9 @@ public class Int_ implements GfoInvkAble {//_20101128
 			int v = m.ReadInt(GfsCore_.Arg_primitive), operand = m.ReadInt("operand");
 			return ctx.Deny() ? (Object)this : v + operand;
 		}
-		else												return GfoInvkAble_.Rv_unhandled;			
-	}	public static final String Invk_XtoStr_PadBgn = "XtoStr_PadBgn";
-        public static final Int_ Gfs = new Int_();
+		else												return Gfo_invk_.Rv_unhandled;			
+	}	public static final    String Invk_XtoStr_PadBgn = "XtoStr_PadBgn";
+        public static final    Int_ Gfs = new Int_();
 	public static int To_int_hex(byte[] src) {return To_int_hex(src, 0, src.length);}
 	public static int To_int_hex(byte[] src, int bgn, int end) {
 		int rv = 0; int factor = 1;

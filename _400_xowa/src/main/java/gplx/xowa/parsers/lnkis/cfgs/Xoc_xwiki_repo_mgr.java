@@ -1,5 +1,5 @@
 package gplx.xowa.parsers.lnkis.cfgs; import gplx.*; import gplx.xowa.*; import gplx.xowa.parsers.*; import gplx.xowa.parsers.lnkis.*;
-public class Xoc_xwiki_repo_mgr implements GfoInvkAble {
+public class Xoc_xwiki_repo_mgr implements Gfo_invk {
 	private Ordered_hash hash = Ordered_hash_.New_bry();
 	private Xowe_wiki wiki;
 	public Xoc_xwiki_repo_mgr(Xowe_wiki wiki) {this.wiki = wiki;}
@@ -17,7 +17,7 @@ public class Xoc_xwiki_repo_mgr implements GfoInvkAble {
 	}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_add))			Add_or_mod(m.ReadBry("xwiki"));
-		else return GfoInvkAble_.Rv_unhandled;
+		else return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
 	private static final String Invk_add = "add";

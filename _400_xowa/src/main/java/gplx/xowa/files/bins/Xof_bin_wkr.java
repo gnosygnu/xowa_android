@@ -1,5 +1,5 @@
 package gplx.xowa.files.bins; import gplx.*; import gplx.xowa.*; import gplx.xowa.files.*;
-import gplx.core.ios.*;
+import gplx.core.ios.*; import gplx.core.ios.streams.*;
 import gplx.xowa.files.fsdb.*;
 public interface Xof_bin_wkr {
 	byte			Tid();

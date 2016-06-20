@@ -1,13 +1,14 @@
 package gplx.langs.jsons; import gplx.*; import gplx.langs.*;
 import gplx.core.primitives.*;
 public class Json_wtr {
-	private final    Bry_bfr bfr = Bry_bfr.new_(255);
+	private final    Bry_bfr bfr = Bry_bfr_.New_w_size(255);
 	private final    Int_ary idx_stack = new Int_ary(4);
 	private int idx = 0;		
 	public Bry_bfr Bfr() {return bfr;}
 	public void Indent_(int v) {this.indent = v;} private int indent;
 	public byte Opt_quote_byte() {return opt_quote_byte;} public Json_wtr Opt_quote_byte_(byte v) {opt_quote_byte = v; return this;} private byte opt_quote_byte = Byte_ascii.Quote;
 	public boolean Opt_ws() {return opt_ws;} public Json_wtr Opt_ws_(boolean v) {opt_ws = v; return this;} private boolean opt_ws = true;
+	public boolean Opt_backslash_2x() {return opt_backslash_2x;} public Json_wtr Opt_backslash_2x_(boolean v) {opt_backslash_2x = v; return this;} private boolean opt_backslash_2x = false;
 	public byte[] To_bry_and_clear() {return bfr.To_bry_and_clear();}
 	public String To_str_and_clear() {return bfr.To_str_and_clear();}
 	public Json_wtr () {this.Clear();}
@@ -26,7 +27,7 @@ public class Json_wtr {
 	public Json_wtr Nde_bgn(byte[] key) {
 		Write_indent_itm();
 		if (key == Bry_.Empty) {
-			bfr.Del_by_1();	// remove trailing space from Write_indent_itm
+			if (opt_ws) bfr.Del_by_1();	// remove trailing space from Write_indent_itm
 			++idx;
 		}
 		else
@@ -38,9 +39,15 @@ public class Json_wtr {
 		Write_grp_end(Bool_.Y, Sym_nde_end);
 		return Write_nl();
 	}
+	public Json_wtr Ary_bgn_ary() {return Ary_bgn(String_.Empty);}
 	public Json_wtr Ary_bgn(String nde) {
 		Write_indent_itm();
-		Write_key(Bry_.new_u8(nde));
+		if (nde == String_.Empty) {
+			if (opt_ws) bfr.Del_by_1();	// remove trailing space from Write_indent_itm
+			++idx;
+		}
+		else
+			Write_key(Bry_.new_u8(nde));
 		return Ary_bgn_keyless();
 	}
 	private Json_wtr Ary_bgn_keyless() {
@@ -78,7 +85,7 @@ public class Json_wtr {
 		Write_nl();
 		return this;
 	}
-	public Json_wtr Kv_str(String key, String val) {return Kv_bry(Bry_.new_u8(key), Bry_.new_u8(val));}
+	public Json_wtr Kv_str(String key, String val) {return Kv_bry(Bry_.new_u8(key), val == null ? null : Bry_.new_u8(val));}
 	public Json_wtr Kv_str(byte[] key, String val) {return Kv_bry(key, Bry_.new_u8(val));}
 	public Json_wtr Kv_bry(String key, byte[] val) {return Kv_bry(Bry_.new_u8(key), val);}
 	public Json_wtr Kv_bry(byte[] key, byte[] val) {
@@ -186,9 +193,7 @@ public class Json_wtr {
 					}
 				}
 			}
-//				else {
-				bfr.Add_byte_nl();
-//				}
+			bfr.Add_byte_nl();
 			Write_grp_bgn(Sym_nde_bgn, Bool_.Y);
 			Json_nde sub_nde = (Json_nde)obj;
 			int sub_nde_len = sub_nde.Len();
@@ -233,14 +238,15 @@ public class Json_wtr {
 	private void Write_str(byte[] bry) {
 		if (bry == null) {bfr.Add(Object_.Bry__null); return;}
 		int len = bry.length;
+		int backslash_count = opt_backslash_2x ? 3 : 1;	// NOTE: 3 handles backslashes usurped by javascript; EX: '{"val":"\\\\"}' --javascript--> '{"val":"\\"}' --json--> '{"val":"\"}'
 		bfr.Add_byte(opt_quote_byte);
 		for (int i = 0; i < len; ++i) {
 			byte b = bry[i];
 			switch (b) {
-				case Byte_ascii.Backslash:	bfr.Add_byte(Byte_ascii.Backslash).Add_byte(b); break; // "\"	-> "\\"; needed else js will usurp \ as escape; EX: "\&" -> "&"; DATE:2014-06-24
-				case Byte_ascii.Quote:		bfr.Add_byte(Byte_ascii.Backslash).Add_byte(b); break;
-				case Byte_ascii.Apos:		bfr.Add_byte(b); break;
+				case Byte_ascii.Backslash:	bfr.Add_byte_repeat(Byte_ascii.Backslash, backslash_count).Add_byte(b); break; // "\"	-> "\\"; needed else js will usurp \ as escape; EX: "\&" -> "&"; DATE:2014-06-24
+				case Byte_ascii.Quote:		bfr.Add_byte_repeat(Byte_ascii.Backslash, backslash_count).Add_byte(b); break;
 				case Byte_ascii.Nl:			bfr.Add_byte_repeat(Byte_ascii.Backslash, 2).Add_byte(Byte_ascii.Ltr_n); break;	// "\n" -> "\\n"
+				case Byte_ascii.Apos:		bfr.Add_byte(b); break;
 				case Byte_ascii.Cr:			break;// skip
 				default:					bfr.Add_byte(b); break;
 			}

@@ -1,5 +1,5 @@
 package gplx.xowa.bldrs.installs; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*;
-import gplx.gfui.*;
+import gplx.gfui.*; import gplx.gfui.kits.core.*;
 import gplx.core.threads.*;
 class Xoi_cmd_wiki_unzip extends Gfo_thread_cmd_unzip implements Gfo_thread_cmd {//#*inherit
 	public static final String KEY_dump = "wiki.unzip";

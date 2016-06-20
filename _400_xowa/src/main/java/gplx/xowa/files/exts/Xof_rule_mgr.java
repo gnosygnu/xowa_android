@@ -1,7 +1,7 @@
 package gplx.xowa.files.exts; import gplx.*; import gplx.xowa.*; import gplx.xowa.files.*;
 import gplx.xowa.apps.*;
-public class Xof_rule_mgr implements GfoInvkAble {
-	private final Hash_adp_bry hash = Hash_adp_bry.cs();
+public class Xof_rule_mgr implements Gfo_invk {
+	private final    Hash_adp_bry hash = Hash_adp_bry.cs();
 	public Xof_rule_mgr() {
 		Xof_rule_grp app_default = new Xof_rule_grp(this, Xof_rule_grp.Grp_app_default);
 		Set_app_default(app_default, Io_mgr.Len_gb, Xof_ext_.Bry__ary);
@@ -23,6 +23,6 @@ public class Xof_rule_mgr implements GfoInvkAble {
 	}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_set))		return Get_or_new(Bry_.new_u8(m.ReadStr("v")));
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 	}	private static final String Invk_set = "set";
 }

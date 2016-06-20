@@ -1,5 +1,5 @@
 package gplx.xowa.apps.servers.tcp; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.servers.*;
-import gplx.core.ios.*;
+import gplx.core.ios.*; import gplx.core.ios.streams.*;
 public class Socket_rdr {
 	//#{members
 	private java.net.ServerSocket server;

@@ -1,5 +1,5 @@
 package gplx.langs.xmls; import gplx.*; import gplx.langs.*;
-import gplx.core.ios.*;
+import gplx.core.ios.streams.*;
 public class XmlSplitWtr {
 	public Io_url Url() {return url;} Io_url url;
 	public XmlSplitWtr Init_(Io_url partDir, byte[] hdr, XmlFileSplitterOpts opts) {

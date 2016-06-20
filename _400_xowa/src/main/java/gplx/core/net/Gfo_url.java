@@ -1,4 +1,5 @@
 package gplx.core.net; import gplx.*; import gplx.core.*;
+import gplx.core.net.qargs.*;
 public class Gfo_url {
 	public byte[] Raw() {return raw;} private byte[] raw;
 	public byte Protocol_tid() {return protocol_tid;} private byte protocol_tid;
@@ -17,5 +18,5 @@ public class Gfo_url {
 		this.anch = anch;
 		return this;
 	}
-	public static final Gfo_url Empty = new Gfo_url().Ctor(Bry_.Empty, Gfo_protocol_itm.Tid_unknown, Bry_.Empty, Bry_.Ary_empty, null, null);
+	public static final    Gfo_url Empty = new Gfo_url().Ctor(Bry_.Empty, Gfo_protocol_itm.Tid_unknown, Bry_.Empty, Bry_.Ary_empty, null, null);
 }

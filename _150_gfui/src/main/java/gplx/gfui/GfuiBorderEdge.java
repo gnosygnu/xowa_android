@@ -7,11 +7,11 @@ public class GfuiBorderEdge {//_20101212
 		return new GfuiBorderEdge(comp.val + val);
 	}
 	@gplx.Internal protected GfuiBorderEdge(int v) {this.val = v;}
-	public static final GfuiBorderEdge Left		= new GfuiBorderEdge(1);
-	public static final GfuiBorderEdge Right		= new GfuiBorderEdge(2);
-	public static final GfuiBorderEdge Top		= new GfuiBorderEdge(4);
-	public static final GfuiBorderEdge Bot		= new GfuiBorderEdge(8);
-	public static final GfuiBorderEdge All		= new GfuiBorderEdge(15);
+	public static final    GfuiBorderEdge Left		= new GfuiBorderEdge(1);
+	public static final    GfuiBorderEdge Right		= new GfuiBorderEdge(2);
+	public static final    GfuiBorderEdge Top		= new GfuiBorderEdge(4);
+	public static final    GfuiBorderEdge Bot		= new GfuiBorderEdge(8);
+	public static final    GfuiBorderEdge All		= new GfuiBorderEdge(15);
 }
 class GfuiBorderEdge_ {//_20101212
 	public static String To_str(GfuiBorderEdge edge) {
@@ -31,7 +31,7 @@ class GfuiBorderEdge_ {//_20101212
 		else if (String_.Eq(raw, All_raw))		return GfuiBorderEdge.All;
 		else throw Err_.new_unhandled(raw);
 	}
-	public static final String 
+	public static final    String 
 		  All_raw	= "all"
 		, Top_raw	= "top"
 		, Left_raw	= "left"

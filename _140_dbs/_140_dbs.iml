@@ -35,6 +35,5 @@
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.12-bin" level="project" />
     <orderEntry type="library" exported="" name="postgresql-8.4-701.jdbc4" level="project" />
     <orderEntry type="library" exported="" name="sqlite-jdbc-3.7.15-M1" level="project" />
-    <orderEntry type="library" exported="" name="_140_dbs._140_dbs" level="project" />
   </component>
 </module>

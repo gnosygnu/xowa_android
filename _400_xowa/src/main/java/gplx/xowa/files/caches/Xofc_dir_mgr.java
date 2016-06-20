@@ -1,8 +1,8 @@
 package gplx.xowa.files.caches; import gplx.*; import gplx.xowa.*; import gplx.xowa.files.*;
 import gplx.dbs.*;
 class Xofc_dir_mgr {
-	private final Xofc_dir_tbl tbl = new Xofc_dir_tbl();
-	private final Ordered_hash hash_by_names = Ordered_hash_.New_bry(); private final Hash_adp hash_by_ids = Hash_adp_.new_();
+	private final    Xofc_dir_tbl tbl = new Xofc_dir_tbl();
+	private final    Ordered_hash hash_by_names = Ordered_hash_.New_bry(); private final    Hash_adp hash_by_ids = Hash_adp_.New();
 	private Xof_cache_mgr cache_mgr;
 	public Xofc_dir_mgr(Xof_cache_mgr v) {this.cache_mgr = v;}
 	public void Conn_(Db_conn v, boolean created, boolean schema_is_1) {tbl.Conn_(v, created, schema_is_1);}
@@ -49,7 +49,7 @@ class Xofc_dir_mgr {
 		}
 	}
 	public void Load_all() {
-		List_adp list = List_adp_.new_();
+		List_adp list = List_adp_.New();
 		tbl.Select_all(list);
 		int len = list.Count();
 		hash_by_ids.Clear();

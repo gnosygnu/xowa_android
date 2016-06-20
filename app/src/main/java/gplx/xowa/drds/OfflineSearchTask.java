@@ -19,10 +19,10 @@ import gplx.Cancelable; import gplx.Cancelable_;
 import gplx.Tfds;
 import gplx.core.consoles.Console_adp__sys;
 import gplx.core.threads.Thread_adp_;
-import gplx.xowa.addons.apps.searchs.searchers.Srch_search_qry;
-import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_cbk;
-import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_list;
-import gplx.xowa.addons.apps.searchs.searchers.rslts.Srch_rslt_row;
+import gplx.xowa.addons.wikis.searchs.searchers.Srch_search_qry;
+import gplx.xowa.addons.wikis.searchs.searchers.rslts.Srch_rslt_cbk;
+import gplx.xowa.addons.wikis.searchs.searchers.rslts.Srch_rslt_list;
+import gplx.xowa.addons.wikis.searchs.searchers.rslts.Srch_rslt_row;
 
 public class OfflineSearchTask extends SaneAsyncTask<SearchResults> implements Srch_rslt_cbk {
     private final Site site;
@@ -46,7 +46,7 @@ public class OfflineSearchTask extends SaneAsyncTask<SearchResults> implements S
     }
     @Override public SearchResults performTask() throws Throwable {
         if (cxl.Canceled()) return null;
-        Console_adp__sys.Instance.Write_str_w_nl("starting:" + search_str);
+//        Console_adp__sys.Instance.Write_str_w_nl("starting:" + search_str);
         Xod_app_mgr.Instance.Search_titles(cxl, this, site.getDomain(), search_str, rslts_count, rslts_count + 10);
         return null;
     }
@@ -65,7 +65,7 @@ public class OfflineSearchTask extends SaneAsyncTask<SearchResults> implements S
         int rslts_len = rslts_list.Len();
         final SearchResults rv = new SearchResults();
         rv.SearchTerm = search_str;
-        Console_adp__sys.Instance.Write_str_w_nl("filling:" + String_.new_u8(qry.Phrase.Orig));
+//        Console_adp__sys.Instance.Write_str_w_nl("filling:" + String_.new_u8(qry.Phrase.Orig));
         for (int i = rslts_bgn; i < rslts_end; ++i) {
             if (i >= rslts_len) continue;
             if (i + rslts_bgn < qry.Slab_bgn) continue;
@@ -73,7 +73,7 @@ public class OfflineSearchTask extends SaneAsyncTask<SearchResults> implements S
             PageTitle pageTitle = new PageTitle(String_.new_u8(rslt.Page_ttl_wo_ns), site);
             pageTitle.Search_score = rslt.Page_score;
             pageTitle.Display_text_xowa = String_.new_u8(rslt.Page_ttl_display(Bool_.Y));
-            Console_adp__sys.Instance.Write_str_w_nl(pageTitle.Display_text_xowa);
+//            Console_adp__sys.Instance.Write_str_w_nl(pageTitle.Display_text_xowa);
             rv.getPageTitles().add(pageTitle);
         }
         final boolean disable_progress = (rslts_are_enough || rslts_are_done);

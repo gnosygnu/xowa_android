@@ -1,6 +1,19 @@
-package gplx.gfml; import gplx.*;
-import gplx.core.strings.*;
-import gplx.core.texts.*; /*CharStream*/	
+package gplx.gfml;
+
+import gplx.Err;
+import gplx.Err_;
+import gplx.Gfo_invk;
+import gplx.Gfo_invk_;
+import gplx.GfoMsg;
+import gplx.Gfo_evt_itm;
+import gplx.Gfo_evt_mgr;
+import gplx.Gfo_evt_mgr_;
+import gplx.GfsCtx;
+import gplx.Keyval_;
+import gplx.String_;
+import gplx.core.strings.String_bldr;
+import gplx.core.strings.String_bldr_;
+import gplx.core.texts.CharStream;
 public class GfmlLxr_ {//_20101025
 	public static GfmlLxr general_(String key, GfmlTkn protoTkn) {return GfmlLxr_general.new_(key, protoTkn);}
 	public static GfmlLxr solo_(String key, GfmlTkn singletonTkn) {return GfmlLxr_singleton.new_(key, singletonTkn.Raw(), singletonTkn);}
@@ -18,24 +31,24 @@ public class GfmlLxr_ {//_20101025
 }
 class GfmlLxr_null implements GfmlLxr {//_20101025
 	public String Key() {return "gfml.nullLxr";}
-	public GfoEvMgr EvMgr() {if (evMgr == null) evMgr = GfoEvMgr.new_(this); return evMgr;} GfoEvMgr evMgr;
-	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return GfoInvkAble_.Rv_unhandled;}
+	public Gfo_evt_mgr Evt_mgr() {if (evt_mgr == null) evt_mgr = new Gfo_evt_mgr(this); return evt_mgr;} Gfo_evt_mgr evt_mgr;
+	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return Gfo_invk_.Rv_unhandled;}
 	public GfmlTkn CmdTkn() {return GfmlTkn_.Null;} public void CmdTkn_set(GfmlTkn val) {}
 	public String[] Hooks() {return String_.Ary_empty;}
 	public GfmlTkn MakeTkn(CharStream stream, int hookLength) {return GfmlTkn_.Null;}
 	public void SubLxr_Add(GfmlLxr... lexer) {}
 	public GfmlLxr SubLxr() {return this;}
 }
-class GfmlLxr_singleton implements GfmlLxr, GfoEvObj {//_20101025
-	public GfoEvMgr EvMgr() {if (evMgr == null) evMgr = GfoEvMgr.new_(this); return evMgr;} GfoEvMgr evMgr;
-	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return GfoInvkAble_.Rv_unhandled;}
+class GfmlLxr_singleton implements GfmlLxr, Gfo_evt_itm {//_20101025
+	public Gfo_evt_mgr Evt_mgr() {if (evt_mgr == null) evt_mgr = new Gfo_evt_mgr(this); return evt_mgr;} Gfo_evt_mgr evt_mgr;
+	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return Gfo_invk_.Rv_unhandled;}
 	public String Key() {return key;} private String key;
 	public GfmlTkn CmdTkn() {return singletonTkn;} GfmlTkn singletonTkn; 
 	public void CmdTkn_set(GfmlTkn val) {
 		String oldRaw = singletonTkn.Raw();
 		singletonTkn = val;
 		hooks = String_.Ary(val.Raw());
-		GfoEvMgr_.PubVals(this, GfmlLxr_.CmdTknChanged_evt, Keyval_.new_("old", oldRaw), Keyval_.new_("new", val.Raw()), Keyval_.new_("lxr", this));
+		Gfo_evt_mgr_.Pub_vals(this, GfmlLxr_.CmdTknChanged_evt, Keyval_.new_("old", oldRaw), Keyval_.new_("new", val.Raw()), Keyval_.new_("lxr", this));
 	}
 	public String[] Hooks() {return hooks;} private String[] hooks;
 	public GfmlTkn MakeTkn(CharStream stream, int hookLength) {
@@ -58,8 +71,8 @@ class GfmlLxr_singleton implements GfmlLxr, GfoEvObj {//_20101025
 }
 class GfmlLxr_group implements GfmlLxr {//_20101025
 	public String Key() {return key;} private String key;
-	public GfoEvMgr EvMgr() {if (evMgr == null) evMgr = GfoEvMgr.new_(this); return evMgr;} GfoEvMgr evMgr;
-	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return GfoInvkAble_.Rv_unhandled;}
+	public Gfo_evt_mgr Evt_mgr() {if (evt_mgr == null) evt_mgr = new Gfo_evt_mgr(this); return evt_mgr;} Gfo_evt_mgr evt_mgr;
+	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return Gfo_invk_.Rv_unhandled;}
 	public GfmlTkn CmdTkn() {return outputTkn;} public void CmdTkn_set(GfmlTkn val) {} GfmlTkn outputTkn;
 	public String[] Hooks() {return trie.Symbols();}
 	public GfmlTkn MakeTkn(CharStream stream, int hookLength) {
@@ -89,8 +102,8 @@ class GfmlLxr_group implements GfmlLxr {//_20101025
 		return rv;
 	}	GfmlLxr_group() {}
 }
-class GfmlLxr_general implements GfmlLxr, GfoInvkAble {//_20101025
-	public GfoEvMgr EvMgr() {if (evMgr == null) evMgr = GfoEvMgr.new_(this); return evMgr;} GfoEvMgr evMgr;
+class GfmlLxr_general implements GfmlLxr, Gfo_invk {//_20101025
+	public Gfo_evt_mgr Evt_mgr() {if (evt_mgr == null) evt_mgr = new Gfo_evt_mgr(this); return evt_mgr;} Gfo_evt_mgr evt_mgr;
 	public String Key() {return key;} private String key;
 	public GfmlTkn CmdTkn() {return txtTkn;} public void CmdTkn_set(GfmlTkn val) {} GfmlTkn txtTkn;
 	public String[] Hooks() {return symTrie.Symbols();}
@@ -126,7 +139,7 @@ class GfmlLxr_general implements GfmlLxr, GfoInvkAble {//_20101025
 		for (GfmlLxr lxr : lxrs) {
 			for (String hook : lxr.Hooks())
 				symTrie.Add(hook, lxr);
-			GfoEvMgr_.SubSame(lxr, GfmlLxr_.CmdTknChanged_evt, this);
+			Gfo_evt_mgr_.Sub_same(lxr, GfmlLxr_.CmdTknChanged_evt, this);
 		}
 	}
 	public GfmlLxr SubLxr() {return this;}
@@ -146,7 +159,7 @@ class GfmlLxr_general implements GfmlLxr, GfoInvkAble {//_20101025
 			symTrie.Del(m.ReadStr("old"));
 			symTrie.Add(m.ReadStr("new"), m.CastObj("lxr"));
 		}
-		else return GfoInvkAble_.Rv_unhandled;
+		else return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
 }

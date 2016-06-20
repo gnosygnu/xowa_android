@@ -1,7 +1,7 @@
 package gplx.dbs; import gplx.*;
 import gplx.dbs.metas.*; import gplx.dbs.sqls.*; import gplx.dbs.sqls.wtrs.*;
 class Db_diff_bldr {
-	private final    Bry_bfr bfr = Bry_bfr.new_();
+	private final    Bry_bfr bfr = Bry_bfr_.New();
 	private final    Sql_schema_wtr sql_bldr = new Sql_schema_wtr();
 	public Db_diff_bldr() {sql_bldr.Bfr_(bfr);}
 	public String Compare_db(String src_str, String trg_str) {

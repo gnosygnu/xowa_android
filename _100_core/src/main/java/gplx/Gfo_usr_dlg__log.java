@@ -1,5 +1,5 @@
 package gplx;
-public interface Gfo_usr_dlg__log extends GfoInvkAble {
+public interface Gfo_usr_dlg__log extends Gfo_invk {
 	boolean Enabled(); void Enabled_(boolean v);
 	boolean Queue_enabled(); void Queue_enabled_(boolean v);
 	Io_url Log_dir(); void Log_dir_(Io_url v);

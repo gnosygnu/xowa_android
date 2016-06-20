@@ -292,9 +292,14 @@ public class BottomContentHandler implements BottomContentInterface,
         }
     }
     private void Update_meta(Page page) {   // XOWA
-        String license = activity.getString(R.string.content_license_html);
-        String browser = "<a href=\"" + page.getTitle().getUriForAction("view") + "\"/>" + activity.getString(R.string.page_view_in_browser) + "</a>";
-        String updated = "<a href=\"" + page.getTitle().getUriForAction("history")+ "\">" + activity.getString(R.string.last_updated_text, formatDateRelative(page.getPageProperties().getLastModified())+ "</a>");
+        String browser = "";
+        String updated = "";
+        String license = "";
+        if (!page.getTitle().isSpecial()) {  // Special should not show "View page in browser" and "Last updated"; DATE: 2016-06-14
+            browser = "<a href=\"" + page.getTitle().getUriForAction("view") + "\"/>" + activity.getString(R.string.page_view_in_browser) + "</a>";
+            updated = "<a href=\"" + page.getTitle().getUriForAction("history")+ "\">" + activity.getString(R.string.last_updated_text, formatDateRelative(page.getPageProperties().getLastModified())+ "</a>");
+            license = activity.getString(R.string.content_license_html);
+        }
         JSONObject wrapper = new JSONObject();
         try {
             // whatever we pass to this event will be passed back to us by the WebView!

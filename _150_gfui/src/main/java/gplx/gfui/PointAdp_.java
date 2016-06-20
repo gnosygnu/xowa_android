@@ -1,7 +1,7 @@
 package gplx.gfui; import gplx.*;
 public class PointAdp_ {//_20101206
-	public static final PointAdp Null = new PointAdp(Int_.Min_value, Int_.Min_value);
-	public static final PointAdp Zero = new PointAdp(0, 0);
+	public static final    PointAdp Null = new PointAdp(Int_.Min_value, Int_.Min_value);
+	public static final    PointAdp Zero = new PointAdp(0, 0);
 	public static PointAdp as_(Object obj) {return obj instanceof PointAdp ? (PointAdp)obj : null;}
 	public static PointAdp cast(Object obj) {try {return (PointAdp)obj;} catch(Exception exc) {throw Err_.new_type_mismatch_w_exc(exc, PointAdp.class, obj);}}
 	public static PointAdp new_(int x, int y) {return new PointAdp(x, y);}

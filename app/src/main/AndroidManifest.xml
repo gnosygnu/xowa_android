@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- For Nearby feature -->
     <!--
@@ -40,11 +42,11 @@
         tools:replace="android:allowBackup"
         android:supportsRtl="true"
         android:icon="@mipmap/launcher"
-        android:label="@string/app_name_prod"
+        android:label="@string/app_name"
         android:name=".XowaApp"
         android:theme="@style/AppTheme"
-        android:versionCode="12"
-        android:versionName="3.4.2.1"
+        android:versionCode="14"
+        android:versionName="3.6.2.1"
         >
         <!--
         The following is used for determining the distribution channel.

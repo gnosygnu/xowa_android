@@ -1,4 +1,5 @@
 package gplx.core.ios; import gplx.*; import gplx.core.*;
+import gplx.core.ios.streams.*;
 public abstract class IoEngine_base implements IoEngine {
 	public abstract String		Key();
 	public abstract boolean		ExistsFil_api(Io_url url);
@@ -13,6 +14,7 @@ public abstract class IoEngine_base implements IoEngine {
 	public abstract IoStream	OpenStreamRead(Io_url url);
 	public abstract IoStream	OpenStreamWrite(IoEngine_xrg_openWrite args);
 	public abstract void		XferFil(IoEngine_xrg_xferFil args);
+	public abstract boolean		Truncate_fil(Io_url url, long size);
 
 	public abstract boolean		ExistsDir(Io_url url);
 	public abstract void		CreateDir(Io_url url); // creates all folder levels (EX: C:\a\b\c\ will create C:\a\ and C:\a\b\). will not fail if called on already existing folders.

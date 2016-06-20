@@ -10,7 +10,7 @@ public class Pf_func_ {
 	public static byte[] Eval_arg_or(Xop_ctx ctx, byte[] src, Xot_invk caller, Xot_invk self, int self_args_len, int i, byte[] or) {
 		if (i >= self_args_len) return or;
 		Arg_nde_tkn nde = self.Args_get_by_idx(i);
-		Bry_bfr bfr = Bry_bfr.new_();
+		Bry_bfr bfr = Bry_bfr_.New();
 		Eval_arg_or(bfr, ctx, src, caller, self, nde, or);
 		return bfr.To_bry_and_clear_and_trim();
 	}
@@ -21,7 +21,7 @@ public class Pf_func_ {
 	}
 	public static byte[] Eval_val_or(Xop_ctx ctx, byte[] src, Xot_invk caller, Xot_invk self, int self_args_len, int i, byte[] or) {
 		if (i >= self_args_len) return or;
-		Bry_bfr bfr = Bry_bfr.new_();
+		Bry_bfr bfr = Bry_bfr_.New();
 		Arg_nde_tkn nde = self.Args_get_by_idx(i);
 		nde.Val_tkn().Tmpl_evaluate(ctx, src, caller, bfr);
 		return bfr.To_bry_and_clear_and_trim();
@@ -59,7 +59,7 @@ public class Pf_func_ {
 	public static int[] Ary_get(Xow_domain_itm domain_itm, boolean wmf) {
 		if (wmf && domain_itm != null && domain_itm.Domain_type().Tid() != Xow_domain_tid_.Int__home) return Ary_wmf;
 		if (Ary_nonwmf == null) {
-			List_adp list = List_adp_.new_();
+			List_adp list = List_adp_.New();
 			int len = Ary_wmf.length;
 			for (int i = 0; i < len; ++i) {
 				list.Add(Ary_wmf[i]);
@@ -224,6 +224,7 @@ public class Pf_func_ {
 	, Xol_kwd_grp_.Id_rev_revisionsize
 	, Xol_kwd_grp_.Id_pagebanner
 	, Xol_kwd_grp_.Id_rev_protectionexpiry
+	, Xol_kwd_grp_.Id_categorytree
 	};
 	public static Xot_defn Get_prototype(int id) {
 		switch (id) {
@@ -391,6 +392,7 @@ public class Pf_func_ {
 			case Xol_kwd_grp_.Id_insider:						return gplx.xowa.xtns.insiders.Insider_func.Instance;
 
 			case Xol_kwd_grp_.Id_massMessage_target:			return gplx.xowa.xtns.massMessage.Message_target_func.Instance;
+			case Xol_kwd_grp_.Id_categorytree:					return gplx.xowa.xtns.categorytrees.Categorytree_func.Instance;
 
 			case Xol_kwd_grp_.Id_pendingChangeLevel:			return gplx.xowa.xtns.flaggedRevs.Pending_change_level_func.Instance;
 			case Xol_kwd_grp_.Id_pagesUsingPendingChanges:		return gplx.xowa.xtns.flaggedRevs.Pages_using_pending_changes_func.Instance;

@@ -1,8 +1,8 @@
 package gplx;
 import gplx.core.primitives.*;
 public class Hash_adp_ {//_20110428
-	public static Hash_adp new_() {return new Hash_adp_obj();}
-	public static final Hash_adp Noop = new Hash_adp_noop();
+	public static Hash_adp New() {return new Hash_adp_obj();}
+	public static final    Hash_adp Noop = new Hash_adp_noop();
 }
 class Hash_adp_obj extends gplx.core.lists.Hash_adp_base implements Hash_adp {}//_20110428
 class Hash_adp_noop implements Hash_adp {//_20110428

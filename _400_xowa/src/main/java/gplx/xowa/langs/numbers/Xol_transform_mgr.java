@@ -1,6 +1,6 @@
 package gplx.xowa.langs.numbers; import gplx.*; import gplx.xowa.*; import gplx.xowa.langs.*;
 import gplx.core.btries.*;
-public class Xol_transform_mgr implements GfoInvkAble {
+public class Xol_transform_mgr implements Gfo_invk {
 	private Btrie_fast_mgr trie_k_to_v = Btrie_fast_mgr.cs();
 	private Btrie_fast_mgr trie_v_to_k = Btrie_fast_mgr.cs();
 	private Ordered_hash hash = Ordered_hash_.New_bry();
@@ -30,7 +30,7 @@ public class Xol_transform_mgr implements GfoInvkAble {
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_set))			Set(m.ReadBry("k"), m.ReadBry("v"));
 		else if	(ctx.Match(k, Invk_clear))			Clear();
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
 	public static final String Invk_set = "set", Invk_clear = "clear";

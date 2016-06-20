@@ -34,7 +34,7 @@ public class DbMaprWtr extends DataWtr_base implements DataWtr {
 			SrlObj gobj = (SrlObj)mgr.OwnerStack().Get_at(i);
 			for (Object argObj : mapr.ContextFlds()) {
 				DbMaprArg arg = (DbMaprArg)argObj;
-				Object argVal = GfoInvkAble_.InvkCmd((GfoInvkAble)gobj, arg.ObjProp());
+				Object argVal = Gfo_invk_.Invk_by_key((Gfo_invk)gobj, arg.ObjProp());
 				this.WriteDataVal(arg.DbFld(), argVal);
 			}					
 		}
@@ -72,7 +72,7 @@ public class DbMaprWtr extends DataWtr_base implements DataWtr {
 		rv.conn = Db_conn_pool.Instance.Get_or_new(url);
 		return rv;
 	}	DbMaprWtr() {}
-	public static final String Key_Mgr = "DbMapr.mgr";
+	public static final    String Key_Mgr = "DbMapr.mgr";
 }
 class DbMaprWtrUtl {
 	public static void PurgeObjTree(SrlObj root, DbMaprMgr mgr, Db_conn conn) {
@@ -82,7 +82,7 @@ class DbMaprWtrUtl {
 	static Criteria MakeCriteria(SrlObj root, DbMaprArg[] objRootIdxFlds) {
 		Criteria rv = null;
 		for (DbMaprArg arg : objRootIdxFlds) {
-			Object argVal = GfoInvkAble_.InvkCmd((GfoInvkAble)root, arg.ObjProp());
+			Object argVal = Gfo_invk_.Invk_by_key((Gfo_invk)root, arg.ObjProp());
 			Criteria cur = Db_crt_.New_eq(arg.DbFld(), argVal);
 			rv = (rv == null) ? cur : Criteria_.And(rv, cur);
 		}

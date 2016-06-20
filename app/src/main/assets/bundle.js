@@ -55,7 +55,6 @@ function Xo__file_browser__get_selected_chk(url_base, chk_prefix) { // XOWA
 function stringStartsWith (string, prefix) {
     return string.slice(0, prefix.length) == prefix;
 }
-
 document.onclick = function() {
     var sourceNode = null;
     var curNode = event.target;
@@ -179,6 +178,8 @@ module.exports = new Bridge();
 window.onload = function() {
     module.exports.sendMessage( "DOMLoaded", {} );
 };
+
+
 },{}],3:[function(require,module,exports){
 var transformer = require('./transformer');
 
@@ -335,9 +336,39 @@ bridge.registerListener("xowa__meta__update", function ( payload ) {// XOWA: upd
   document.getElementById("xowa_foot_row_updated").innerHTML = payload.updated;
   document.getElementById("xowa_foot_row_license").innerHTML = payload.license;
 });
+bridge.registerListener("xowa__html__reset", function ( payload ) {// XOWA: remove head elements
+  var head_elem = document.getElementsByTagName("head")[0];
+  var children = head_elem.children;
+  var to_delete = [];
+  for (var i = 0; i < children.length; ++i) {
+    var child = children[i];
+    if (    child.hasAttribute("data-source")
+        ||  child.id == 'notify-bootstrap'
+        ||  child.id == 'core-notify'
+        ||  child.id == 'notify-xostyle'
+        )
+      to_delete.push(child);
+  }
+  var len = to_delete.length;
+  for (var i = 0; i < len; ++i) {
+    head_elem.removeChild(to_delete[i]);
+  }
+  removeElem('alertify');
+  removeElem('alertify-cover');
+  removeElem('alertify-logs');
+  removeElem('xolog-toolbar');
+});
+function removeElem(elem_id) {
+  var elem = document.getElementById(elem_id);
+  if (elem) {
+    elem.parentNode.removeChild(elem);
+  }
+}
 
-bridge.registerListener("xowa__html__add__head", function ( payload ) {// XOWA: update bottom content DATE:2016-04-08
+bridge.registerListener("xowa__html__add__head", function ( payload ) {// XOWA: add html to head; DATE:2016-04-08
+  var data_source = payload.data_source;
   var elem = document.createElement(payload.name);
+  elem.setAttribute('data-source', data_source);
   if (payload.text != null) elem.innerHTML = payload.text;
   var atrs = payload.atrs;
   var atrs_len = atrs.length;
@@ -542,6 +573,12 @@ bridge.registerListener( "displayLeadSection", function( payload ) {
     // This might be a refresh! Clear out all contents!
     clearContents();
 
+    // XOWA: create title header; DATE: 2016-06-14
+    var page_title_div = document.createElement("div");
+    page_title_div.className = "xowa_page_title";
+    page_title_div.innerHTML = payload.title;
+    document.getElementById("content").appendChild(page_title_div);
+
     // create an empty div to act as the title anchor
     var titleDiv = document.createElement( "div" );
     titleDiv.id = "heading_" + payload.section.id;
@@ -639,6 +676,24 @@ function runXowaExtensions() {  // XOWA
   runMathjax();
   runTimeline();
 }
+window.load_files_sequentially = function (files, idx, done_cbk) {  // XOWA: expose publicly for loader
+    if (files[idx]) { // idx is valid
+      var script = document.createElement('script');
+      script.setAttribute('type','text/javascript');
+      script.setAttribute('src', files[idx]);
+      script.onload = function(){
+        load_files_sequentially(files, ++idx, done_cbk); // load next file
+      };
+      document.getElementsByTagName('head')[0].appendChild(script)
+    }
+    else {            // idx is not valid; finished;
+      done_cbk();
+    }
+}
+window.navigate_to = function(href) { // XOWA: expose publicly for alertify
+  bridge.sendMessage('linkClicked', { "href": href });
+};
+
 function runMathjax() { // XOWA
     var math = document.querySelectorAll('[id^=\"xowa_math_txt\"]');
     if (!math.length) return;
@@ -666,9 +721,12 @@ function runMathjax() { // XOWA
     }
 }
 function runTimeline() {
+  var timeline = document.querySelectorAll('[class^=\"xowa-timeline\"]');
+  if (!timeline.length) return;
   var script = document.createElement( 'script' );
   document.getElementsByTagName('head')[0].appendChild(script);
   script.setAttribute('src', 'file:///android_asset/xowa/bin/any/xowa/html/res/src/xowa/timeline/timeline.js');
+  script.setAttribute('data-source', 'xowa-timeline');
 }
 
 function buildEditSectionButton(id) {

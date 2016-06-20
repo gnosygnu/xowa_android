@@ -1,5 +1,5 @@
 package gplx.core.ios; import gplx.*; import gplx.core.*;
-import gplx.core.ios.*;/*IoStream*/
+import gplx.core.ios.streams.*;/*IoStream*/
 public class Io_buffer_rdr implements Rls_able {
 	private Io_stream_rdr rdr;
 	Io_buffer_rdr(Io_stream_rdr rdr, Io_url url, int bfr_len) {
@@ -26,7 +26,7 @@ public class Io_buffer_rdr implements Rls_able {
 	}
 	private boolean Bfr_load(int bgn, int len) {
 		int read = rdr.Read(bfr, bgn, len);
-		if (read == gplx.core.ios.Io_stream_rdr_.Read_done) {fil_eof = true; return false;}
+		if (read == gplx.core.ios.streams.Io_stream_rdr_.Read_done) {fil_eof = true; return false;}
 		fil_pos += read;
 		bfr_len = bgn + read;
 		if (read < len) fil_eof = true;
@@ -52,5 +52,5 @@ public class Io_buffer_rdr implements Rls_able {
 		rv.Bfr_load(0, bfr_len);
 		return rv;
 	}
-	public static final Io_buffer_rdr Null = new Io_buffer_rdr(); Io_buffer_rdr() {}
+	public static final    Io_buffer_rdr Null = new Io_buffer_rdr(); Io_buffer_rdr() {}
 }

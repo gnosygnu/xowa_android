@@ -33,6 +33,7 @@ import org.wikipedia.util.UriUtil;
 
 import gplx.String_;
 import gplx.xowa.drds.Xod_app_mgr;
+import gplx.xowa.specials.xowa.system_data.System_data_page;
 
 public class NavDrawerHelper {
 
@@ -76,8 +77,13 @@ public class NavDrawerHelper {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_item_today:
-                        activity.displayMainPageInCurrentTab();
-                        funnel.logToday();
+                        if (Xod_app_mgr.Instance.Wikis_installed_count(activity) == 0) {
+                            Toast.makeText(activity, "Press import a wiki before trying to view it's Today page", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            activity.displayMainPageInCurrentTab();
+                            funnel.logToday();
+                        }
                         break;
                     case R.id.nav_item_history:
                         activity.pushFragment(new HistoryFragment());

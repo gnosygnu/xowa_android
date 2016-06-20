@@ -1,5 +1,5 @@
 package gplx.xowa.guis.views; import gplx.*; import gplx.xowa.*; import gplx.xowa.guis.*;
-import gplx.gfui.*; import gplx.xowa.htmls.hrefs.*;
+import gplx.gfui.*; import gplx.gfui.controls.standards.*; import gplx.xowa.htmls.hrefs.*;
 public class Xog_win_itm__prog_href_mgr {
 	public static void Print(Xog_win_itm win) {	// PURPOSE: print href in prog box when in content editable mode
 		String href = win.Active_html_box().Html_js_eval_proc_as_str(Xog_js_procs.Selection__get_active_for_editable_mode, Gfui_html.Atr_href, "");// get selected href from html_box

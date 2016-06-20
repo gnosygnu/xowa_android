@@ -11,12 +11,16 @@ import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import gplx.xowa.drds.OfflineJavascriptInterface;
 
 import static org.wikipedia.util.UriUtil.decodeURL;
 
@@ -55,6 +59,16 @@ public class CommunicationBridge {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new CommunicatingChrome());
         webView.addJavascriptInterface(marshaller, "marshaller");
+        webView.addJavascriptInterface(OfflineJavascriptInterface.Instance.Set(webView), "xowa_exec");  // XOWA
+        /*
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                System.out.println(url);
+                return true;
+            }
+        });
+        */
         eventListeners = new HashMap<>();
         webView.loadUrl(baseURL); // TODO: remove once we finish the page load experiment
 //        this.Reload();
@@ -68,9 +82,9 @@ public class CommunicationBridge {
             }
         });
     }
-    public void Reload() {
+//    public void Reload() {
 //        webView.loadUrl(baseURL); // TODO: remove once we finish the page load experiment
-    }
+//    }
 
     public void cleanup() {
         eventListeners.clear();

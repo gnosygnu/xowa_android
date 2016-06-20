@@ -1,7 +1,7 @@
 package gplx.core.ios; import gplx.*; import gplx.core.*;
 public class IoItmDir_ {
 	public static IoItmDir as_(Object obj) {return obj instanceof IoItmDir ? (IoItmDir)obj : null;}
-	public static final IoItmDir Null = null_();
+	public static final    IoItmDir Null = null_();
 	public static IoItmDir top_(Io_url url) {return scan_(url);}
 	public static IoItmDir scan_(Io_url url) {
 		IoItmDir rv = new IoItmDir(url.Info().CaseSensitive());
@@ -14,7 +14,7 @@ public class IoItmDir_ {
 		return rv;
 	}
 	static IoItmDir null_() {
-		IoItmDir rv = new IoItmDir(true);	// TODO: NULL should be removed
+		IoItmDir rv = new IoItmDir(true);	// TODO_OLD: NULL should be removed
 		rv.ctor_IoItmBase_url(Io_url_.Empty);
 		rv.Exists_set(false);
 		return rv;

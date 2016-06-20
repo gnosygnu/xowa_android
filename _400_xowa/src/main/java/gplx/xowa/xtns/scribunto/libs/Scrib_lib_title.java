@@ -115,7 +115,7 @@ public class Scrib_lib_title implements Scrib_lib {
 		byte[] ttl_bry = args.Pull_bry(0);
 		Xoa_ttl ttl = Xoa_ttl.parse(core.Wiki(), ttl_bry);
 		if (ttl == Xoa_ttl.Null) return rslt.Init_null();
-		// TODO: MW does extra logic here to cache ttl in ttl cache to avoid extra title lookups
+		// TODO_OLD: MW does extra logic here to cache ttl in ttl cache to avoid extra title lookups
 		boolean ttl_exists = false, ttl_redirect = false; int ttl_id = 0;
 		synchronized (tmp_db_page) {
 			ttl_exists = core.Wiki().Db_mgr().Load_mgr().Load_by_ttl(tmp_db_page, ttl.Ns(), ttl.Page_db());
@@ -127,8 +127,8 @@ public class Scrib_lib_title implements Scrib_lib {
 		Keyval[] rv = new Keyval[4];
 		rv[ 0] = Keyval_.new_("isRedirect"			, ttl_redirect);						// title.isRedirect
 		rv[ 1] = Keyval_.new_("id"					, ttl_id);								// $title->getArticleID(),
-		rv[ 2] = Keyval_.new_("contentModel"		, Key_wikitexet);						// $title->getContentModel(); see Defines.php and CONTENT_MODEL_
-		rv[ 3] = Keyval_.new_("exists"				, ttl_exists);							// $ret['id'] > 0; TODO: if Special: check regy of implemented pages
+		rv[ 2] = Keyval_.new_("contentModel"		, Key_wikitext);						// $title->getContentModel(); see Defines.php and CONTENT_MODEL_
+		rv[ 3] = Keyval_.new_("exists"				, ttl_exists);							// $ret['id'] > 0; TODO_OLD: if Special: check regy of implemented pages
 		return rslt.Init_obj(rv);
 	}
 	public boolean GetFileInfo(Scrib_proc_args args, Scrib_proc_rslt rslt) {
@@ -150,7 +150,7 @@ public class Scrib_lib_title implements Scrib_lib {
 		( Keyval_.new_("exists"		, true)
 		, Keyval_.new_("width"		, itm.W())
 		, Keyval_.new_("height"		, itm.H())
-		, Keyval_.new_("pages"		, null)	// TODO: get pages info
+		, Keyval_.new_("pages"		, null)	// TODO_OLD: get pages info
 		);
 		return rslt.Init_obj(rv);
 	}
@@ -159,7 +159,7 @@ public class Scrib_lib_title implements Scrib_lib {
 		byte[] ttl_bry = args.Pull_bry(0);
 		Xowe_wiki wiki = core.Wiki();
 		Xoa_ttl ttl = Xoa_ttl.parse(wiki, ttl_bry); if (ttl == null) return rslt.Init_obj(null);
-		Xow_page_cache_itm page_itm = wiki.Cache_mgr().Page_cache().Get_or_load_as_itm(ttl);
+		Xow_page_cache_itm page_itm = wiki.Cache_mgr().Page_cache().Get_or_load_as_itm_2(ttl);
 		byte[] rv = null;
 		if (page_itm != null) {
 			byte[] redirected_src = page_itm.Wtxt__redirect();
@@ -205,10 +205,10 @@ public class Scrib_lib_title implements Scrib_lib {
 		rv[ 5] = Keyval_.new_("fragment"			, ttl.Anch_txt());								// $title->getFragment(),
 		rv[ 6] = Keyval_.new_("thePartialUrl"		, ttl.Page_db());								// $title->getPartialUrl(),
 		if (ns_special)
-			rv[rv_idx++] = Keyval_.new_("exists"	, false);										// TODO: lookup specials
+			rv[rv_idx++] = Keyval_.new_("exists"	, false);										// TODO_OLD: lookup specials
 		if (!ns_file_or_media)
 			rv[rv_idx++] = Keyval_.new_("file"		, false);										// REF.MW: if ( $ns !== NS_FILE && $ns !== NS_MEDIA )  $ret['file'] = false;
 		return rv;
 	}	private static final    Xowd_page_itm tmp_db_page = Xowd_page_itm.new_tmp();
-	public static final String Key_wikitexet = "wikitext";
+	public static final String Key_wikitext = "wikitext";
 }

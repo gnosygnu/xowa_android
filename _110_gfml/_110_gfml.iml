@@ -31,6 +31,5 @@
     <orderEntry type="library" exported="" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="commons-compress-1.5" level="project" />
-    <orderEntry type="library" exported="" name="_110_gfml._110_gfml" level="project" />
   </component>
 </module>

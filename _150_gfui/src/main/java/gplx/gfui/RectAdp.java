@@ -23,5 +23,5 @@ public class RectAdp {//_20101206
 	@Override public int hashCode() {return super.hashCode();}
 	public String Xto_str() {return String_.Concat_any(pos, ",", size);}
 
-	@gplx.Internal protected RectAdp(PointAdp pos, SizeAdp size) {this.pos = pos; this.size = size;}
+	public RectAdp(PointAdp pos, SizeAdp size) {this.pos = pos; this.size = size;}
 }

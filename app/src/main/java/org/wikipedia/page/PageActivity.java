@@ -75,6 +75,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import gplx.Gfo_log_;
 import gplx.String_;
 import gplx.xowa.drds.Xod_app_mgr;
 
@@ -190,6 +191,7 @@ public class PageActivity extends ThemedActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Gfo_log_.Instance.Info("pageActivity.onCreate.bgn");
         app = (WikipediaApp) getApplicationContext();
         app.checkCrashes(this);
 
@@ -279,6 +281,7 @@ public class PageActivity extends ThemedActionBarActivity {
 
         // Conditionally execute all recurring tasks
         new RecurringTasksExecutor(app).run();
+        Gfo_log_.Instance.Info("pageActivity.onCreate.end");
     }
 
     private void finishActionMode() {
@@ -592,10 +595,11 @@ public class PageActivity extends ThemedActionBarActivity {
         displayMainPageIfNoTabs();
     }
 
-    public void displayNewPageByUrl(String domain, String page) {   // XOWA
+    public void displayNewPageByUrl(String domain, String page) {displayNewPageByUrl(domain, page, TabPosition.CURRENT_TAB);}
+    public void displayNewPageByUrl(String domain, String page, TabPosition position) {   // XOWA
         PageTitle title = new PageTitle(page, new Site(domain));
         HistoryEntry entry = new HistoryEntry(title, HistoryEntry.SOURCE_LANGUAGE_LINK);
-        displayNewPage(title, entry, TabPosition.CURRENT_TAB, false);
+        displayNewPage(title, entry, position, false);
     }
     /**
      * Load a new page, and put it on top of the backstack.
@@ -1048,5 +1052,4 @@ public class PageActivity extends ThemedActionBarActivity {
         widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(widgetIntent);
     }
-
 }

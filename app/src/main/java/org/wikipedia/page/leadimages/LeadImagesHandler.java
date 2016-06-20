@@ -257,6 +257,10 @@ public class LeadImagesHandler {
             return;
         }
 
+        // XOWA: do not show articleHeaderView; DATE: 2016-06-16
+        articleHeaderView.hide();
+        setWebViewPaddingTop((int) (getContentTopOffsetPx(getActivity()) / displayDensity));
+        /*
         int titleContainerHeight;
 
         if (isMainPage()) {
@@ -289,6 +293,7 @@ public class LeadImagesHandler {
 
         final int paddingExtra = 8;
         setWebViewPaddingTop(titleContainerHeight + paddingExtra);
+        */
 
         // and start fetching the lead image, if we have one
         // loadLeadImage();

@@ -1,6 +1,6 @@
 package gplx.xowa.apps.apis.xowa.gui; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.apis.*; import gplx.xowa.apps.apis.xowa.*;
 import gplx.xowa.apps.apis.xowa.gui.browsers.*;
-public class Xoapi_browser implements GfoInvkAble {
+public class Xoapi_browser implements Gfo_invk {
 	public void Init_by_kit(Xoae_app app) {
 		url.Init_by_kit(app);
 		search.Init_by_kit(app);
@@ -28,7 +28,7 @@ public class Xoapi_browser implements GfoInvkAble {
 		else if	(ctx.Match(k, Invk_prog)) 						return prog;
 		else if	(ctx.Match(k, Invk_info)) 						return info;
 		else if	(ctx.Match(k, Invk_prog_log)) 					return prog_log;
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 	}
 	private static final String 
 	  Invk_url = "url", Invk_search = "search", Invk_tabs = "tabs", Invk_html = "html"

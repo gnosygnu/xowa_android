@@ -206,7 +206,6 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
 
     @Override
     public void onDisplayNewPage(boolean pushBackStack, Cache cachePreference, int stagedScrollY) {
-            bridge.Reload();
         if (pushBackStack) {
             // update the topmost entry in the backstack, before we start overwriting things.
             updateCurrentBackStackItem();
@@ -538,6 +537,7 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
     private void displayLeadSection() {
 //        Page page = model.getPage();
         Page page = xo_app_mgr.Get_page_or_load(model.getTitle(), false);  // XOWA
+        if (page == null) return; // XOWA: ignore missing pages; occurs when SDCARD swapped out; DATE:2016-06-11
 
         sendMarginPayload();
 
@@ -645,7 +645,10 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
     private void displayNonLeadSection(int index, boolean savedPage) {
         // XOWA
         int progress_denominator = model.getPage().getSections().size() * index;
-        if (progress_denominator == 0) return;
+        if (progress_denominator == 0) {
+            activity.updateProgressBar(false, false, 0);
+            return;
+        }
         activity.updateProgressBar(true, false, PageActivity.PROGRESS_BAR_MAX_VALUE / progress_denominator);
         if (index > model.getPage().getSections().size()) {
             /*
@@ -660,12 +663,14 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
         }
         try {
             // final Page page = model.getPage();
+            // if (model.getPage().getTitle().isSpecial()) return;
             final Page page = xo_app_mgr.Get_page_or_load(model.getTitle(), false);  // XOWA
             JSONObject wrapper = new JSONObject();
             wrapper.put("sequence", sequenceNumber.get());
             wrapper.put(BRIDGE_PAYLOAD_SAVED_PAGE, savedPage);
             boolean lastSection = index == page.getSections().size();
             if (!lastSection) {
+                if (index >= page.getSections().size()) return; // XOWA
                 JSONObject section = page.getSections().get(index).toJSON();
                 wrapper.put("section", section);
                 wrapper.put("index", index);
@@ -741,6 +746,7 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
 //        }
 
         // Page page = pageLead.toPage(model.getTitle());
+        // if (model.getTitle().isSpecial()) return;
         Page page = xo_app_mgr.Get_page_or_load(model.getTitle(), true);// XOWA
         // pageLead.toPage(model.getTitle());
         model.setPage(page);

@@ -1,7 +1,7 @@
 package gplx.core.gfo_ndes; import gplx.*; import gplx.core.*;
 import gplx.core.strings.*; import gplx.core.type_xtns.*;
 public class GfoFldList_ {//_20110416
-	public static final GfoFldList Null = new GfoFldList_null();
+	public static final    GfoFldList Null = new GfoFldList_null();
 	public static GfoFldList new_() {return new GfoFldList_base();}
 	public static GfoFldList str_(String... names) {
 		GfoFldList rv = new GfoFldList_base();
@@ -15,7 +15,7 @@ class GfoFldList_base implements GfoFldList {//_20110416
 	public boolean Has(String key) {return hash.Has(key);}
 	public int Idx_of(String key) {			
 		Object rv = idxs.Get_by(key);
-		return rv == null ? List_adp_.NotFound : Int_.cast(rv);
+		return rv == null ? List_adp_.Not_found : Int_.cast(rv);
 	}
 	public GfoFld Get_at(int i) {return (GfoFld)hash.Get_at(i);}
 	public GfoFld FetchOrNull(String key) {return (GfoFld)hash.Get_by(key);}
@@ -33,12 +33,12 @@ class GfoFldList_base implements GfoFldList {//_20110416
 		}
 		return sb.To_str();
 	}
-	Ordered_hash hash = Ordered_hash_.New(); Hash_adp idxs = Hash_adp_.new_(); // PERF: idxs used for Idx_of; need to recalc if Del ever added 
+	Ordered_hash hash = Ordered_hash_.New(); Hash_adp idxs = Hash_adp_.New(); // PERF: idxs used for Idx_of; need to recalc if Del ever added 
 }
 class GfoFldList_null implements GfoFldList {//_20110416
 	public int Count() {return 0;}
 	public boolean Has(String key) {return false;}
-	public int Idx_of(String key) {return List_adp_.NotFound;}
+	public int Idx_of(String key) {return List_adp_.Not_found;}
 	public GfoFld Get_at(int i) {return GfoFld.Null;}
 	public GfoFld FetchOrNull(String key) {return null;}
 	public GfoFldList Add(String key, ClassXtn typx) {return this;}

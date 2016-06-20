@@ -1,5 +1,5 @@
 package gplx.langs.dsvs; import gplx.*; import gplx.langs.*;
-public abstract class Dsv_wkr_base implements GfoInvkAble {
+public abstract class Dsv_wkr_base implements Gfo_invk {
 	public abstract Dsv_fld_parser[] Fld_parsers();
 	public byte[] Src() {return src;} private byte[] src;
 	public abstract void Commit_itm(Dsv_tbl_parser parser, int pos);
@@ -18,7 +18,7 @@ public abstract class Dsv_wkr_base implements GfoInvkAble {
 	@gplx.Virtual public void Load_by_bry_end() {}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_load_by_str))			Load_by_bry(m.ReadBry("v"));
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
 	public static final String Invk_load_by_str = "load_by_str";

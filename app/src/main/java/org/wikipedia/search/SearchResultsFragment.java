@@ -71,7 +71,7 @@ public class SearchResultsFragment extends Fragment {
     private String currentSearchTerm = "";
     @Nullable private SearchResults lastFullTextResults;
     @NonNull private final List<PageTitle> totalResults = new ArrayList<>();
-    private final Hash_adp totalResultsHash = Hash_adp_.new_();
+    private final Hash_adp totalResultsHash = Hash_adp_.New();
 
     /**
      * Whether full-text search has been disabled via remote kill-switch.

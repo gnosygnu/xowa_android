@@ -1,5 +1,5 @@
 package gplx.xowa.guis.bnds; import gplx.*; import gplx.xowa.*; import gplx.xowa.guis.*;
-import gplx.gfui.*;
+import gplx.gfui.*; import gplx.gfui.ipts.*;
 public class Xog_bnd_itm {
 	public Xog_bnd_itm(String key, boolean sys, String cmd, int box, IptArg ipt) {
 		this.key = key; this.sys = sys; this.cmd = cmd; this.box = box; this.ipt = ipt;

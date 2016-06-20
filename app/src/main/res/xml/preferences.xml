@@ -84,4 +84,12 @@
         </org.wikipedia.settings.PreferenceMultiLine>
         -->
     </PreferenceCategory>
+    <PreferenceCategory android:title="Other">
+        <org.wikipedia.settings.PreferenceMultiLine
+            android:title="Logs">
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="Special:XowaLog"
+            />
+        </org.wikipedia.settings.PreferenceMultiLine>
+    </PreferenceCategory>
 </PreferenceScreen>

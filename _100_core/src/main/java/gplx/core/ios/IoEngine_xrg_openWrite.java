@@ -1,4 +1,5 @@
 package gplx.core.ios; import gplx.*; import gplx.core.*;
+import gplx.core.ios.streams.*;
 public class IoEngine_xrg_openWrite {
 	public Io_url Url() {return url;} public IoEngine_xrg_openWrite Url_(Io_url val) {url = val; return this;} Io_url url;
 	public boolean ReadOnlyIgnored() {return readOnlyIgnored;} public IoEngine_xrg_openWrite ReadOnlyIgnored_() {return ReadOnlyIgnored_(true);} public IoEngine_xrg_openWrite ReadOnlyIgnored_(boolean v) {readOnlyIgnored = v; return this;} private boolean readOnlyIgnored = false;

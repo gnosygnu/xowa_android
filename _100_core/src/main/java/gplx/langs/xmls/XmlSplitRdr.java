@@ -1,5 +1,5 @@
 package gplx.langs.xmls; import gplx.*; import gplx.langs.*;
-import gplx.core.ios.*;
+import gplx.core.ios.streams.*;
 public class XmlSplitRdr {
 	public byte[] CurAry() {return curAry;} private byte[] curAry;
 	public long CurSum() {return curSum;} long curSum;

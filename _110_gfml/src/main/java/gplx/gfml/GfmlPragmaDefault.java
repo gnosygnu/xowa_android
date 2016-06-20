@@ -7,7 +7,7 @@ class GfmlPragmaDefault implements GfmlPragma {
 //			bldr.PragmaMgr.EndCmds_add(GfmlDocPos_.up_(bldr.CurNdeFrame.DocPos), GfmlDefaultPragma_endCmd.new_(list));
 	}
 	@gplx.Internal protected List_adp Compile(GfmlNde pragmaNde) {
-		List_adp list = List_adp_.new_();
+		List_adp list = List_adp_.New();
 		for (int i = 0; i < pragmaNde.SubHnds().Count(); i++) {
 			GfmlNde subNde = (GfmlNde)pragmaNde.SubHnds().Get_at(i);
 			CompileSubNde(subNde, list);

@@ -28,6 +28,6 @@ class GfmlPragmaMgr {//_20110424
 			cmd.Exec(bldr, GfmlTkn_.Null);
 		}
 	}
-	Hash_adp pragmas = Hash_adp_.new_(); Hash_adp_list bgnCmds = Hash_adp_list.new_(), endCmds = Hash_adp_list.new_();
+	Hash_adp pragmas = Hash_adp_.New(); Hash_adp_list bgnCmds = Hash_adp_list.new_(), endCmds = Hash_adp_list.new_();
         public static GfmlPragmaMgr new_() {return new GfmlPragmaMgr();} GfmlPragmaMgr() {}
 }

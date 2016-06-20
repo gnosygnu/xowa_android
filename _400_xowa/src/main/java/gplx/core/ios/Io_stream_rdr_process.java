@@ -2,6 +2,7 @@ package gplx.core.ios; import gplx.*; import gplx.core.*;
 //#{import
 import java.io.InputStream;
 //#}
+import gplx.core.ios.streams.*;
 public class Io_stream_rdr_process implements Io_stream_rdr {
 	//#{var
     private Process process;

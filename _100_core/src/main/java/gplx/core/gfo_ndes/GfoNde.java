@@ -1,8 +1,8 @@
 package gplx.core.gfo_ndes; import gplx.*; import gplx.core.*;
 import gplx.core.strings.*; import gplx.core.stores.*;
-public class GfoNde implements GfoInvkAble {//_20110416 // NOTE: GfoInvkAble needed for Criteria; tests will fail
+public class GfoNde implements Gfo_invk {//_20110416 // NOTE: Gfo_invk needed for Criteria; tests will fail
 	public GfoFldList Flds() {return flds;} GfoFldList flds;
-	public Hash_adp EnvVars() {return envVars;} Hash_adp envVars = Hash_adp_.new_();
+	public Hash_adp EnvVars() {return envVars;} Hash_adp envVars = Hash_adp_.New();
 	public String Name() {return name;} public GfoNde Name_(String v) {name = v; return this;} private String name;
 	public Object ReadAt(int i)					{ChkIdx(i); return ary[i];}
 	public void WriteAt(int i, Object val)		{ChkIdx(i); ary[i] = val;}

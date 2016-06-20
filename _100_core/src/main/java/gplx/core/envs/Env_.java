@@ -81,10 +81,4 @@ public class Env_ {//_20110323
 	  Env_prop_key__user_language = "user.language"
 	, Env_prop_key__java_version = "java.version"
 	;
-	public static void Term_add(GfoInvkAble invk, String cmd) {
-		//#{Term_add
-		Thread_adp thread = Thread_adp_.invk_(invk, cmd);
-		Runtime.getRuntime().addShutdownHook(thread.Under_thread());
-		//#}
-	}
 }

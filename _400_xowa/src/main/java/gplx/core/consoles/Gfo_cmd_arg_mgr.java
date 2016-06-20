@@ -1,7 +1,7 @@
 package gplx.core.consoles; import gplx.*; import gplx.core.*;
 public class Gfo_cmd_arg_mgr {
-	private final Ordered_hash hash = Ordered_hash_.New();
-	private final List_adp err_list = List_adp_.new_(), tmp_vals = List_adp_.new_();
+	private final    Ordered_hash hash = Ordered_hash_.New();
+	private final    List_adp err_list = List_adp_.New(), tmp_vals = List_adp_.New();
 	public String[] Orig_ary() {return orig_ary;} private String[] orig_ary;
 	public void Reset() {
 		hash.Clear();

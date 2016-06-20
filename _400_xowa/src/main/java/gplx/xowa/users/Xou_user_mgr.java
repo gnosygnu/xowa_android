@@ -1,5 +1,5 @@
 package gplx.xowa.users; import gplx.*; import gplx.xowa.*;
-public class Xou_user_mgr implements GfoInvkAble {
+public class Xou_user_mgr implements Gfo_invk {
 	public Xou_user_mgr(Xoae_app app, Xoue_user user) {this.app = app; this.Add(user);} private Xoae_app app;
 	public void Add(Xoue_user itm) {regy.Add(itm.Key(), itm);}
 	Xoue_user GetByKey(String key) {return (Xoue_user)regy.Get_by(key);}
@@ -15,7 +15,7 @@ public class Xou_user_mgr implements GfoInvkAble {
 			}
 			return user;
 		}
-		else return GfoInvkAble_.Rv_unhandled;
+		else return Gfo_invk_.Rv_unhandled;
 //			return this;
 	}	private static final String Invk_get = "get";
 }

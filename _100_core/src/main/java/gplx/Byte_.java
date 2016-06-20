@@ -1,7 +1,7 @@
 package gplx;
 public class Byte_ {
 	public static final String Cls_val_name = "byte";
-	public static final Class<?> Cls_ref_type = Byte.class; //#<>typeof(byte)~Byte.class
+	public static final    Class<?> Cls_ref_type = Byte.class; //#<>typeof(byte)~Byte.class
 	public static final byte
 	  Zero			= 0
 	, Min_value		= Byte.MIN_VALUE		//#<>byte.MinValue~Byte.MIN_VALUE
@@ -19,6 +19,7 @@ public class Byte_ {
 	public static byte		By_int(int v)	{return v > 127 ? (byte)(v - 256) : (byte)v;} // PERF?: (byte)(v & 0xff)
 	public static int		To_int(byte v)	{return v < 0 ? (int)v + 256 : v;}
 	public static String	To_str(byte v)	{return new Byte(v).toString();} //#<>v.toString~new Byte(v).toString
+	public static byte[]	To_bry(byte v)	{return new byte[] {v};}
 	public static boolean In(byte v, byte... ary) {
 		for (byte itm : ary)
 			if (v == itm) return true;

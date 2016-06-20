@@ -25,5 +25,6 @@ includeExists ':java-mwapi:lib', 'json'
 include ':_100_core'
 include ':_110_gfml'
 include ':_140_dbs'
-include ':_150_gfui'
 include ':_400_xowa'
+
+include ':_150_gfui'

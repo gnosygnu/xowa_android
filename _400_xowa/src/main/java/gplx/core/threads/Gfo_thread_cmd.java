@@ -1,5 +1,5 @@
 package gplx.core.threads; import gplx.*; import gplx.core.*;
-public interface Gfo_thread_cmd extends GfoInvkAble {
+public interface Gfo_thread_cmd extends Gfo_invk {
 	void Cmd_ctor();
 	String Async_key();
 	int Async_sleep_interval();

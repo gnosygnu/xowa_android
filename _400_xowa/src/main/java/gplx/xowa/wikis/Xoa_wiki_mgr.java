@@ -1,5 +1,5 @@
 package gplx.xowa.wikis; import gplx.*; import gplx.xowa.*;
-public interface Xoa_wiki_mgr {
+public interface Xoa_wiki_mgr extends Gfo_invk {
 	int				Count();
 	boolean			Has(byte[] key);
 	Xow_wiki		Get_at(int idx);

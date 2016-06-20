@@ -1,6 +1,6 @@
 package gplx.xowa.xtns.scribunto.libs; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.scribunto.*;
 import gplx.xowa.langs.*; import gplx.xowa.langs.msgs.*;
-import gplx.xowa.wikis.nss.*; import gplx.xowa.addons.apps.ctgs.*;
+import gplx.xowa.wikis.nss.*; import gplx.xowa.addons.wikis.ctgs.*;
 import gplx.xowa.wikis.metas.*; import gplx.xowa.wikis.data.site_stats.*; import gplx.xowa.wikis.xwikis.*;
 public class Scrib_lib_site implements Scrib_lib {
 	public Scrib_lib_site(Scrib_core core) {this.core = core;} private final    Scrib_core core;
@@ -69,7 +69,7 @@ public class Scrib_lib_site implements Scrib_lib {
 		int ns_count = ns == null ? 0 : ns.Count();
 		return rslt.Init_obj(ns_count);
 	}
-	public boolean UsersInGroup(Scrib_proc_args args, Scrib_proc_rslt rslt) {	// TODO.9: get user_groups table
+	public boolean UsersInGroup(Scrib_proc_args args, Scrib_proc_rslt rslt) {	// TODO_OLD.9: get user_groups table
 		// byte[] grp_name = args.Pull_bry(0);
 		return rslt.Init_obj(0);
 	}
@@ -82,17 +82,23 @@ public class Scrib_lib_site implements Scrib_lib {
 			local = 0;
 		else if (filter != null)
 			throw Err_.new_wo_type("bad argument #1 to 'interwikiMap' (unknown filter '$filter')", "filter", filter);
-		// TODO: cache interwikimap results
-		Xow_xwiki_mgr xwiki_mgr = core.Wiki().Xwiki_mgr();
-		int xwiki_len = xwiki_mgr.Len();
-		Keyval[][] rv = new Keyval[xwiki_len][];
-		for (int i = 0; i < xwiki_len; ++i) {
-			Xow_xwiki_itm itm = xwiki_mgr.Get_at(i);
-			boolean itm_is_local = itm.Offline();
-			if (local == 1 && !itm_is_local) continue;
-			if (local == 0 &&  itm_is_local) continue;
-			String prefix = itm.Key_str();
-			rv[i] = InterwikiMap_itm(itm, prefix, itm_is_local);
+		Hash_adp misc_cache = core.Wiki().Cache_mgr().Misc_cache();
+		String cache_key = "scribunto.interwikimap." + core.Wiki().Domain_str() + "." + filter;
+		Keyval[] rv = (Keyval[])misc_cache.Get_by(cache_key);
+		if (rv == null) {
+			Xow_xwiki_mgr xwiki_mgr = core.Wiki().Xwiki_mgr();
+			int xwiki_len = xwiki_mgr.Len();
+			List_adp list = List_adp_.New();
+			for (int i = 0; i < xwiki_len; ++i) {
+				Xow_xwiki_itm itm = xwiki_mgr.Get_at(i);
+				boolean itm_is_local = itm.Offline();
+				if (local == 1 && !itm_is_local) continue;
+				if (local == 0 &&  itm_is_local) continue;
+				String prefix = itm.Key_str();
+				list.Add(Keyval_.new_(prefix, InterwikiMap_itm(itm, prefix, itm_is_local)));
+			}
+			rv = (Keyval[])list.To_ary_and_clear(Keyval.class);
+			misc_cache.Add(cache_key, rv);
 		}
 		return rslt.Init_obj(rv);
 	}

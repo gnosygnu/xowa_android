@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 //#}
-public class DateAdp implements CompareAble, GfoInvkAble {
+public class DateAdp implements CompareAble, Gfo_invk {
 	public int compareTo(Object obj)		{DateAdp comp = (DateAdp)obj; return under.compareTo(comp.under);}
 	@Override public String toString()		{return XtoStr_gplx_long();}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m)  {
@@ -15,8 +15,8 @@ public class DateAdp implements CompareAble, GfoInvkAble {
 			if (ctx.Deny()) return this;
 			return this.Add_day(days);
 		}
-		else										return GfoInvkAble_.Rv_unhandled;			
-	}	public static final String Invk_XtoStr_fmt = "XtoStr_fmt", Invk_AddDays = "Add_day";
+		else										return Gfo_invk_.Rv_unhandled;			
+	}	public static final    String Invk_XtoStr_fmt = "XtoStr_fmt", Invk_AddDays = "Add_day";
 	public int Segment(int segmentIdx) {
 		switch (segmentIdx) {
 			case DateAdp_.SegIdx_year:			return this.Year();
@@ -126,9 +126,9 @@ public class DateAdp implements CompareAble, GfoInvkAble {
 		long diff = this.under.getTimeInMillis() - prev.under.getTimeInMillis();
 		return (int)(diff / (1000 * 60 * 60 * 24));
 	}
-	public TimeSpanAdp Diff(DateAdp earlier) {
+	public Time_span Diff(DateAdp earlier) {
 		long diff = this.under.getTimeInMillis() - earlier.under.getTimeInMillis();
-		return TimeSpanAdp_.fracs_(diff);
+		return Time_span_.fracs_(diff);
 	}
 	protected DateAdp(Calendar under) {this.under = under;}
 	protected DateAdp(int year, int month, int day, int hour, int minute, int second, int frac) {

@@ -37,6 +37,10 @@ public class Xod_js_wkr implements Xog_js_wkr {
     public void Html_atr_set			(String uid, String key, String val) {}
     public void Html_elem_replace_html	(String uid, String html) {}
     public void Html_elem_append_above	(String uid, String html) {}
+
+    @Override public void Html_elem_delete(String elem_id) {}
+    @Override public void Html_gallery_packed_exec() {}
+    @Override public void Html_popups_bind_hover_to_doc() {}
 }
 class Runnable__bridge_cmd implements Runnable {
     private final CommunicationBridge bridge;

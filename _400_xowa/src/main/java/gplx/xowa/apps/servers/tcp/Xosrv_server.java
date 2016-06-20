@@ -1,7 +1,8 @@
 package gplx.xowa.apps.servers.tcp; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.servers.*;
 import gplx.core.primitives.*; import gplx.core.ios.*; import gplx.core.envs.*; import gplx.core.threads.*;
+import gplx.gfui.controls.standards.*;
 import gplx.langs.jsons.*;
-public class Xosrv_server implements GfoInvkAble {
+public class Xosrv_server implements Gfo_invk {
 	private long last_cmd;
 	public Xosrv_socket_rdr Rdr() {return rdr;} private Xosrv_socket_rdr rdr = new Xosrv_socket_rdr();
 	public Xosrv_socket_wtr Wtr() {return wtr;} private Xosrv_socket_wtr wtr = new Xosrv_socket_wtr();
@@ -17,7 +18,7 @@ public class Xosrv_server implements GfoInvkAble {
 		rdr.Init(this, rdr_port);
 		wtr.Init(wtr_host, wtr_port);
 		Gxw_html_server.Init_gui_for_server(app, wtr);
-		Thread_adp_.invk_(gplx.xowa.apps.Xoa_thread_.Key_http_server_main, rdr, Xosrv_socket_rdr.Invk_start).Start();
+		Thread_adp_.Start_by_key(gplx.xowa.apps.Xoa_thread_.Key_http_server_main, rdr, Xosrv_socket_rdr.Invk_start);
 		app.Usr_dlg().Note_many("", "", "server started: listening on ~{0}. Press Ctrl+C to exit", rdr_port);
 		last_cmd = Env_.TickCount();
 		Running_(true);
@@ -44,7 +45,7 @@ public class Xosrv_server implements GfoInvkAble {
 			Xosrv_msg rsp_msg = Xosrv_msg.new_(rsp_name, msg.Msg_id(), msg.Recipient(), msg.Sender(), msg.Msg_date(), Bry_.new_u8(rsp_str));
 			app.Usr_dlg().Note_many("", "", "sending rsp: bytes=~{0}", String_.Len(rsp_str));
 			wtr.Write(rsp_msg);		
-			app.Usr_dlg().Note_many("", "", "rsp sent: elapsed=~{0}", TimeSpanAdp_.fracs_(Env_.TickCount() - time_bgn).XtoStrUiAbbrv());
+			app.Usr_dlg().Note_many("", "", "rsp sent: elapsed=~{0}", Time_span_.fracs_(Env_.TickCount() - time_bgn).XtoStrUiAbbrv());
 		} catch (Exception e) {app.Usr_dlg().Warn_many("", "", "server error: ~{0}", Err_.Message_gplx_full(e));}
 	}
 	private String Exec_cmd(String msg_text) {
@@ -59,11 +60,11 @@ public class Xosrv_server implements GfoInvkAble {
 			trace.Val_("js_args");
 //				xowa_exec_args = (Object[])Array_.Resize(xowa_exec_args, xowa_exec_args.length + 1);
 //				xowa_exec_args[xowa_exec_args.length - 1] = sender;
-			Object rv_obj = gplx.gfui.Gfui_html.Js_args_exec(app.Gui_mgr().Browser_win().Active_html_itm().Js_cbk(), xowa_exec_args);
+			Object rv_obj = Gfui_html.Js_args_exec(app.Gui_mgr().Browser_win().Active_html_itm().Js_cbk(), xowa_exec_args);
 			trace.Val_("json_write: " + Object_.Xto_str_strict_or_null_mark(rv_obj));
 			return json_wtr.Write_root(Bry_xowa_js_result, rv_obj).Bld_as_str();
 		} catch (Exception e) {throw Err_.new_exc(e, "http", "exec_js error", "trace", trace, "msg", msg_text);}
-	}	private Xosrv_xowa_exec_parser xowa_exec_parser = new Xosrv_xowa_exec_parser(); private Json_doc_srl json_wtr = new Json_doc_srl(); private static final byte[] Bry_xowa_js_result = Bry_.new_a7("xowa_js_result");
+	}	private Xosrv_xowa_exec_parser xowa_exec_parser = new Xosrv_xowa_exec_parser(); private Json_doc_srl json_wtr = new Json_doc_srl(); private static final    byte[] Bry_xowa_js_result = Bry_.new_a7("xowa_js_result");
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_rdr_port))				return rdr_port;
 		else if	(ctx.Match(k, Invk_rdr_port_))				rdr_port = m.ReadInt("v");
@@ -74,10 +75,10 @@ public class Xosrv_server implements GfoInvkAble {
 		else if	(ctx.Match(k, Invk_shutdown_interval))		return shutdown_interval;
 		else if	(ctx.Match(k, Invk_shutdown_interval_))		shutdown_interval = m.ReadInt("v");
 		else if	(ctx.Match(k, Invk_stop))					running = false;
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
-	public static final String Invk_stop = "stop", Invk_rdr_port = "rdr_port", Invk_rdr_port_ = "rdr_port_", Invk_wtr_port = "wtr_port", Invk_wtr_port_ = "wtr_port_", Invk_wtr_host = "wtr_host", Invk_wtr_host_ = "wtr_host_"
+	public static final    String Invk_stop = "stop", Invk_rdr_port = "rdr_port", Invk_rdr_port_ = "rdr_port_", Invk_wtr_port = "wtr_port", Invk_wtr_port_ = "wtr_port_", Invk_wtr_host = "wtr_host", Invk_wtr_host_ = "wtr_host_"
 	, Invk_shutdown_interval = "shutdown_interval", Invk_shutdown_interval_ = "shutdown_interval_";
 }
 class Xosrv_xowa_exec_parser {

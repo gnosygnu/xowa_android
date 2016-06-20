@@ -1,6 +1,7 @@
 package gplx.xowa.apps.apis.xowa.gui.browsers; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.apis.*; import gplx.xowa.apps.apis.xowa.*; import gplx.xowa.apps.apis.xowa.gui.*;
-import gplx.gfui.*; import gplx.xowa.guis.views.*; import gplx.core.envs.*;
-public class Xoapi_url implements GfoInvkAble {
+import gplx.gfui.*; import gplx.gfui.envs.*; import gplx.gfui.controls.standards.*;
+import gplx.xowa.guis.views.*; import gplx.core.envs.*;
+public class Xoapi_url implements Gfo_invk {
 	private Xoae_app app;
 	private Xoapi_url_searcher url_searcher;
 	public void Init_by_kit(Xoae_app app) {
@@ -57,7 +58,7 @@ public class Xoapi_url implements GfoInvkAble {
 		else if	(ctx.Match(k, Invk_exec_new_tab_by_paste)) 		this.Exec_new_tab_by_paste();
 		else if	(ctx.Match(k, Invk_restore)) 					this.Restore();
 		else if	(ctx.Match(k, Invk_type)) 						this.Type();
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 		return this;
 	}
 	private static final String Invk_focus = "focus", Invk_exec_by_paste = "exec_by_paste", Invk_exec_new_tab_by_paste = "exec_new_tab_by_paste", Invk_restore = "restore", Invk_type = "type";

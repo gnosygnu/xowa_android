@@ -9,7 +9,7 @@ import java.awt.*; import java.awt.event.*;
 import javax.swing.*;
 //#}
 //#{head
-public class Xog_error_win extends JFrame implements GfoInvkAble {
+public class Xog_error_win extends JFrame implements Gfo_invk {
 //#}
 	private Xog_error_data error_data;
 	public Xog_error_win(Xog_error_data error_data) {
@@ -54,11 +54,11 @@ public class Xog_error_win extends JFrame implements GfoInvkAble {
 		text_scroll_pane.setLocation(10, 10);
 		return text_scroll_pane;
 	}
-	private static JLabel new_link_lbl(GfoInvkAble invk, JPanel owner, int x, int y, String invk_cmd, String text) {
+	private static JLabel new_link_lbl(Gfo_invk invk, JPanel owner, int x, int y, String invk_cmd, String text) {
 		JLabel rv = new JLabel(); 
 		rv.setText(text);
 		rv.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		rv.addMouseListener(new Swing_mouse_adapter(GfoInvkAbleCmd.new_(invk, invk_cmd)));
+		rv.addMouseListener(new Swing_mouse_adapter(Gfo_invk_cmd.New_by_key(invk, invk_cmd)));
 		rv.setLocation(x, y);
 		rv.setSize(80, 20);
 		owner.add(rv);
@@ -80,7 +80,7 @@ public class Xog_error_win extends JFrame implements GfoInvkAble {
 			} catch (URISyntaxException | IOException ex) {
 			}			
 		}
-		else	return GfoInvkAble_.Rv_unhandled;
+		else	return Gfo_invk_.Rv_unhandled;
 		return this;
 	}	private static final String Invk_send_mail = "send_mail", Invk_open_site = "open_site";
 	//#}
@@ -95,10 +95,10 @@ public class Xog_error_win extends JFrame implements GfoInvkAble {
 }
 //#{Swing
 class Swing_mouse_adapter extends MouseAdapter {
-	private final GfoInvkAbleCmd cmd;
-	public Swing_mouse_adapter(GfoInvkAbleCmd cmd) {this.cmd = cmd;}
+	private final Gfo_invk_cmd cmd;
+	public Swing_mouse_adapter(Gfo_invk_cmd cmd) {this.cmd = cmd;}
 	@Override public void mouseClicked(MouseEvent ev) {
-		try {cmd.Invk();}
+		try {cmd.Exec();}
 		catch (Exception e) {
 			System.out.println(Err_.Message_gplx_full(e));
 		}

@@ -38,7 +38,7 @@ public class GfmlItmKeys {//_20101026
 		if (toDel != null) list.Del(toDel);
 	}
 	GfmlAtr FetchAtr(String key) {return GfmlAtr.as_(hash.Get_by(key));}
-	List_adp list = List_adp_.new_(); Hash_adp hash = Hash_adp_.new_(); 
+	List_adp list = List_adp_.New(); Hash_adp hash = Hash_adp_.New();
 	public static GfmlItmKeys new_() {return new GfmlItmKeys();} GfmlItmKeys() {}
 	@gplx.Internal protected static final String NullKey = "";
 }

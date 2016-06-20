@@ -1,9 +1,10 @@
 package gplx.core.net; import gplx.*; import gplx.core.*;
 import gplx.core.primitives.*; import gplx.core.btries.*;
+import gplx.core.net.qargs.*;
 public class Gfo_url_parser {
-	private final Btrie_slim_mgr protocols = Btrie_slim_mgr.ci_a7();	// ASCII:url_protocol; EX:"http:", "ftp:", etc
-	private final Bry_ary segs_ary = new Bry_ary(4), qargs = new Bry_ary(4);
-	private final Bry_bfr tmp_bfr = Bry_bfr.reset_(500);
+	private final    Btrie_slim_mgr protocols = Btrie_slim_mgr.ci_a7();	// ASCII:url_protocol; EX:"http:", "ftp:", etc
+	private final    Bry_ary segs_ary = new Bry_ary(4), qargs = new Bry_ary(4);
+	private final    Bry_bfr tmp_bfr = Bry_bfr_.Reset(500);
 	public byte[] Relative_url_protocol_bry() {return Gfo_protocol_itm.Itm_https.Key_w_colon_bry();}	// NOTE: https b/c any WMF wiki will now default to WMF; DATE:2015-07-26
 	public Gfo_url_parser() {
 		Init_protocols(Gfo_protocol_itm.Ary());
@@ -237,5 +238,5 @@ public class Gfo_url_parser {
 		qargs.Clear();
 		segs_ary.Set_at_last(tmp_bfr.To_bry_and_clear());
 	}
-	public static final byte[] Bry_double_slash = new byte[] {Byte_ascii.Slash, Byte_ascii.Slash};
+	public static final    byte[] Bry_double_slash = new byte[] {Byte_ascii.Slash, Byte_ascii.Slash};
 }

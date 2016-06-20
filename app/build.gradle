@@ -23,6 +23,7 @@ if (!preDexEnabled) {
     println 'Pre-dexing disabled.'
 }
 */
+/*
 afterEvaluate {
     tasks.matching {
         it.name.startsWith('dex')
@@ -32,6 +33,18 @@ afterEvaluate {
         } else {
             dx.additionalParameters += '--multi-dex'
         }
+    }
+}
+*/
+afterEvaluate {
+    tasks.matching {
+        it.name.startsWith('dex')
+    }.each { dx ->
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--multi-dex' // enable multidex
+//        dx.additionalParameters += "--main-dex-list=$projectDir/multidex_keep.txt".toString()
     }
 }
 if (continuousIntegrationBuild) {
@@ -64,13 +77,14 @@ android {
         encoding = 'utf-8'
     }
     dexOptions {
-        preDexLibraries = false
+        preDexLibraries = true
+        javaMaxHeapSize "4096M"
     }
     defaultConfig {
         applicationId 'org.xowa'
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 139
+        versionCode 148
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
@@ -88,23 +102,17 @@ android {
     signingConfigs {
         prod {
             setSigningConfigKey(prod, PROD_PROPS)
-            keyAlias 'gnosygnu_android_key'
-            keyPassword 'and_now_android'
-            storeFile file('C:/Users/wxpusr/.sign/gnosygnu.jks')
-            storePassword 'curiosity_for_everything_new'
         }
         debug {
             setSigningConfigKey(debug, REPO_PROPS)
-            keyAlias 'gnosygnu_android_key'
-            keyPassword 'and_now_android'
-            storeFile file('C:/Users/wxpusr/.sign/gnosygnu.jks')
-            storePassword 'curiosity_for_everything_new'
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            // COMMENTED: causes APK to fail; 2016-06-03
+            // minifyEnabled true
+            // shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile 'test-proguard-rules.pro'
         }
@@ -132,7 +140,7 @@ android {
         }
         beta {
             versionName computeVersionName("beta")
-            applicationId 'org.xowa'
+            applicationIdSuffix 'beta'
             signingConfig signingConfigs.prod
         }
         amazon {
