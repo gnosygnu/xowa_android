@@ -84,7 +84,7 @@ android {
         applicationId 'org.xowa'
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 148
+        versionCode 149
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
