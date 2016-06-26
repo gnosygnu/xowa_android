@@ -21,7 +21,8 @@ public abstract class Hash_adp_base implements Hash_adp {//_20110428
 		return Fetch_base(key);
 	}
 
-	private final java.util.Hashtable hash = new java.util.Hashtable();			//#<>System.Collections.Hashtable~java.util.Hashtable
+	// private final    java.util.HashMap<Object, Object> hash = new java.util.HashMap<Object, Object>();			//#<>System.Collections.Hashtable~java.util.HashMap<Object, Object>
+	private final    java.util.Hashtable hash = new java.util.Hashtable();			//#<>System.Collections.Hashtable~java.util.Hashtable
 	@gplx.Virtual public int Count() {return hash.size();}														//#<>.Count~.size()
 	@gplx.Virtual public void Clear() {hash.clear();}															//#<>.Clear~.clear
 	@gplx.Virtual protected void Add_base(Object key, Object val) {hash.put(key, val);}						//#<>.Add~.put

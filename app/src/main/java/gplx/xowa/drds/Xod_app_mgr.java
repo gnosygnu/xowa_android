@@ -275,7 +275,7 @@ class Img_loader implements CommunicationBridge.JSEventListener {
     }
     @Override
     public void onMessage(String messageType, JSONObject messagePayload) {
-        drd_app.Page__load_files(wiki, xpg, js_wkr);
+        drd_app.Page__on_load_end(wiki, xpg, js_wkr);
     }
 }
 class Xopg_tag_wtr_cbk__drd implements Xopg_tag_wtr_cbk {

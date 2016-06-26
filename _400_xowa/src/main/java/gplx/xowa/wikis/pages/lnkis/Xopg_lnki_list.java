@@ -3,13 +3,13 @@ import gplx.xowa.wikis.nss.*; import gplx.xowa.parsers.lnkis.*;
 public class Xopg_lnki_list {
 	private final    List_adp list = List_adp_.New();
 	private int lnki_idx;
-	public Xopg_lnki_list(boolean ttl_is_module) {			// never redlink in Module ns; particularly since Lua has multi-line comments for [[ ]]
-		this.disabled = ttl_is_module;
+	public Xopg_lnki_list() {
 		this.Clear();
 	}
-	public boolean			Disabled() {return disabled;} private final    boolean disabled;
+	public boolean			Disabled() {return disabled;} private boolean disabled; public Xopg_lnki_list Disabled_(boolean v) {this.disabled = v; return this;} 
 	public int				Len() {return list.Len();}
-	public Xopg_lnki_itm	Get_at(int i) {return (Xop_lnki_tkn)list.Get_at(i);}
+	public Xopg_lnki_itm	Get_at(int i) {return (Xopg_lnki_itm)list.Get_at(i);}
+	public void Add_direct(Xopg_lnki_itm lnki) {list.Add(lnki);}	// add lnki directly to list without changing html_uid; needed for hdumps which call "Fill_page" to transfer from Xoh_page to Xoae_page
 	public void	Add(Xopg_lnki_itm lnki) {
 		if (disabled) return;
 		Xoa_ttl ttl = lnki.Ttl(); if (ttl == null) return;		// ttl is null for invalid links
@@ -25,7 +25,7 @@ public class Xopg_lnki_list {
 		list.Add(lnki);
 	}
 	public void	Clear() {
-		lnki_idx = gplx.xowa.htmls.core.wkrs.lnkis.htmls.Xoh_lnki_wtr.Lnki_id_min;			// NOTE: must start at 0, so that ++lnki_idx is > 0; html_wtr checks for > 0; DATE:2014-10-09
+		lnki_idx = gplx.xowa.htmls.core.wkrs.lnkis.htmls.Xoh_lnki_wtr.Lnki_id_min;	// NOTE: must start at 0, so that ++lnki_idx is > 0; html_wtr checks for > 0; DATE:2014-10-09; OLD_COMMENT: NOTE: should be 0, but for historical reasons, 1st lnki starts at 2; EX: id='xowa_lnki_2'
 		list.Clear();
 	}
 

@@ -320,8 +320,7 @@ bridge.registerListener("xowa__img__update", function ( payload ) {
 //    alert(img.id + "|" + img.src + "|" + img.width.toString() + "|" + img.height.toString());
 });
 bridge.registerListener("xowa__anch_redlink", function ( payload ) {
-    // alert(payload.img_id + "|" + payload.img_src + "|" + payload.img_w.toString() + "|" + payload.img_h.toString());
-  var elem = document.getElementById(payload.id);
+  var elem = document.getElementById(payload.anch_id);
   elem.classList.add('new');
   elem.classList.add('xowa_redlink');
 });
@@ -724,9 +723,9 @@ function runTimeline() {
   var timeline = document.querySelectorAll('[class^=\"xowa-timeline\"]');
   if (!timeline.length) return;
   var script = document.createElement( 'script' );
-  document.getElementsByTagName('head')[0].appendChild(script);
   script.setAttribute('src', 'file:///android_asset/xowa/bin/any/xowa/html/res/src/xowa/timeline/timeline.js');
   script.setAttribute('data-source', 'xowa-timeline');
+  document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 function buildEditSectionButton(id) {
