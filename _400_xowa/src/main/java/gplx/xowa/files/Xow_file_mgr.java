@@ -39,7 +39,7 @@ public class Xow_file_mgr implements Gfo_invk {
 	public void Version_1_y_() {version = Version_1;}	// TEST:
 	public void Version_2_y_() {version = Version_2;}	// TEST:
 	public void Fsdb_mgr_(Xof_fsdb_mgr fsdb_mgr) {
-		this.fsdb_mgr = fsdb_mgr;
+		this.fsdb_mgr = fsdb_mgr;			
 		version = Version_2;
 	}
 	public int Patch_upright() {
@@ -114,6 +114,7 @@ public class Xow_file_mgr implements Gfo_invk {
 		orig_mgr.Init_by_wiki(wiki, fsdb_mode, db_core.File__orig_tbl_ary(), Xof_url_bldr.new_v2());
 		fsdb_mgr.Init_by_wiki(wiki);
 	}
+	public void Rls() {fsdb_mgr.Rls();}
 
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_repos))					return repo_mgr;
