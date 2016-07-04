@@ -1,6 +1,6 @@
 package gplx.xowa.files; import gplx.*; import gplx.xowa.*;
 import gplx.core.primitives.*;
-import gplx.xowa.files.gui.*; import gplx.xowa.files.repos.*;
+import gplx.xowa.guis.cbks.js.*; import gplx.xowa.files.repos.*;
 import gplx.xowa.wikis.tdbs.metas.*;
 import gplx.xowa.parsers.utils.*;
 public class Xof_xfer_itm implements Xof_file_itm {

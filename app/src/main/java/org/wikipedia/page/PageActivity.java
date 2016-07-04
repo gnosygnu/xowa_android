@@ -706,9 +706,22 @@ public class PageActivity extends ThemedActionBarActivity {
      * @param mustBeEmpty If true, and a tab exists already, do nothing.
      */
     public void displayMainPage(boolean allowStateLoss, TabPosition position, boolean mustBeEmpty) {
-        PageTitle title = new PageTitle(MainPageNameData.valueFor(app.getAppOrSystemLanguageCode()), app.getPrimarySite());
+        PageTitle title = new PageTitle(MainPageNameData.valueFor(app.getAppOrSystemLanguageCode()), Get_site_for_page());
         HistoryEntry historyEntry = new HistoryEntry(title, HistoryEntry.SOURCE_MAIN_PAGE);
         displayNewPage(title, historyEntry, position, allowStateLoss, mustBeEmpty);
+    }
+    private Site Get_site_for_page() {  // NOTE: get non-null site for page; usually called when opening newTab which calls Main_Page; DATE:2016-06-29
+        // try to get current site
+        Site site = Xod_app_mgr.Instance.Cur_site(app);
+        if  (   site == null                                // cur_site is null (just installed / opened)
+            ||  String_.Eq(site.getDomain(), "home")) {     // cur_site is home (DownloadCentral, etc)
+            String domain = Xod_app_mgr.Instance.Wikis__get_1st(this);  // get 1st wiki
+            if (domain != null)                             // something found
+                site = new Site(domain);
+        }
+        if (site == null)                                   // still null; default to primary site (legacy behavior)
+            site = app.getPrimarySite();
+        return site;
     }
 
     public void showLinkPreview(PageTitle title, int entrySource) {

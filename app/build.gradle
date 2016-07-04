@@ -84,7 +84,7 @@ android {
         applicationId 'org.xowa'
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 150
+        versionCode 151
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
@@ -193,9 +193,7 @@ dependencies {
     // To keep the Maven Central dependencies up-to-date
 
     // use http://gradleplease.appspot.com/ or http://search.maven.org/.
-
     compile 'com.android.support:multidex:1.0.1'
-
     // Debug with ./gradlew -q app:dependencies --configuration compile
     compile 'com.android.support:appcompat-v7:23.1.1'
     // includes support-v4

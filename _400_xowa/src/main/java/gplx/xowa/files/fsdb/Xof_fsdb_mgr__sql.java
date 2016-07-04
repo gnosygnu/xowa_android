@@ -3,7 +3,7 @@ import gplx.core.primitives.*;
 import gplx.core.ios.*;
 import gplx.dbs.*; import gplx.xowa.wikis.data.*;
 import gplx.fsdb.*; import gplx.fsdb.meta.*;	
-import gplx.xowa.files.*; import gplx.xowa.files.repos.*; import gplx.xowa.files.imgs.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.bins.*; import gplx.xowa.files.caches.*; import gplx.xowa.files.gui.*;
+import gplx.xowa.files.*; import gplx.xowa.files.repos.*; import gplx.xowa.files.imgs.*; import gplx.xowa.files.origs.*; import gplx.xowa.files.bins.*; import gplx.xowa.files.caches.*; import gplx.xowa.guis.cbks.js.*;
 public class Xof_fsdb_mgr__sql implements Xof_fsdb_mgr, Gfo_invk {
 	private boolean init = false; private boolean fsdb_enabled = false;
 	private Xow_repo_mgr repo_mgr; private Xof_url_bldr url_bldr; private final    Xof_img_size img_size = new Xof_img_size();
@@ -47,6 +47,7 @@ public class Xof_fsdb_mgr__sql implements Xof_fsdb_mgr, Gfo_invk {
 	}
 	public void Rls() {
 		if (bin_mgr != null) bin_mgr.Rls();
+		init = false;
 	}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_mnt_mgr))	return mnt_mgr;

@@ -13,6 +13,9 @@ import gplx.Bry_;
 import gplx.Bry_find_;
 import gplx.Byte_ascii;
 import gplx.String_;
+import gplx.xowa.Xow_wiki;
+import gplx.xowa.drds.Xod_app;
+import gplx.xowa.drds.Xod_app_mgr;
 
 import static org.wikipedia.util.UriUtil.decodeURL;
 import static org.wikipedia.util.UriUtil.handleExternalLink;
@@ -66,7 +69,11 @@ public abstract class LinkHandler implements CommunicationBridge.JSEventListener
             int site_end_pos = Bry_find_.Find_fwd(href_bry, Byte_ascii.Slash, 6);   // 6 = len of "/site/" + 1
             Site site = new Site(String_.new_u8(href_bry, 6, site_end_pos));
             String page_name = String_.new_u8(href_bry, site_end_pos + 6, href_bry.length);
-//            if (String_.Len_eq_0(page_name)) page_name = "Main_Page";
+            if (String_.Len_eq_0(page_name)) {  // no page specified; use main; EX: "/site/en.wiktionary.org/"; DATE:2016-06-29
+                Xow_wiki wiki = Xod_app_mgr.Instance.Get_by_domain(site.getDomain());
+                if (wiki != null)               // make sure wiki is installed
+                    page_name = String_.new_u8(wiki.Props().Main_page());
+            }
             PageTitle title = new PageTitle(page_name, site);// 6 = len of "/wiki/" + 1
             onInternalLinkClicked(title);
         } else if (href.startsWith("#")) {

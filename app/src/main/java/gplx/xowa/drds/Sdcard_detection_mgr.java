@@ -6,7 +6,9 @@ import org.wikipedia.BuildConfig;
 import java.io.*;
 public class Sdcard_detection_mgr {
     private static Sdcard_detection_strategy[] Ary = new Sdcard_detection_strategy[]
-    { new Strategy__storage_dir()
+    { new Strategy__envvar__external_storage()
+    , new Strategy__envvar__secondary_storage() // NOTE: needed for BLU-STUDIO C 5+5 LTE; DATE: 2016-06-28
+    , new Strategy__storage_dir()
     };
     public static File Find_writeable_root_or_null(Context context) {
         // String root_rhs = "/Android/data/org.xowa"; //+ BuildConfig.APPLICATION_ID;
@@ -51,5 +53,14 @@ class Strategy__storage_dir implements Sdcard_detection_strategy {
             sub_dirs[i] = "/storage/" + sub_dirs[i];
         }
         return sub_dirs;
+    }
+}
+class Strategy__envvar__external_storage implements Sdcard_detection_strategy {
+    public String[] Get_dirs(Context context) {
+        return new String[] {System.getenv("EXTERNAL_STORAGE")};
+    }
+}class Strategy__envvar__secondary_storage implements Sdcard_detection_strategy {
+    public String[] Get_dirs(Context context) {
+        return new String[] {System.getenv("SECONDARY_STORAGE")};
     }
 }

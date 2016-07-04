@@ -5,9 +5,7 @@ import android.app.Activity;
 import org.json.JSONObject;
 import org.wikipedia.bridge.CommunicationBridge;
 
-import java.util.concurrent.locks.Lock;
-
-import gplx.xowa.files.gui.Xog_js_wkr;
+import gplx.xowa.guis.cbks.js.Xog_js_wkr;
 
 public class Xod_js_wkr implements Xog_js_wkr {
     private Activity activity; private CommunicationBridge bridge;

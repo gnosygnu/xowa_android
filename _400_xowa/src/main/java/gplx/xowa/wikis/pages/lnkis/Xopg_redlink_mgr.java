@@ -1,5 +1,5 @@
 package gplx.xowa.wikis.pages.lnkis; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*; import gplx.xowa.wikis.pages.*;
-import gplx.xowa.files.gui.*;
+import gplx.xowa.guis.cbks.js.*;
 import gplx.xowa.wikis.data.tbls.*;
 import gplx.xowa.langs.vnts.*;
 public class Xopg_redlink_mgr implements Gfo_invk {

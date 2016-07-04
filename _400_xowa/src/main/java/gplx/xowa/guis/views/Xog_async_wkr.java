@@ -1,7 +1,7 @@
 package gplx.xowa.guis.views; import gplx.*; import gplx.xowa.*; import gplx.xowa.guis.*;
 import gplx.core.threads.*;
 import gplx.xowa.wikis.pages.lnkis.*;
-import gplx.xowa.files.gui.*;
+import gplx.xowa.guis.cbks.js.*;
 public class Xog_async_wkr {
 	public static void Async(Xog_tab_itm tab) {Xog_async_wkr.Async(tab.Page(), tab.Html_itm());}
 	public static void Async(Xoae_page page, Xog_html_itm js_wkr) {

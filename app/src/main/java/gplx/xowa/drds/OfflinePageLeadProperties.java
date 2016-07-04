@@ -7,8 +7,6 @@ import org.wikipedia.server.PageLeadProperties;
 import java.util.ArrayList;
 import java.util.List;
 
-import gplx.xowa.files.gui.Xog_js_wkr;
-
 public class OfflinePageLeadProperties implements PageLeadProperties {
     public OfflinePageLeadProperties(int id, int revisionId
     , String displayTitle, String normalizedTitle, String redirected, String description, String lastModified

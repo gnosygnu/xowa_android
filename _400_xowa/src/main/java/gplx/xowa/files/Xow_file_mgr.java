@@ -114,7 +114,10 @@ public class Xow_file_mgr implements Gfo_invk {
 		orig_mgr.Init_by_wiki(wiki, fsdb_mode, db_core.File__orig_tbl_ary(), Xof_url_bldr.new_v2());
 		fsdb_mgr.Init_by_wiki(wiki);
 	}
-	public void Rls() {fsdb_mgr.Rls();}
+	public void Rls() {
+		fsdb_mgr.Rls();
+		db_core = null;
+	}
 
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_repos))					return repo_mgr;

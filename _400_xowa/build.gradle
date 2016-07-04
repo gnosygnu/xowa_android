@@ -7,6 +7,6 @@ dependencies {
     compile project(':_100_core')
     compile project(':_140_dbs')
     compile project(':_150_gfui')
-    compile files('lib/jtidy_xowa.jar')
     compile files('lib/luaj_xowa.jar')
+    compile files('lib/jtidy_xowa.jar')
 }

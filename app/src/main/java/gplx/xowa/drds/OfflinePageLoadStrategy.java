@@ -46,6 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import gplx.Err_;
+import gplx.Gfo_log_;
+
 import static org.wikipedia.util.L10nUtil.getStringsForArticleLanguage;
 
 /**
@@ -433,11 +436,14 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
     }
 
     private void loadPageFromNetwork(final ErrorCallback errorCallback) {
-        networkErrorCallback = errorCallback;
-        // and make sure to write it to cache when it's loaded.
-        cacheOnComplete = true;
-        setState(STATE_NO_FETCH);
-        performActionForState(state);
+        try {   // NOTE: guard against failure when tab tries to load non-existent page; DATE:2016-06-29
+            networkErrorCallback = errorCallback;
+            // and make sure to write it to cache when it's loaded.
+            cacheOnComplete = true;
+            setState(STATE_NO_FETCH);
+            performActionForState(state);
+        }
+        catch (Exception e) {Gfo_log_.Instance.Warn("OfflinePlageLoadStrategy.loadPageFromNetwork failed", "err", Err_.Message_gplx_log(e));}
     }
 
     public void loadSavedPage(final ErrorCallback errorCallback) {
@@ -886,7 +892,8 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
         @Override
         public void onMessage(String message, JSONObject payload) {
             if (fragment.isAdded() && inSync(payload)) {
-                onMessage(payload);
+                try {onMessage(payload);} // NOTE: catch fatal errors when opening main page of wiki, but wiki has been deleted on file-system; DATE:2016-06-28
+                catch (Exception e) {Gfo_log_.Instance.Warn("OfflinePlageLoadStrategy failed", "err", Err_.Message_gplx_log(e));}
             }
         }
 

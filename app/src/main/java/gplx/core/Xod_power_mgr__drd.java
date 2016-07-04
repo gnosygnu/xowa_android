@@ -3,6 +3,7 @@ package gplx.core;
 import android.content.Context;
 import android.os.PowerManager;
 
+import gplx.Err_;
 import gplx.Gfo_log_;
 import gplx.Ordered_hash;
 import gplx.Ordered_hash_;
@@ -20,11 +21,8 @@ public class Xod_power_mgr__drd implements Xod_power_mgr {
         }
         PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock lock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, name);
-        try {
-            lock.acquire();
-        } catch (Exception e) {
-            Tfds.Dbg(e);
-        }
+        try {lock.acquire();}
+        catch (Exception e) {Gfo_log_.Instance.Warn("power_mgr.get:acquire failed", "err", Err_.Message_gplx_log(e));}
         hash.Add(name, lock);
     }
     @Override public void Wake_lock__rls(String name) {
@@ -33,11 +31,8 @@ public class Xod_power_mgr__drd implements Xod_power_mgr {
             return;
         }
         PowerManager.WakeLock lock = (PowerManager.WakeLock)hash.Get_by(name);
-        try {
-            lock.release();
-        }
-        catch (Exception e) {
-            Tfds.Dbg(e);
-        }
+        try {lock.release();}
+        catch (Exception e) {Gfo_log_.Instance.Warn("power_mgr.get:release failed", "err", Err_.Message_gplx_log(e));}
+        hash.Del(name);
     }
 }

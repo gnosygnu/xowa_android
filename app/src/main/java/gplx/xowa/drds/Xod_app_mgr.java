@@ -28,6 +28,7 @@ import gplx.core.Xod_power_mgr__drd;
 import gplx.core.drds.Drd_version;
 import gplx.core.envs.Env_;
 import gplx.Gfo_log_;
+import gplx.core.ios.Io_make_cmd;
 import gplx.core.ios.drives.Io_drive_;
 import gplx.core.ios.drives.Io_drive__drd;
 import gplx.core.logs.Gfo_log__file;
@@ -134,6 +135,21 @@ public class Xod_app_mgr {
         this.version = Drd_version.New(activity.getApplicationContext());
         tag_wtr_cbk.Bridge_(bridge);
         return this;
+    }
+    public Xow_wiki Get_by_domain(String domain) {
+        return xo_app.Wiki_mgr().Get_by_or_null(Bry_.new_u8(domain));
+    }
+    public String Wikis__get_1st(Activity activity) {
+        if (drd_app == null) {
+            this.Init(activity, null);
+            Boot();
+        }
+        Xoud_site_row[] site_rows = xo_app.User().User_db_mgr().Site_mgr().Get_all();
+        for (Xoud_site_row site_row : site_rows) {
+            if (String_.Eq(site_row.Domain(), "home")) continue;
+            return site_row.Domain();
+        }
+        return null;
     }
     public int Wikis_installed_count(Activity activity) {
         if (drd_app == null) {
@@ -275,7 +291,8 @@ class Img_loader implements CommunicationBridge.JSEventListener {
     }
     @Override
     public void onMessage(String messageType, JSONObject messagePayload) {
-        drd_app.Page__on_load_end(wiki, xpg, js_wkr);
+        try {drd_app.Page__on_load_end(wiki, xpg, js_wkr);} // NOTE: catch fatal errors when removing SD Card; DATE:2016-06-28
+        catch (Exception e) {Gfo_log_.Instance.Warn("page__on_load_end failed", "err", Err_.Message_gplx_log(e));}
     }
 }
 class Xopg_tag_wtr_cbk__drd implements Xopg_tag_wtr_cbk {
