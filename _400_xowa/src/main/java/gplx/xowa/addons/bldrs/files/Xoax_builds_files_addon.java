@@ -1,6 +1,8 @@
 package gplx.xowa.addons.bldrs.files; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*;
 import gplx.xowa.bldrs.wkrs.*;
 import gplx.xowa.addons.bldrs.files.cmds.*;
+import gplx.xowa.addons.bldrs.mass_parses.inits.*;
+import gplx.xowa.addons.bldrs.mass_parses.makes.*;
 public class Xoax_builds_files_addon implements Xoax_addon_itm, Xoax_addon_itm__bldr {
 	public Xob_cmd[] Bldr_cmds() {
 		return new Xob_cmd[]
@@ -21,6 +23,9 @@ public class Xoax_builds_files_addon implements Xoax_addon_itm, Xoax_addon_itm__
 		, Xobldr__text_db__drop_page.Prototype
 		, Xobldr__redirect__create.Prototype
 		, Xobldr__image__create.Prototype
+
+		, Xomp_init_cmd.Prototype
+		, Xomp_parse_cmd.Prototype
 		};
 	}
 

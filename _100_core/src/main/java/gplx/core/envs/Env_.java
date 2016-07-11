@@ -35,7 +35,7 @@ public class Env_ {//_20110323
 	public static int TickCount_elapsed_in_frac(long time_bgn) {return (int)(Env_.TickCount() - time_bgn);}
 	public static long TickCount_Test = -1;	// in milliseconds
 	public static void TickCount_normal() {TickCount_Test = -1;}
-	public static long System_cpu_count() {return Runtime.getRuntime().availableProcessors();}	//#<>0~Runtime.getRuntime().availableProcessors()
+	public static int System_cpu_count() {return Runtime.getRuntime().availableProcessors();}	//#<>0~Runtime.getRuntime().availableProcessors()
 	public static long System_memory_max() {return Runtime.getRuntime().maxMemory();}	//#<>0~Runtime.getRuntime().maxMemory()
 	public static long System_memory_total() {return Runtime.getRuntime().totalMemory();}	//#<>0~Runtime.getRuntime().totalMemory()
 	public static long System_memory_free() {return Runtime.getRuntime().freeMemory();}	//#<>0~Runtime.getRuntime().freeMemory()

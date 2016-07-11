@@ -1,4 +1,5 @@
 package gplx.xowa.langs.funcs; import gplx.*; import gplx.xowa.*; import gplx.xowa.langs.*;
+import gplx.core.threads.poolables.*;
 import gplx.xowa.parsers.tmpls.*;
 public class Xol_func_itm {
 	public byte Tid() {return tid;} private byte tid = Xot_defn_.Tid_null;

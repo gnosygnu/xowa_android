@@ -1,5 +1,6 @@
 package gplx.xowa.wikis.pages; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*;
 import gplx.core.brys.*; import gplx.core.brys.fmtrs.*;
+import gplx.xowa.wikis.pages.htmls.*;
 public class Xopg_page_heading implements Bfr_arg {
 	private Xopg_html_data html_data;
 	private byte[] display_title;

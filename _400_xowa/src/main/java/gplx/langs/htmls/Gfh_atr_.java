@@ -1,6 +1,6 @@
 package gplx.langs.htmls; import gplx.*; import gplx.langs.*;
 public class Gfh_atr_ {
-	public static final byte[] 
+	public static final    byte[] 
 	// "coreattrs"
 	  Bry__id					= Bry_.new_a7("id")
 	, Bry__class				= Bry_.new_a7("cl"+"ass")
@@ -37,7 +37,16 @@ public class Gfh_atr_ {
 	public static byte[] Make(Bry_bfr bfr, byte[] key, byte[] val) {
 		return bfr.Add_byte_space().Add(key).Add_byte_eq().Add_byte_quote().Add(val).Add_byte_quote().To_bry_and_clear();
 	}
+	public static byte[] Add_to_bry(Bry_bfr bfr, byte[] key, byte[] val) {
+		bfr.Add_byte_space().Add(key).Add_byte_eq().Add_byte_quote().Add(val).Add_byte_quote();
+		return bfr.To_bry_and_clear();
+	}
 	public static void Add(Bry_bfr bfr, byte[] key, byte[] val) {
 		bfr.Add_byte_space().Add(key).Add_byte_eq().Add_byte_quote().Add(val).Add_byte_quote();
+	}
+	public static void Add(Bry_bfr bfr, byte[] key, int val) {
+		bfr.Add_byte_space().Add(key).Add_byte_eq().Add_byte_quote();
+		bfr.Add_int_variable(val);
+		bfr.Add_byte_quote();
 	}
 }

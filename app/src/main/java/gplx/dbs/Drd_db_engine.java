@@ -25,6 +25,7 @@ import gplx.dbs.conn_props.*; import gplx.dbs.qrys.bats.*;
 public class Drd_db_engine implements Db_engine {
     private SQLiteDatabase db;
     private final Sqlite_schema_mgr schema_mgr;
+    private final Sql_qry_wtr qry_wtr = Sql_qry_wtr_.New__sqlite();
     public Drd_db_engine(Sqlite_conn_info conn_info) {
         this.conn_info = conn_info;
         this.schema_mgr = new Sqlite_schema_mgr(this);
@@ -33,7 +34,7 @@ public class Drd_db_engine implements Db_engine {
     @Override public Db_conn_info Conn_info() {return conn_info;} private final Sqlite_conn_info conn_info;
     @Override public Db_conn_props_mgr Props() {return props;} private final Db_conn_props_mgr props = new Db_conn_props_mgr();
     @Override public Db_batch_mgr			Batch_mgr() {return batch_mgr;} private final Db_batch_mgr batch_mgr = new Db_batch_mgr();
-    @Override public Sql_qry_wtr Sql_wtr() {return Sql_qry_wtr_.Sqlite;}
+    @Override public Sql_qry_wtr Sql_wtr() {return qry_wtr;}
     public SQLiteDatabase Db() {
         if (db == null) Conn_open();
         return db;
