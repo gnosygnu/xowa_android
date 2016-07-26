@@ -1,6 +1,5 @@
 package gplx.xowa.wikis.ctgs; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*;
 class Xoctg_fmtr_itm_page extends Xoctg_fmtr_itm_base {
-	public static final    Xoctg_fmtr_itm_page Instance = new Xoctg_fmtr_itm_page(); Xoctg_fmtr_itm_page() {}
 }
 class Xoctg_fmtr_itm_file extends Xoctg_fmtr_itm_base {
 //		public void Bfr_arg__add(Bry_bfr bfr) {
@@ -24,5 +23,4 @@ class Xoctg_fmtr_itm_file extends Xoctg_fmtr_itm_base {
 //					);
 //			}
 //		}
-	public static final    Xoctg_fmtr_itm_file Instance = new Xoctg_fmtr_itm_file(); Xoctg_fmtr_itm_file() {}
 }

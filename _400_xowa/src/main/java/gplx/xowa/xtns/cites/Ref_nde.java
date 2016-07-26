@@ -39,10 +39,9 @@ public class Ref_nde implements Xox_xnde, Mwh_atr_itm_owner1 {
 			ctx.Page().Ref_mgr().Grps_add(group, name, follow, this);
 		this.xnde = xnde;
 	}
-	public void Xtn_write(Bry_bfr bfr, Xoae_app app, Xop_ctx ctx, Xoh_html_wtr html_wtr, Xoh_wtr_ctx hctx, Xop_xnde_tkn xnde, byte[] src) {
+	public void Xtn_write(Bry_bfr bfr, Xoae_app app, Xop_ctx ctx, Xoh_html_wtr html_wtr, Xoh_wtr_ctx hctx, Xoae_page wpg, Xop_xnde_tkn xnde, byte[] src) {
 		html_wtr.Ref_wtr().Xnde_ref(hctx, bfr, src, xnde);
 	}
-	private static final    Ref_nde[] Ary_empty = new Ref_nde[0];
 	public Ref_nde[] Related() {return related;} Ref_nde[] related = Ary_empty;
 	public int Related_len() {return related_len;} private int related_len;
 	public Ref_nde Related_get(int i) {return related[i];}
@@ -57,6 +56,7 @@ public class Ref_nde implements Xox_xnde, Mwh_atr_itm_owner1 {
 	}
 	public static final int Idx_minor_follow = -2;
 	public static final byte Xatr_id_name = 0, Xatr_id_group = 1, Xatr_id_follow = 2;
+	private static final    Ref_nde[] Ary_empty = new Ref_nde[0];
 	private static final    Hash_adp_bry xatrs_hash = Hash_adp_bry.ci_a7()
 	.Add_str_obj("name", Byte_obj_val.new_(Ref_nde.Xatr_id_name))
 	.Add_str_obj("group", Byte_obj_val.new_(Ref_nde.Xatr_id_group))

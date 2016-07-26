@@ -9,7 +9,7 @@ import gplx.fsdb.meta.*; import gplx.xowa.files.fsdb.*; import gplx.fsdb.*;
 import gplx.xowa.langs.vnts.*; import gplx.xowa.parsers.vnts.*;
 import gplx.xowa.parsers.lnkis.files.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*; import gplx.xowa.bldrs.wkrs.*;
-import gplx.xowa.addons.bldrs.files.dbs.*;
+import gplx.xowa.addons.bldrs.files.dbs.*; import gplx.xowa.addons.bldrs.mass_parses.parses.*;
 public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx.xowa.parsers.lnkis.files.Xop_file_logger {
 	private Xob_lnki_temp_tbl tbl; private boolean wdata_enabled = true, xtn_ref_enabled = true, gen_html, gen_hdump;
 	private Xop_log_invoke_wkr invoke_wkr; private Xop_log_property_wkr property_wkr;		
@@ -94,11 +94,11 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 			parser.Parse_text_to_defn_obj(ctx, ctx.Tkn_mkr(), wiki.Ns_mgr().Ns_template(), ttl_bry, page_src);
 		else {
 			parser.Parse_page_all_clear(root, ctx, ctx.Tkn_mkr(), page_src);
-			if (	gen_html 
+			if (	gen_html
 				&&	page.Redirect().Itms__len() == 0)	// don't generate html for redirected pages
 				wiki.Html_mgr().Page_wtr_mgr().Gen(ctx.Page().Root_(root), Xopg_page_.Tid_read);
 			if (gen_hdump)
-				hdump_bldr.Insert(page.Root_(root));
+				hdump_bldr.Insert(ctx, page.Root_(root));
 			root.Clear();
 		}
 	}
@@ -123,7 +123,7 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 		Xof_ext ext = Xof_ext_.new_by_ttl_(ttl);
 		double lnki_time = lnki.Time();
 		int lnki_page = lnki.Page();
-		byte[] ttl_commons = Xto_commons(ns_file_is_case_match_all, commons_wiki, ttl);
+		byte[] ttl_commons = Xomp_file_logger.To_commons_ttl(ns_file_is_case_match_all, commons_wiki, ttl);
 		if (	Xof_lnki_page.Null_n(lnki_page) 				// page set
 			&&	Xof_lnki_time.Null_n(lnki_time))				// thumbtime set
 				usr_dlg.Warn_many("", "", "page and thumbtime both set; this may be an issue with fsdb: page=~{0} ttl=~{1}", ctx.Page().Ttl().Page_db_as_str(), String_.new_u8(ttl));
@@ -159,12 +159,6 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 	private Xop_log_property_wkr Property_wkr() {
 		if (property_wkr == null) property_wkr = bldr.App().Wiki_mgr().Wdata_mgr().Property_wkr_or_new();
 		return property_wkr;
-	}
-	public static byte[] Xto_commons(boolean ns_file_is_case_match_all, Xowe_wiki commons_wiki, byte[] ttl_bry) {
-		if (!ns_file_is_case_match_all) return null;	// return "" if wiki matches common
-		Xoa_ttl ttl = Xoa_ttl.Parse(commons_wiki, Xow_ns_.Tid__file, ttl_bry);
-		byte[] rv = ttl.Page_db();
-		return Bry_.Eq(rv, ttl_bry) ? null : rv;
 	}
 	public static boolean Ns_file_is_case_match_all(Xow_wiki wiki) {return wiki.Ns_mgr().Ns_file().Case_match() == Xow_ns_case_.Tid__all;}
 }

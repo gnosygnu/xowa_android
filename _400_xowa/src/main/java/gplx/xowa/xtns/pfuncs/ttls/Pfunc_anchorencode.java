@@ -10,7 +10,7 @@ public class Pfunc_anchorencode extends Pf_func_base {	// EX: {{anchorencode:a b
 		if (anchor_ctx != null) return;// NOTE: called by Scrib_uri
 		encode_trie.Add(Byte_ascii.Colon, Bfr_arg_.New_byte(Byte_ascii.Colon));
 		encode_trie.Add(Byte_ascii.Space, Bfr_arg_.New_byte(Byte_ascii.Underline));
-		anchor_ctx = Xop_ctx.new_sub_(ctx);
+		anchor_ctx = Xop_ctx.New__sub__reuse_page(ctx);
 		anchor_ctx.Para().Enabled_n_();
 		anchor_tkn_mkr = anchor_ctx.Tkn_mkr();
 		anchor_parser = ctx.Wiki().Parser_mgr().Anchor_encoder();
@@ -18,7 +18,7 @@ public class Pfunc_anchorencode extends Pf_func_base {	// EX: {{anchorencode:a b
 	@Override public void Func_evaluate(Bry_bfr bfr, Xop_ctx ctx, Xot_invk caller, Xot_invk self, byte[] src) {
 		if (anchor_ctx == null) Func_init(ctx);
 		byte[] val_ary = Eval_argx(ctx, src, caller, self); if (val_ary == Bry_.Empty) return;
-		Anchor_encode(val_ary, bfr, ctx.App().Utl__bfr_mkr().Get_b512().Mkr_rls());
+		Anchor_encode(val_ary, bfr, ctx.Wiki().Utl__bfr_mkr().Get_b512().Mkr_rls());
 	}		
 	public static void Anchor_encode(byte[] src, Bry_bfr bfr, Bry_bfr tmp_bfr) {
 		Xop_root_tkn root = anchor_ctx.Tkn_mkr().Root(src);

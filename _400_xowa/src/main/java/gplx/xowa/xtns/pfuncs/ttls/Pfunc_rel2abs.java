@@ -17,7 +17,7 @@ public class Pfunc_rel2abs extends Pf_func_base {
 		byte[] qry = Eval_argx(ctx, src, caller, self);
 		byte[] orig = Pf_func_.Eval_arg_or_empty(ctx, src, caller, self, self.Args_len(), 0);
 		if (orig.length == 0) orig = ctx.Page().Ttl().Full_txt_w_ttl_case();
-		bfr.Add(Rel2abs(ctx.App().Utl__bfr_mkr().Get_b512().Mkr_rls(), qry, orig));
+		bfr.Add(Rel2abs(ctx.Wiki().Utl__bfr_mkr().Get_b512().Mkr_rls(), qry, orig));
 	}
 	public static boolean Rel2abs_ttl(byte[] ttl, int bgn, int end) {
 		int last = end - 1;
@@ -50,8 +50,9 @@ public class Pfunc_rel2abs extends Pf_func_base {
 		if (qry_len == 0) return src;// no qry; return src; EX:{{#rel2abs:|a/b}} -> a/b
 		byte[] tmp = src;
 		int tmp_adj = 0, i = 0, prv_slash_end = 0, tmp_len = src_len, seg_pos = 0;
-		boolean tmp_is_1st = true;		
-		Object o = qry_bgns_with.Match_bgn(qry, 0, qry_len);	// check if qry begins with ".", "/", "./", "../"; if it doesn't return;
+		boolean tmp_is_1st = true;
+		Btrie_rv trv = new Btrie_rv();
+		Object o = qry_bgns_with.Match_at(trv, qry, 0, qry_len);	// check if qry begins with ".", "/", "./", "../"; if it doesn't return;
 		if (o != null) {
 			int id = ((Int_obj_ref)o).Val();
 			rel2abs_tid.Val_(id);
@@ -63,7 +64,7 @@ public class Pfunc_rel2abs extends Pf_func_base {
 				case Id_dot_dot_slash:					// "../"
 					break;								// qry is relative to src; noop
 				case Id_dot_dot:						// ".."
-					int match_end = qry_bgns_with.Match_pos();
+					int match_end = trv.Pos();
 					if (match_end < qry_len && qry[match_end] == Byte_ascii.Dot)	// NOTE: handles "..."; if "...*" then treat as invalid and return; needed for en.wiktionary.org/wiki/Wiktionary:Requests for cleanup/archive/2006
 						return qry;
 					break;

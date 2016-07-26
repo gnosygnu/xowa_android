@@ -34,14 +34,12 @@ public class Xol_func_regy {
 		}
 	}
 	private void Add(byte[] ary, boolean case_match, Xot_defn func) {
-//			synchronized (thread_lock) {	// LOCK:DELETE; DATE:2016-07-06
-			if (case_match)
-				cs_trie.Add_obj(ary, func);
-			else {
-				byte[] lower_ary = lang.Case_mgr().Case_build_lower(ary, 0, ary.length);
-				ci_trie.Add_obj(lower_ary, func);
-			}
-//			}
+		if (case_match)
+			cs_trie.Add_obj(ary, func);
+		else {
+			byte[] lower_ary = lang.Case_mgr().Case_build_lower(ary, 0, ary.length);
+			ci_trie.Add_obj(lower_ary, func);
+		}
 	}
 	public void Find_defn(Xol_func_itm rv, byte[] src, int txt_bgn, int txt_end) {
 		rv.Clear();
@@ -55,22 +53,22 @@ public class Xol_func_regy {
 			switch (defn_tid) {
 				case Xot_defn_.Tid_func:
 					if		(match_pos == txt_end)						// next char is ws (b/c match_pos == txt_end)
-						rv.Func_set(func, -1);
+						rv.Func_(func, -1);
 					else if (src[match_pos] == Pf_func_.Name_dlm)		// next char is :
-						rv.Func_set(func, match_pos);
+						rv.Func_(func, match_pos);
 					else {												// func is close, but not quite: ex: #ifx: or padlefts:
 						return;
 					}
 					break;
 				case Xot_defn_.Tid_safesubst:
 				case Xot_defn_.Tid_subst:
-					rv.Subst_set_(defn_tid, txt_bgn, match_pos);
+					rv.Init_by_subst(defn_tid, txt_bgn, match_pos);
 					if (match_pos < txt_end) txt_bgn = Bry_find_.Find_fwd_while_not_ws(src, match_pos, txt_end);
 					break;
 				case Xot_defn_.Tid_raw:
 				case Xot_defn_.Tid_msg:
 				case Xot_defn_.Tid_msgnw:
-					rv.Subst_set_(defn_tid, txt_bgn, match_pos);
+					rv.Init_by_subst(defn_tid, txt_bgn, match_pos);
 					if (match_pos + 1 < txt_end)	// +1 to include ":" (keyword id "raw", not "raw:")
 						txt_bgn = Bry_find_.Find_fwd_while_not_ws(src, match_pos + 1, txt_end);
 					break;

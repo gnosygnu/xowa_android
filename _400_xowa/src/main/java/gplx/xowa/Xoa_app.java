@@ -26,7 +26,6 @@ public interface Xoa_app extends Gfo_invk {
 	Xof_img_mgr				File__img_mgr();
 	Io_download_fmt			File__download_fmt();
 	Xoh_href_parser			Html__href_parser();
-	Xoh_href_wtr			Html__href_wtr();
 	Xoh_lnki_bldr			Html__lnki_bldr();
 	Xoa_css_extractor		Html__css_installer();
 	Xoh_bridge_mgr			Html__bridge_mgr();
@@ -39,7 +38,6 @@ public interface Xoa_app extends Gfo_invk {
 	Xow_xwiki_itm_parser	Xwiki_mgr__itm_parser();
 	boolean					Bldr__running(); void Bldr__running_(boolean v);
 	Gfo_usr_dlg				Usr_dlg();
-	Bry_bfr_mkr				Utl__bfr_mkr();
 	Json_parser				Utl__json_parser();
 	Gfo_inet_conn			Utl__inet_conn();
 	Xoa_meta_mgr			Dbmeta_mgr();

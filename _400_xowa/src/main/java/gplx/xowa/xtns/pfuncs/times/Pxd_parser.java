@@ -1,6 +1,7 @@
 package gplx.xowa.xtns.pfuncs.times; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.pfuncs.*;
 import gplx.core.brys.*; import gplx.core.brys.fmtrs.*; import gplx.core.btries.*; import gplx.core.log_msgs.*;
 class Pxd_parser {
+	private final    Btrie_rv trv = new Btrie_rv();
 	byte[] src; int cur_pos, tkn_bgn_pos, src_len, tkn_type;
 	public Pxd_itm[] Tkns() {return tkns;} Pxd_itm[] tkns;
 	public int Tkns_len() {return tkns_len;} private int tkns_len;
@@ -27,10 +28,8 @@ class Pxd_parser {
 		fmtr.Bld_bfr(error_bfr, args);
 	}	private Bry_bfr error_bfr = Bry_bfr_.New_w_size(32);
 	public DateAdp Parse(byte[] src, Bry_bfr error_bfr) {
-//			synchronized (this) {	// LOCK:static-obj; DATE:2016-07-06
-			Tokenize(src);	// NOTE: should check if Tokenize failed, but want to be liberal as date parser is not fully implemented; this will always default to 1st day of year; DATE:2014-03-27
-			return Evaluate(src, error_bfr);
-//			}
+		Tokenize(src);	// NOTE: should check if Tokenize failed, but want to be liberal as date parser is not fully implemented; this will always default to 1st day of year; DATE:2014-03-27
+		return Evaluate(src, error_bfr);
 	}
 	private boolean Tokenize(byte[] src) { 
 		this.src = src; src_len = src.length;
@@ -63,11 +62,11 @@ class Pxd_parser {
 				case Byte_ascii.Ltr_u: case Byte_ascii.Ltr_v: case Byte_ascii.Ltr_w: case Byte_ascii.Ltr_x: case Byte_ascii.Ltr_y: case Byte_ascii.Ltr_z:
 				case Byte_ascii.At:
 					MakePrvTkn(cur_pos, Pxd_itm_.Tid_null);			// first, make prv tkn
-					Object o = trie.Match_bgn_w_byte(b, src, cur_pos, src_len);	// now match String against tkn
+					Object o = trie.Match_at_w_b0(trv, b, src, cur_pos, src_len);	// now match String against tkn
 					if (o == null) return false;	// unknown letter / word; exit now;
 					tkns[tkns_len] = ((Pxd_itm_prototype)o).MakeNew(tkns_len); 
 					++tkns_len;
-					cur_pos = trie.Match_pos() - 1; // -1 b/c trie matches to next char, and ++ below
+					cur_pos = trv.Pos() - 1; // -1 b/c trie matches to next char, and ++ below
 					break;
 				case Byte_ascii.Comma: case Byte_ascii.Plus:
 					MakePrvTkn(cur_pos, Pxd_itm_.Tid_null);					
