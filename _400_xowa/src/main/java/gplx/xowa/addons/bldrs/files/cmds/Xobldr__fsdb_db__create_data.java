@@ -343,7 +343,7 @@ public class Xobldr__fsdb_db__create_data extends Xob_cmd__base implements Xob_c
 	private static final String Cfg_fsdb_make = "bldr.fsdb_make", Cfg_tier_id_bmk = "tier_id_bmk", Cfg_page_id_bmk = "page_id_bmk", Cfg_lnki_id_bmk = "lnki_id_bmk";
 	public static byte Status_null = 0, Status_pass = 1, Status_fail = 2;
 }
-class Xodb_tbl_oimg_xfer_itm extends Xof_fsdb_itm {//#*inherits
+class Xodb_tbl_oimg_xfer_itm extends Xof_fsdb_itm {//#*inherit
 	public int 			Lnki_id()		{return lnki_id;} private int lnki_id;
 	public int			Lnki_tier_id()	{return lnki_tier_id;} private int lnki_tier_id;
 	public int 			Lnki_page_id()	{return lnki_page_id;} private int lnki_page_id;

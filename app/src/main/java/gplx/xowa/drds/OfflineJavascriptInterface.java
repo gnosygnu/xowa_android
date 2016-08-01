@@ -18,7 +18,7 @@ public class OfflineJavascriptInterface implements Xog_cbk_wkr, Runnable, ValueC
     public OfflineJavascriptInterface Set(WebView webview) {
         if (init) {
             init = false;
-            Xod_app_mgr.Instance.xo_app.Gui__cbk_mgr().Reg(this);
+            Xod_app_mgr.Instance.Get_app_or_boot().Gui__cbk_mgr().Reg(this);
         }
         this.webview = webview;
         return this;

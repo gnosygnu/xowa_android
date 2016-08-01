@@ -33,6 +33,7 @@ import gplx.Bry_bfr;
 import gplx.Bry_bfr_;
 import gplx.Cancelable;
 import gplx.DateAdp_;
+import gplx.Datetime_now;
 import gplx.Err_;
 import gplx.Gfo_log;
 import gplx.Gfo_log_;
@@ -53,6 +54,7 @@ import gplx.core.net.emails.Gfo_email_mgr_;
 import gplx.core.net.emails.Gfo_email_mgr__drd;
 import gplx.dbs.Drd_db_mgr;
 import gplx.guis.tabs.Xog_tab_mgr__drd;
+import gplx.xowa.Xoa_app;
 import gplx.xowa.Xoa_ttl;
 import gplx.xowa.Xoa_url;
 import gplx.xowa.Xow_wiki;
@@ -75,7 +77,7 @@ public class Xod_app_mgr {
     private Activity activity; private CommunicationBridge bridge;
     private Drd_version version;
     private Xod_app drd_app;
-    public Xoav_app xo_app;
+    private Xoav_app xo_app;
     private Xod_js_wkr js_wkr;
     private Img_loader img_loader;
     private Page cached_page;
@@ -83,6 +85,14 @@ public class Xod_app_mgr {
     private Xod_media_scanner__drd media_scanner;
     private Bry_bfr tmp_bfr;
     private Xopg_tag_wtr_cbk__drd tag_wtr_cbk = new Xopg_tag_wtr_cbk__drd();
+    public Xoa_app Get_app_or_boot() {
+        if (xo_app == null) {
+            this.Boot();
+            if (xo_app == null)
+                throw Err_.new_("", "boot failed. could not get app");
+        }
+        return xo_app;
+    }
     private void Boot__init_env(Context context, Gfo_log log) {
         log.Info("app.boot:boot env");
         tmp_bfr = Bry_bfr_.New();
@@ -259,7 +269,7 @@ public class Xod_app_mgr {
     }
     private static Page Make_missing_page(PageTitle title, Xod_page_itm xpg) {
         List<Section> sections = Make_sections(xpg);
-        return new Page(title, sections, new PageProperties(Make_lead_props("Missing", DateAdp_.Now().XtoStr_fmt_iso_8561_w_tz(), sections)));
+        return new Page(title, sections, new PageProperties(Make_lead_props("Missing", Datetime_now.Get().XtoStr_fmt_iso_8561_w_tz(), sections)));
     }
     private static void Process_tags(Xopg_tag_wtr_cbk__drd cbk, Xopg_tag_mgr tag_mgr) {
         Bry_bfr tmp_bfr = Bry_bfr_.New();

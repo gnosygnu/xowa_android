@@ -1,5 +1,5 @@
 package gplx.xowa.wikis.data.tbls; import gplx.*; import gplx.xowa.*; import gplx.xowa.wikis.*; import gplx.xowa.wikis.data.*;
-import gplx.dbs.*; import gplx.xowa.xtns.wdatas.*;
+import gplx.dbs.*; import gplx.xowa.xtns.wbases.*;
 public class Xowd_wbase_pid_tbl implements Rls_able {
 	private final    String tbl_name; private final    Dbmeta_fld_list flds = new Dbmeta_fld_list();
 	private final    String fld_src_lang, fld_src_ttl, fld_trg_ttl;

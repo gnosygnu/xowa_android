@@ -1,5 +1,5 @@
 package gplx.xowa.bldrs.cmds.texts; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*;
-import gplx.xowa.xtns.wdatas.*;
+import gplx.xowa.xtns.wbases.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wkrs.*; import gplx.xowa.bldrs.xmls.*; import gplx.xowa.bldrs.cmds.texts.xmls.*;
 import gplx.xowa.bldrs.css.*; import gplx.xowa.wikis.domains.*;
 public abstract class Xob_init_base implements Xob_cmd, Gfo_invk {

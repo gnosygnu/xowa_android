@@ -1,5 +1,5 @@
 package gplx.xowa.htmls.portal; import gplx.*; import gplx.xowa.*; import gplx.xowa.htmls.*;
-import gplx.xowa.wikis.*; import gplx.xowa.xtns.wdatas.*;
+import gplx.xowa.wikis.*; import gplx.xowa.xtns.wbases.*;
 import gplx.xowa.wikis.nss.*;
 public class Xoh_page_body_cls {	// REF.MW:Skin.php|getPageClasses
 	public static byte[] Calc(Bry_bfr tmp_bfr, Xoa_ttl ttl, int page_tid) {
