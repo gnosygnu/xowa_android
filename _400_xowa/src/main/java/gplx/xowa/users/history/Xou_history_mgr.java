@@ -31,7 +31,7 @@ public class Xou_history_mgr implements Gfo_invk {
 		Xoa_ttl ttl = page.Ttl();
 		byte[] page_ttl = null;
 		if (page.Redirect_trail().Itms__len() > 0)		// page was redirected; add src ttl to history, not trg; EX: UK -> United Kingdom; add "UK"; DATE:2014-02-28
-			page_ttl = page.Redirect_trail().Itms__get_at_0th_or_null();
+			page_ttl = page.Redirect_trail().Itms__get_at_0th_or_null().Ttl().Page_db();
 		else {
 			page_ttl = Bry_.Add(ttl.Ns().Name_db_w_colon(), ttl.Page_txt());  // use ttl.Page_txt() b/c it normalizes space/casing (url.Page_txt does not)
 			if (url.Qargs_ary().length > 0)

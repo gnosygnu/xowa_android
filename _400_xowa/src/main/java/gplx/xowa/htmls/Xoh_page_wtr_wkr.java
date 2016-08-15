@@ -153,7 +153,7 @@ public class Xoh_page_wtr_wkr {
 		if (ns_id == Xow_ns_.Tid__category) wiki.Html_mgr().Ns_ctg().Bld_html(wiki, page, hctx, tidy_bfr);
 
 		// tidy html
-		wiki.Html_mgr().Tidy_mgr().Run_tidy_html(page, tidy_bfr, !hctx.Mode_is_hdump());
+		wiki.Html_mgr().Tidy_mgr().Exec_tidy(tidy_bfr, !hctx.Mode_is_hdump(), page.Url_bry_safe());
 		
 		// add back to main bfr
 		bfr.Add_bfr_and_clear(tidy_bfr);

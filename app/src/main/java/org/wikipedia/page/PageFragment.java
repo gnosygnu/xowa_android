@@ -80,7 +80,10 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLException;
 
 import gplx.String_;
+import gplx.xowa.drds.OfflineJavascriptInterface;
 import gplx.xowa.drds.OfflinePageLoadStrategy;
+import gplx.xowa.drds.Xod_app;
+import gplx.xowa.drds.Xod_app_mgr;
 
 import static butterknife.ButterKnife.findById;
 import static org.wikipedia.util.DeviceUtil.hideSoftKeyboard;
@@ -268,7 +271,8 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         webView.setBackgroundColor(getResources().getColor(
                 getThemedAttributeId(getActivity(), R.attr.page_background_color)));
 
-        bridge = new CommunicationBridge(webView, "file:///android_asset/index.html");
+        bridge = new CommunicationBridge(webView, "file:///android_asset/index.html"
+            , OfflineJavascriptInterface.Instance.Set(this.getPageActivity(), webView));
         setupMessageHandlers();
         sendDecorOffsetMessage();
 

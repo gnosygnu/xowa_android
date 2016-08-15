@@ -85,8 +85,9 @@ public class Xod_app_mgr {
     private Xod_media_scanner__drd media_scanner;
     private Bry_bfr tmp_bfr;
     private Xopg_tag_wtr_cbk__drd tag_wtr_cbk = new Xopg_tag_wtr_cbk__drd();
-    public Xoa_app Get_app_or_boot() {
+    public Xoa_app Get_app_or_boot(Activity activity) {
         if (xo_app == null) {
+            this.activity = activity;
             this.Boot();
             if (xo_app == null)
                 throw Err_.new_("", "boot failed. could not get app");

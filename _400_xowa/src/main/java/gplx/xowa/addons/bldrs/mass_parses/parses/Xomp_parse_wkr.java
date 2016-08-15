@@ -1,18 +1,20 @@
 package gplx.xowa.addons.bldrs.mass_parses.parses; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.mass_parses.*;
 import gplx.dbs.*; import gplx.xowa.addons.bldrs.mass_parses.dbs.*;
+import gplx.xowa.files.origs.*;
 import gplx.xowa.htmls.core.bldrs.*;
 import gplx.xowa.parsers.*;	
 class Xomp_parse_wkr implements Gfo_invk {
 	private final    Xomp_parse_mgr mgr;		
 	private final    Xomp_page_pool page_pool;
+	private final    Xof_orig_wkr orig_wkr;
 	private final    int idx;
 	private final    List_adp list = List_adp_.New(); private int list_idx = 0, list_len = 0;		
 	private final    Xomp_parse_mgr_cfg cfg;
 	private int done_count; private long done_time;
 	private Xomp_wkr_db wkr_db; private int cleanup_interval, commit_interval;
 	private boolean log_file_lnkis;
-	public Xomp_parse_wkr(Xomp_parse_mgr mgr, Xowe_wiki wiki, Xomp_page_pool page_pool, int idx, Xomp_parse_mgr_cfg cfg, int cleanup_interval, int commit_interval, boolean log_file_lnkis) {
-		this.mgr = mgr; this.wiki = wiki;
+	public Xomp_parse_wkr(Xomp_parse_mgr mgr, Xowe_wiki wiki, Xof_orig_wkr orig_wkr, Xomp_page_pool page_pool, int idx, Xomp_parse_mgr_cfg cfg, int cleanup_interval, int commit_interval, boolean log_file_lnkis) {
+		this.mgr = mgr; this.wiki = wiki; this.orig_wkr = orig_wkr;
 		this.page_pool = page_pool;
 		this.idx = idx;
 		this.wkr_db = mgr.Db_core().Wkr_db(Bool_.Y, idx);	// NOTE: must go in ctor, or else thread issues
@@ -22,7 +24,7 @@ class Xomp_parse_wkr implements Gfo_invk {
 		this.log_file_lnkis = log_file_lnkis;
 	}
 	public Xowe_wiki Wiki() {return wiki;} private final    Xowe_wiki wiki;
-	public Xob_hdump_bldr Hdump_bldr() {return hdump_bldr;} private final    Xob_hdump_bldr hdump_bldr = new Xob_hdump_bldr();
+	public Xob_hdump_bldr Hdump_bldr() {return hdump_bldr;} private final    Xob_hdump_bldr hdump_bldr = new Xob_hdump_bldr();		
 	public void Exec() {
 		// init
 		Xow_parser_mgr parser_mgr = wiki.Parser_mgr();
@@ -30,7 +32,8 @@ class Xomp_parse_wkr implements Gfo_invk {
 		// disable file download
 		wiki.File_mgr().Init_file_mgr_by_load(wiki);											// must happen after fsdb.make
 		wiki.File__bin_mgr().Wkrs__del(gplx.xowa.files.bins.Xof_bin_wkr_.Key_http_wmf);			// must happen after init_file_mgr_by_load; remove wmf wkr, else will try to download images during parsing
-		wiki.File__orig_mgr().Wkrs_del(gplx.xowa.files.origs.Xof_orig_wkr_.Tid_wmf_api);
+		wiki.File__orig_mgr().Wkrs__set(orig_wkr);
+		wiki.File_mgr().Fsdb_mode().Tid__v2__mp__y_();
 
 		// disable categories else progress messages written (also for PERF)
 		wiki.Html_mgr().Page_wtr_mgr().Wkr(gplx.xowa.wikis.pages.Xopg_page_.Tid_read).Ctgs_enabled_(false);
@@ -98,8 +101,8 @@ class Xomp_parse_wkr implements Gfo_invk {
 		// cleanup
 		wkr_db.Conn().Txn_end();	// NOTE: must end txn before running update wkr_id
 		mgr.Db_core().Update_wkr_id(idx, wkr_db.Conn());
-		mgr.Wkrs_done_add_1();
 		wkr_db.Conn().Rls_conn();
+		mgr.Wkrs_done_add_1();	// NOTE: must release latch last
 	}
 	public void Bld_stats(Bry_bfr bfr) {
 		int done_time_in_sec = (int)(done_time / 1000); if (done_time_in_sec == 0) done_time_in_sec = 1;

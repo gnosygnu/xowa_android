@@ -1,6 +1,6 @@
-package gplx.xowa.parsers.amps; import gplx.*; import gplx.xowa.*; import gplx.xowa.parsers.*;
+package gplx.langs.htmls.entitys; import gplx.*; import gplx.langs.*; import gplx.langs.htmls.*;
 import gplx.core.btries.*;
-public class Xop_amp_trie {	// TS
+public class Gfh_entity_trie {	// TS
 	public static final    String		// NOTE: top_define; entities needed for <nowiki> escaping
 	  Str__xowa_lt			= "&xowa_lt;"
 	, Str__xowa_brack_bgn	= "&xowa_brack_bgn;"
@@ -14,7 +14,7 @@ public class Xop_amp_trie {	// TS
 	, Str__xowa_nl			= "&xowa_nl;"
 	, Str__xowa_dash		= "&xowa_dash;"
 	;
-	public static final    Btrie_slim_mgr Instance = New(); Xop_amp_trie() {}
+	public static final    Btrie_slim_mgr Instance = New(); Gfh_entity_trie() {}
 	private static Btrie_slim_mgr New() {// REF.MW: Sanitizer|$wgHtmlEntities; NOTE:added apos
 		Btrie_slim_mgr rv = Btrie_slim_mgr.cs();
 		Add_name(rv, Bool_.Y,   60, Str__xowa_lt);
@@ -281,20 +281,20 @@ public class Xop_amp_trie {	// TS
 		Add_name(rv, Bool_.N,  950, "&zeta;");
 		Add_name(rv, Bool_.N, 8205, "&zwj;");
 		Add_name(rv, Bool_.N, 8204, "&zwnj;");
-		Add_prefix(rv, Xop_amp_trie_itm.Tid_num_hex, "#x");
-		Add_prefix(rv, Xop_amp_trie_itm.Tid_num_hex, "#X");
-		Add_prefix(rv, Xop_amp_trie_itm.Tid_num_dec, "#");
+		Add_prefix(rv, Gfh_entity_itm.Tid_num_hex, "#x");
+		Add_prefix(rv, Gfh_entity_itm.Tid_num_hex, "#X");
+		Add_prefix(rv, Gfh_entity_itm.Tid_num_dec, "#");
 		return rv;
 	}
 	private static void Add_name(Btrie_slim_mgr trie, boolean tid_is_xowa, int char_int, String xml_name_str) {
-		byte itm_tid = tid_is_xowa ? Xop_amp_trie_itm.Tid_name_xowa : Xop_amp_trie_itm.Tid_name_std;
+		byte itm_tid = tid_is_xowa ? Gfh_entity_itm.Tid_name_xowa : Gfh_entity_itm.Tid_name_std;
 		byte[] xml_name_bry = Bry_.new_a7(xml_name_str);
 		byte[] key = Bry_.Mid(xml_name_bry, 1, xml_name_bry.length); // ignore & for purpose of trie; EX: "amp;"; NOTE: must keep trailing ";" else "&amp " will be valid;
-		trie.Add_obj(key, new Xop_amp_trie_itm(itm_tid, char_int, xml_name_bry));
+		trie.Add_obj(key, new Gfh_entity_itm(itm_tid, char_int, xml_name_bry));
 	}
 	private static void Add_prefix(Btrie_slim_mgr trie, byte prefix_type, String prefix) {
 		byte[] prefix_ary = Bry_.new_u8(prefix);
-		Xop_amp_trie_itm itm = new Xop_amp_trie_itm(prefix_type, Xop_amp_trie_itm.Char_int_null, prefix_ary);
+		Gfh_entity_itm itm = new Gfh_entity_itm(prefix_type, Gfh_entity_itm.Char_int_null, prefix_ary);
 		trie.Add_obj(prefix_ary, itm);
 	}
 }

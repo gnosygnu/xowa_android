@@ -10,7 +10,7 @@ public class Xoae_page implements Xoa_page {
 		this.wiki = wiki; this.ttl = ttl;
 		this.lang = wiki.Lang();	// default to wiki.lang; can be override later by wikitext
 		html.Init_by_page(ttl);
-		html.Toc_mgr().Init(wiki.Lang().Msg_mgr().Itm_by_id_or_null(gplx.xowa.langs.msgs.Xol_msg_itm_.Id_toc).Val(), ttl.Page_db());
+		html.Toc_mgr().Init(wiki.Html_mgr().Tidy_mgr(), wiki.Lang().Msg_mgr().Itm_by_id_or_null(gplx.xowa.langs.msgs.Xol_msg_itm_.Id_toc).Val(), ttl.Page_db());
 		Ttl_(ttl);
 	}	Xoae_page() {}	// called by Empty
 	public Xow_wiki					Wiki()				{return wiki;}

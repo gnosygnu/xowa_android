@@ -71,13 +71,18 @@ public class Xow_hdump_mgr__load {
 		wpg_head.Itm__toc().Enabled_(hpg.Html_data().Toc_mgr().Exists());
 		wpg_head.Itm__pgbnr().Enabled_(hpg.Html_data().Head_mgr().Itm__pgbnr().Enabled());
 
+		// transfer Xtn_gallery_packed_exists; needed for hdump; PAGE:en.w:Mexico; DATE:2016-08-14
+		if (hpg.Html_data().Xtn_gallery_packed_exists())
+			wpg.Html_data().Xtn_gallery_packed_exists_y_();
+
 		// transfer images from Xoh_page to Xoae_page 
 		Xoh_img_mgr src_imgs = hpg.Img_mgr();
 		int len = src_imgs.Len();
 		for (int i = 0; i < len; ++i) {
 			gplx.xowa.files.Xof_fsdb_itm itm = src_imgs.Get_at(i);
 			wpg.Hdump_mgr().Imgs().Add(itm);
-			wpg.File_queue().Add(itm);	// add to file_queue for http_server
+			if (!Io_mgr.Instance.ExistsFil(itm.Html_view_url()))	// if exists, don't add to file_queue; needed for packed; PAGE:en.w:Mexico; DATE:2016-08-14
+				wpg.File_queue().Add(itm);	// add to file_queue for http_server
 		}
 
 		// transfer redlinks

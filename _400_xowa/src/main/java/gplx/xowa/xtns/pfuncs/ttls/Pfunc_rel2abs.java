@@ -12,7 +12,7 @@ public class Pfunc_rel2abs extends Pf_func_base {
 		qry_bgns_with.Add(Ary_dot_slash, Int_obj_ref.New(Id_dot_slash));
 		qry_bgns_with.Add(Ary_dot_dot, Int_obj_ref.New(Id_dot_dot));
 		qry_bgns_with.Add(Ary_dot_dot_slash, Int_obj_ref.New(Id_dot_dot_slash));
-	}	static Btrie_fast_mgr qry_bgns_with;
+	}	private static Btrie_fast_mgr qry_bgns_with;
 	@Override public void Func_evaluate(Bry_bfr bfr, Xop_ctx ctx, Xot_invk caller, Xot_invk self, byte[] src) {// REF.MW:ParserFunctions_body.php
 		byte[] qry = Eval_argx(ctx, src, caller, self);
 		byte[] orig = Pf_func_.Eval_arg_or_empty(ctx, src, caller, self, self.Args_len(), 0);

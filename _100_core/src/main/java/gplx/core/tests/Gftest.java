@@ -34,6 +34,11 @@ public class Gftest {
 		bfr.Add(Bry__line_end);
 		throw Err_.new_wo_type(bfr.To_str_and_clear());
 	}
+	public static void Eq__obj_or_null(Object expd, Object actl) {
+		if (expd == null) expd = Str__null;
+		if (actl == null) actl = Str__null;
+		Eq__str(Object_.Xto_str_or(expd, Str__null), Object_.Xto_str_or(actl, null), Str__null);
+	}
 	public static void Eq__str(String expd, byte[] actl, String msg_fmt, Object... msg_args) {Eq__str(expd, String_.new_u8(actl), msg_fmt, msg_args);}
 	public static void Eq__str(String expd, byte[] actl) {Eq__str(expd, String_.new_u8(actl), null);}
 	public static void Eq__str(String expd, String actl) {Eq__str(expd, actl, null);}
@@ -164,8 +169,9 @@ public class Gftest {
 		}
 		return rv;
 	}
+	private static final String Str__null = "<<NULL>>";
 	private static final    byte[] Bry__item__eq_n = Bry_.new_a7("!= ") // Bry__item__eq_y = Bry_.new_a7("== "), 
-	, Bry__null = Bry_.new_a7("<<NULL>>")
+	, Bry__null = Bry_.new_a7(Str__null)
 	, Bry__line_bgn = Bry_.new_a7("\n************************************************************************************************\n")
 	, Bry__line_mid = Bry_.new_a7("\n------------------------------------------------------------------------------------------------\n")
 	, Bry__line_end = Bry_.new_a7(  "________________________________________________________________________________________________")

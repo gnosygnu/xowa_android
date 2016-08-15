@@ -1,52 +1,9 @@
 package gplx.xowa.xtns.lst; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*;
-import gplx.xowa.wikis.nss.*;
-import gplx.xowa.parsers.*; import gplx.xowa.parsers.tmpls.*;
-public class Lst_pfunc_wkr {
-	private boolean mode_include = true;
-	private byte[] src_ttl_bry;
-	private byte[] sect_bgn, sect_end;
-	private byte[] sect_exclude, sect_replace;
-	public Lst_pfunc_wkr Init_include(byte[] src_ttl_bry, byte[] sect_bgn, byte[] sect_end) {
-		this.mode_include = Bool_.Y; this.src_ttl_bry = src_ttl_bry; this.sect_bgn = sect_bgn; this.sect_end = sect_end; return this;
-	}
-	public Lst_pfunc_wkr Init_exclude(byte[] src_ttl_bry, byte[] sect_exclude, byte[] sect_replace) {
-		this.mode_include = Bool_.N; this.src_ttl_bry = src_ttl_bry; this.sect_exclude = sect_exclude; this.sect_replace = sect_replace; return this;
-	}
-	
-	public void Exec(Bry_bfr bfr, Xop_ctx ctx) {
-		Xowe_wiki wiki = ctx.Wiki();
-		Xoa_ttl src_ttl = Xoa_ttl.Parse(wiki, src_ttl_bry); if (src_ttl == null) return;						// {{#lst:<>}} -> ""
-		Xot_defn_tmpl defn_tmpl = (Xot_defn_tmpl)wiki.Cache_mgr().Lst_cache().Get_by_key(src_ttl_bry);
-		Xop_ctx sub_ctx = null;
-		byte[] src = null;
-		if (defn_tmpl == null) {	// cache transclusions to prevent multiple parsings; DATE:2014-02-22
-			sub_ctx = Xop_ctx.New__sub__reuse_page(ctx).Ref_ignore_(true);
-			byte[] src_page_bry = wiki.Cache_mgr().Page_cache().Get_or_load_as_src(src_ttl);
-			if (src_page_bry == null) return; // {{#lst:missing}} -> ""
-			Xoae_page page = ctx.Page();
-			if (!page.Tmpl_stack_add(src_ttl.Full_db())) return;
-			defn_tmpl = wiki.Parser_mgr().Main().Parse_text_to_defn_obj(sub_ctx, sub_ctx.Tkn_mkr(), src_ttl.Ns(), src_ttl_bry, src_page_bry);	// NOTE: parse as tmpl to ignore <noinclude>
-			Bry_bfr tmp_bfr = wiki.Utl__bfr_mkr().Get_m001();
-			page.Tmpl_stack_del();									// take template off stack; evaluate will never recurse, and will fail if ttl is still on stack; DATE:2014-03-10
-			defn_tmpl.Tmpl_evaluate(sub_ctx, Xot_invk_temp.Page_is_caller, tmp_bfr);
-			src = tmp_bfr.To_bry_and_rls();
-			if (!page.Tmpl_stack_add(src_ttl.Full_db())) return;	// put template back on stack; 
-			Xop_root_tkn root = wiki.Parser_mgr().Main().Parse_text_to_wdom(sub_ctx, src, true);	// NOTE: pass sub_ctx as old_ctx b/c entire document will be parsed, and references outside the section should be ignored;
-			src = root.Data_mid();	// NOTE: must set src to root.Data_mid() which is result of parse; else <nowiki> will break text; DATE:2013-07-11
-			wiki.Cache_mgr().Lst_cache().Add(defn_tmpl, Xow_ns_case_.Tid__all);
-			page.Tmpl_stack_del();
-			defn_tmpl.Data_mid_(src);
-			defn_tmpl.Ctx_(sub_ctx);
-		}
-		else {
-			src = defn_tmpl.Data_mid();
-			sub_ctx = defn_tmpl.Ctx();
-		}
-		if		(mode_include)	Write_include(bfr, sub_ctx, src, sect_bgn, sect_end);
-		else					Write_exclude(bfr, sub_ctx, src, sect_exclude, sect_replace);
-	}
+import gplx.xowa.parsers.*; import gplx.xowa.parsers.tmpls.*; import gplx.xowa.parsers.hdrs.*;
+import gplx.xowa.wikis.nss.*; import gplx.xowa.wikis.pages.wtxts.*;
+public class Lst_pfunc_itm_ {
 	private static final byte Include_between = 0, Include_to_eos = 1, Include_to_bos = 2;
-	private static void Write_include(Bry_bfr bfr, Xop_ctx sub_ctx, byte[] src, byte[] lst_bgn, byte[] lst_end) {
+	public static void Sect_include(Bry_bfr bfr, Xop_ctx sub_ctx, byte[] src, byte[] lst_bgn, byte[] lst_end) {
 		if		(lst_end == Null_arg) {		// no end arg; EX: {{#lst:page|bgn}}; NOTE: different than {{#lst:page|bgn|}}
 			if	(lst_bgn == Null_arg) {		// no bgn arg; EX: {{#lst:page}}
 				bfr.Add(src);				// write all and exit
@@ -62,7 +19,7 @@ public class Lst_pfunc_wkr {
 			include_mode = Include_to_bos;				
 		int bgn_pos = 0; boolean bgn_found = false; int src_page_bry_len = src.length;
 		Lst_section_nde_mgr section_mgr = sub_ctx.Lst_section_mgr();	// get section_mgr from Parse
-		int sections_len = section_mgr.Count();
+		int sections_len = section_mgr.Len();
 		for (int i = 0; i < sections_len; i++) {
 			Lst_section_nde section = section_mgr.Get_at(i);
 			byte section_tid = section.Name_tid();
@@ -97,13 +54,13 @@ public class Lst_pfunc_wkr {
 		if (bgn_found)	// bgn_found, but no end; write to end of page; EX: "a <section begin=key/> b" -> " b"
 			bfr.Add_mid(src, bgn_pos, src_page_bry_len);
 	}
-	private static void Write_exclude(Bry_bfr bfr, Xop_ctx sub_ctx, byte[] src, byte[] sect_exclude, byte[] sect_replace) {
+	public static void Sect_exclude(Bry_bfr bfr, Xop_ctx sub_ctx, byte[] src, byte[] sect_exclude, byte[] sect_replace) {
 		if		(Bry_.Len_eq_0(sect_exclude)) {	// no exclude arg; EX: {{#lstx:page}} or {{#lstx:page}}
 			bfr.Add(src);							// write all and exit
 			return;
 		}
 		Lst_section_nde_mgr section_mgr = sub_ctx.Lst_section_mgr();	// get section_mgr from Parse
-		int sections_len = section_mgr.Count();
+		int sections_len = section_mgr.Len();
 		int bgn_pos = 0;
 		for (int i = 0; i < sections_len; i++) {
 			Lst_section_nde section = section_mgr.Get_at(i);
@@ -120,5 +77,56 @@ public class Lst_pfunc_wkr {
 		}
 		bfr.Add_mid(src, bgn_pos, src.length);
 	}
+	public static void Hdr_include(Bry_bfr bfr, byte[] src, Xopg_toc_mgr toc_mgr, byte[] lhs_hdr, byte[] rhs_hdr) {// REF.MW:LabeledSectionTransclusion.class.php|pfuncIncludeHeading; MW does regex on text; XO uses section_itms
+		// get <hdr> idxs
+		int len = toc_mgr.Len();
+		int lhs_idx = Match_or_neg1(toc_mgr, len, src, lhs_hdr, 0)			; if (lhs_idx == -1) return;
+		int rhs_idx = Match_or_neg1(toc_mgr, len, src, rhs_hdr, lhs_idx + 1);
+
+		// get snip_bgn
+		Xop_hdr_tkn lhs_tkn = toc_mgr.Get_at(lhs_idx);
+		int snip_bgn = lhs_tkn.Src_end();
+
+		// get snip_end
+		int snip_end = -1;
+		if (rhs_idx == -1) {		// rhs_idx missing or not supplied
+			rhs_idx = lhs_idx + 1;
+			if (rhs_idx < len) {	// next hdr after lhs_hdr exists; try to get next "matching" hdr; EX: h2 should match next h2; PAGE:en.w:10s_BC; DATE:2016-08-13
+				for (int i = rhs_idx; i < len; ++i) {
+					Xop_hdr_tkn rhs_tkn = toc_mgr.Get_at(i);
+					if (rhs_tkn.Num() == lhs_tkn.Num()) {
+						snip_end = rhs_tkn.Src_bgn();
+						break;
+					}
+				}
+			}
+			if (snip_end == -1)		// no matching rhs exists, or rhs is last; get till EOS
+				snip_end = src.length;
+		}
+		else {
+			Xop_hdr_tkn rhs_tkn = toc_mgr.Get_at(rhs_idx);
+			snip_end = rhs_tkn.Src_bgn();
+		}
+		bfr.Add_mid(src, snip_bgn, snip_end);
+	}
+	private static int Match_or_neg1(Xopg_toc_mgr toc_mgr, int hdrs_len, byte[] src, byte[] match, int hdrs_bgn) {
+		for (int i = hdrs_bgn; i < hdrs_len; ++i) {
+			Xop_hdr_tkn hdr = toc_mgr.Get_at(i);
+			int txt_bgn = hdr.Src_bgn() + hdr.Num();	// skip "\n=="; 1=leading \n
+			if (hdr.Src_bgn() != Xop_parser_.Doc_bgn_char_0)
+				++txt_bgn;
+
+			// get txt_end; note that this needs to handle multiple trailing \n which is included in hdr.Src_end()
+			int txt_end = Bry_find_.Find_fwd(src, Bry__hdr_end, txt_bgn);				// find "=\n"
+			txt_end = Bry_find_.Find_bwd__skip(src, txt_end, txt_bgn, Byte_ascii.Eq);	// skip bwd to get to pos before 1st "="; EX: "===\n" -> find "=="
+
+			// remove ws
+			txt_bgn = Bry_find_.Find_fwd_while_ws(src, txt_bgn, txt_end);
+			txt_end = Bry_find_.Find_bwd__skip_ws(src, txt_end, txt_bgn);
+			if (Bry_.Eq(src, txt_bgn, txt_end, match)) return i;
+		}
+		return -1;
+	}
+	private static final    byte[] Bry__hdr_end = Bry_.new_a7("=\n");
 	public static final    byte[] Null_arg = null;
 }

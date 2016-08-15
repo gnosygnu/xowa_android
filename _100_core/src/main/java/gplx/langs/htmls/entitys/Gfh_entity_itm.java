@@ -1,7 +1,6 @@
-package gplx.xowa.parsers.amps; import gplx.*; import gplx.xowa.*; import gplx.xowa.parsers.*;
-import gplx.langs.htmls.*; import gplx.xowa.htmls.core.wkrs.lnkis.htmls.*;
-public class Xop_amp_trie_itm {	// TS
-	public Xop_amp_trie_itm(byte tid, int char_int, byte[] xml_name_bry) {
+package gplx.langs.htmls.entitys; import gplx.*; import gplx.langs.*; import gplx.langs.htmls.*;
+public class Gfh_entity_itm {	// TS:immutable
+	public Gfh_entity_itm(byte tid, int char_int, byte[] xml_name_bry) {
 		this.tid = tid;
 		this.char_int = char_int;
 		this.u8_bry = gplx.core.intls.Utf16_.Encode_int_to_bry(char_int);
@@ -20,9 +19,9 @@ public class Xop_amp_trie_itm {	// TS
 				bfr.Add(xml_name_bry);							// NOTE: never write actual char; EX: "&lt;" should be written as "&lt;", not "<"
 				break;
 			default:
-				bfr.Add(Xoh_lnki_title_fmtr.Escape_bgn);		// &#
-				bfr.Add_int_variable(char_int);					// 160
-				bfr.Add_byte(Byte_ascii.Semic);					// ;
+				bfr.Add(Escape_bgn);			// &#
+				bfr.Add_int_variable(char_int);	// 160
+				bfr.Add_byte(Byte_ascii.Semic);	// ;
 				break;
 		}			
 	}
@@ -35,6 +34,7 @@ public class Xop_amp_trie_itm {	// TS
 			default:					bfr.Add(u8_bry); break;				// write literal; EX: "[" not "&#91;"
 		}			
 	}
+	private static final    byte[] Escape_bgn = Bry_.new_a7("&#");
 	public static final byte Tid_name_std = 1, Tid_name_xowa = 2, Tid_num_hex = 3, Tid_num_dec = 4;
 	public static final int Char_int_null = -1;
 }

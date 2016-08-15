@@ -1,5 +1,6 @@
 package gplx.langs.htmls.encoders; import gplx.*; import gplx.langs.*; import gplx.langs.htmls.*;
-import gplx.core.btries.*; import gplx.xowa.parsers.amps.*;
+import gplx.core.btries.*;
+import gplx.langs.htmls.entitys.*;
 public interface Gfo_url_encoder_itm {
 	int Encode(Bry_bfr bfr, byte[] src, int end, int idx, byte b);
 	int Decode(Bry_bfr bfr, byte[] src, int end, int idx, byte b, boolean fail_when_invalid);
@@ -74,7 +75,7 @@ class Gfo_url_encoder_itm_html_ent implements Gfo_url_encoder_itm {
 			return 0;
 		}
 		else {
-			Xop_amp_trie_itm itm = (Xop_amp_trie_itm)o;
+			Gfh_entity_itm itm = (Gfh_entity_itm)o;
 			byte[] bry_u8 = itm.U8_bry();	// NOTE: must utf8 encode val; EX: &nbsp; is 160 but must become 192,160
 			for (int i = 0; i < bry_u8.length; i++)
 				Gfo_url_encoder_itm_hex.Encode_byte(bry_u8[i], bfr, Byte_ascii.Dot);

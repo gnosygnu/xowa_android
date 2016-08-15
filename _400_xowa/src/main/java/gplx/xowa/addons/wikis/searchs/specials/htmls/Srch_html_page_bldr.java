@@ -1,6 +1,6 @@
 package gplx.xowa.addons.wikis.searchs.specials.htmls; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.wikis.*; import gplx.xowa.addons.wikis.searchs.*; import gplx.xowa.addons.wikis.searchs.specials.*;
 import gplx.core.brys.fmtrs.*;
-import gplx.langs.htmls.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.langs.numbers.*;
+import gplx.langs.htmls.*; import gplx.xowa.htmls.core.htmls.utls.*; import gplx.xowa.langs.numbers.*; import gplx.langs.htmls.entitys.*;
 import gplx.xowa.addons.wikis.searchs.specials.*; import gplx.xowa.addons.wikis.searchs.searchers.*; import gplx.xowa.addons.wikis.searchs.searchers.rslts.*;
 public class Srch_html_page_bldr {
 	private final    Bry_bfr tmp_bfr = Bry_bfr_.New_w_size(255);

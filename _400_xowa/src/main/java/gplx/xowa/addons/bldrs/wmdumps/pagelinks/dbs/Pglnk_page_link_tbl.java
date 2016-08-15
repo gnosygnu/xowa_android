@@ -1,4 +1,4 @@
-package gplx.xowa.addons.bldrs.pagelinks.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.pagelinks.*;
+package gplx.xowa.addons.bldrs.wmdumps.pagelinks.dbs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.wmdumps.*; import gplx.xowa.addons.bldrs.wmdumps.pagelinks.*;
 import gplx.core.ios.*; import gplx.dbs.*; import gplx.dbs.qrys.*; import gplx.xowa.wikis.dbs.*; import gplx.dbs.cfgs.*;
 public class Pglnk_page_link_tbl implements Rls_able {
 	private final    String tbl_name = "page_link"; private final    Dbmeta_fld_list flds = new Dbmeta_fld_list();

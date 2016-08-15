@@ -12,7 +12,7 @@ public class Xoh_tidy_wkr_tidy extends Process_adp implements Xoh_tidy_wkr { //#
 		return super.Tmp_dir_(v);
 	}
 	public void Indent_(boolean v) {Indent_val = v ? "y" : "n";}
-	public void Exec_tidy(Xoae_page page, Bry_bfr bfr) {
+	public void Exec_tidy(Bry_bfr bfr, byte[] page_url) {
 		int bfr_len = bfr.Len();
 		long bgn = Env_.TickCount();
 		Io_mgr.Instance.SaveFilBfr(tidy_source, bfr);			// saves bfr to source; clears bfr

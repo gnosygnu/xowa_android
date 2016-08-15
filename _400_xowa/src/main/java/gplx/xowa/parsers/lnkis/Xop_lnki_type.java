@@ -2,7 +2,7 @@ package gplx.xowa.parsers.lnkis; import gplx.*; import gplx.xowa.*; import gplx.
 import gplx.core.bits.*;
 public class Xop_lnki_type {
 	public static final byte Id_null = 0, Id_none = 1, Id_frameless = 2, Id_frame = 4, Id_thumb = 8;
-	public static final byte Tid_null = 0, Tid_none = 1, Tid_frameless = 2, Tid_frame = 3, Tid_thumb = 4;	// SERIALIZED
+	public static final byte Tid_null = 0, Tid_none = 1, Tid_frameless = 2, Tid_frame = 3, Tid_thumb = 4, Tid_orig_known = 64;	// SERIALIZED
 	public static byte To_tid(byte flag) {
 		switch (flag) {
 			case Xop_lnki_type.Id_null:				return Xop_lnki_type.Tid_null;

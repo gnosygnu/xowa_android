@@ -1,4 +1,4 @@
-package gplx.xowa.bldrs.wms.apis; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wms.*;
+package gplx.xowa.apps.wms.apis.origs; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.wms.*; import gplx.xowa.apps.wms.apis.*;
 import gplx.core.primitives.*; import gplx.core.net.*; import gplx.core.envs.*;
 import gplx.langs.htmls.encoders.*; 
 import gplx.xowa.files.downloads.*;

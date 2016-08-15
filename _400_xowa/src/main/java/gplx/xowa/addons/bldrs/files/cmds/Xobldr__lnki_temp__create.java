@@ -10,6 +10,7 @@ import gplx.xowa.langs.vnts.*; import gplx.xowa.parsers.vnts.*;
 import gplx.xowa.parsers.lnkis.files.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*; import gplx.xowa.bldrs.wkrs.*;
 import gplx.xowa.addons.bldrs.files.dbs.*; import gplx.xowa.addons.bldrs.mass_parses.parses.*;
+import gplx.xowa.addons.bldrs.wmdumps.imglinks.*;
 public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx.xowa.parsers.lnkis.files.Xop_file_logger {
 	private Xob_lnki_temp_tbl tbl; private boolean wdata_enabled = true, xtn_ref_enabled = true, gen_html, gen_hdump;
 	private Xop_log_invoke_wkr invoke_wkr; private Xop_log_property_wkr property_wkr;		
@@ -44,6 +45,13 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 			wiki.File__bin_mgr().Wkrs__del(gplx.xowa.files.bins.Xof_bin_wkr_.Key_http_wmf);		// remove wmf wkr, else will try to download images during parsing
 		commons_wiki = app.Wiki_mgr().Get_by_or_make(Xow_domain_itm_.Bry__commons);
 
+		// create imglinks
+		Xof_orig_wkr__img_links orig_wkr = new Xof_orig_wkr__img_links(wiki);
+		wiki.File__orig_mgr().Wkrs__set(orig_wkr);
+		Xof_orig_wkr__img_links_.Load_all(orig_wkr);
+
+		Xow_wiki_utl_.Clone_repos(wiki);
+
 		// init log_mgr / property_wkr
 		Xop_log_mgr log_mgr = ctx.App().Log_mgr();
 		log_mgr.Log_dir_(wiki.Fsys_mgr().Root_dir());	// put log in wiki dir, instead of user.temp
@@ -64,13 +72,13 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 
 		// init fsdb
 		Xof_fsdb_mgr__sql trg_fsdb_mgr = new Xof_fsdb_mgr__sql();
-		wiki.File__fsdb_mode().Tid_v2_bld_y_();
+		wiki.File__fsdb_mode().Tid__v2__bld__y_();
 		Fsdb_db_mgr__v2 fsdb_core = Fsdb_db_mgr__v2_bldr.Get_or_make(wiki, Bool_.Y);
 		trg_fsdb_mgr.Init_by_wiki(wiki);
 		Fsm_mnt_mgr trg_mnt_mgr = trg_fsdb_mgr.Mnt_mgr();
 		wiki.File_mgr().Init_file_mgr_by_load(wiki);										// must happen after fsdb.make
 		wiki.File__bin_mgr().Wkrs__del(gplx.xowa.files.bins.Xof_bin_wkr_.Key_http_wmf);		// must happen after init_file_mgr_by_load; remove wmf wkr, else will try to download images during parsing
-		wiki.File__orig_mgr().Wkrs_del(gplx.xowa.files.origs.Xof_orig_wkr_.Tid_wmf_api);
+		wiki.File__orig_mgr().Wkrs__del(gplx.xowa.files.origs.Xof_orig_wkr_.Tid_wmf_api);
 
 		trg_mnt_mgr = new Fsm_mnt_mgr(); trg_mnt_mgr.Ctor_by_load(fsdb_core);
 		trg_mnt_mgr.Mnts__get_insert_idx_(Fsm_mnt_mgr.Mnt_idx_main);

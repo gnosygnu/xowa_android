@@ -1,7 +1,7 @@
 package gplx.xowa.xtns.proofreadPage; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*;
 import gplx.core.primitives.*; import gplx.core.brys.fmtrs.*;
 import gplx.xowa.apps.cfgs.*;
-import gplx.xowa.htmls.*; import gplx.xowa.htmls.core.htmls.*;
+import gplx.langs.htmls.entitys.*; import gplx.xowa.htmls.core.htmls.*;
 import gplx.xowa.wikis.nss.*;
 import gplx.xowa.xtns.lst.*; import gplx.xowa.wikis.pages.*; import gplx.xowa.wikis.data.tbls.*;
 import gplx.xowa.parsers.*; import gplx.xowa.parsers.amps.*; import gplx.xowa.parsers.xndes.*; import gplx.xowa.parsers.htmls.*; import gplx.xowa.parsers.lnkis.*; import gplx.xowa.parsers.tmpls.*;
@@ -305,7 +305,6 @@ public class Pp_pages_nde implements Xox_xnde, Mwh_atr_itm_owner1 {
 		
 		Bry_bfr page_bfr = wiki.Utl__bfr_mkr().Get_m001();
 		ctx.Tmpl_output_(page_bfr);
-		Lst_pfunc_wkr lst_pfunc_wkr = new Lst_pfunc_wkr();
 		for (int i = 0; i < ary_len; i++) {
 			Xoa_ttl ttl = ary[i];
 			byte[] ttl_page_db = ttl.Page_db();
@@ -313,7 +312,7 @@ public class Pp_pages_nde implements Xox_xnde, Mwh_atr_itm_owner1 {
 				lst_page_regy.Add(ttl_page_db, ttl_page_db);
 			else
 				continue;
-			byte[] cur_sect_bgn = Lst_pfunc_wkr.Null_arg, cur_sect_end = Lst_pfunc_wkr.Null_arg;
+			byte[] cur_sect_bgn = Lst_pfunc_itm_.Null_arg, cur_sect_end = Lst_pfunc_itm_.Null_arg;
 			if		(ttl.Eq_page_db(bgn_page_ttl)) {
 				if		(bgn_sect_bry != null)
 					cur_sect_bgn = bgn_sect_bry;
@@ -327,10 +326,11 @@ public class Pp_pages_nde implements Xox_xnde, Mwh_atr_itm_owner1 {
 					cur_sect_end = end_sect_bry;
 			}
 			Xopg_tmpl_prepend_mgr prepend_mgr = ctx.Page().Tmpl_prepend_mgr().Bgn(full_bfr);
-			lst_pfunc_wkr.Init_include(ttl.Full_db(), cur_sect_bgn, cur_sect_end).Exec(page_bfr, ctx);
+			Lst_pfunc_itm lst_itm = Lst_pfunc_itm.New_or_null(ctx, ttl.Full_db());
+			if (lst_itm != null) Lst_pfunc_itm_.Sect_include(page_bfr, lst_itm.Itm_ctx(), lst_itm.Itm_src(), cur_sect_bgn, cur_sect_end);
 			prepend_mgr.End(ctx, full_bfr, page_bfr.Bfr(), page_bfr.Len(), Bool_.Y);
 			full_bfr.Add_bfr_and_clear(page_bfr);
-			full_bfr.Add(gplx.langs.htmls.Gfh_entity_.Space_bry);	// $out.= "&#32;"; REF.MW:ProofreadPageRenderer.pn
+			full_bfr.Add(gplx.langs.htmls.entitys.Gfh_entity_.Space_bry);	// $out.= "&#32;"; REF.MW:ProofreadPageRenderer.pn
 		}			
 		page_bfr.Mkr_rls();
 		ctx.Tmpl_output_(null);

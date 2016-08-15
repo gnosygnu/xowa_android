@@ -9,6 +9,7 @@ class Xomp_make_lnki {
 
 		Xob_db_file make_db = Xob_db_file.New__file_make(wiki.Fsys_mgr().Root_dir());
 		Xob_lnki_temp_tbl lnki_temp_tbl = new Xob_lnki_temp_tbl(make_db.Conn());
+		make_db.Conn().Meta_tbl_remake(lnki_temp_tbl);
 		lnki_temp_tbl.Insert_bgn();
 
 		// add index

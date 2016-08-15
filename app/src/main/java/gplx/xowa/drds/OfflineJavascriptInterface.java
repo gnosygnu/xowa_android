@@ -1,5 +1,6 @@
 package gplx.xowa.drds;
 
+import android.app.Activity;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -10,15 +11,14 @@ import gplx.xowa.guis.cbks.Xog_cbk_wkr;
 import gplx.xowa.guis.cbks.swts.Gfobj_wtr__json__browser;
 
 public class OfflineJavascriptInterface implements Xog_cbk_wkr, Runnable, ValueCallback<String> {
-    public static final OfflineJavascriptInterface Instance = new OfflineJavascriptInterface();
     private final Gfobj_wtr__json__browser json_wtr = new Gfobj_wtr__json__browser();
     private boolean init = true;
     private WebView webview;
     private String send_json_script;
-    public OfflineJavascriptInterface Set(WebView webview) {
+    public OfflineJavascriptInterface Set(Activity activity, WebView webview) {
         if (init) {
             init = false;
-            Xod_app_mgr.Instance.Get_app_or_boot().Gui__cbk_mgr().Reg(this);
+            Xod_app_mgr.Instance.Get_app_or_boot(activity).Gui__cbk_mgr().Reg(this);
         }
         this.webview = webview;
         return this;
@@ -29,9 +29,8 @@ public class OfflineJavascriptInterface implements Xog_cbk_wkr, Runnable, ValueC
         webview.post(this);
         return "";
     }
-    @Override public void run() {
-        webview.evaluateJavascript(send_json_script, this);
-    }
-    @Override public void onReceiveValue(String value) {
-    }
+
+    @Override public void run() {webview.evaluateJavascript(send_json_script, this);}
+    @Override public void onReceiveValue(String value) {}
+    public static final OfflineJavascriptInterface Instance = new OfflineJavascriptInterface();
 }

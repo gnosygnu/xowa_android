@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import gplx.xowa.drds.OfflineJavascriptInterface;
+
 import static org.wikipedia.util.DeviceUtil.hideSoftKeyboard;
 
 public class EditPreviewFragment extends Fragment {
@@ -60,7 +62,9 @@ public class EditPreviewFragment extends Fragment {
         previewContainer = (ScrollView) parent.findViewById(R.id.edit_preview_container);
         editSummaryTagsContainer = (ViewGroup) parent.findViewById(R.id.edit_summary_tags_container);
 
-        bridge = new CommunicationBridge(webview, "file:///android_asset/preview.html");
+        bridge = new CommunicationBridge(webview, "file:///android_asset/preview.html"
+        , OfflineJavascriptInterface.Instance.Set(this.getActivity(), webview)
+        );
 
         return parent;
     }

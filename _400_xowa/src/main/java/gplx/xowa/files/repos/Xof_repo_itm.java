@@ -3,7 +3,7 @@ import gplx.core.btries.*; import gplx.core.consoles.*;
 import gplx.xowa.apps.fsys.*; import gplx.xowa.files.exts.*;	
 import gplx.xowa.wikis.domains.*;
 public class Xof_repo_itm implements Gfo_invk {
-	private final    Xoa_fsys_mgr app_fsys; private final    Xof_rule_mgr ext_rule_mgr; private final    Bry_bfr tmp_bfr = Bry_bfr_.Reset(300);
+	private final    Xoa_fsys_mgr app_fsys; private final    Xof_rule_mgr ext_rule_mgr;
 	public Xof_repo_itm(byte[] key, Xoa_fsys_mgr app_fsys, Xof_rule_mgr ext_rule_mgr, byte[] wiki_domain) {
 		this.key = key; this.app_fsys = app_fsys; this.ext_rule_mgr = ext_rule_mgr;
 		Wiki_domain_(wiki_domain);
@@ -13,8 +13,10 @@ public class Xof_repo_itm implements Gfo_invk {
 	public byte[]	Wiki_abrv_xo()		{return wiki_abrv_xo;} private byte[] wiki_abrv_xo;
 	public byte[]	Root_bry()			{return root_bry;} private byte[] root_bry;
 	public byte[]	Root_http()			{return root_http;} private byte[] root_http = Bry_.Empty;
+	public String	Root_str()			{return root_str;} private String root_str;
 	public byte		Dir_spr()			{return dir_spr;} private byte dir_spr;
 	public boolean		Fsys_is_wnt() {return fsys_is_wnt;} public Xof_repo_itm Fsys_is_wnt_(boolean v) {fsys_is_wnt = v; return this;} private boolean fsys_is_wnt;
+	public boolean		Shorten_ttl() {return shorten_ttl;} public Xof_repo_itm Shorten_ttl_(boolean v) {shorten_ttl = v; return this;} private boolean shorten_ttl = true;
 	public boolean		Wmf_fsys() {return wmf_fsys;} public Xof_repo_itm Wmf_fsys_(boolean v) {wmf_fsys = v; return this;} private boolean wmf_fsys;
 	public boolean		Wmf_api() {return wmf_api;} public Xof_repo_itm Wmf_api_(boolean v) {wmf_api = v; return this;} private boolean wmf_api;
 	public boolean		Tarball() {return tarball;} public Xof_repo_itm Tarball_(boolean v) {tarball = v; return this;} private boolean tarball;
@@ -46,15 +48,16 @@ public class Xof_repo_itm implements Gfo_invk {
 			this.dir_spr = root_url.Info().DirSpr_byte();
 			this.root_http = root_url.To_http_file_bry();
 		}
+		this.root_str = root_str;
 		return this;
 	}
-	public byte[] Gen_name_src(byte[] name) {
+	public byte[] Gen_name_src(Bry_bfr tmp_bfr, byte[] name) {
 		if (!fsys_is_wnt || wmf_fsys) return name;
 		return Xof_repo_itm_.Ttl_invalid_fsys_chars(tmp_bfr, name);
 	}
-	public byte[] Gen_name_trg(byte[] bry, byte[] md5, Xof_ext ext) {
-		byte[] rv = Gen_name_src(bry);
-		return Xof_repo_itm_.Ttl_shorten_ttl(tmp_bfr, rv, ttl_max_len, md5, ext.Ext());
+	public byte[] Gen_name_trg(Bry_bfr tmp_bfr, byte[] bry, byte[] md5, Xof_ext ext) {
+		byte[] rv = Gen_name_src(tmp_bfr, bry);
+		return shorten_ttl ? Xof_repo_itm_.Ttl_shorten_ttl(tmp_bfr, rv, Ttl__max_len, md5, ext.Ext()) : rv;
 	}
 	public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {
 		if		(ctx.Match(k, Invk_owner))				throw Err_.new_unimplemented_w_msg("deprecated repo_itm.owner");
@@ -67,5 +70,5 @@ public class Xof_repo_itm implements Gfo_invk {
 		return this;
 	}
 	private static final String Invk_owner = "owner", Invk_fsys_ = "fsys_", Invk_ext_rules_ = "ext_rules_", Invk_primary_ = "primary_", Invk_wmf_api_ = "wmf_api_", Invk_tarball_ = "tarball_";
-	private static final int ttl_max_len = 180;
+	public static final int Ttl__max_len = 180;
 }

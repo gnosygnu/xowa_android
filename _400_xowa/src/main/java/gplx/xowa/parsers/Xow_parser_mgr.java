@@ -2,10 +2,9 @@ package gplx.xowa.parsers; import gplx.*; import gplx.xowa.*;
 import gplx.core.primitives.*; import gplx.core.brys.fmtrs.*;
 import gplx.xowa.wikis.*; import gplx.core.envs.*;
 import gplx.xowa.files.*;
-import gplx.xowa.xtns.pfuncs.ifs.*; import gplx.xowa.xtns.scribunto.*; import gplx.xowa.xtns.pfuncs.times.*; import gplx.xowa.xtns.wbases.hwtrs.*;
+import gplx.xowa.xtns.scribunto.*; import gplx.xowa.xtns.wbases.hwtrs.*; import gplx.xowa.xtns.pfuncs.ifs.*; import gplx.xowa.xtns.pfuncs.times.*; import gplx.xowa.xtns.pfuncs.ttls.*;
 public class Xow_parser_mgr {
 	private final    Xowe_wiki wiki; private final    Xop_tkn_mkr tkn_mkr;
-	private Xop_parser anchor_encode_parser;
 	public Xow_parser_mgr(Xowe_wiki wiki) {
 		this.wiki = wiki; this.tkn_mkr = wiki.Appe().Parser_mgr().Tkn_mkr();
 		this.ctx = Xop_ctx.New__top(wiki);
@@ -14,6 +13,7 @@ public class Xow_parser_mgr {
 	public Xop_ctx					Ctx()				{return ctx;} private final    Xop_ctx ctx;
 	public Xop_parser				Main()				{return parser;} private final    Xop_parser parser;
 	public Scrib_core_mgr			Scrib()				{return scrib;} private final    Scrib_core_mgr scrib = new Scrib_core_mgr();
+	public Xof_img_size				Img_size()			{return img_size;} private final    Xof_img_size img_size = new Xof_img_size();
 	public Pfunc_ifexist_mgr		Ifexist_mgr()		{return ifexist_mgr;} private final    Pfunc_ifexist_mgr ifexist_mgr = new Pfunc_ifexist_mgr();
 	public Xof_url_bldr				Url_bldr()			{return url_bldr;} private final    Xof_url_bldr url_bldr = Xof_url_bldr.new_v2();
 	public List_adp					Time_parser_itms()	{return time_parser_itms;} private final    List_adp time_parser_itms = List_adp_.New();
@@ -26,14 +26,19 @@ public class Xow_parser_mgr {
 			wbase__time__msgs = Wdata_hwtr_msgs.new_(wiki.Msg_mgr());
 		return wbase__time__msgs;
 	}	private Wdata_hwtr_msgs wbase__time__msgs;
-	public Xop_parser Anchor_encoder() {
-		if (anchor_encode_parser == null) {
-			anchor_encode_parser = Xop_parser.new_(wiki, wiki.Parser_mgr().Main().Tmpl_lxr_mgr(), Xop_lxr_mgr.new_anchor_encoder());
-			anchor_encode_parser.Init_by_wiki(wiki);
-			anchor_encode_parser.Init_by_lang(wiki.Lang());
-		}
-		return anchor_encode_parser;
-	}
+	public int Tag__next_idx() {return ++tag_idx;} private int tag_idx; // NOTE:must be wiki-level variable, not page-level, b/c pre-compiled templates can reserve tag #s; PAGE:de.s:Seite:NewtonPrincipien.djvu/465 DATE:2015-02-03
+
+	public Pfunc_anchorencode_mgr Anchor_encoder_mgr__dflt_or_new(Xop_ctx calling_ctx) {
+		// lazy-instantiate anchor_encoder_mgr
+		if (anchor_encoder_mgr == null) anchor_encoder_mgr = new Pfunc_anchorencode_mgr(calling_ctx);
+
+		// default to member instance
+		Pfunc_anchorencode_mgr rv = anchor_encoder_mgr;
+		// if used, create a new one; only occurs if {{anchorencode}} is nested
+		if (rv.Used()) rv = new Pfunc_anchorencode_mgr(calling_ctx);
+		rv.Used_(Bool_.Y);
+		return rv;
+	}	private Pfunc_anchorencode_mgr anchor_encoder_mgr;
 	public void Parse(Xoae_page page, boolean clear) {	// main parse method
 		if (!Env_.Mode_testing()) wiki.Init_assert();
 		scrib.When_page_changed(page);	// notify scribunto about page changed

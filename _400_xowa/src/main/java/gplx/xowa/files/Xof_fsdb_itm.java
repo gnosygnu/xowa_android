@@ -130,7 +130,9 @@ public class Xof_fsdb_itm implements Xof_file_itm {
 			file_is_orig = Bool_.Y;
 		else {
 			img_size.Html_size_calc(exec_tid, lnki_w, lnki_h, lnki_type, lnki_upright_patch, lnki_upright, orig_ext.Id(), orig_w, orig_h, Xof_img_size.Thumb_width_img);
-			html_w = img_size.Html_w(); html_h = img_size.Html_h();
+			if (lnki_type != Xop_lnki_type.Tid_orig_known) {	// NOTE: hdump sets html_w / html_h; don't override; needed for packed-gallery; PAGE:en.w:Mexico; DATE:2016-08-10
+				html_w = img_size.Html_w(); html_h = img_size.Html_h();
+			}
 			file_w = img_size.File_w();
 			file_is_orig = img_size.File_is_orig();
 		}

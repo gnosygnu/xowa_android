@@ -1,6 +1,6 @@
-package gplx.xowa.addons.bldrs.pagelinks.bldrs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.pagelinks.*;
+package gplx.xowa.addons.bldrs.wmdumps.pagelinks.bldrs; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.wmdumps.*; import gplx.xowa.addons.bldrs.wmdumps.pagelinks.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wkrs.*; import gplx.xowa.bldrs.sqls.*;
-import gplx.dbs.*; import gplx.dbs.qrys.*; import gplx.xowa.wikis.data.*; import gplx.xowa.addons.bldrs.pagelinks.dbs.*;
+import gplx.dbs.*; import gplx.dbs.qrys.*; import gplx.xowa.wikis.data.*; import gplx.xowa.addons.bldrs.wmdumps.pagelinks.dbs.*;
 public class Pglnk_bldr_cmd extends Xob_sql_dump_base implements Sql_file_parser_cmd {
 	private Db_conn conn;
 	private Pglnk_page_link_temp_tbl temp_tbl;

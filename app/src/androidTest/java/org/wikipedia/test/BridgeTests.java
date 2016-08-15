@@ -10,6 +10,8 @@ import org.wikipedia.WikipediaApp;
 import org.wikipedia.bridge.CommunicationBridge;
 import org.wikipedia.testlib.TestLatch;
 
+import gplx.xowa.drds.OfflineJavascriptInterface;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -36,7 +38,7 @@ public class BridgeTests {
             @Override
             public void run() {
                 WebView webView = new WebView(app);
-                bridge = new CommunicationBridge(webView, TEST_FILE_URI);
+                bridge = new CommunicationBridge(webView, TEST_FILE_URI, OfflineJavascriptInterface.Instance);
                 bridge.addListener(DOM_LOADED, domLoadedListener);
             }
         });
@@ -58,7 +60,7 @@ public class BridgeTests {
             @Override
             public void run() {
                 WebView webView = new WebView(app);
-                bridge = new CommunicationBridge(webView, TEST_FILE_URI);
+                bridge = new CommunicationBridge(webView, TEST_FILE_URI, OfflineJavascriptInterface.Instance);
                 payload = new JSONObject();
                 try {
                     payload.put(SRC, PINGBACK);

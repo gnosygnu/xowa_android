@@ -41,12 +41,12 @@ public class CommunicationBridge {
     public interface JSEventListener {
         void onMessage(String messageType, JSONObject messagePayload);
     }
-    public CommunicationBridge CreateNew(CommunicationBridge bridge) {
-        return new CommunicationBridge(bridge.webView, bridge.baseURL);
+    public CommunicationBridge CreateNew(CommunicationBridge bridge, OfflineJavascriptInterface xowa_exec_wkr) {
+        return new CommunicationBridge(bridge.webView, bridge.baseURL, xowa_exec_wkr);
     }
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
-    public CommunicationBridge(final WebView webView, final String baseURL) {
+    public CommunicationBridge(final WebView webView, final String baseURL, OfflineJavascriptInterface xowa_exec_wkr) {
         this.webView = webView;
         this.baseURL = baseURL;
         this.marshaller = new BridgeMarshaller();
@@ -59,7 +59,7 @@ public class CommunicationBridge {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new CommunicatingChrome());
         webView.addJavascriptInterface(marshaller, "marshaller");
-        webView.addJavascriptInterface(OfflineJavascriptInterface.Instance.Set(webView), "xowa_exec");  // XOWA
+        webView.addJavascriptInterface(xowa_exec_wkr, "xowa_exec");  // XOWA
         /*
         webView.setWebViewClient(new WebViewClient(){
             @Override

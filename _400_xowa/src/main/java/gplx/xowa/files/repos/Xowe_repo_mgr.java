@@ -24,6 +24,15 @@ public class Xowe_repo_mgr implements Xow_repo_mgr, Gfo_invk {
 		}
 		return null;
 	}
+	public void Repos_clear() {repos.Clear();}
+	public void Clone(Xowe_repo_mgr src) {
+		this.Repos_clear();
+		int len = src.Repos_len();
+		for (int i = 0; i < len; ++i) {
+			Xof_repo_pair repo_pair = src.Repos_get_at(i);
+			this.Add_repo(repo_pair.Src().Key(), repo_pair.Trg().Key());
+		}
+	}
 	public Xof_repo_pair Repos_get_at(int i) {return (Xof_repo_pair)repos.Get_at(i);}
 	private Xof_repo_pair Repos_get_by_id(int id) {
 		int len = repos.Count();
@@ -50,6 +59,9 @@ public class Xowe_repo_mgr implements Xow_repo_mgr, Gfo_invk {
 		}
 		else
 			return pair.Src();
+	}
+	public Xof_repo_itm	Get_trg_by_tid_or_null(byte[] tid) {
+		return null;
 	}
 	public Xof_repo_pair[] Repos_ary() {if (repos_ary == null) repos_ary = (Xof_repo_pair[])repos.To_ary(Xof_repo_pair.class); return repos_ary;} private Xof_repo_pair[] repos_ary;
 	public boolean Xfer_by_meta(Xof_xfer_itm xfer_itm, Xof_xfer_queue queue) {

@@ -12,6 +12,7 @@ class Xomp_parse_mgr_cfg implements Gfo_invk {
 	public boolean Hdiff_enabled() {return hdiff_enabled;} private boolean hdiff_enabled = true;
 	public boolean Log_file_lnkis() {return log_file_lnkis;} private boolean log_file_lnkis = true;
 	public boolean Load_all_templates() {return load_all_templates;} private boolean load_all_templates = true;
+	public boolean Load_all_imglnks() {return load_all_imglnks;} private boolean load_all_imglnks = true;
 	public byte Zip_tid() {return zip_tid;} private byte zip_tid = Io_stream_.Tid_gzip;
 	public void Init(Xowe_wiki wiki) {
 		if (num_wkrs == -1) num_wkrs = gplx.core.envs.Env_.System_cpu_count();
@@ -29,6 +30,7 @@ class Xomp_parse_mgr_cfg implements Gfo_invk {
 		else if	(ctx.Match(k, Invk__hdiff_enabled_))		hdiff_enabled = m.ReadBool("v");
 		else if	(ctx.Match(k, Invk__zip_tid_))				zip_tid = m.ReadByte("v");
 		else if	(ctx.Match(k, Invk__load_all_templates_))	load_all_templates = m.ReadYn("v");
+		else if	(ctx.Match(k, Invk__load_all_imglnks_))		load_all_imglnks = m.ReadYn("v");
 		else if	(ctx.Match(k, Invk__manual_now_))			Datetime_now.Manual_and_freeze_(m.ReadDate("v"));
 		else	return Gfo_invk_.Rv_unhandled;
 		return this;
@@ -37,6 +39,6 @@ class Xomp_parse_mgr_cfg implements Gfo_invk {
 	  Invk__num_wkrs_ = "num_wkrs_", Invk__num_pages_in_pool_ = "num_pages_in_pool_", Invk__num_pages_per_wkr_ = "num_pages_per_wkr_"
 	, Invk__progress_interval_ = "progress_interval_", Invk__commit_interval_ = "commit_interval_", Invk__cleanup_interval_ = "cleanup_interval_"
 	, Invk__hdump_enabled_ = "hdump_enabled_", Invk__hzip_enabled_ = "hzip_enabled_", Invk__hdiff_enabled_ = "hdiff_enabled_", Invk__zip_tid_ = "zip_tid_"
-	, Invk__load_all_templates_ = "load_all_templates_", Invk__manual_now_ = "manual_now_"
+	, Invk__load_all_templates_ = "load_all_templates_", Invk__load_all_imglnks_ = "load_all_imglnks_", Invk__manual_now_ = "manual_now_"
 	;
 }

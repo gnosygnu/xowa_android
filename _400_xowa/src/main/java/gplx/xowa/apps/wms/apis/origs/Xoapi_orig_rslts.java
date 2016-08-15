@@ -1,4 +1,4 @@
-package gplx.xowa.bldrs.wms.apis; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wms.*;
+package gplx.xowa.apps.wms.apis.origs; import gplx.*; import gplx.xowa.*; import gplx.xowa.apps.*; import gplx.xowa.apps.wms.*; import gplx.xowa.apps.wms.apis.*;
 public class Xoapi_orig_rslts {
 	public byte[] Orig_wiki() {return orig_wiki;} private byte[] orig_wiki;
 	public byte[] Orig_page() {return orig_page;} private byte[] orig_page;
