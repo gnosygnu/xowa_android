@@ -3,28 +3,31 @@ import gplx.core.brys.*; import gplx.core.btries.*;
 import gplx.langs.htmls.encoders.*;
 import gplx.xowa.parsers.*; import gplx.xowa.parsers.amps.*; import gplx.xowa.parsers.lnkes.*; import gplx.xowa.parsers.lnkis.*; import gplx.xowa.parsers.xndes.*; import gplx.xowa.parsers.tmpls.*;
 public class Pfunc_anchorencode_mgr {	// TS
-	private final    Xop_ctx ctx; private final    Xop_tkn_mkr tkn_mkr; private final    Xop_parser parser;
+	private final    Xop_parser parser; // create a special-parser for handling wikitext inside {{anchorencode:}}
 	private final    Bry_bfr tmp_bfr = Bry_bfr_.Reset(255);		
-	public Pfunc_anchorencode_mgr(Xop_ctx calling_ctx) {
-		this.ctx = Xop_ctx.New__sub__reuse_page(calling_ctx);
-		ctx.Para().Enabled_n_();
-		this.tkn_mkr = ctx.Tkn_mkr();
-
-		Xowe_wiki wiki = calling_ctx.Wiki();
+	public Pfunc_anchorencode_mgr(Xowe_wiki wiki) {
 		this.parser = Xop_parser.new_(wiki, wiki.Parser_mgr().Main().Tmpl_lxr_mgr(), Xop_lxr_mgr.new_anchor_encoder());
 		parser.Init_by_wiki(wiki);
 		parser.Init_by_lang(wiki.Lang());
 	}
 	public boolean Used() {return used;} private boolean used;
 	public void Used_(boolean v) {used = v;}
-	public void Encode_anchor(Bry_bfr bfr, byte[] src) {
-		Xop_root_tkn root = ctx.Tkn_mkr().Root(src);
-		parser.Parse_wtxt_to_wdom(root, ctx, tkn_mkr, src, Xop_parser_.Doc_bgn_bos);
-		int subs_len = root.Subs_len();
-		for (int i = 0; i < subs_len; i++) {
-			Xop_tkn_itm sub = root.Subs_get(i);
-			Tkn(ctx, src, sub, root, i, tmp_bfr);
-		}
+	public void Encode_anchor(Bry_bfr bfr, Xop_ctx ctx, byte[] src) {
+		// parse {{anchorencode:}}; note that wikitext inside anchorencode gets serialized by different rules
+		Xop_tkn_mkr tkn_mkr = ctx.Tkn_mkr();
+		boolean para_enabled = ctx.Para().Enabled();
+		ctx.Para().Enabled_n_();	// HACK: disable para
+		try {
+			Xop_root_tkn root = tkn_mkr.Root(src);
+			parser.Parse_wtxt_to_wdom(root, ctx, tkn_mkr, src, Xop_parser_.Doc_bgn_bos);
+			int subs_len = root.Subs_len();
+			for (int i = 0; i < subs_len; i++) {
+				Xop_tkn_itm sub = root.Subs_get(i);
+				Tkn(ctx, src, sub, root, i, tmp_bfr);
+			}
+		} finally {ctx.Para().Enabled_(para_enabled);}
+
+		// write to bfr and encode it
 		byte[] unencoded = tmp_bfr.To_bry_and_clear();
 		Gfo_url_encoder_.Id.Encode(tmp_bfr, unencoded);
 		bfr.Add_bfr_and_clear(tmp_bfr);

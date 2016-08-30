@@ -10,9 +10,9 @@ public class Io_url_ {//_20101005
 		if (usr_dir == null) {
 			switch (Op_sys.Cur().Tid()) {
 				case Op_sys.Tid_wnt: usr_dir = Io_url_.new_inf_("C:\\", IoUrlInfo_.Wnt); break;
-				case Op_sys.Tid_lnx: usr_dir = Io_url_.new_inf_(String_.Format("/home/{0}/", Env_.UserName()), IoUrlInfo_.Lnx); break;
-				case Op_sys.Tid_osx: usr_dir = Io_url_.new_inf_(String_.Format("/Users/{0}/", Env_.UserName()), IoUrlInfo_.Lnx); break;
-				case Op_sys.Tid_drd: usr_dir = Io_url_.new_inf_(String_.Format("/mnt/{0}/", Env_.UserName()), IoUrlInfo_.Lnx); break;
+				case Op_sys.Tid_lnx: usr_dir = Io_url_.new_inf_(String_.Format("/home/{0}/", System_.Prop__user_name()), IoUrlInfo_.Lnx); break;
+				case Op_sys.Tid_osx: usr_dir = Io_url_.new_inf_(String_.Format("/Users/{0}/", System_.Prop__user_name()), IoUrlInfo_.Lnx); break;
+				case Op_sys.Tid_drd: usr_dir = Io_url_.new_inf_(String_.Format("/mnt/{0}/", System_.Prop__user_name()), IoUrlInfo_.Lnx); break;
 				default: throw Err_.new_unhandled(Op_sys.Cur().Tid());
 			}
 		}

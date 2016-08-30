@@ -44,6 +44,7 @@ public class Xoh_img_src_data implements Bfr_arg_clearable, Xoh_itm_parser {
 		rdr.Init_by_wkr(err_wkr, "img.src.xowa", src_bgn, src_end).Fail_throws_err_(Bool_.N);
 		repo_bgn = rdr.Find_fwd_rr(Bry__file);						// skip past /file/; EX: "file:///J:/xowa/file/commons.wikimedia.org/"
 		if (repo_bgn == -1) return false;
+
 		rdr.Fail_throws_err_(Bool_.Y);
 
 		// get repo
@@ -79,10 +80,10 @@ public class Xoh_img_src_data implements Bfr_arg_clearable, Xoh_itm_parser {
 		}
 		return true;
 	}
-	public void Init_by_decode(byte[] file_ttl_bry, int file_w, byte[] src) {
-		this.file_ttl_bry = file_ttl_bry;
-		this.file_w = file_w;
+	public void Init_by_decode(byte[] src, boolean file_is_orig, byte[] file_ttl_bry, int file_w, double file_time, int file_page) {
 		this.src_bry = src; this.src_bgn = 0; this.src_end = src.length;
+		this.file_is_orig = file_is_orig;
+		this.file_ttl_bry = file_ttl_bry; this.file_w = file_w; this.file_time = file_time; this.file_page = file_page;
 	}
 	public void Bfr_arg__clear() {this.Clear();}
 	public boolean Bfr_arg__missing() {return src_bry == null;}

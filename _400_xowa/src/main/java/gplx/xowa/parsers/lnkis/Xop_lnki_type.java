@@ -45,6 +45,7 @@ public class Xop_lnki_type {
 		if		(	Bitmask_.Has_int(id, Id_thumb)		// [[File:A.png|600px|thumb]]      -> 400,200
 				||	Bitmask_.Has_int(id, Id_frameless)	// [[File:A.png|600px|frameless]]  -> 400,200
 				||	Bitmask_.Has_int(id, Id_frame)		// [[File:A.png|600px|frame]]      -> 400,200 (frame is always default size)
+				||	id == Tid_orig_known				// for hdump
 				)
 			return true;
 		else if (	id == Id_null						// [[File:A.png|600px]]            -> 600,400; uses orig file of 400,200, but <img> tag src_width / src_height set to 600,400

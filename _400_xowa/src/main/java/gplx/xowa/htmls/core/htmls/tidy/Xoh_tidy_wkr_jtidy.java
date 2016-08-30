@@ -13,12 +13,12 @@ class Xoh_tidy_wkr_jtidy implements Xoh_tidy_wkr {
 	private Tidy tidy;
 	private ByteArrayOutputStream wtr; 
 	public void tidy_init() {
-		long bgn = Env_.TickCount();
+		long bgn = System_.Ticks();
 		wtr = new ByteArrayOutputStream();
 		System.setProperty("line.separator", "\n");
 		tidy = new Tidy(); // obtain a new Tidy instance
-		tidy.setInputEncoding("UTF-8");			// -utf8
-		tidy.setOutputEncoding("UTF-8");		// -utf8
+		tidy.setInputEncoding("utf-8");			// -utf8
+		tidy.setOutputEncoding("utf-8");		// -utf8
 		tidy.setDocType("\"\"");				// --doctype \"\"; set to empty else some wikis will show paragraph text with little vertical gap; PAGE:tr.b:
 		tidy.setForceOutput(true);				// --force-output y 
 		tidy.setQuiet(true);					// --quiet y
@@ -35,7 +35,7 @@ class Xoh_tidy_wkr_jtidy implements Xoh_tidy_wkr {
 		tidy.setTrimEmptyElements(true);		// NOTE: tidy always trims (not even an option)
 		tidy.setShowWarnings(false);			// NOTE: otherwise warnings printed to output window
 		tidy.setShowErrors(0);					// NOTE: otherwise errors printed to output window; EX: Error: <time> is not recognized!
-		app.Usr_dlg().Log_many("", "", "jtidy.init; elapsed=~{0}", Env_.TickCount_elapsed_in_frac(bgn));
+		app.Usr_dlg().Log_many("", "", "jtidy.init; elapsed=~{0}", System_.Ticks__elapsed_in_frac(bgn));
 	}
 	//#}
 	private Xoae_app app;

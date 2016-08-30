@@ -45,14 +45,21 @@ public class Xow_hdump_mgr__load {
 	private byte[] Parse(Xoh_page hpg, int zip_tid, int hzip_tid, byte[] src) {
 		if (zip_tid > gplx.core.ios.streams.Io_stream_.Tid_raw)
 			src = zip_mgr.Unzip((byte)zip_tid, src);
-		if (hzip_tid == Xoh_hzip_dict_.Hzip__v1) {
-			src = override_mgr__html.Get_or_same(hpg.Ttl().Page_db(), src);
-			hpg.Section_mgr().Add(0, 2, Bry_.Empty, Bry_.Empty).Content_bgn_(0);	// +1 to skip \n
-			src = Decode_as_bry(tmp_bfr.Clear(), hpg, src, Bool_.N);
-			hpg.Section_mgr().Set_content(hpg.Section_mgr().Len() - 1, src, src.length);
+		switch (hzip_tid) {
+			case Xoh_hzip_dict_.Hzip__none:
+				src = make_mgr.Parse(src, hpg, hpg.Wiki());
+				break;
+			case Xoh_hzip_dict_.Hzip__v1:
+				src = override_mgr__html.Get_or_same(hpg.Ttl().Page_db(), src);
+				hpg.Section_mgr().Add(0, 2, Bry_.Empty, Bry_.Empty).Content_bgn_(0);	// +1 to skip \n
+				src = Decode_as_bry(tmp_bfr.Clear(), hpg, src, Bool_.N);
+				hpg.Section_mgr().Set_content(hpg.Section_mgr().Len() - 1, src, src.length);
+				break;
+			case Xoh_hzip_dict_.Hzip__plain:
+				gplx.xowa.apps.wms.apis.parses.Wm_page_loader page_loader = new gplx.xowa.apps.wms.apis.parses.Wm_page_loader();
+				src = page_loader.Parse(wiki, hpg, src);
+				break;
 		}
-		else
-			src = make_mgr.Parse(src, hpg, hpg.Wiki());
 		return src;
 	}
 	private void Fill_page(Xoae_page wpg, Xoh_page hpg) {

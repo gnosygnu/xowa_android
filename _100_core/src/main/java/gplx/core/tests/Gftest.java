@@ -4,6 +4,7 @@ public class Gftest {
 	private static final    Bry_bfr bfr = Bry_bfr_.New();
 	public static void Eq__ary(int[] expd, int[] actl, String msg_fmt, Object... msg_args)			{Eq__array(Type_adp_.Tid__int, expd, actl, msg_fmt, msg_args);}
 	public static void Eq__ary(long[] expd, long[] actl, String msg_fmt, Object... msg_args)			{Eq__array(Type_adp_.Tid__long, expd, actl, msg_fmt, msg_args);}
+	public static void Eq__ary__lines(String expd, byte[] actl, String msg_fmt, Object... msg_args)	{Eq__ary__lines(expd, String_.new_u8(actl), msg_fmt, msg_args);}
 	public static void Eq__ary__lines(String expd, String actl, String msg_fmt, Object... msg_args)	{Eq__array(Type_adp_.Tid__bry, Bry_split_.Split_lines(Bry_.new_u8(expd)), Bry_split_.Split_lines(Bry_.new_u8(actl)), msg_fmt, msg_args);}
 	public static void Eq__ary(String[] expd, String[] actl)												{Eq__array(Type_adp_.Tid__bry, Bry_.Ary(expd), Bry_.Ary(actl), "no_msg");}
 	public static void Eq__ary(String[] expd, String[] actl, String msg_fmt, Object... msg_args)		{Eq__array(Type_adp_.Tid__bry, Bry_.Ary(expd), Bry_.Ary(actl), msg_fmt, msg_args);}

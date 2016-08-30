@@ -88,11 +88,17 @@ public class Xod_app_mgr {
     public Xoa_app Get_app_or_boot(Activity activity) {
         if (xo_app == null) {
             this.activity = activity;
+            this.version = Drd_version.New(activity.getApplicationContext());
             this.Boot();
             if (xo_app == null)
                 throw Err_.new_("", "boot failed. could not get app");
         }
         return xo_app;
+    }
+    public Xod_app_mgr Init_by_bridge(Activity activity, CommunicationBridge bridge) {
+        this.activity = activity; this.bridge = bridge;
+        tag_wtr_cbk.Bridge_(bridge);
+        return this;
     }
     private void Boot__init_env(Context context, Gfo_log log) {
         log.Info("app.boot:boot env");
@@ -165,18 +171,12 @@ public class Xod_app_mgr {
         Site site = cur_page == null ? app.getPrimarySite() : cur_page.getSite();
         return site.getDomain();
     }
-    public Xod_app_mgr Init(Activity activity, CommunicationBridge bridge) {
-        this.activity = activity; this.bridge = bridge;
-        this.version = Drd_version.New(activity.getApplicationContext());
-        tag_wtr_cbk.Bridge_(bridge);
-        return this;
-    }
     public Xow_wiki Get_by_domain(String domain) {
         return xo_app.Wiki_mgr().Get_by_or_null(Bry_.new_u8(domain));
     }
     public String Wikis__get_1st(Activity activity) {
         if (drd_app == null) {
-            this.Init(activity, null);
+            this.Get_app_or_boot(activity);
             Boot();
         }
         Xoud_site_row[] site_rows = xo_app.User().User_db_mgr().Site_mgr().Get_all();
@@ -188,7 +188,7 @@ public class Xod_app_mgr {
     }
     public int Wikis_installed_count(Activity activity) {
         if (drd_app == null) {
-            this.Init(activity, null);
+            this.Get_app_or_boot(activity);
             Boot();
         }
         Xoud_site_row[] site_rows = xo_app.User().User_db_mgr().Site_mgr().Get_all();

@@ -1,7 +1,7 @@
 package gplx.gfui.kits.swts; import gplx.*; import gplx.gfui.*; import gplx.gfui.kits.*;
 //#{swt
 import gplx.*;
-import gplx.core.envs.Env_;
+import gplx.core.envs.System_;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.browser.*; import org.eclipse.swt.custom.*; import org.eclipse.swt.events.*; import org.eclipse.swt.graphics.*; import org.eclipse.swt.layout.*; import org.eclipse.swt.widgets.*;
@@ -65,7 +65,7 @@ class Swt_app_browser_mgr {
 //			browser.setUrl("about:blank");
 			browser.dispose();
 		}
-		Env_.GarbageCollect();
+		System_.Garbage_collect();
 		browser = null;
 	}
 }

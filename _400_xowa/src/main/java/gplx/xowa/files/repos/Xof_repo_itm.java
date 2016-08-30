@@ -8,24 +8,24 @@ public class Xof_repo_itm implements Gfo_invk {
 		this.key = key; this.app_fsys = app_fsys; this.ext_rule_mgr = ext_rule_mgr;
 		Wiki_domain_(wiki_domain);
 	}
-	public byte[]	Key()				{return key;} private final    byte[] key;
-	public byte[]	Wiki_domain()		{return wiki_domain;} private byte[] wiki_domain;
-	public byte[]	Wiki_abrv_xo()		{return wiki_abrv_xo;} private byte[] wiki_abrv_xo;
-	public byte[]	Root_bry()			{return root_bry;} private byte[] root_bry;
-	public byte[]	Root_http()			{return root_http;} private byte[] root_http = Bry_.Empty;
-	public String	Root_str()			{return root_str;} private String root_str;
-	public byte		Dir_spr()			{return dir_spr;} private byte dir_spr;
-	public boolean		Fsys_is_wnt() {return fsys_is_wnt;} public Xof_repo_itm Fsys_is_wnt_(boolean v) {fsys_is_wnt = v; return this;} private boolean fsys_is_wnt;
-	public boolean		Shorten_ttl() {return shorten_ttl;} public Xof_repo_itm Shorten_ttl_(boolean v) {shorten_ttl = v; return this;} private boolean shorten_ttl = true;
-	public boolean		Wmf_fsys() {return wmf_fsys;} public Xof_repo_itm Wmf_fsys_(boolean v) {wmf_fsys = v; return this;} private boolean wmf_fsys;
-	public boolean		Wmf_api() {return wmf_api;} public Xof_repo_itm Wmf_api_(boolean v) {wmf_api = v; return this;} private boolean wmf_api;
-	public boolean		Tarball() {return tarball;} public Xof_repo_itm Tarball_(boolean v) {tarball = v; return this;} private boolean tarball;
-	public byte[][] Mode_names() {return mode_names;} private byte[][] mode_names = new byte[][] {Xof_repo_itm_.Mode_names_key[0], Xof_repo_itm_.Mode_names_key[1]};
-	public int		Dir_depth() {return dir_depth;} public Xof_repo_itm Dir_depth_(int v) {dir_depth = v; return this;} private int dir_depth = 4;
-	public Xof_rule_grp Ext_rules() {return ext_rules;} private Xof_rule_grp ext_rules;
-	public Xof_repo_itm Ext_rules_(byte[] ext_rules_key) {ext_rules = ext_rule_mgr.Get_or_new(ext_rules_key); return this;}
-	public boolean		Primary() {return primary;} public Xof_repo_itm Primary_(boolean v) {primary = v; return this;} private boolean primary;
-	public void		Wiki_domain_(byte[] v) {
+	public byte[]			Key()				{return key;} private final    byte[] key;
+	public byte[]			Wiki_domain()		{return wiki_domain;} private byte[] wiki_domain;
+	public byte[]			Wiki_abrv_xo()		{return wiki_abrv_xo;} private byte[] wiki_abrv_xo;
+	public byte[]			Root_bry()			{return root_bry;} private byte[] root_bry;
+	public byte[]			Root_http()			{return root_http;} private byte[] root_http = Bry_.Empty;
+	public String			Root_str()			{return root_str;} private String root_str;
+	public byte				Dir_spr()			{return dir_spr;} private byte dir_spr;
+	public boolean				Fsys_is_wnt() {return fsys_is_wnt;} public Xof_repo_itm Fsys_is_wnt_(boolean v) {fsys_is_wnt = v; return this;} private boolean fsys_is_wnt;
+	public boolean				Shorten_ttl() {return shorten_ttl;} public Xof_repo_itm Shorten_ttl_(boolean v) {shorten_ttl = v; return this;} private boolean shorten_ttl = true;
+	public boolean				Wmf_fsys() {return wmf_fsys;} public Xof_repo_itm Wmf_fsys_(boolean v) {wmf_fsys = v; return this;} private boolean wmf_fsys;
+	public boolean				Wmf_api() {return wmf_api;} public Xof_repo_itm Wmf_api_(boolean v) {wmf_api = v; return this;} private boolean wmf_api;
+	public boolean				Tarball() {return tarball;} public Xof_repo_itm Tarball_(boolean v) {tarball = v; return this;} private boolean tarball;
+	public byte[][]			Mode_names() {return mode_names;} private byte[][] mode_names = new byte[][] {Xof_repo_itm_.Mode_names_key[0], Xof_repo_itm_.Mode_names_key[1]};
+	public int				Dir_depth() {return dir_depth;} public Xof_repo_itm Dir_depth_(int v) {dir_depth = v; return this;} private int dir_depth = 4;
+	public Xof_rule_grp		Ext_rules() {return ext_rules;} private Xof_rule_grp ext_rules;
+	public Xof_repo_itm		Ext_rules_(byte[] ext_rules_key) {ext_rules = ext_rule_mgr.Get_or_new(ext_rules_key); return this;}
+	public boolean				Primary() {return primary;} public Xof_repo_itm Primary_(boolean v) {primary = v; return this;} private boolean primary;
+	public void				Wiki_domain_(byte[] v) {
 		this.wiki_domain = v;
 		Xow_domain_itm domain_itm = Xow_domain_itm_.parse(v);
 		if (domain_itm == null) {

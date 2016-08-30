@@ -269,7 +269,7 @@ public class Xoh_img_hzip implements Xoh_hzip_wkr, Gfo_poolable_itm {
 		data.Anch_href().Init_by_decode(anch_href_bry);
 		data.Anch_cls().Init_by_decode(anch__cls_tid);
 		data.Img_cls().Init_by_decode(src, img__cls, img_cls_other_bgn, img_cls_other_end);
-		data.Img_src().Init_by_decode(src_page, file_w, url_bldr.Xto_bry());
+		data.Img_src().Init_by_decode(url_bldr.Xto_bry(), file__is_orig, src_page, file_w, file_time, file_page);
 	}
 	public void				Pool__rls	() {pool_mgr.Rls_fast(pool_idx);} private Gfo_poolable_mgr pool_mgr; private int pool_idx;
 	public Gfo_poolable_itm	Pool__make	(Gfo_poolable_mgr mgr, int idx, Object[] args) {Xoh_img_hzip rv = new Xoh_img_hzip(); rv.pool_mgr = mgr; rv.pool_idx = idx; rv.hook = (byte[])args[0]; return rv;}

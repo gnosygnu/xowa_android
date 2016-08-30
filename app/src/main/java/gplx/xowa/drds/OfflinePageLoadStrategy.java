@@ -140,7 +140,7 @@ public class OfflinePageLoadStrategy implements PageLoadStrategy {
         this.bridge = bridge;
         this.searchBarHideHandler = searchBarHideHandler;
         this.leadImagesHandler = leadImagesHandler;
-        this.xo_app_mgr = Xod_app_mgr.Instance.Init(activity, bridge);    // XOWA
+        this.xo_app_mgr = Xod_app_mgr.Instance.Init_by_bridge(activity, bridge);    // XOWA
     }
 
     @Override

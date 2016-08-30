@@ -10,9 +10,7 @@ public class Xow_wiki_utl_ {
 		rv.File_mgr().Repo_mgr().Clone(wiki.File_mgr().Repo_mgr());
 		rv.File__fsdb_mode().Tid__v2__bld__y_();
 
-		// force all repos to be lnx; will not convert characters like *,",? to _; also force long titles
 		Clone_repos(wiki);
-
 		return rv;
 	}
 	public static void Clone_repos(Xowe_wiki wiki) {

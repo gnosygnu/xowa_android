@@ -22,20 +22,12 @@ public class Xoh_img_bare_data implements Xoh_data_itm {
 		int root_dir_bgn = img_src_atr.Val_bgn();
 		int root_dir_end = root_dir_bgn + root_dir_bry.length;
 		if (Bry_.Match(src, root_dir_bgn, root_dir_end, root_dir_bry)) {	// begins with XOWA root dir
-			if (Bry_.Len_gt_0(img_head.Atrs__get_as_bry(Arg__usemap))) {
-				img_tid = Img_tid__imap_map;
-				dir_bgn = root_dir_bgn;
-				dir_end = root_dir_end;
-				return true;
-			}
-			else {
-				byte trie_tid = trie.Match_byte_or(trv, src, root_dir_end, src_end, Byte_.Max_value_127);
-				if (trie_tid == Byte_.Max_value_127) return false;
-				img_tid = trie_tid;
-				dir_bgn = root_dir_bgn;
-				dir_end = trv.Pos();
-				return true;
-			}
+			byte trie_tid = trie.Match_byte_or(trv, src, root_dir_end, src_end, Byte_.Max_value_127);
+			if (trie_tid == Byte_.Max_value_127) return false;
+			img_tid = trie_tid;
+			dir_bgn = root_dir_bgn;
+			dir_end = trv.Pos();
+			return true;
 		}
 		return false;
 	}
@@ -45,12 +37,11 @@ public class Xoh_img_bare_data implements Xoh_data_itm {
 	public void				Pool__rls	() {pool_mgr.Rls_fast(pool_idx);} private Gfo_poolable_mgr pool_mgr; private int pool_idx;
 	public Gfo_poolable_itm	Pool__make	(Gfo_poolable_mgr mgr, int idx, Object[] args) {Xoh_img_bare_data rv = new Xoh_img_bare_data(); rv.pool_mgr = mgr; rv.pool_idx = idx; return rv;}
 
-	public static final byte Img_tid__hiero = 0, Img_tid__imap_btn = 1, Img_tid__imap_map = 2;
+	public static final byte Img_tid__hiero = 0, Img_tid__imap_btn = 1;
 	public static final    byte[] 
 	  Url__hiero = Bry_.new_a7("bin/any/xowa/xtns/Wikihiero/img/hiero_")
 	, Url__imap  = Bry_.new_a7("bin/any/xowa/xtns/ImageMap/imgs/")
 	;
-	private static final    byte[] Arg__usemap = Bry_.new_a7("usemap");
 	private final    Btrie_rv trv = new Btrie_rv();
 	private static final    Btrie_slim_mgr trie = Btrie_slim_mgr.cs()
 	.Add_bry_byte(Url__hiero, Img_tid__hiero)

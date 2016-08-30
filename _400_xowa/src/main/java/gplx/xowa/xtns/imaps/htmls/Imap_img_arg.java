@@ -37,7 +37,7 @@ public class Imap_img_arg implements gplx.core.brys.Bfr_arg {
 					img_w_tmp = img_h_tmp = 0;
 					img_src_tmp = Bry_.Empty;
 				}
-				Xoh_file_fmtr__hdump.Add_anch_n(tmp_bfr, data_xowa_title, data_xowa_image, img_src_tmp, img_w_tmp, img_h_tmp, Xoh_img_cls_.Tid__thumbimage, Bry_.Empty, Bry_.Empty, usemap);
+				Xoh_file_fmtr__hdump.Add_anch_n(tmp_bfr, data_xowa_title, data_xowa_image, img_src_tmp, img_w_tmp, img_h_tmp, Xoh_img_cls_.Tid__none, Bry_.Empty, Bry_.Empty, usemap);
 				bfr.Add_byte_nl().Add_byte_repeat(Byte_ascii.Space, 6);
 				bfr.Add_bfr_and_clear(tmp_bfr);
 			} finally {tmp_bfr.Mkr_rls();}

@@ -13,6 +13,7 @@ public class Xoh_hdoc_ctx {
 	public boolean						Fsys__is_wnt()		{return fsys__is_wnt;} private boolean fsys__is_wnt;
 	public Xoa_app					App()				{return app;} private Xoa_app app;
 	public byte[]					Wiki__domain_bry()	{return wiki__domain_bry;} private byte[] wiki__domain_bry;
+	public Xow_domain_itm			Wiki__domain_itm()	{return wiki__domain_itm;} private Xow_domain_itm wiki__domain_itm;
 	public Xow_ttl_parser			Wiki__ttl_parser()	{return wiki__ttl_parser;} private Xow_ttl_parser wiki__ttl_parser;
 	public Xow_url_parser			Wiki__url_parser()	{return wiki__url_parser;} private Xow_url_parser wiki__url_parser;
 	public boolean					Xwiki_mgr__missing(byte[] domain){return app.Xwiki_mgr__missing(domain);}
@@ -47,6 +48,7 @@ public class Xoh_hdoc_ctx {
 		this.wiki__url_parser = wiki.Utl__url_parser();
 		this.wiki__ttl_parser = wiki;
 		this.wiki__domain_bry = wiki.Domain_bry();
+		this.wiki__domain_itm = wiki.Domain_itm();
 
 		// init repos
 		Xof_repo_pair[] pairs = wiki.File__repo_mgr().Repos_ary();
@@ -54,9 +56,10 @@ public class Xoh_hdoc_ctx {
 		for (int i = 0; i < pairs_len; ++i) {
 			Xof_repo_pair pair = pairs[i];
 			Xof_repo_itm itm = pair.Trg();
-			if		(Bry_.Eq(itm.Wiki_domain(), wiki__domain_bry))
+			byte[] itm_domain = itm.Wiki_domain();
+			if		(Bry_.Eq(itm_domain, wiki__domain_bry))
 				repo_local = itm;
-			else if (Bry_.Eq(itm.Wiki_domain(), Xow_domain_itm_.Bry__commons))
+			else if (Bry_.Eq(itm_domain, Xow_domain_itm_.Bry__commons))
 				repo_remote = pair.Trg();
 		}
 

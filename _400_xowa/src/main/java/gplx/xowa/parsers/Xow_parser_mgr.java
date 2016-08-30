@@ -19,6 +19,8 @@ public class Xow_parser_mgr {
 	public List_adp					Time_parser_itms()	{return time_parser_itms;} private final    List_adp time_parser_itms = List_adp_.New();
 	public Pft_func_formatdate_bldr Date_fmt_bldr()		{return date_fmt_bldr;} private final    Pft_func_formatdate_bldr date_fmt_bldr = new Pft_func_formatdate_bldr();
 	public Gfo_number_parser		Pp_num_parser()		{return pp_num_parser;} private final    Gfo_number_parser pp_num_parser = new Gfo_number_parser().Ignore_space_at_end_y_();
+	public int[]					Rel2abs_ary()		{return rel2abs_ary;} private final    int[] rel2abs_ary = new int[Pfunc_rel2abs.Ttl_max];
+	public boolean						Lst__recursing()	{return lst_recursing;} private boolean lst_recursing; public void	Lst__recursing_(boolean v) {lst_recursing = v;}
 	public Bry_bfr					Wbase__time__bfr()  {return wbase__time__bfr;} private final    Bry_bfr wbase__time__bfr = Bry_bfr_.New();
 	public Bry_fmtr					Wbase__time__fmtr() {return wbase__time__fmtr;} private final    Bry_fmtr wbase__time__fmtr = Bry_fmtr.new_();
 	public Wdata_hwtr_msgs			Wbase__time__msgs() {
@@ -27,20 +29,37 @@ public class Xow_parser_mgr {
 		return wbase__time__msgs;
 	}	private Wdata_hwtr_msgs wbase__time__msgs;
 	public int Tag__next_idx() {return ++tag_idx;} private int tag_idx; // NOTE:must be wiki-level variable, not page-level, b/c pre-compiled templates can reserve tag #s; PAGE:de.s:Seite:NewtonPrincipien.djvu/465 DATE:2015-02-03
+	public void						Tmpl_stack_del() {--tmpl_stack_ary_len;}
+	public boolean						Tmpl_stack_add(byte[] key) {
+		for (int i = 0; i < tmpl_stack_ary_len; i++) {
+			if (Bry_.Match(key, tmpl_stack_ary[i])) return false;
+		}
+		int new_len = tmpl_stack_ary_len + 1;
+		if (new_len > tmpl_stack_ary_max) {
+			tmpl_stack_ary_max = new_len * 2;
+			tmpl_stack_ary = (byte[][])Array_.Resize(tmpl_stack_ary, tmpl_stack_ary_max);
+		}
+		tmpl_stack_ary[tmpl_stack_ary_len] = key;
+		tmpl_stack_ary_len = new_len;
+		return true;
+	}	private byte[][] tmpl_stack_ary = Bry_.Ary_empty; private int tmpl_stack_ary_len = 0, tmpl_stack_ary_max = 0;
 
 	public Pfunc_anchorencode_mgr Anchor_encoder_mgr__dflt_or_new(Xop_ctx calling_ctx) {
 		// lazy-instantiate anchor_encoder_mgr
-		if (anchor_encoder_mgr == null) anchor_encoder_mgr = new Pfunc_anchorencode_mgr(calling_ctx);
+		if (anchor_encoder_mgr == null) anchor_encoder_mgr = new Pfunc_anchorencode_mgr(wiki);
 
 		// default to member instance
 		Pfunc_anchorencode_mgr rv = anchor_encoder_mgr;
 		// if used, create a new one; only occurs if {{anchorencode}} is nested
-		if (rv.Used()) rv = new Pfunc_anchorencode_mgr(calling_ctx);
+		if (rv.Used()) rv = new Pfunc_anchorencode_mgr(wiki);
 		rv.Used_(Bool_.Y);
 		return rv;
 	}	private Pfunc_anchorencode_mgr anchor_encoder_mgr;
-	public void Parse(Xoae_page page, boolean clear) {	// main parse method
+	public void Parse(Xoae_page page, boolean clear) {	// main parse method; should never be called nested
 		if (!Env_.Mode_testing()) wiki.Init_assert();
+		tmpl_stack_ary = Bry_.Ary_empty;
+		tmpl_stack_ary_len = tmpl_stack_ary_max = 0;
+
 		scrib.When_page_changed(page);	// notify scribunto about page changed
 		ctx.Page_(page);
 		Xop_root_tkn root = ctx.Tkn_mkr().Root(page.Db().Text().Text_bry());

@@ -9,7 +9,7 @@ import gplx.fsdb.meta.*; import gplx.xowa.files.fsdb.*; import gplx.fsdb.*;
 import gplx.xowa.langs.vnts.*; import gplx.xowa.parsers.vnts.*;
 import gplx.xowa.parsers.lnkis.files.*;
 import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.cmds.*; import gplx.xowa.bldrs.wkrs.*;
-import gplx.xowa.addons.bldrs.files.dbs.*; import gplx.xowa.addons.bldrs.mass_parses.parses.*;
+import gplx.xowa.addons.bldrs.files.dbs.*; import gplx.xowa.addons.bldrs.mass_parses.parses.*; import gplx.xowa.addons.bldrs.mass_parses.parses.utls.*;
 import gplx.xowa.addons.bldrs.wmdumps.imglinks.*;
 public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx.xowa.parsers.lnkis.files.Xop_file_logger {
 	private Xob_lnki_temp_tbl tbl; private boolean wdata_enabled = true, xtn_ref_enabled = true, gen_html, gen_hdump;
@@ -131,7 +131,7 @@ public class Xobldr__lnki_temp__create extends Xob_dump_mgr_base implements gplx
 		Xof_ext ext = Xof_ext_.new_by_ttl_(ttl);
 		double lnki_time = lnki.Time();
 		int lnki_page = lnki.Page();
-		byte[] ttl_commons = Xomp_file_logger.To_commons_ttl(ns_file_is_case_match_all, commons_wiki, ttl);
+		byte[] ttl_commons = Xomp_lnki_temp_wkr.To_commons_ttl(ns_file_is_case_match_all, commons_wiki, ttl);
 		if (	Xof_lnki_page.Null_n(lnki_page) 				// page set
 			&&	Xof_lnki_time.Null_n(lnki_time))				// thumbtime set
 				usr_dlg.Warn_many("", "", "page and thumbtime both set; this may be an issue with fsdb: page=~{0} ttl=~{1}", ctx.Page().Ttl().Page_db_as_str(), String_.new_u8(ttl));

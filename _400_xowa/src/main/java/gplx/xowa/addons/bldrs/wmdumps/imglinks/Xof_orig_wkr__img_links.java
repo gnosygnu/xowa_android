@@ -2,7 +2,7 @@ package gplx.xowa.addons.bldrs.wmdumps.imglinks; import gplx.*; import gplx.xowa
 import gplx.dbs.*; import gplx.xowa.bldrs.*;
 import gplx.xowa.files.origs.*; import gplx.xowa.files.repos.*;
 public class Xof_orig_wkr__img_links implements Xof_orig_wkr {
-	private final    Ordered_hash hash = Ordered_hash_.New_bry();		
+	private final    Hash_adp_bry hash = Hash_adp_bry.cs();
 	private Db_conn imglnk_conn;
 	public Xof_orig_wkr__img_links(Xowe_wiki wiki) {
 		this.wiki = wiki;
@@ -50,7 +50,9 @@ public class Xof_orig_wkr__img_links implements Xof_orig_wkr {
 		Xof_orig_itm rv = Xof_orig_wkr__img_links_.Load_itm(this, imglnk_conn, wiki, ttl);
 		if (rv == Xof_orig_itm.Null)
 			rv = Missing;
-		hash.Add(ttl, rv);
+		synchronized (hash) {	// LOCK:used by multiple threads in xomp
+			hash.Add(ttl, rv);
+		}
 		return rv;
 	}
 	private static final    Xof_orig_itm Missing = new Xof_orig_itm(Byte_.Max_value_127, Bry_.Empty, -1, -1, -1, Bry_.Empty);
