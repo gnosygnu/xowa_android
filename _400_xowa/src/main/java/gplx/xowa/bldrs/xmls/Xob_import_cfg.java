@@ -1,6 +1,6 @@
 package gplx.xowa.bldrs.xmls; import gplx.*; import gplx.xowa.*; import gplx.xowa.bldrs.*;
 import gplx.core.ios.*; import gplx.core.ios.streams.*; import gplx.core.envs.*;
-import gplx.xowa.wikis.ctgs.*; import gplx.xowa.wikis.tdbs.*;
+import gplx.xowa.addons.wikis.ctgs.*; import gplx.xowa.wikis.tdbs.*;
 import gplx.xowa.bldrs.wkrs.*;
 public class Xob_import_cfg {
 	public Xob_import_cfg(Xowe_wiki wiki) {this.wiki = wiki;} private Xowe_wiki wiki; private boolean src_fil_is_bz2 = true;
