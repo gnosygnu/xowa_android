@@ -1,6 +1,7 @@
 package gplx.xowa.xtns.pfuncs.scribunto; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.pfuncs.*;
 import gplx.xowa.xtns.scribunto.*; import gplx.xowa.xtns.scribunto.libs.*;
 import gplx.xowa.xtns.pfuncs.exprs.*;
+import gplx.xowa.xtns.scribunto.procs.*;
 public class Pfunc_scrib_lib implements Scrib_lib {
 	private Scrib_core core;
 	public Scrib_lua_mod Mod() {return mod;} private Scrib_lua_mod mod;

@@ -1,4 +1,4 @@
-package gplx.xowa.xtns.scribunto; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*;
+package gplx.xowa.xtns.scribunto.procs; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.scribunto.*;
 public class Scrib_proc_rslt {
 	private Keyval[] ary;
 	public Keyval[] Ary() {return ary;}

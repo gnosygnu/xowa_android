@@ -1,6 +1,7 @@
 package gplx.xowa.xtns.scribunto.libs; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.scribunto.*;
 import gplx.langs.regxs.*; import gplx.core.intls.*;
 import gplx.xowa.parsers.*;
+import gplx.xowa.xtns.scribunto.procs.*;
 public class Scrib_lib_ustring implements Scrib_lib {
 	private final    String_surrogate_utl surrogate_utl = new String_surrogate_utl();
 	public Scrib_lib_ustring(Scrib_core core) {this.core = core;} private Scrib_core core;

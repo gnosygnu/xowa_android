@@ -1,11 +1,9 @@
 package gplx.xowa.addons.bldrs.updates.files; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.bldrs.*; import gplx.xowa.addons.bldrs.updates.*;
 import gplx.dbs.*;
-import gplx.xowa.bldrs.*; import gplx.xowa.bldrs.wkrs.*;	
+import gplx.xowa.bldrs.*;
 import gplx.fsdb.*; import gplx.fsdb.meta.*; import gplx.xowa.files.*;
-public class Xobldr__deletion_db__small_files extends Xob_cmd__base {
-	public Xobldr__deletion_db__small_files(Xob_bldr bldr, Xowe_wiki wiki) {super(bldr, wiki);}
-	private final    int[] ext_max_ary = Xobldr__fsdb_db__delete_small_files_.New_ext_max_ary();
-	@Override public void Cmd_run() {
+class Xodel_small_mgr {
+	public void Exec(Xowe_wiki wiki, int[] ext_max_ary) {
 		wiki.Init_assert();
 		// get atr_conn
 		Fsdb_db_mgr db_core_mgr = Fsdb_db_mgr_.new_detect(wiki, wiki.Fsys_mgr().Root_dir(), wiki.Fsys_mgr().File_dir());
@@ -37,13 +35,7 @@ public class Xobldr__deletion_db__small_files extends Xob_cmd__base {
 		, "AND     t.thm_size <= " + Int_.To_str(max)
 		);
 	}
-	@Override public Object Invk(GfsCtx ctx, int ikey, String k, GfoMsg m) {return this;}
-
-	public static final String BLDR_CMD_KEY = "file.deletion_db.small_files";
-	@Override public String Cmd_key() {return BLDR_CMD_KEY;}
-	public static final    Xob_cmd Prototype = new Xobldr__deletion_db__small_files(null, null);
-	@Override public Xob_cmd Cmd_clone(Xob_bldr bldr, Xowe_wiki wiki) {return new Xobldr__deletion_db__small_files(bldr, wiki);}
-}
+} 
 class Xobldr__fsdb_db__delete_small_files_ {
 	public static int[] New_ext_max_ary() {
 		int[] rv = new int[Xof_ext_.Id__max];

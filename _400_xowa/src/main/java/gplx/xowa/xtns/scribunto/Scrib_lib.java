@@ -1,4 +1,5 @@
 package gplx.xowa.xtns.scribunto; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*;
+import gplx.xowa.xtns.scribunto.procs.*;
 public interface Scrib_lib {
 	Scrib_proc_mgr	Procs();
 	Scrib_lib		Init();

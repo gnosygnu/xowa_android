@@ -1,7 +1,8 @@
-package gplx.xowa.addons.wikis.ctgs.htmls.catpages; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.wikis.*; import gplx.xowa.addons.wikis.ctgs.*; import gplx.xowa.addons.wikis.ctgs.htmls.*;
+package gplx.xowa.addons.wikis.ctgs.htmls.catpages.utls; import gplx.*; import gplx.xowa.*; import gplx.xowa.addons.*; import gplx.xowa.addons.wikis.*; import gplx.xowa.addons.wikis.ctgs.*; import gplx.xowa.addons.wikis.ctgs.htmls.*; import gplx.xowa.addons.wikis.ctgs.htmls.catpages.*;
 import gplx.dbs.*; import gplx.xowa.wikis.data.*; import gplx.xowa.wikis.data.tbls.*; import gplx.xowa.addons.wikis.ctgs.dbs.*;
 import gplx.xowa.addons.wikis.ctgs.htmls.catpages.doms.*;
-class Xoctg_catpage_loader {
+public class Xoctg_catpage_loader {
+	private static final    Object thread_lock = new Object();
 	public Xoctg_catpage_ctg Load_by_ttl_or_null(Xow_wiki wiki, Xoa_ttl cat_ttl) {
 		// get cat_id for cat_ttl from page_tbl
 		Xow_db_mgr db_mgr = wiki.Data__core_mgr();
@@ -17,7 +18,7 @@ class Xoctg_catpage_loader {
 		int cat_id = page_itm.Id();
 		Xowd_category_itm cat_core_itm = cat_core_tbl.Select(cat_id);
 		if (cat_core_itm == Xowd_category_itm.Null) {
-			Gfo_usr_dlg_.Instance.Warn_many("", "", "category does not exist in cat_core table; ttl=~{0}", cat_ttl.Full_db());
+			Gfo_usr_dlg_.Instance.Log_many("", "", "category does not exist in cat_core table; ttl=~{0}", cat_ttl.Full_db());	// NOTE: this is not rare as Category pages can be created as deliberately empty, or as redirects; fr.w:Catégorie:Utilisateur_hess-4; DATE:2016-09-12
 			return null;
 		}
 
@@ -55,21 +56,23 @@ class Xoctg_catpage_loader {
 		// prep sql
 		Db_attach_mgr attach_mgr = new Db_attach_mgr(cat_link_conn, new Db_attach_itm("page_db", page_conn), new Db_attach_itm("cat_core_db", cat_core_conn));
 		sql = attach_mgr.Resolve_sql(sql);
-		attach_mgr.Attach();
 
 		// run sql and create itms based on cat_link
 		Db_rdr rdr = Db_rdr_.Empty;
-		try {
-			rdr = cat_link_conn.Stmt_sql(sql).Exec_select__rls_auto();
-			while (rdr.Move_next()) {
-				Xoa_ttl page_ttl = wiki.Ttl_parse(rdr.Read_int("page_namespace"), rdr.Read_bry_by_str("page_title"));
-				Xoctg_catpage_itm itm = new Xoctg_catpage_itm(rdr.Read_int("cl_from"), page_ttl, Bry_.new_u8(rdr.Read_str("cl_sortkey")));
-				rv.Grp_by_tid(rdr.Read_byte("cl_type_id")).Itms__add(itm);
+		synchronized (thread_lock) {	// LOCK:used by multiple wrks; DATE:2016-09-12
+			try {
+					attach_mgr.Attach();
+					rdr = cat_link_conn.Stmt_sql(sql).Exec_select__rls_auto();
+					while (rdr.Move_next()) {
+						Xoa_ttl page_ttl = wiki.Ttl_parse(rdr.Read_int("page_namespace"), rdr.Read_bry_by_str("page_title"));
+						Xoctg_catpage_itm itm = new Xoctg_catpage_itm(rdr.Read_int("cl_from"), page_ttl, Bry_.new_u8(rdr.Read_str("cl_sortkey")));
+						rv.Grp_by_tid(rdr.Read_byte("cl_type_id")).Itms__add(itm);
+					}
 			}
-		}
-		finally {
-			rdr.Rls();
-			attach_mgr.Detach();
+			finally {
+				rdr.Rls();
+				attach_mgr.Detach();
+			}
 		}
 	}
 	private static String Sql_for_v3(int cat_id) {

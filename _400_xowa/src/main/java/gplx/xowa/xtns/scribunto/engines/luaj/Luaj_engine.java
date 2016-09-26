@@ -1,4 +1,5 @@
 package gplx.xowa.xtns.scribunto.engines.luaj; import gplx.*; import gplx.xowa.*; import gplx.xowa.xtns.*; import gplx.xowa.xtns.scribunto.*; import gplx.xowa.xtns.scribunto.engines.*;
+import gplx.xowa.xtns.scribunto.procs.*;
 //#{Luaj_engine
 import org.luaj.vm2.*; import org.luaj.vm2.lib.*; import org.luaj.vm2.lib.jse.*;
 import gplx.xowa.xtns.scribunto.engines.process.*;
