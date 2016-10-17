@@ -14,7 +14,7 @@ class Xoctg_fmt_itm_subc extends Xoctg_fmt_itm_base {
 		byte[] contains_title = wiki.Msg_mgr().Val_by_id_args(Xol_msg_itm_.Id_ctgtree_subc_counts, count_subcs, count_pages, count_files);
 		byte[] contains_text = Bld_contains_text(msg_mgr, count_subcs, count_pages, count_files);
 		byte[] ttl_page = ttl.Page_txt();
-		fmt_exists.Bld_many(bfr, ttl.Page_db(), ttl_page, itm_href, ttl_page, contains_title, contains_text);
+		Fmt__exists__subc.Bld_many(bfr, ttl.Page_db(), ttl_page, itm_href, ttl_page, contains_title, contains_text);
 	}
 	private byte[] Bld_contains_text(Xow_msg_mgr msg_mgr, int count_subcs, int count_pages, int count_files) {
 		if (count_subcs == 0 && count_pages == 0 && count_files == 0) return Bry_.Empty;
@@ -31,7 +31,7 @@ class Xoctg_fmt_itm_subc extends Xoctg_fmt_itm_base {
 		bfr.Add(msg_mgr.Val_by_id_args(msg_id, val));
 	}	private static final    byte[] Bld_contains_text_itm_dlm = Bry_.new_a7(", "); 		
 	private static final    Bry_fmt
-	  fmt_exists = Bry_fmt.Auto_nl_skip_last
+	  Fmt__exists__subc = Bry_fmt.Auto_nl_skip_last
 	( ""
 	, "            <li>"
 	, "              <div class=\"CategoryTreeSection\">"

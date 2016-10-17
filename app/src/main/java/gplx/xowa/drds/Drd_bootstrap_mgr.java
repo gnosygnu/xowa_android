@@ -23,7 +23,9 @@ public class Drd_bootstrap_mgr {
         Io_url app_dflt_dir = Get_app_dflt_dir(context);
         Xou_cfg_mgr cfg_mgr = Cfg__get_or_make(app_dflt_dir);
         String cfg_val = cfg_mgr.Get_app_str_or(Xobc_xodir_cfg.Key__selected_dir, null);
-        if (cfg_val != null)
+        if  (   cfg_val != null
+            &&  Sdcard_detection_mgr.Dir_is_writeable(new File(cfg_val))    // make sure dir is still writeable; handles off situations where cfg_val points to no-longer accessible location (SD card removed?); DATE:2016-10-16
+            )
             return Io_url_.new_dir_(cfg_val);
 
         // identify "upgrade" user by looping dirs and finding /xowa/wiki/any_wiki/

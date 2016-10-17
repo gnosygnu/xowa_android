@@ -9,4 +9,5 @@ dependencies {
     compile project(':_150_gfui')
     compile files('lib/luaj_xowa.jar')
     compile files('lib/jtidy_xowa.jar')
+    compile files('lib/icu4j-4_8.jar')
 }
